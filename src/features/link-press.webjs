@@ -1,0 +1,27 @@
+function linkPressFeature(arg) {
+  var postMessage = arg.postMessage;
+  var options = arg.options || {};
+  var preventDefault = options.preventDefault !== false;
+
+  function findParent(tagname, el) {
+    while (el) {
+      if ((el.nodeName || el.tagName).toLowerCase() === tagname.toLowerCase()) {
+        return el;
+      }
+      el = el.parentNode;
+    }
+    return null;
+  }
+
+  function interceptClickEvent(e) {
+    var href;
+    var target = e.target || e.srcElement;
+    var anchor = findParent('a', target);
+    if (anchor) {
+      href = anchor.getAttribute('href');
+      preventDefault && e.preventDefault();
+      postMessage(href);
+    }
+  }
+  document.addEventListener('click', interceptClickEvent);
+}

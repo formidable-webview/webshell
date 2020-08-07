@@ -1,0 +1,41 @@
+# This workflow will do a clean install of node dependencies, run JS and Typescript tests.
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    name: Testing
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm ci
+    - run: npm run test:ts
+      name: Typescript Tests
+    - run: npm run test:lint
+      name: Linting Tests
+    - run: npm run test:jest -- --coverage
+      name: Behavior Tests
+    - run: npm run test:doc
+      name: Documentation Tests
+    - run: npm run build
+      name: Build
+    - run: npm run init:integration
+      name: Init Integration
+    - run:  npm run test:integration
+      name: Integration Tests
+    - uses: codecov/codecov-action@v1
+      with:
+        file: ./coverage/clover.xml
+        fail_ci_if_error: true

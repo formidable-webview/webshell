@@ -1,0 +1,55 @@
+// eslint-disable-next-line no-undef
+var features = $$___FEATURES___$$;
+var RNWV = window.ReactNativeWebView;
+function registerFeature(specs) {
+  if (specs && typeof specs === 'object') {
+    var executable = specs.source;
+    var snippetIdentifier = specs.identifier;
+    var snippetOptions = specs.options || {};
+  } else {
+    return;
+  }
+  var context = {
+    postMessage: function (message) {
+      RNWV.postMessage(
+        JSON.stringify({
+          type: 'feature',
+          identifier: snippetIdentifier,
+          body: message
+        })
+      );
+    },
+    options: snippetOptions,
+    warn: function (text) {
+      var logger = console.warn || console.log;
+      logger && logger.call(console, snippetIdentifier + ': ' + text);
+    },
+    error: function (text) {
+      var logger = console.error || console.log;
+      logger && logger.call(console, snippetIdentifier + ': ' + text);
+    }
+  };
+  if (executable && typeof executable === 'function') {
+    try {
+      executable.call(null, context);
+    } catch (e) {
+      context.error(e);
+      RNWV.postMessage(
+        JSON.stringify({
+          type: 'error',
+          identifier: snippetIdentifier,
+          body:
+            typeof e === 'string'
+              ? e
+              : typeof e === 'object' && typeof e.message === 'string'
+              ? e.message
+              : 'unknown error'
+        })
+      );
+    }
+  }
+}
+
+if (Array.isArray(features)) {
+  Array.prototype.forEach.call(features, registerFeature);
+}

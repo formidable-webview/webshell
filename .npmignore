@@ -1,0 +1,4 @@
+/*
+!/lib
+/lib/**/*.d.ts
+!/types

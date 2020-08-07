@@ -1,0 +1,48 @@
+function dimensionsFeature(context) {
+  var postMessage = context.postMessage;
+  var options = context.options || {};
+  var tagName = options.tagName;
+  var shouldThrowWhenNotFound = options.errorWhenNotFound === true;
+
+  if (typeof tagName !== 'string') {
+    throw new Error('Missing required tagName option');
+  }
+
+  function postSize() {
+    var elements = document.getElementsByTagName(tagName);
+    if (elements.length > 0) {
+      var elem = elements[0];
+      var elemHeight =
+        Number(elem.scrollHeight) +
+        Number(elem.clientTop || 0) +
+        Number(elem.clientBottom || 0);
+      var elemWidth =
+        Number(elem.scrollWidth) +
+        Number(elem.clientLeft || 0) +
+        Number(elem.clientRight || 0);
+      postMessage({
+        width: elemWidth,
+        height: elemHeight
+      });
+    } else if (shouldThrowWhenNotFound) {
+      throw new Error("Couldn't find an element with tagName " + tagName);
+    }
+  }
+  postSize();
+  // trigger when DOM changes
+  var MutationObserver =
+    window['MutationObserver'] || window['WebKitMutationObserver'];
+  if (MutationObserver) {
+    var observer = new MutationObserver(postSize);
+    observer.observe(document, {
+      subtree: true,
+      attributes: true
+    });
+  } else {
+    // That is a last resort fallback for older browsers
+    context.warn(
+      "This browser doesn't support MutationObserver. Falling back to a timeout."
+    );
+    setTimeout(postSize, 1000);
+  }
+}

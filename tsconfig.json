@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "commonjs",
+    "lib": ["es6"],
+    "allowJs": false,
+    "composite": false,
+    "jsx": "react-native",
+    "outDir": "./lib",
+    "removeComments": false,
+    "declaration": true,
+    "isolatedModules": true,
+    "strict": true,
+    "noImplicitAny": false,
+    "moduleResolution": "node",
+    "baseUrl": "./",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true
+  },
+  "exclude": ["node_modules", "integration", "**/__tests__", "lib", "types"]
+}

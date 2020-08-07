@@ -1,0 +1,134 @@
+{
+  "name": "@formidable-webview/webshell",
+  "version": "0.10.0",
+  "description": "🚀 A Higher-order component to handle WebView DOM events in React Native",
+  "main": "lib/commonjs/index.js",
+  "module": "lib/module/index.js",
+  "types": "types/react-native-webshell/index.d.ts",
+  "files": [
+    "lib",
+    "src",
+    "types"
+  ],
+  "scripts": {
+    "test": "npm run test:ts && npm run test:lint && npm run test:jest && npm run build && npm run test:integration",
+    "test:jest": "jest src/",
+    "test:ts": "tsc --noEmit",
+    "test:lint": "eslint --ext webjs,ts,tsx src/",
+    "test:integration": "tsc --project tsconfig.integration.json",
+    "test:doc": "embedme --verify README.MD",
+    "build": "npm run build:source && npm run build:defs && npm run build:doc",
+    "build:source": "bob build",
+    "build:defs": "api-extractor run --local --verbose",
+    "build:doc": "embedme README.MD && api-documenter markdown --input-folder temp --output-folder doc",
+    "init:integration": "cd integration && npm install",
+    "prepublish": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com:jsamr/react-native-webshell.git"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.8.4",
+    "@babel/plugin-transform-react-jsx": "^7.10.4",
+    "@babel/preset-typescript": "^7.10.4",
+    "@babel/runtime": "^7.8.4",
+    "@commitlint/cli": "^9.1.1",
+    "@commitlint/config-conventional": "^9.1.1",
+    "@microsoft/api-documenter": "^7.8.21",
+    "@microsoft/api-extractor": "7.9.2",
+    "@react-native-community/bob": "^0.16.2",
+    "@react-native-community/eslint-config": "^1.1.0",
+    "@release-it/conventional-changelog": "^1.1.4",
+    "@types/jest": "^25.2.3",
+    "@types/react": "^16.9.43",
+    "@types/react-native": "^0.63.1",
+    "@types/react-test-renderer": "^16.9.2",
+    "@typescript-eslint/eslint-plugin": "^2.27.0",
+    "@typescript-eslint/parser": "^2.27.0",
+    "babel-jest": "^25.1.0",
+    "babel-plugin-inline-import": "^3.0.0",
+    "embedme": "^1.21.0",
+    "eslint": "^6.5.1",
+    "eslint-plugin-compat": "^3.8.0",
+    "espree": "^7.2.0",
+    "husky": "^4.2.5",
+    "jest": "^25.1.0",
+    "jsdom": "^16.3.0",
+    "metro-react-native-babel-preset": "^0.59.0",
+    "prettier": "^2.0.4",
+    "react": "16.13.1",
+    "react-native": "0.63.0",
+    "react-native-webview": "^10.3.3",
+    "react-test-renderer": "16.13.1",
+    "release-it": "^13.6.6",
+    "rimraf": "^3.0.2",
+    "typescript": "^3.9.7"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
+  },
+  "dependencies": {},
+  "jest": {
+    "projects": [
+      "core.jest.config.js",
+      "web.jest.config.js"
+    ]
+  },
+  "keywords": [
+    "react-native",
+    "react-native-webview",
+    "event",
+    "DOM"
+  ],
+  "author": "Jules Sam. Randolph <jules.sam.randolph@gmail.com> (https://github.com/jsamr)",
+  "license": "MIT",
+  "release-it": {
+    "git": {
+      "commitMessage": "chore: release ${version}",
+      "tagName": "v${version}"
+    },
+    "npm": {
+      "publish": true
+    },
+    "github": {
+      "release": true
+    },
+    "plugins": {
+      "@release-it/conventional-changelog": {
+        "preset": "angular"
+      }
+    }
+  },
+  "@react-native-community/bob": {
+    "source": "src",
+    "output": "lib",
+    "targets": [
+      [
+        "module",
+        {
+          "babelrc": false
+        }
+      ],
+      [
+        "commonjs",
+        {
+          "babelrc": true
+        }
+      ],
+      [
+        "typescript",
+        {
+          "project": "tsconfig.build.json"
+        }
+      ]
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  }
+}
