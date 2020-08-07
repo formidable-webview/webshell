@@ -1,6 +1,6 @@
 {
   "name": "@formidable-webview/webshell",
-  "version": "0.10.1-alpha.0",
+  "version": "0.10.1-alpha.1",
   "description": "🚀 A Higher-order component to handle WebView DOM events in React Native",
   "main": "lib/commonjs/index.js",
   "module": "lib/module/index.js",
