@@ -146,6 +146,8 @@ export const linkPressFeature: Feature<
 
 ```
 
+> :warning: Please note that you will need to replace `import ... from`.
+
 The behavior in the DOM is implemented in the following file (please note that
 the extension is arbitrary, see the [tooling section](#tooling)):
 
