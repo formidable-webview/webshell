@@ -5,7 +5,7 @@
 
 > :warning: *This library is in early development.*
 
-# Webshell
+# @formidable-webview/webshell
 
 *Webshell is:*
 
