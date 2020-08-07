@@ -85,6 +85,9 @@
   ],
   "author": "Jules Sam. Randolph <jules.sam.randolph@gmail.com> (https://github.com/jsamr)",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "release-it": {
     "git": {
       "commitMessage": "chore: release ${version}",
