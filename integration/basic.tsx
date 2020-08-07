@@ -4,7 +4,7 @@ import makeWebshell, {
   linkPressFeature,
   dimensionsFeature,
   DimensionsObject
-} from 'react-native-webshell';
+} from '@formidable-webview/webshell';
 import WebView from 'react-native-webview';
 
 const Webshell = makeWebshell(

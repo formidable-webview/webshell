@@ -2,7 +2,7 @@ import makeWebshell, {
   WebshellComponentOf,
   dimensionsFeature,
   linkPressFeature
-} from 'react-native-webshell';
+} from '@formidable-webview/webshell';
 import WebView, { WebViewProps } from 'react-native-webview';
 
 let Webshell1: WebshellComponentOf<WebViewProps, []>;

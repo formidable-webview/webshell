@@ -31,8 +31,8 @@ for communicating information to the `Webshell` controller.
 
 ## Install
 
-```bash
-npm install react-native-webshell
+```sh
+npm install @formidable-webview/webshell
 ```
 
 ## Basic usage
@@ -54,7 +54,7 @@ import makeWebshell, {
   linkPressFeature,
   dimensionsFeature,
   DimensionsObject
-} from 'react-native-webshell';
+} from '@formidable-webview/webshell';
 import WebView from 'react-native-webview';
 
 const Webshell = makeWebshell(
@@ -184,7 +184,7 @@ function linkPressFeature(arg) {
 
 **Every DOM script top declaration must be a function** taking one argument.
 The shape of this argument is depicted in
-[WebjsContext](doc/react-native-webshell.webjscontext.md) definition. For wide
+[WebjsContext](doc/webshell.webjscontext.md) definition. For wide
 compatibility purposes, it is recommended to
 
 - enforce ECMAScript 5 syntax;
@@ -197,7 +197,7 @@ See the [tooling section](#tooling) for more details on how to achieve this.
 ## API Reference
 
 The API reference is build with the amazing [@microsoft/api-extractor](https://api-extractor.com/) utility.
-Read the API here: [**doc/react-native-webshell.md**](./doc/react-native-webshell.md).
+Read the API here: [**doc/webshell.md**](./doc/webshell.md).
 
 <a name="tooling"></a>
 

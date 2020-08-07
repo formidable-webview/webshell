@@ -8,5 +8,5 @@
 
 |  Package | Description |
 |  --- | --- |
-|  [react-native-webshell](./react-native-webshell.md) |  |
+|  [@formidable-webview/webshell](./webshell.md) |  |
 

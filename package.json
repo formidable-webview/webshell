@@ -4,7 +4,7 @@
   "description": "🚀 A Higher-order component to handle WebView DOM events in React Native",
   "main": "lib/commonjs/index.js",
   "module": "lib/module/index.js",
-  "types": "types/react-native-webshell/index.d.ts",
+  "types": "types/@formidable-webview/webshell/index.d.ts",
   "files": [
     "lib",
     "src",
