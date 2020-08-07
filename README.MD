@@ -37,9 +37,9 @@ npm install @formidable-webview/webshell
 
 ## Basic usage
 
-This library is fairly easy to use. Just make a shell by passing the
-`makeShell` function the `WebView` component and the assembled features you wish
-the shell to implement. Each feature can be assembled with options, which alter
+This library is fairly easy to use. Just create a shell by invoking `makeShell`
+function with a `WebView` component and the assembled features you wish the
+shell to implement. Each feature can be assembled with options, which alter
 their behavior. For example, the `linkPressFeature` default behavior prevents
 click events on anchors to propagate, effectively disallowing redirects. You
 can, however, change this behavior to let redirects happen while still being
