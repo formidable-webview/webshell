@@ -26,7 +26,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "github.com:jsamr/react-native-webshell.git"
+    "url": "git+ssh://git@github.com/formidable-webview/webshell.git"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.5",
