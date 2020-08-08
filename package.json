@@ -52,6 +52,7 @@
     "embedme": "^1.21.0",
     "eslint": "^7.6.0",
     "eslint-plugin-compat": "^3.8.0",
+    "eslint-plugin-tsdoc": "^0.2.6",
     "espree": "^7.2.0",
     "husky": "^4.2.5",
     "jest": "^26.2.2",

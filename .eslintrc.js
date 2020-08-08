@@ -2,7 +2,7 @@ module.exports = {
   root: true,
   extends: ['@react-native-community', 'plugin:compat/recommended'],
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint'],
+  plugins: ['@typescript-eslint', 'eslint-plugin-tsdoc'],
   ignorePatterns: ['lib/', 'types/'],
   overrides: [
     {
