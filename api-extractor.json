@@ -341,7 +341,10 @@
      */
     "tsdocMessageReporting": {
       "default": {
-        "logLevel": "warning"
+        "logLevel": "error"
+      },
+      "tsdoc-unsupported-tag": {
+        "logLevel": "none"
       }
     }
   }
