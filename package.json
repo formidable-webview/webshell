@@ -20,7 +20,7 @@
     "build": "npm run build:source && npm run build:defs && npm run build:doc",
     "build:source": "bob build",
     "build:defs": "api-extractor run --local --verbose",
-    "build:doc": "embedme README.MD && api-documenter markdown --input-folder temp --output-folder doc",
+    "build:doc": "embedme README.MD && api-documenter markdown --input-folder temp --output-folder docs",
     "init:integration": "cd integration && npm install",
     "prepublish": "npm run build"
   },

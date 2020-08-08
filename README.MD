@@ -186,7 +186,7 @@ function linkPressFeature(arg) {
 
 **Every DOM script top declaration must be a function** taking one argument.
 The shape of this argument is depicted in
-[WebjsContext](doc/webshell.webjscontext.md) definition. For wide
+[WebjsContext](docs/webshell.webjscontext.md) definition. For wide
 compatibility purposes, it is recommended to
 
 - enforce ECMAScript 5 syntax with eslint;
@@ -200,14 +200,14 @@ See the [tooling section](#tooling) for more details on how to achieve this.
 ## API Reference
 
 The API reference is build with the amazing [@microsoft/api-extractor](https://api-extractor.com/) utility.
-Read the API here: [**doc/webshell.md**](./doc/webshell.md).
+Read the API here: [**docs/webshell.md**](./docs/webshell.md).
 
 Flagship exports:
 
-- [`makeWebshell`](doc/webshell.makewebshell.md)
-- [`makeFeature`](doc/webshell.makefeature.md)
-- [`dimensionsFeature`](doc/webshell.dimensionsfeature.md)
-- [`linkPressFeature`](doc/webshell.linkpressfeature.md)
+- [`makeWebshell`](docs/webshell.makewebshell.md)
+- [`makeFeature`](docs/webshell.makefeature.md)
+- [`dimensionsFeature`](docs/webshell.dimensionsfeature.md)
+- [`linkPressFeature`](docs/webshell.linkpressfeature.md)
 
 <a name="tooling"></a>
 
