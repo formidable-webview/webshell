@@ -4,9 +4,9 @@ import { NativeSyntheticEvent } from 'react-native';
 import featuresLoaderScript from './features-loader.webjs';
 import {
   AssembledFeature,
-  WebshellComponentProps,
+  WebshellProps,
   MinimalWebViewProps,
-  WebshellStaticProps
+  WebshellInvariantProps
 } from './types.js';
 
 interface WebViewMessage {
@@ -57,10 +57,10 @@ export function makeWebshell<
     '$$___FEATURES___$$',
     serializedFeatures
   );
-  return class Webshell extends Component<WebshellComponentProps<W, F>> {
+  return class Webshell extends Component<WebshellProps<W, F>> {
     static defaultProps = {
       webViewProps: {}
-    } as WebshellComponentProps<W, F>;
+    } as WebshellProps<W, F>;
 
     handleOnMessage = ({
       nativeEvent
@@ -68,7 +68,7 @@ export function makeWebshell<
       const {
         webViewProps: { onMessage },
         onShellError
-      } = this.props as Required<WebshellStaticProps<W>>;
+      } = this.props as Required<WebshellInvariantProps<W>>;
       const parsedJSON = parseJSONSafe(nativeEvent.data);
       if (parsedJSON && typeof parsedJSON === 'object') {
         const { type, identifier, body } = parsedJSON;
@@ -111,5 +111,5 @@ export function makeWebshell<
         />
       );
     }
-  } as React.ComponentClass<WebshellComponentProps<W, F>, unknown>;
+  } as React.ComponentClass<WebshellProps<W, F>, unknown>;
 }

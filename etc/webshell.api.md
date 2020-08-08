@@ -23,7 +23,7 @@ export type AssembledFeatureOf<F> = F extends Feature<infer O, infer E, infer P>
 // @public
 export const dimensionsFeature: Feature<DimensionsOptions, 'onDimensions', DimensionsObject>;
 
-// @public (undocumented)
+// @public
 export interface DimensionsObject {
     // (undocumented)
     height: number;
@@ -67,7 +67,7 @@ export interface MakeFeatureParams<E extends string, P> {
 }
 
 // @public
-function makeWebshell<W extends MinimalWebViewProps, F extends AssembledFeature[]>(WebView: ComponentType<W>, ...assembledFeatures: F): React_2.ComponentClass<WebshellComponentProps<W, F>, unknown>;
+function makeWebshell<W extends MinimalWebViewProps, F extends AssembledFeature[]>(WebView: ComponentType<W>, ...assembledFeatures: F): React_2.ComponentClass<WebshellProps<W, F>, unknown>;
 
 export default makeWebshell;
 
@@ -99,23 +99,23 @@ export interface WebjsContext<O extends {}, P> {
 }
 
 // @public
-export type WebshellComponentOf<W extends MinimalWebViewProps, F extends Feature<any, any, any>[]> = ComponentClass<W & WebshellComponentProps<W, AssembledFeatureOf<F[number]>[]>, unknown>;
-
-// @public (undocumented)
-export type WebshellComponentProps<W, F extends AssembledFeature<{}, string, unknown>[]> = WebshellHandlerProps<F[number]> & WebshellStaticProps<W>;
+export type WebshellComponentOf<W extends MinimalWebViewProps, F extends Feature<any, any, any>[]> = ComponentClass<W & WebshellProps<W, AssembledFeatureOf<F[number]>[]>, unknown>;
 
 // @public
 export type WebshellHandlerProps<F extends AssembledFeature<{}, string, unknown>> = {
     [E in EventNameOf<F>]?: (p: PayloadOf<F, E>) => void;
 };
 
-// @public (undocumented)
-export interface WebshellStaticProps<W> {
+// @public
+export interface WebshellInvariantProps<W> {
     // (undocumented)
     onShellError?: (featureIdentifier: string, error: string) => void;
     // (undocumented)
     webViewProps?: W;
 }
+
+// @public (undocumented)
+export type WebshellProps<W, F extends AssembledFeature<{}, string, unknown>[]> = WebshellHandlerProps<F[number]> & WebshellInvariantProps<W>;
 
 
 // (No @packageDocumentation comment for this package)

@@ -7,8 +7,8 @@ export type {
   MinimalWebViewProps,
   PayloadOf,
   WebshellComponentOf,
-  WebshellStaticProps,
-  WebshellComponentProps,
+  WebshellProps,
+  WebshellInvariantProps,
   WebshellHandlerProps,
   WebjsContext
 } from './types';

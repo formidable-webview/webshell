@@ -9,7 +9,7 @@ A utility type to infer WebshellComponent type from a list of features.
 <b>Signature:</b>
 
 ```typescript
-export declare type WebshellComponentOf<W extends MinimalWebViewProps, F extends Feature<any, any, any>[]> = ComponentClass<W & WebshellComponentProps<W, AssembledFeatureOf<F[number]>[]>, unknown>;
+export declare type WebshellComponentOf<W extends MinimalWebViewProps, F extends Feature<any, any, any>[]> = ComponentClass<W & WebshellProps<W, AssembledFeatureOf<F[number]>[]>, unknown>;
 ```
 
 ## Example

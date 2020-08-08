@@ -61,7 +61,7 @@ export type WebshellComponentOf<
   W extends MinimalWebViewProps,
   F extends Feature<any, any, any>[]
 > = ComponentClass<
-  W & WebshellComponentProps<W, AssembledFeatureOf<F[number]>[]>,
+  W & WebshellProps<W, AssembledFeatureOf<F[number]>[]>,
   unknown
 >;
 
@@ -173,9 +173,11 @@ export interface Feature<O extends {}, E extends string, P> {
 }
 
 /**
+ * Props any webshell component will support.
+ *
  * @public
  */
-export interface WebshellStaticProps<W> {
+export interface WebshellInvariantProps<W> {
   onShellError?: (featureIdentifier: string, error: string) => void;
   webViewProps?: W;
 }
@@ -183,10 +185,10 @@ export interface WebshellStaticProps<W> {
 /**
  * @public
  */
-export type WebshellComponentProps<
+export type WebshellProps<
   W,
   F extends AssembledFeature<{}, string, unknown>[]
-> = WebshellHandlerProps<F[number]> & WebshellStaticProps<W>;
+> = WebshellHandlerProps<F[number]> & WebshellInvariantProps<W>;
 
 /**
  * A high-compatibility safety type to represent minimal requirements for the

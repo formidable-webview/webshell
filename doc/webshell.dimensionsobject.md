@@ -4,6 +4,7 @@
 
 ## DimensionsObject interface
 
+An object describing a rectangle layout.
 
 <b>Signature:</b>
 

@@ -22,6 +22,8 @@ export interface DimensionsOptions {
 }
 
 /**
+ * An object describing a rectangle layout.
+ *
  * @public
  */
 export interface DimensionsObject {

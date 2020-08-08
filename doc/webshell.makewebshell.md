@@ -9,7 +9,7 @@ Creates a React component which decorates WebView component with additionnal pro
 <b>Signature:</b>
 
 ```typescript
-export declare function makeWebshell<W extends MinimalWebViewProps, F extends AssembledFeature[]>(WebView: ComponentType<W>, ...assembledFeatures: F): React.ComponentClass<WebshellComponentProps<W, F>, unknown>;
+export declare function makeWebshell<W extends MinimalWebViewProps, F extends AssembledFeature[]>(WebView: ComponentType<W>, ...assembledFeatures: F): React.ComponentClass<WebshellProps<W, F>, unknown>;
 ```
 
 ## Parameters
@@ -21,5 +21,5 @@ export declare function makeWebshell<W extends MinimalWebViewProps, F extends As
 
 <b>Returns:</b>
 
-React.ComponentClass&lt;[WebshellComponentProps](./webshell.webshellcomponentprops.md)<!-- -->&lt;W, F&gt;, unknown&gt;
+React.ComponentClass&lt;[WebshellProps](./webshell.webshellprops.md)<!-- -->&lt;W, F&gt;, unknown&gt;
 

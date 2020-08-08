@@ -16,14 +16,14 @@
 |  Interface | Description |
 |  --- | --- |
 |  [AssembledFeature](./webshell.assembledfeature.md) | A feature with its options, ready to be consumed by [makeWebshell()](./webshell.makewebshell.md)<!-- -->. |
-|  [DimensionsObject](./webshell.dimensionsobject.md) |  |
+|  [DimensionsObject](./webshell.dimensionsobject.md) | An object describing a rectangle layout. |
 |  [DimensionsOptions](./webshell.dimensionsoptions.md) | An object describing customization for the dimensions feature. |
 |  [Feature](./webshell.feature.md) | A feature adds new behaviors to the <code>WebView</code> DOM and offers handlers on React Native's side. |
 |  [LinkPressOptions](./webshell.linkpressoptions.md) | An object describing customization for the linkPress feature. |
 |  [MakeFeatureParams](./webshell.makefeatureparams.md) | An object to specify attributes of the feature. |
 |  [MinimalWebViewProps](./webshell.minimalwebviewprops.md) | A high-compatibility safety type to represent minimal requirements for the WebView Component's props. |
 |  [WebjsContext](./webshell.webjscontext.md) | This type specifies the shape of the object passed to DOM features scripts. |
-|  [WebshellStaticProps](./webshell.webshellstaticprops.md) |  |
+|  [WebshellInvariantProps](./webshell.webshellinvariantprops.md) | Props any webshell component will support. |
 
 ## Variables
 
@@ -40,6 +40,6 @@
 |  [EventNameOf](./webshell.eventnameof.md) | A lookup type to find the event name from an assembled feature. |
 |  [PayloadOf](./webshell.payloadof.md) | A lookup type to find the payload type from an assembled feature. |
 |  [WebshellComponentOf](./webshell.webshellcomponentof.md) | A utility type to infer WebshellComponent type from a list of features. |
-|  [WebshellComponentProps](./webshell.webshellcomponentprops.md) |  |
 |  [WebshellHandlerProps](./webshell.webshellhandlerprops.md) | A smart type which infers the prop type associated with a feature. |
+|  [WebshellProps](./webshell.webshellprops.md) |  |
 
