@@ -56,7 +56,7 @@ export interface LinkPressOptions {
 }
 
 // @public
-export function makeFeature<O extends {}, E extends string, P>({ script, identifier, eventHandlerName, payloadType }: MakeFeatureParams<E, P>): Feature<O, E, P>;
+export function makeFeature<O extends {}, E extends string, P>(params: MakeFeatureParams<E, P>): Feature<O, E, P>;
 
 // @public
 export interface MakeFeatureParams<E extends string, P> {
@@ -73,7 +73,7 @@ export default makeWebshell;
 
 export { makeWebshell }
 
-// @public (undocumented)
+// @public
 export interface MinimalWebViewProps {
     // (undocumented)
     injectedJavaScript?: unknown;

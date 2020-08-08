@@ -341,7 +341,7 @@
      */
     "tsdocMessageReporting": {
       "default": {
-        "logLevel": "error"
+        "logLevel": "warning"
       }
     }
   }

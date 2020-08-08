@@ -4,6 +4,7 @@
 
 ## MinimalWebViewProps interface
 
+A high-compatibility safety type to represent minimal requirements for the WebView Component's props.
 
 <b>Signature:</b>
 

@@ -8,7 +8,7 @@
 
 |  Function | Description |
 |  --- | --- |
-|  [makeFeature({ script, identifier, eventHandlerName, payloadType })](./webshell.makefeature.md) | Create a feature. |
+|  [makeFeature(params)](./webshell.makefeature.md) | Create a feature. |
 |  [makeWebshell(WebView, assembledFeatures)](./webshell.makewebshell.md) | Creates a React component which decorates WebView component with additionnal props to handle events from the DOM. |
 
 ## Interfaces
@@ -21,7 +21,7 @@
 |  [Feature](./webshell.feature.md) | A feature adds new behaviors to the <code>WebView</code> DOM and offers handlers on React Native's side. |
 |  [LinkPressOptions](./webshell.linkpressoptions.md) | An object describing customization for the linkPress feature. |
 |  [MakeFeatureParams](./webshell.makefeatureparams.md) | An object to specify attributes of the feature. |
-|  [MinimalWebViewProps](./webshell.minimalwebviewprops.md) |  |
+|  [MinimalWebViewProps](./webshell.minimalwebviewprops.md) | A high-compatibility safety type to represent minimal requirements for the WebView Component's props. |
 |  [WebjsContext](./webshell.webjscontext.md) | This type specifies the shape of the object passed to DOM features scripts. |
 |  [WebshellStaticProps](./webshell.webshellstaticprops.md) |  |
 

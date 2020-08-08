@@ -70,6 +70,8 @@ export type WebshellComponentOf<
 /**
  * This type specifies the shape of the object passed to DOM features scripts.
  *
+ * @typeparam O - The shape of the JSON-serializable object that will be passed to the DOM script.
+ * @typeparam P - The type of the argument which will be passed to the event handler prop.
  * @public
  */
 export interface WebjsContext<O extends {}, P> {
@@ -96,6 +98,9 @@ export interface WebjsContext<O extends {}, P> {
 /**
  * A feature with its options, ready to be consumed by {@link makeWebshell}.
  *
+ * @typeparam O - The shape of the JSON-serializable object that will be passed to the DOM script.
+ * @typeparam E - The name of the event handler prop assembled in the webshell.
+ * @typeparam P - The type of the argument which will be passed to the event handler prop.
  * @public
  */
 export interface AssembledFeature<
@@ -150,12 +155,15 @@ export interface AssembledFeature<
  * A feature adds new behaviors to the `WebView` DOM and offers handlers on React
  * Native's side.
  *
+ * @typeparam O - The shape of the JSON-serializable object that will be passed to the DOM script.
+ * @typeparam E - The name of the event handler prop assembled in the webshell.
+ * @typeparam P - The type of the argument which will be passed to the event handler prop.
  * @public
  */
 export interface Feature<O extends {}, E extends string, P> {
-  /** {@inheritDoc AssembledFeature.identifier} */
+  /** {@inheritdoc AssembledFeature.identifier} */
   readonly identifier: string;
-  /** {@inheritDoc AssembledFeature.eventHandlerName} */
+  /** {@inheritdoc AssembledFeature.eventHandlerName} */
   readonly eventHandlerName: E;
   /**
    * Assemble the feature source from options. The feature source object can
@@ -181,6 +189,9 @@ export type WebshellComponentProps<
 > = WebshellHandlerProps<F[number]> & WebshellStaticProps<W>;
 
 /**
+ * A high-compatibility safety type to represent minimal requirements for the
+ * WebView Component's props.
+ *
  * @public
  */
 export interface MinimalWebViewProps {
