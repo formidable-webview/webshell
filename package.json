@@ -36,6 +36,7 @@
     "@babel/runtime": "^7.11.2",
     "@commitlint/cli": "^9.1.1",
     "@commitlint/config-conventional": "^9.1.1",
+    "@formidable-webview/eslint-config-webjs": "^1.0.0",
     "@microsoft/api-documenter": "^7.8.22",
     "@microsoft/api-extractor": "7.9.3",
     "@react-native-community/bob": "^0.16.2",

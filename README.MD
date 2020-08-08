@@ -146,7 +146,9 @@ export const linkPressFeature: Feature<
 
 ```
 
-> :warning: Please note that you will need to replace relative imports with direct imports from the library, `import {...} from "@formidable-webview/webshell";`.
+> :warning: Please note that you will need to replace relative imports with
+> direct imports from the library, `import {...} from
+> "@formidable-webview/webshell";`.
 
 The behavior in the DOM is implemented in the following file (please note that
 the extension is arbitrary, see the [tooling section](#tooling)):
@@ -227,16 +229,15 @@ scripts as strings instead of compiling the module!
 
 ### eslint
 
-We are using the `overrides` feature to target `webjs` files with specific
-options:
+You can use
+[@formidable-webview/eslint-config-webjs](https://github.com/formidable-webview/eslint-config-webjs)
+to target `.webjs` files with specific options:
 
 - Enforce ECMAScript 5 to make sure it runs on reasonably old `WebView`
   backends.
 - Enforce a list of supported browsers with the outstanding
   [eslint-plugin-compat](https://www.npmjs.com/package/eslint-plugin-compat). We make
   sure we don't use recent web APIs without a fallback or polyfill.
-
-See our [.eslintrc.js](.eslintrc.js) file.
 
 ### Jest
 
