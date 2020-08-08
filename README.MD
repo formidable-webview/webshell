@@ -189,9 +189,10 @@ The shape of this argument is depicted in
 [WebjsContext](doc/webshell.webjscontext.md) definition. For wide
 compatibility purposes, it is recommended to
 
-- enforce ECMAScript 5 syntax;
-- lint the script with the eslint compat plugin to enforce backward compatibility with
-  old engines;
+- enforce ECMAScript 5 syntax with eslint;
+- lint the script with the
+  [eslint-plugin-compat](https://www.npmjs.com/package/eslint-plugin-compat) to
+  enforce backward compatibility with old engines;
 - unit-test with jest jsdom environment;
 
 See the [tooling section](#tooling) for more details on how to achieve this.
@@ -232,7 +233,7 @@ options:
 - Enforce ECMAScript 5 to make sure it runs on reasonably old `WebView`
   backends.
 - Enforce a list of supported browsers with the outstanding
-  [compat plugin](https://www.npmjs.com/package/eslint-plugin-compat). We make
+  [eslint-plugin-compat](https://www.npmjs.com/package/eslint-plugin-compat). We make
   sure we don't use recent web APIs without a fallback or polyfill.
 
 See our [.eslintrc.js](.eslintrc.js) file.
@@ -256,3 +257,6 @@ files](https://stackoverflow.com/a/47209803/2779871).
 The last thing you need to do is associate Javascript syntax with the custom
 extension you have chosen in your text editor. From now-on, you will have a full
 featured QC in those scripts!
+
+Finally, if you want Github to provide syntax highlight to you webjs files, see
+our [.gitattributes](.gitattributes) file.
