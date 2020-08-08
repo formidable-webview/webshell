@@ -201,6 +201,13 @@ See the [tooling section](#tooling) for more details on how to achieve this.
 The API reference is build with the amazing [@microsoft/api-extractor](https://api-extractor.com/) utility.
 Read the API here: [**doc/webshell.md**](./doc/webshell.md).
 
+Flagship exports:
+
+- [`makeWebshell`](doc/webshell.makewebshell.md)
+- [`makeFeature`](doc/webshell.makefeature.md)
+- [`dimensionsFeature`](doc/webshell.dimensionsfeature.md)
+- [`linkPressFeature`](doc/webshell.linkpressfeature.md)
+
 <a name="tooling"></a>
 
 ## Tooling
