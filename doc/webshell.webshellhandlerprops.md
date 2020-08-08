@@ -4,7 +4,7 @@
 
 ## WebshellHandlerProps type
 
-A smart type which infers the prop type associated with a feature.
+A lookup type to find the prop associated with a feature.
 
 <b>Signature:</b>
 

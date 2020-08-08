@@ -4,6 +4,7 @@
 
 ## WebshellProps type
 
+Props of the Webshell produced by [makeWebshell()](./webshell.makewebshell.md)<!-- -->.
 
 <b>Signature:</b>
 

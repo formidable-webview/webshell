@@ -1,6 +1,6 @@
-// HELPER TYPES
-
 import { ComponentClass } from 'react';
+
+// LOOKUP TYPES
 
 /**
  * A lookup type to find the event name from an assembled feature.
@@ -34,7 +34,7 @@ export type AssembledFeatureOf<F> = F extends Feature<infer O, infer E, infer P>
   : never;
 
 /**
- * A smart type which infers the prop type associated with a feature.
+ * A lookup type to find the prop associated with a feature.
  *
  * @public
  */
@@ -45,7 +45,7 @@ export type WebshellHandlerProps<
 };
 
 /**
- * A utility type to infer WebshellComponent type from a list of features.
+ * A lookup type to find Webshell Component type from a list of features.
  *
  * @example
  * ```
@@ -173,7 +173,7 @@ export interface Feature<O extends {}, E extends string, P> {
 }
 
 /**
- * Props any webshell component will support.
+ * Props any Webshell component will support.
  *
  * @public
  */
@@ -183,6 +183,8 @@ export interface WebshellInvariantProps<W> {
 }
 
 /**
+ * Props of the Webshell produced by {@link makeWebshell}.
+ *
  * @public
  */
 export type WebshellProps<
@@ -191,7 +193,7 @@ export type WebshellProps<
 > = WebshellHandlerProps<F[number]> & WebshellInvariantProps<W>;
 
 /**
- * A high-compatibility safety type to represent minimal requirements for the
+ * A high-compatibility type expressing minimal requirements for the
  * WebView Component's props.
  *
  * @public

@@ -4,7 +4,7 @@
 
 ## WebshellComponentOf type
 
-A utility type to infer WebshellComponent type from a list of features.
+A lookup type to find Webshell Component type from a list of features.
 
 <b>Signature:</b>
 

@@ -21,9 +21,9 @@
 |  [Feature](./webshell.feature.md) | A feature adds new behaviors to the <code>WebView</code> DOM and offers handlers on React Native's side. |
 |  [LinkPressOptions](./webshell.linkpressoptions.md) | An object describing customization for the linkPress feature. |
 |  [MakeFeatureParams](./webshell.makefeatureparams.md) | An object to specify attributes of the feature. |
-|  [MinimalWebViewProps](./webshell.minimalwebviewprops.md) | A high-compatibility safety type to represent minimal requirements for the WebView Component's props. |
+|  [MinimalWebViewProps](./webshell.minimalwebviewprops.md) | A high-compatibility type expressing minimal requirements for the WebView Component's props. |
 |  [WebjsContext](./webshell.webjscontext.md) | This type specifies the shape of the object passed to DOM features scripts. |
-|  [WebshellInvariantProps](./webshell.webshellinvariantprops.md) | Props any webshell component will support. |
+|  [WebshellInvariantProps](./webshell.webshellinvariantprops.md) | Props any Webshell component will support. |
 
 ## Variables
 
@@ -39,7 +39,7 @@
 |  [AssembledFeatureOf](./webshell.assembledfeatureof.md) | A lookup type to infer the assembled feature from a feature. |
 |  [EventNameOf](./webshell.eventnameof.md) | A lookup type to find the event name from an assembled feature. |
 |  [PayloadOf](./webshell.payloadof.md) | A lookup type to find the payload type from an assembled feature. |
-|  [WebshellComponentOf](./webshell.webshellcomponentof.md) | A utility type to infer WebshellComponent type from a list of features. |
-|  [WebshellHandlerProps](./webshell.webshellhandlerprops.md) | A smart type which infers the prop type associated with a feature. |
-|  [WebshellProps](./webshell.webshellprops.md) |  |
+|  [WebshellComponentOf](./webshell.webshellcomponentof.md) | A lookup type to find Webshell Component type from a list of features. |
+|  [WebshellHandlerProps](./webshell.webshellhandlerprops.md) | A lookup type to find the prop associated with a feature. |
+|  [WebshellProps](./webshell.webshellprops.md) | Props of the Webshell produced by [makeWebshell()](./webshell.makewebshell.md)<!-- -->. |
 

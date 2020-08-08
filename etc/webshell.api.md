@@ -114,7 +114,7 @@ export interface WebshellInvariantProps<W> {
     webViewProps?: W;
 }
 
-// @public (undocumented)
+// @public
 export type WebshellProps<W, F extends AssembledFeature<{}, string, unknown>[]> = WebshellHandlerProps<F[number]> & WebshellInvariantProps<W>;
 
 

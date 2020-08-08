@@ -4,7 +4,7 @@
 
 ## WebshellInvariantProps interface
 
-Props any webshell component will support.
+Props any Webshell component will support.
 
 <b>Signature:</b>
 
