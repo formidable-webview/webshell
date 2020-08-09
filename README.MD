@@ -107,6 +107,10 @@ are four important areas to specify in a feature:
    `Webshell`? → `onLinkPress`
 4. What type of payload does it ship with events? → `string`
 
+> :warning: Note that you will need to replace relative imports with direct
+> imports from the library,
+>
+> `import {...} from "@formidable-webview/webshell";`
 ```ts
 // src/features/link-press.ts
 
@@ -145,10 +149,6 @@ export const linkPressFeature: Feature<
 });
 
 ```
-
-> :warning: Please note that you will need to replace relative imports with
-> direct imports from the library, `import {...} from
-> "@formidable-webview/webshell";`.
 
 The behavior in the DOM is implemented in the following file (please note that
 the extension is arbitrary, see the [tooling section](#tooling)):
@@ -248,6 +248,10 @@ To test injected scripts, the easiest way is to use
 [`@formidable-webview/ersatz`](https://github.com/formidable-webview/ersatz).
 Best to show with an example of our link-press feature testing:
 
+> :warning: Note that you will need to replace relative imports with direct
+> imports from the library,
+>
+> `import {...} from "@formidable-webview/webshell";`
 ```ts
 // src/features/__tests__/link-press.test.tsx
 
