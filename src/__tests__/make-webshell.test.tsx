@@ -8,7 +8,6 @@ import dummyFailingScript from './feat/dummy-failing.webjs';
 import dummyOptionScript from './feat/dummy-option.webjs';
 import { makeWebshell } from '../make-webshell';
 import { makeFeature } from '../make-feature';
-import { validateJavascript } from './core-utils';
 import { MinimalWebViewProps } from '../types';
 
 const { waitForErsatz } = makeErsatzTesting(Ersatz);
@@ -44,14 +43,6 @@ describe('Webshell component', () => {
     const { UNSAFE_getByType } = render(<Webshell />);
     const webshell = UNSAFE_getByType(Webshell);
     expect(webshell).toBeTruthy();
-  });
-  it('should produce parsable es5 injectedJavaScript', async () => {
-    const Webshell = makeWebshell(DummyWebView, helloFeature.assemble());
-    const { UNSAFE_getByType } = render(<Webshell />);
-    const webView = UNSAFE_getByType(DummyWebView);
-    expect(() =>
-      validateJavascript(webView.props.injectedJavaScript)
-    ).not.toThrow();
   });
   it('should handle feature messages', async () => {
     const onDummyHello = jest.fn();
