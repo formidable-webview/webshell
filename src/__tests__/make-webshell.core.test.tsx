@@ -1,12 +1,19 @@
 import * as React from 'react';
-import TestRenderer from 'react-test-renderer';
+import Ersatz from '@formidable-webview/ersatz';
+import makeErsatzTesting from '@formidable-webview/ersatz-testing';
+import { render } from '@testing-library/react-native';
+import { View } from 'react-native';
 import dummyHelloScript from './feat/dummy-hello.webjs';
 import dummyFailingScript from './feat/dummy-failing.webjs';
 import dummyOptionScript from './feat/dummy-option.webjs';
 import { makeWebshell } from '../make-webshell';
 import { makeFeature } from '../make-feature';
 import { validateJavascript } from './core-utils';
-import WebView from './WebView';
+import { MinimalWebViewProps } from '../types';
+
+const { waitForErsatz } = makeErsatzTesting(Ersatz);
+
+const DummyWebView = ({}: MinimalWebViewProps) => <View />;
 
 const helloFeature = makeFeature({
   script: dummyHelloScript,
@@ -33,46 +40,43 @@ const optionFeature = makeFeature<
 
 describe('Webshell component', () => {
   it('sould mount without error', () => {
-    const Webshell = makeWebshell(WebView, helloFeature.assemble());
-    const renderer = TestRenderer.create(<Webshell />);
-    expect(renderer.root).toBeTruthy();
+    const Webshell = makeWebshell(DummyWebView, helloFeature.assemble());
+    const { UNSAFE_getByType } = render(<Webshell />);
+    const webshell = UNSAFE_getByType(Webshell);
+    expect(webshell).toBeTruthy();
   });
-  it('should produce parsable es5 injectedJavaScript', () => {
-    const Webshell = makeWebshell(WebView, helloFeature.assemble());
-    const renderer = TestRenderer.create(<Webshell />);
-    const webView = renderer.root.findByType(WebView);
+  it('should produce parsable es5 injectedJavaScript', async () => {
+    const Webshell = makeWebshell(DummyWebView, helloFeature.assemble());
+    const { UNSAFE_getByType } = render(<Webshell />);
+    const webView = UNSAFE_getByType(DummyWebView);
     expect(() =>
       validateJavascript(webView.props.injectedJavaScript)
     ).not.toThrow();
   });
   it('should handle feature messages', async () => {
     const onDummyHello = jest.fn();
-    const Webshell = makeWebshell(WebView, helloFeature.assemble());
-    TestRenderer.act(() => {
-      TestRenderer.create(<Webshell onDummyHello={onDummyHello} />);
-    });
+    const Webshell = makeWebshell(Ersatz, helloFeature.assemble());
+    await waitForErsatz(render(<Webshell onDummyHello={onDummyHello} />));
     expect(onDummyHello).toHaveBeenCalledWith('Hello world!');
   });
-  it('should handle feature failures', () => {
+  it('should handle feature failures', async () => {
     const onDummyMessage = jest.fn();
     const onFailure = jest.fn();
-    const Webshell = makeWebshell(WebView, failingFeature.assemble());
-    TestRenderer.act(() => {
-      TestRenderer.create(
+    const Webshell = makeWebshell(Ersatz, failingFeature.assemble());
+    await waitForErsatz(
+      render(
         <Webshell onDummyFailure={onDummyMessage} onShellError={onFailure} />
-      );
-    });
+      )
+    );
     expect(onFailure).toHaveBeenCalledWith(failingFeature.identifier, '');
   });
-  it('should pass options to feature scripts', () => {
-    const onDummyMessage = jest.fn();
+  it('should pass options to feature scripts', async () => {
+    const onDummyOption = jest.fn();
     const Webshell = makeWebshell(
-      WebView,
+      Ersatz,
       optionFeature.assemble({ foo: 'bar' })
     );
-    TestRenderer.act(() => {
-      TestRenderer.create(<Webshell onDummyOption={onDummyMessage} />);
-    });
-    expect(onDummyMessage).toHaveBeenCalledWith({ foo: 'bar' });
+    await waitForErsatz(render(<Webshell onDummyOption={onDummyOption} />));
+    expect(onDummyOption).toHaveBeenCalledWith({ foo: 'bar' });
   });
 });
