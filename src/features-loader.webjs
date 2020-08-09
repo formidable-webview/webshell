@@ -15,7 +15,8 @@ function registerFeature(specs) {
         JSON.stringify({
           type: 'feature',
           identifier: snippetIdentifier,
-          body: message
+          body: message,
+          __isWebshellPostMessage: true
         })
       );
     },
@@ -38,6 +39,7 @@ function registerFeature(specs) {
         JSON.stringify({
           type: 'error',
           identifier: snippetIdentifier,
+          __isWebshellPostMessage: true,
           body:
             typeof e === 'string'
               ? e

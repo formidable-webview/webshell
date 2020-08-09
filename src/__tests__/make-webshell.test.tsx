@@ -68,7 +68,10 @@ describe('Webshell component', () => {
         <Webshell onDummyFailure={onDummyMessage} onShellError={onFailure} />
       )
     );
-    expect(onFailure).toHaveBeenCalledWith(failingFeature.identifier, '');
+    expect(onFailure).toHaveBeenCalledWith(
+      failingFeature.identifier,
+      'I am a dummy feature failing consistently!'
+    );
   });
   it('should pass options to feature scripts', async () => {
     const onDummyOption = jest.fn();
@@ -78,5 +81,24 @@ describe('Webshell component', () => {
     );
     await waitForErsatz(render(<Webshell onDummyOption={onDummyOption} />));
     expect(onDummyOption).toHaveBeenCalledWith({ foo: 'bar' });
+  });
+  it('should keep support for onMessage and injectedJavascript', async () => {
+    const onDummyOption = jest.fn();
+    const onMessage = jest.fn();
+    const injectedJavaScript = "window.ReactNativeWebView.postMessage('test');";
+    const Webshell = makeWebshell(
+      Ersatz,
+      optionFeature.assemble({ foo: 'bar' })
+    );
+    await waitForErsatz(
+      render(
+        <Webshell
+          onDummyOption={onDummyOption}
+          webViewProps={{ injectedJavaScript, onMessage }}
+        />
+      )
+    );
+    expect(onDummyOption).toHaveBeenCalledWith({ foo: 'bar' });
+    expect(onMessage).toHaveBeenCalledTimes(1);
   });
 });

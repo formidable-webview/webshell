@@ -1,3 +1,4 @@
+/* eslint-disable dot-notation */
 import * as React from 'react';
 import { Component, ComponentType } from 'react';
 import { NativeSyntheticEvent } from 'react-native';
@@ -21,10 +22,20 @@ interface PostMessage {
 
 function parseJSONSafe(text: string) {
   try {
-    return (JSON.parse(text) as PostMessage) ?? null;
+    return (JSON.parse(text) as unknown) ?? null;
   } catch (e) {
     return null;
   }
+}
+
+function isPostMessageObject(o: unknown): o is PostMessage {
+  return (
+    typeof o === 'object' &&
+    o !== null &&
+    typeof o['identifier'] === 'string' &&
+    typeof o['type'] === 'string' &&
+    o['__isWebshellPostMessage'] === true
+  );
 }
 
 function serializeFeature(feature: AssembledFeature) {
@@ -70,7 +81,7 @@ export function makeWebshell<
         onShellError
       } = this.props as Required<WebshellInvariantProps<W>>;
       const parsedJSON = parseJSONSafe(nativeEvent.data);
-      if (parsedJSON && typeof parsedJSON === 'object') {
+      if (isPostMessageObject(parsedJSON)) {
         const { type, identifier, body } = parsedJSON;
         if (typeof type === 'string' && typeof identifier === 'string') {
           if (type === 'feature') {
@@ -90,9 +101,8 @@ export function makeWebshell<
             return;
           }
         }
-      }
-      if (typeof onMessage === 'function') {
-        onMessage(nativeEvent);
+      } else {
+        typeof onMessage === 'function' && onMessage(nativeEvent);
       }
     };
 
