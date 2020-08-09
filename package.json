@@ -76,12 +76,6 @@
     "react-native": "*"
   },
   "dependencies": {},
-  "jest": {
-    "projects": [
-      "core.jest.config.js",
-      "web.jest.config.js"
-    ]
-  },
   "keywords": [
     "react-native",
     "react-native-webview",

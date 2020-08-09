@@ -215,43 +215,71 @@ Flagship exports:
 
 ## Tooling
 
-The original idea behind this project was to perform code quality control over
-scripts injected into `WebViews`, because they are parts of the codebase. To
-achieve that purpose, we are using babel and eslint original plugins.
+The objectives of the setup are:
+
+- Import DOM scripts (`.webjs`) as strings;
+- Statically check DOM scripts for errors;
+- Check DOM scripts compatibility with targeted WebViews;
+- Test the DOM scripts behaviors.
 
 ### babel
 
-The most important thing is to use [Babel Inline
-Import](https://www.npmjs.com/package/babel-plugin-inline-import) with `webjs`
-or whichever extension you are using for your `WebView` scripts, see
-[babel.config.js](babel.config.js) file. This plugin will allow you to import
-scripts as strings instead of compiling the module!
+To import `.webjs` files as strings, we will use
+[`babel-plugin-inline-import`](https://www.npmjs.com/package/babel-plugin-inline-import)
+with `webjs` or whichever extension you are using for your `WebView` scripts,
+see [babel.config.js](babel.config.js) file. This plugin will allow you to
+import scripts as strings instead of compiling the module!
 
 ### eslint
 
 You can use
 [@formidable-webview/eslint-config-webjs](https://github.com/formidable-webview/eslint-config-webjs)
-to target `.webjs` files with specific options:
+to target `.webjs` files with specific config:
 
 - Enforce ECMAScript 5 to make sure it runs on reasonably old `WebView`
   backends.
 - Enforce a list of supported browsers with the outstanding
-  [eslint-plugin-compat](https://www.npmjs.com/package/eslint-plugin-compat). We make
-  sure we don't use recent web APIs without a fallback or polyfill.
+  [eslint-plugin-compat](https://www.npmjs.com/package/eslint-plugin-compat).
+  We make sure we don't use recent web APIs without a fallback or polyfill.
 
 ### Jest
 
-Jest will use our babel config file if `babel-jest` is installed. The most
-important aspect of our jest setup is that it has two configurations:
+To test injected scripts, the easiest way is to use
+[`@formidable-webview/ersatz`](https://github.com/formidable-webview/ersatz).
+Best to show with an example of our link-press feature testing:
 
-- One to test our React Native code, which will use the `react-native` preset,
-  [core.jest.config.js](core.jest.config.js);
-- One to test our DOM scripts, which will use the `jsdom` testing environment,
-  [web.jest.config.js](core.jest.config.js).
+```ts
+// src/features/__tests__/link-press.test.tsx
 
-To run jest with multiple configurations, you just need to [set the projects
-attribute as an array of config
-files](https://stackoverflow.com/a/47209803/2779871).
+import * as React from 'react';
+import Ersatz from '@formidable-webview/ersatz';
+import makeErsatzTesting from '@formidable-webview/ersatz-testing';
+import { render } from '@testing-library/react-native';
+import { makeWebshell } from '../../make-webshell';
+import { linkPressFeature } from '../link-press';
+
+const { waitForDocument } = makeErsatzTesting(Ersatz);
+
+describe('Webshell with linkPressFeature', () => {
+  it('should invoke onLinkPress prop when a link is pressed', async () => {
+    const onLinkPress = jest.fn();
+    const Webshell = makeWebshell(Ersatz, linkPressFeature.assemble());
+    const document = await waitForDocument(
+      render(
+        <Webshell
+          onLinkPress={onLinkPress}
+          webViewProps={{
+            source: { html: '<a id="anchor0" href="https://foo.org">bar</a>' }
+          }}
+        />
+      )
+    );
+    document.getElementById('anchor0').click();
+    expect(onLinkPress).toHaveBeenCalledWith('https://foo.org');
+  });
+});
+
+```
 
 ### Editor
 
