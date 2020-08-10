@@ -204,7 +204,7 @@ See the [tooling section](#tooling) for more details on how to achieve this.
 The API reference is build with the amazing [@microsoft/api-extractor](https://api-extractor.com/) utility.
 Read the API here: [**docs/webshell.md**](./docs/webshell.md).
 
-Flagship exports:
+Landmark exports:
 
 - [`makeWebshell`](docs/webshell.makewebshell.md)
 - [`makeFeature`](docs/webshell.makefeature.md)
