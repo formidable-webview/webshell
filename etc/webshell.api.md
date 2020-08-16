@@ -21,10 +21,10 @@ export interface AssembledFeature<O extends {} = {}, E extends string = string, 
 export type AssembledFeatureOf<F> = F extends Feature<infer O, infer E, infer P> ? AssembledFeature<O, E, P> : never;
 
 // @public
-export const dimensionsFeature: Feature<DimensionsOptions, 'onDimensions', DimensionsObject>;
+export const elementDimensionsFeature: Feature<ElementDimensionsOptions, 'onDOMElementDimensions', ElementDimensionsObject>;
 
 // @public
-export interface DimensionsObject {
+export interface ElementDimensionsObject {
     // (undocumented)
     height: number;
     // (undocumented)
@@ -32,7 +32,7 @@ export interface DimensionsObject {
 }
 
 // @public
-export interface DimensionsOptions {
+export interface ElementDimensionsOptions {
     errorWhenNotFound?: boolean;
     tagName: string;
 }
@@ -48,7 +48,7 @@ export interface Feature<O extends {}, E extends string, P> {
 }
 
 // @public
-export const linkPressFeature: Feature<LinkPressOptions, 'onLinkPress', string>;
+export const linkPressFeature: Feature<LinkPressOptions, 'onDOMLinkPress', string>;
 
 // @public
 export interface LinkPressOptions {
@@ -109,7 +109,7 @@ export type WebshellHandlerProps<F extends AssembledFeature<{}, string, unknown>
 // @public
 export interface WebshellInvariantProps<W> {
     // (undocumented)
-    onShellError?: (featureIdentifier: string, error: string) => void;
+    onDOMError?: (featureIdentifier: string, error: string) => void;
     // (undocumented)
     webViewProps?: W;
 }

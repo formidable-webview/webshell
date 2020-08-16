@@ -78,7 +78,7 @@ export function makeWebshell<
     }: NativeSyntheticEvent<WebViewMessage>) => {
       const {
         webViewProps: { onMessage },
-        onShellError
+        onDOMError
       } = this.props as Required<WebshellInvariantProps<W>>;
       const parsedJSON = parseJSONSafe(nativeEvent.data);
       if (isPostMessageObject(parsedJSON)) {
@@ -96,8 +96,7 @@ export function makeWebshell<
             return;
           } else if (type === 'error') {
             // Handle as an error message
-            typeof onShellError === 'function' &&
-              onShellError(identifier, body);
+            typeof onDOMError === 'function' && onDOMError(identifier, body);
             return;
           }
         }

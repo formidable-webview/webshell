@@ -56,7 +56,7 @@ describe('Webshell component', () => {
     const Webshell = makeWebshell(Ersatz, failingFeature.assemble());
     await waitForErsatz(
       render(
-        <Webshell onDummyFailure={onDummyMessage} onShellError={onFailure} />
+        <Webshell onDummyFailure={onDummyMessage} onDOMError={onFailure} />
       )
     );
     expect(onFailure).toHaveBeenCalledWith(

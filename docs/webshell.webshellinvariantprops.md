@@ -16,6 +16,6 @@ export interface WebshellInvariantProps<W>
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [onShellError](./webshell.webshellinvariantprops.onshellerror.md) | (featureIdentifier: string, error: string) =&gt; void |  |
+|  [onDOMError](./webshell.webshellinvariantprops.ondomerror.md) | (featureIdentifier: string, error: string) =&gt; void |  |
 |  [webViewProps](./webshell.webshellinvariantprops.webviewprops.md) | W |  |
 

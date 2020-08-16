@@ -17,6 +17,6 @@ export interface Feature<O extends {}, E extends string, P>
 |  Property | Type | Description |
 |  --- | --- | --- |
 |  [assemble](./webshell.feature.assemble.md) | (options?: O) =&gt; [AssembledFeature](./webshell.assembledfeature.md)<!-- -->&lt;O, E, P&gt; | Assemble the feature source from options. The feature source object can thereafter be passed to [makeWebshell()](./webshell.makewebshell.md) utility. |
-|  [eventHandlerName](./webshell.feature.eventhandlername.md) | E | The name of the event handler. The convention is to name it <code>on</code> + PascalCase event name. |
+|  [eventHandlerName](./webshell.feature.eventhandlername.md) | E | The name of the event handler. A naming convention is <code>onDOM</code> + PascalCase event name, to avoid any collision with WebView's own props. |
 |  [identifier](./webshell.feature.identifier.md) | string | A unique identifier of the feature. The convention is to use a reverse namespace domain ending with the event name. |
 

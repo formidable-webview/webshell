@@ -1,25 +1,28 @@
 import makeWebshell, {
   WebshellComponentOf,
-  dimensionsFeature,
+  elementDimensionsFeature,
   linkPressFeature
 } from '@formidable-webview/webshell';
 import WebView, { WebViewProps } from 'react-native-webview';
 
 let Webshell1: WebshellComponentOf<WebViewProps, []>;
-let Webshell2: WebshellComponentOf<WebViewProps, [typeof dimensionsFeature]>;
+let Webshell2: WebshellComponentOf<
+  WebViewProps,
+  [typeof elementDimensionsFeature]
+>;
 let Webshell3: WebshellComponentOf<
   WebViewProps,
-  [typeof dimensionsFeature, typeof linkPressFeature]
+  [typeof elementDimensionsFeature, typeof linkPressFeature]
 >;
 
 Webshell1 = makeWebshell(WebView);
 Webshell2 = makeWebshell(
   WebView,
-  dimensionsFeature.assemble({ tagName: 'body' })
-) as WebshellComponentOf<WebViewProps, [typeof dimensionsFeature]>;
+  elementDimensionsFeature.assemble({ tagName: 'body' })
+) as WebshellComponentOf<WebViewProps, [typeof elementDimensionsFeature]>;
 Webshell3 = makeWebshell(
   WebView,
-  dimensionsFeature.assemble({ tagName: 'body' }),
+  elementDimensionsFeature.assemble({ tagName: 'body' }),
   linkPressFeature.assemble({})
 );
 

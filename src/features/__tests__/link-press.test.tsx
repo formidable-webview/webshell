@@ -9,12 +9,12 @@ const { waitForDocument } = makeErsatzTesting(Ersatz);
 
 describe('Webshell with linkPressFeature', () => {
   it('should invoke onLinkPress prop when a link is pressed', async () => {
-    const onLinkPress = jest.fn();
+    const onDOMLinkPress = jest.fn();
     const Webshell = makeWebshell(Ersatz, linkPressFeature.assemble());
     const document = await waitForDocument(
       render(
         <Webshell
-          onLinkPress={onLinkPress}
+          onDOMLinkPress={onDOMLinkPress}
           webViewProps={{
             source: { html: '<a id="anchor0" href="https://foo.org">bar</a>' }
           }}
@@ -22,6 +22,6 @@ describe('Webshell with linkPressFeature', () => {
       )
     );
     document.getElementById('anchor0').click();
-    expect(onLinkPress).toHaveBeenCalledWith('https://foo.org');
+    expect(onDOMLinkPress).toHaveBeenCalledWith('https://foo.org');
   });
 });

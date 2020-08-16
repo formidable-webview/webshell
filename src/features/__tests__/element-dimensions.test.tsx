@@ -3,13 +3,13 @@ import Ersatz from '@formidable-webview/ersatz';
 import makeErsatzTesting from '@formidable-webview/ersatz-testing';
 import { render } from '@testing-library/react-native';
 import { makeWebshell } from '../../make-webshell';
-import { dimensionsFeature } from '../dimensions';
+import { elementDimensionsFeature } from '../element-dimensions';
 
 const { waitForErsatz } = makeErsatzTesting(Ersatz);
 
 describe('Webshell with linkPressFeature', () => {
   it('should invoke onDimensions prop when the DOM is mounted', async () => {
-    const onDimensions = jest.fn();
+    const onDOMElementDimensions = jest.fn();
     const html = `
     <table>
     <tr>
@@ -21,18 +21,21 @@ describe('Webshell with linkPressFeature', () => {
     `;
     const Webshell = makeWebshell(
       Ersatz,
-      dimensionsFeature.assemble({ tagName: 'table' })
+      elementDimensionsFeature.assemble({ tagName: 'table' })
     );
     await waitForErsatz(
       render(
         <Webshell
-          onDimensions={onDimensions}
+          onDOMElementDimensions={onDOMElementDimensions}
           webViewProps={{
             source: { html }
           }}
         />
       )
     );
-    expect(onDimensions).toHaveBeenCalledWith({ width: 0, height: 0 });
+    expect(onDOMElementDimensions).toHaveBeenCalledWith({
+      width: 0,
+      height: 0
+    });
   });
 });

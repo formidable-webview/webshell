@@ -16,7 +16,7 @@ export interface AssembledFeature<O extends {} = {}, E extends string = string, 
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [eventHandlerName](./webshell.assembledfeature.eventhandlername.md) | E | The name of the event handler. The convention is to name it <code>on</code> + PascalCase event name. |
+|  [eventHandlerName](./webshell.assembledfeature.eventhandlername.md) | E | The name of the event handler. A naming convention is <code>onDOM</code> + PascalCase event name, to avoid any collision with WebView's own props. |
 |  [identifier](./webshell.assembledfeature.identifier.md) | string | A unique identifier of the feature. The convention is to use a reverse namespace domain ending with the event name. |
 |  [options](./webshell.assembledfeature.options.md) | Partial&lt;O&gt; | Any value that can be serialized to JSON and deserialized back. This value will be passed to the top level function declared in the DOM script. |
 |  [payloadType](./webshell.assembledfeature.payloadtype.md) | P | Placeholder value to infer P. |

@@ -1,4 +1,4 @@
-import dimensionsScript from './dimensions.webjs';
+import dimensionsScript from './element-dimensions.webjs';
 import { makeFeature } from '../make-feature';
 import type { Feature } from '../types';
 
@@ -7,7 +7,7 @@ import type { Feature } from '../types';
  *
  * @public
  */
-export interface DimensionsOptions {
+export interface ElementDimensionsOptions {
   /**
    * The element to target when the DOM is loaded.
    */
@@ -26,7 +26,7 @@ export interface DimensionsOptions {
  *
  * @public
  */
-export interface DimensionsObject {
+export interface ElementDimensionsObject {
   width: number;
   height: number;
 }
@@ -39,12 +39,12 @@ export interface DimensionsObject {
  *
  * @public
  */
-export const dimensionsFeature: Feature<
-  DimensionsOptions,
-  'onDimensions',
-  DimensionsObject
+export const elementDimensionsFeature: Feature<
+  ElementDimensionsOptions,
+  'onDOMElementDimensions',
+  ElementDimensionsObject
 > = makeFeature({
   script: dimensionsScript,
-  eventHandlerName: 'onDimensions',
-  identifier: 'org.webshell.dimensions'
+  eventHandlerName: 'onDOMElementDimensions',
+  identifier: 'org.webshell.elementDimensions'
 });

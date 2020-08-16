@@ -129,11 +129,11 @@ export interface AssembledFeature<
    */
   readonly identifier: string;
   /**
-   * The name of the event handler. The convention is to name it `on` +
-   * PascalCase event name.
+   * The name of the event handler. A naming convention is `onDOM` +
+   * PascalCase event name, to avoid any collision with WebView's own props.
    *
    * @example
-   * onLinkPress
+   * onDOMLinkPress
    */
   readonly eventHandlerName: E;
   /**
@@ -178,7 +178,7 @@ export interface Feature<O extends {}, E extends string, P> {
  * @public
  */
 export interface WebshellInvariantProps<W> {
-  onShellError?: (featureIdentifier: string, error: string) => void;
+  onDOMError?: (featureIdentifier: string, error: string) => void;
   webViewProps?: W;
 }
 

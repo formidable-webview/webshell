@@ -24,10 +24,10 @@ export interface LinkPressOptions {
  */
 export const linkPressFeature: Feature<
   LinkPressOptions,
-  'onLinkPress',
+  'onDOMLinkPress',
   string
 > = makeFeature({
   script: linkPressScript,
-  eventHandlerName: 'onLinkPress',
+  eventHandlerName: 'onDOMLinkPress',
   identifier: 'org.webshell.linkPress'
 });

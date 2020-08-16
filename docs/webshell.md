@@ -16,8 +16,8 @@
 |  Interface | Description |
 |  --- | --- |
 |  [AssembledFeature](./webshell.assembledfeature.md) | A feature with its options, ready to be consumed by [makeWebshell()](./webshell.makewebshell.md)<!-- -->. |
-|  [DimensionsObject](./webshell.dimensionsobject.md) | An object describing a rectangle layout. |
-|  [DimensionsOptions](./webshell.dimensionsoptions.md) | An object describing customization for the dimensions feature. |
+|  [ElementDimensionsObject](./webshell.elementdimensionsobject.md) | An object describing a rectangle layout. |
+|  [ElementDimensionsOptions](./webshell.elementdimensionsoptions.md) | An object describing customization for the dimensions feature. |
 |  [Feature](./webshell.feature.md) | A feature adds new behaviors to the <code>WebView</code> DOM and offers handlers on React Native's side. |
 |  [LinkPressOptions](./webshell.linkpressoptions.md) | An object describing customization for the linkPress feature. |
 |  [MakeFeatureParams](./webshell.makefeatureparams.md) | An object to specify attributes of the feature. |
@@ -29,7 +29,7 @@
 
 |  Variable | Description |
 |  --- | --- |
-|  [dimensionsFeature](./webshell.dimensionsfeature.md) | This feature enables receiving the full width and height of an element identified by <code>tagName</code> in the WebView pixels unit, including border widths, but excluding margins. The first element matching the provided tagName is retained. A new event will be triggered on every resize. |
+|  [elementDimensionsFeature](./webshell.elementdimensionsfeature.md) | This feature enables receiving the full width and height of an element identified by <code>tagName</code> in the WebView pixels unit, including border widths, but excluding margins. The first element matching the provided tagName is retained. A new event will be triggered on every resize. |
 |  [linkPressFeature](./webshell.linkpressfeature.md) | This feature allows to intercept clicks on anchors (<code>&lt;a&gt;</code>). By default, it will prevent the click from propagating. But you can disable this option. |
 
 ## Type Aliases

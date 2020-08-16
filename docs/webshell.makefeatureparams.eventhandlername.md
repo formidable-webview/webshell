@@ -4,7 +4,7 @@
 
 ## MakeFeatureParams.eventHandlerName property
 
-The name of the event handler. The convention is to name it `on` + PascalCase event name.
+The name of the event handler. A naming convention is `onDOM` + PascalCase event name, to avoid any collision with WebView's own props.
 
 <b>Signature:</b>
 

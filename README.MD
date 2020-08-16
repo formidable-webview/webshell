@@ -52,41 +52,37 @@ import React, { useCallback } from 'react';
 import { Linking } from 'react-native';
 import makeWebshell, {
   linkPressFeature,
-  dimensionsFeature,
-  DimensionsObject
+  elementDimensionsFeature,
+  ElementDimensionsObject
 } from '@formidable-webview/webshell';
 import WebView from 'react-native-webview';
 
 const Webshell = makeWebshell(
   WebView,
   linkPressFeature.assemble({ preventDefault: true }),
-  dimensionsFeature.assemble({ tagName: 'table' })
+  elementDimensionsFeature.assemble({ tagName: 'body' })
 );
 
 export default function EnhancedWebView(webViewProps) {
   const onLinkPress = useCallback((url: string) => Linking.openURL(url), []);
-  const onDimensions = useCallback(
-    ({ width, height }: DimensionsObject) => console.info(width, height),
+  const onBodyDimensions = useCallback(
+    ({ width, height }: ElementDimensionsObject) => console.info(width, height),
     []
   );
-  const onShellError = useCallback(
-    // featureIdentifier == linkPressFeature.identifier
-    (featureIdentifier, errorMessage) => {
-      if (featureIdentifier === linkPressFeature.identifier) {
-        // Handle linkPress error
-        console.error(errorMessage);
-      } else if (featureIdentifier === dimensionsFeature.identifier) {
-        // Handle dimensions error
-        console.error(errorMessage);
-      }
-    },
-    []
-  );
+  const onError = useCallback((featureIdentifier, errorMessage) => {
+    if (featureIdentifier === linkPressFeature.identifier) {
+      // Handle linkPress error
+      console.error(errorMessage);
+    } else if (featureIdentifier === elementDimensionsFeature.identifier) {
+      // Handle dimensions error
+      console.error(errorMessage);
+    }
+  }, []);
   return (
     <Webshell
-      onLinkPress={onLinkPress}
-      onDimensions={onDimensions}
-      onShellError={onShellError}
+      onDOMLinkPress={onLinkPress}
+      onDOMElementDimensions={onBodyDimensions}
+      onDOMError={onError}
       webViewProps={webViewProps}
     />
   );
@@ -140,11 +136,11 @@ export interface LinkPressOptions {
  */
 export const linkPressFeature: Feature<
   LinkPressOptions,
-  'onLinkPress',
+  'onDOMLinkPress',
   string
 > = makeFeature({
   script: linkPressScript,
-  eventHandlerName: 'onLinkPress',
+  eventHandlerName: 'onDOMLinkPress',
   identifier: 'org.webshell.linkPress'
 });
 
@@ -266,12 +262,12 @@ const { waitForDocument } = makeErsatzTesting(Ersatz);
 
 describe('Webshell with linkPressFeature', () => {
   it('should invoke onLinkPress prop when a link is pressed', async () => {
-    const onLinkPress = jest.fn();
+    const onDOMLinkPress = jest.fn();
     const Webshell = makeWebshell(Ersatz, linkPressFeature.assemble());
     const document = await waitForDocument(
       render(
         <Webshell
-          onLinkPress={onLinkPress}
+          onDOMLinkPress={onDOMLinkPress}
           webViewProps={{
             source: { html: '<a id="anchor0" href="https://foo.org">bar</a>' }
           }}
@@ -279,7 +275,7 @@ describe('Webshell with linkPressFeature', () => {
       )
     );
     document.getElementById('anchor0').click();
-    expect(onLinkPress).toHaveBeenCalledWith('https://foo.org');
+    expect(onDOMLinkPress).toHaveBeenCalledWith('https://foo.org');
   });
 });
 
