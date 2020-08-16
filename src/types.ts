@@ -1,4 +1,9 @@
-import { ComponentClass } from 'react';
+import {
+  ComponentType,
+  ForwardRefExoticComponent,
+  RefAttributes,
+  ElementRef
+} from 'react';
 
 // LOOKUP TYPES
 
@@ -59,10 +64,11 @@ export type WebshellHandlerProps<
  */
 export type WebshellComponentOf<
   W extends MinimalWebViewProps,
-  F extends Feature<any, any, any>[]
-> = ComponentClass<
-  W & WebshellProps<W, AssembledFeatureOf<F[number]>[]>,
-  unknown
+  F extends Feature<any, any, any>[],
+  C extends ComponentType<W>
+> = ForwardRefExoticComponent<
+  WebshellProps<W, AssembledFeatureOf<F[number]>[]> &
+    RefAttributes<ElementRef<C>>
 >;
 
 // USEFUL TYPES

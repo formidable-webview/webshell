@@ -93,4 +93,10 @@ describe('Webshell component', () => {
     expect(onDummyOption).toHaveBeenCalledWith({ foo: 'bar' });
     expect(onMessage).toHaveBeenCalledTimes(1);
   });
+  it('it should provide a reference to the inner WebView', async () => {
+    const Webshell = makeWebshell(Ersatz);
+    const ersatzRef = React.createRef<Ersatz>();
+    await waitForErsatz(render(<Webshell ref={ersatzRef} />));
+    expect(ersatzRef.current).toBeInstanceOf(Ersatz);
+  });
 });

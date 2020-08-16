@@ -4,9 +4,11 @@
 
 ```ts
 
-import { ComponentClass } from 'react';
 import { ComponentType } from 'react';
+import { ElementRef } from 'react';
+import { ForwardRefExoticComponent } from 'react';
 import * as React_2 from 'react';
+import { RefAttributes } from 'react';
 
 // @public
 export interface AssembledFeature<O extends {} = {}, E extends string = string, P = any> {
@@ -67,7 +69,7 @@ export interface MakeFeatureParams<E extends string, P> {
 }
 
 // @public
-function makeWebshell<W extends MinimalWebViewProps, F extends AssembledFeature[]>(WebView: ComponentType<W>, ...assembledFeatures: F): React_2.ComponentClass<WebshellProps<W, F>, unknown>;
+function makeWebshell<W extends MinimalWebViewProps, F extends AssembledFeature[], C extends ComponentType<W>>(WebView: C, ...assembledFeatures: F): React_2.ForwardRefExoticComponent<WebshellHandlerProps<F[number]> & WebshellInvariantProps & W & React_2.RefAttributes<React_2.ElementRef<C>>>;
 
 export default makeWebshell;
 
@@ -99,7 +101,7 @@ export interface WebjsContext<O extends {}, P> {
 }
 
 // @public
-export type WebshellComponentOf<W extends MinimalWebViewProps, F extends Feature<any, any, any>[]> = ComponentClass<W & WebshellProps<W, AssembledFeatureOf<F[number]>[]>, unknown>;
+export type WebshellComponentOf<W extends MinimalWebViewProps, F extends Feature<any, any, any>[], C extends ComponentType<W>> = ForwardRefExoticComponent<WebshellProps<W, AssembledFeatureOf<F[number]>[]> & RefAttributes<ElementRef<C>>>;
 
 // @public
 export type WebshellHandlerProps<F extends AssembledFeature<{}, string, unknown>> = {

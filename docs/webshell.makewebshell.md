@@ -9,17 +9,17 @@ Creates a React component which decorates WebView component with additionnal pro
 <b>Signature:</b>
 
 ```typescript
-export declare function makeWebshell<W extends MinimalWebViewProps, F extends AssembledFeature[]>(WebView: ComponentType<W>, ...assembledFeatures: F): React.ComponentClass<WebshellProps<W, F>, unknown>;
+export declare function makeWebshell<W extends MinimalWebViewProps, F extends AssembledFeature[], C extends ComponentType<W>>(WebView: C, ...assembledFeatures: F): React.ForwardRefExoticComponent<WebshellHandlerProps<F[number]> & WebshellInvariantProps & W & React.RefAttributes<React.ElementRef<C>>>;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  WebView | ComponentType&lt;W&gt; | A WebView component, typically exported from <code>react-native-webview</code>. |
+|  WebView | C | A WebView component, typically exported from <code>react-native-webview</code>. |
 |  assembledFeatures | F | Assembled features ready to be loaded in the WebView DOM. |
 
 <b>Returns:</b>
 
-React.ComponentClass&lt;[WebshellProps](./webshell.webshellprops.md)<!-- -->&lt;W, F&gt;, unknown&gt;
+React.ForwardRefExoticComponent&lt;[WebshellHandlerProps](./webshell.webshellhandlerprops.md)<!-- -->&lt;F\[number\]&gt; &amp; [WebshellInvariantProps](./webshell.webshellinvariantprops.md) &amp; W &amp; React.RefAttributes&lt;React.ElementRef&lt;C&gt;&gt;&gt;
 

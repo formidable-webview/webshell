@@ -22,7 +22,9 @@ Here are examples of features shipped with this library:
 - Intercept click events on anchors and prevent navigation (`linkPressFeature`);
 - Get notified when an element size changes in the view (`dimensionsFeature`);
 
-And you can, of course, implement any feature you'd like.
+And you can, of course, implement any feature you'd like. Also, `Webshell`
+component forwards refs to inner `WebView`, so **you can still use ref instance
+methods with no code change.**
 
 ## How does it work?
 
