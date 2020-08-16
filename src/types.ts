@@ -177,9 +177,8 @@ export interface Feature<O extends {}, E extends string, P> {
  *
  * @public
  */
-export interface WebshellInvariantProps<W> {
+export interface WebshellInvariantProps {
   onDOMError?: (featureIdentifier: string, error: string) => void;
-  webViewProps?: W;
 }
 
 /**
@@ -190,7 +189,7 @@ export interface WebshellInvariantProps<W> {
 export type WebshellProps<
   W,
   F extends AssembledFeature<{}, string, unknown>[]
-> = WebshellHandlerProps<F[number]> & WebshellInvariantProps<W>;
+> = WebshellHandlerProps<F[number]> & WebshellInvariantProps & W;
 
 /**
  * A high-compatibility type expressing minimal requirements for the

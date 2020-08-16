@@ -9,5 +9,5 @@ Props of the Webshell produced by [makeWebshell()](./webshell.makewebshell.md)<!
 <b>Signature:</b>
 
 ```typescript
-export declare type WebshellProps<W, F extends AssembledFeature<{}, string, unknown>[]> = WebshellHandlerProps<F[number]> & WebshellInvariantProps<W>;
+export declare type WebshellProps<W, F extends AssembledFeature<{}, string, unknown>[]> = WebshellHandlerProps<F[number]> & WebshellInvariantProps & W;
 ```

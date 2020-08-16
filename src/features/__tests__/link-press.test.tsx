@@ -15,9 +15,7 @@ describe('Webshell with linkPressFeature', () => {
       render(
         <Webshell
           onDOMLinkPress={onDOMLinkPress}
-          webViewProps={{
-            source: { html: '<a id="anchor0" href="https://foo.org">bar</a>' }
-          }}
+          source={{ html: '<a id="anchor0" href="https://foo.org">bar</a>' }}
         />
       )
     );

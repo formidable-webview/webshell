@@ -9,7 +9,7 @@ Props any Webshell component will support.
 <b>Signature:</b>
 
 ```typescript
-export interface WebshellInvariantProps<W> 
+export interface WebshellInvariantProps 
 ```
 
 ## Properties
@@ -17,5 +17,4 @@ export interface WebshellInvariantProps<W>
 |  Property | Type | Description |
 |  --- | --- | --- |
 |  [onDOMError](./webshell.webshellinvariantprops.ondomerror.md) | (featureIdentifier: string, error: string) =&gt; void |  |
-|  [webViewProps](./webshell.webshellinvariantprops.webviewprops.md) | W |  |
 

@@ -107,15 +107,13 @@ export type WebshellHandlerProps<F extends AssembledFeature<{}, string, unknown>
 };
 
 // @public
-export interface WebshellInvariantProps<W> {
+export interface WebshellInvariantProps {
     // (undocumented)
     onDOMError?: (featureIdentifier: string, error: string) => void;
-    // (undocumented)
-    webViewProps?: W;
 }
 
 // @public
-export type WebshellProps<W, F extends AssembledFeature<{}, string, unknown>[]> = WebshellHandlerProps<F[number]> & WebshellInvariantProps<W>;
+export type WebshellProps<W, F extends AssembledFeature<{}, string, unknown>[]> = WebshellHandlerProps<F[number]> & WebshellInvariantProps & W;
 
 
 // (No @packageDocumentation comment for this package)

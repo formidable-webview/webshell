@@ -85,7 +85,8 @@ describe('Webshell component', () => {
       render(
         <Webshell
           onDummyOption={onDummyOption}
-          webViewProps={{ injectedJavaScript, onMessage }}
+          injectedJavaScript={injectedJavaScript}
+          onMessage={onMessage}
         />
       )
     );

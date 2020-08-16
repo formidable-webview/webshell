@@ -50,6 +50,18 @@ function serializeFeatureList(specs: AssembledFeature[]) {
   return `[${specs.map(serializeFeature).join(',')}]`;
 }
 
+function filterWebViewProps<W>(props: WebshellProps<any, any>): W {
+  return Object.keys(props).reduce((obj, key) => {
+    if (key.startsWith('onDOM')) {
+      return obj;
+    }
+    return {
+      ...obj,
+      [key]: props[key]
+    };
+  }, {} as W);
+}
+
 /**
  * Creates a React component which decorates WebView component with additionnal
  * props to handle events from the DOM.
@@ -69,17 +81,14 @@ export function makeWebshell<
     serializedFeatures
   );
   return class Webshell extends Component<WebshellProps<W, F>> {
-    static defaultProps = {
-      webViewProps: {}
-    } as WebshellProps<W, F>;
+    static defaultProps = {} as WebshellProps<W, F>;
 
     handleOnMessage = ({
       nativeEvent
     }: NativeSyntheticEvent<WebViewMessage>) => {
-      const {
-        webViewProps: { onMessage },
-        onDOMError
-      } = this.props as Required<WebshellInvariantProps<W>>;
+      const { onMessage, onDOMError } = this.props as Required<
+        WebshellInvariantProps & W
+      >;
       const parsedJSON = parseJSONSafe(nativeEvent.data);
       if (isPostMessageObject(parsedJSON)) {
         const { type, identifier, body } = parsedJSON;
@@ -106,14 +115,13 @@ export function makeWebshell<
     };
 
     render() {
-      const { injectedJavaScript, ...webViewProps } = this.props
-        .webViewProps as W;
+      const { injectedJavaScript, ...webViewProps } = this.props;
       const safeUserscript =
         typeof injectedJavaScript === 'string' ? injectedJavaScript : '';
       const resultingJavascript = `(function(){${safeUserscript};${injectableScript};})();true;`;
       return (
         <WebView
-          {...(webViewProps as any)}
+          {...filterWebViewProps(webViewProps)}
           injectedJavaScript={resultingJavascript}
           javaScriptEnabled={true}
           onMessage={this.handleOnMessage}

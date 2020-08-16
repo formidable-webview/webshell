@@ -33,7 +33,7 @@ export default function EnhancedWebView(webViewProps) {
       onDOMLinkPress={onLinkPress}
       onDOMElementDimensions={onBodyDimensions}
       onDOMError={onError}
-      webViewProps={webViewProps}
+      {...webViewProps}
     />
   );
 }

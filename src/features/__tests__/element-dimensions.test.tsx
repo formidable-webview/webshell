@@ -27,9 +27,7 @@ describe('Webshell with linkPressFeature', () => {
       render(
         <Webshell
           onDOMElementDimensions={onDOMElementDimensions}
-          webViewProps={{
-            source: { html }
-          }}
+          source={{ html }}
         />
       )
     );
