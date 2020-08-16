@@ -8,7 +8,7 @@ import { elementDimensionsFeature } from '../element-dimensions';
 const { waitForErsatz } = makeErsatzTesting(Ersatz);
 
 describe('Webshell with linkPressFeature', () => {
-  it('should invoke onDimensions prop when the DOM is mounted', async () => {
+  it('should invoke onDOMDimensions prop when the DOM is mounted', async () => {
     const onDOMElementDimensions = jest.fn();
     const html = `
     <table>

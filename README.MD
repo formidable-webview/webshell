@@ -102,7 +102,7 @@ are four important areas to specify in a feature:
 1. How does it behave in the DOM? → See the content of `linkPressScript`.
 2. What options can it be assembled with? → `LinkPressOptions`
 3. What is the name of the event handler prop which will be available in the
-   `Webshell`? → `onLinkPress`
+   `Webshell`? → `onDOMLinkPress`
 4. What type of payload does it ship with events? → `string`
 
 > :warning: Note that you will need to replace relative imports with direct
@@ -263,7 +263,7 @@ import { linkPressFeature } from '../link-press';
 const { waitForDocument } = makeErsatzTesting(Ersatz);
 
 describe('Webshell with linkPressFeature', () => {
-  it('should invoke onLinkPress prop when a link is pressed', async () => {
+  it('should invoke onDOMLinkPress prop when a link is pressed', async () => {
     const onDOMLinkPress = jest.fn();
     const Webshell = makeWebshell(Ersatz, linkPressFeature.assemble());
     const document = await waitForDocument(
