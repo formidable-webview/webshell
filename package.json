@@ -15,7 +15,7 @@
     "test:jest": "jest src/",
     "test:ts": "tsc --noEmit",
     "test:lint": "eslint --ext webjs,ts,tsx src/",
-    "test:integration": "tsc --project tsconfig.integration.json",
+    "test:integration": "tsc --project integration/tsconfig.json",
     "test:doc": "embedme --verify README.MD",
     "build": "npm run build:source && npm run build:defs && npm run build:doc",
     "build:source": "bob build",
