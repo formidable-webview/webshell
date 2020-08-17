@@ -18,9 +18,12 @@ Each feature augments the `WebView` with a DOM message handler prop, for example
 Here are examples of features you can assemble in the shell:
 
 - Intercept click events on anchors and prevent navigation (`linkPressFeature`);
-- Get notified when an element size changes in the view (`dimensionsFeature`);
+- Get notified when an element size changes in the view (`elementDimensionsFeature`);
 
-And you can, of course, implement any feature you'd like.
+And you can, of course, [implement any feature you'd
+like](#implementing-features). This library also presents a set of good
+practices to test features in isolation and, by extension, test any injected
+scripts. See [the tooling section](#tooling).
 
 ## How does it work?
 
@@ -87,6 +90,8 @@ export default function EnhancedWebView(webViewProps) {
 }
 
 ```
+
+<a name="implementing-features"></a>
 
 ## Implementing features
 
@@ -202,7 +207,7 @@ Landmark exports:
 
 - [`makeWebshell`](docs/webshell.makewebshell.md)
 - [`makeFeature`](docs/webshell.makefeature.md)
-- [`dimensionsFeature`](docs/webshell.dimensionsfeature.md)
+- [`elementDimensionsFeature`](docs/webshell.dimensionsfeature.md)
 - [`linkPressFeature`](docs/webshell.linkpressfeature.md)
 
 <a name="tooling"></a>
