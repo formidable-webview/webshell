@@ -2,7 +2,8 @@ import {
   ComponentType,
   ForwardRefExoticComponent,
   RefAttributes,
-  ElementRef
+  ElementRef,
+  ComponentPropsWithoutRef
 } from 'react';
 
 // LOOKUP TYPES
@@ -63,13 +64,17 @@ export type WebshellHandlerProps<
  * @public
  */
 export type WebshellComponentOf<
-  W extends MinimalWebViewProps,
-  F extends Feature<any, any, any>[],
-  C extends ComponentType<W>
-> = ForwardRefExoticComponent<
-  WebshellProps<W, AssembledFeatureOf<F[number]>[]> &
-    RefAttributes<ElementRef<C>>
->;
+  C extends ComponentType<any>,
+  F extends Feature<any, any, any>[]
+> = ComponentPropsWithoutRef<C> extends MinimalWebViewProps
+  ? ForwardRefExoticComponent<
+      WebshellProps<
+        ComponentPropsWithoutRef<C>,
+        AssembledFeatureOf<F[number]>[]
+      > &
+        RefAttributes<ElementRef<C>>
+    >
+  : never;
 
 // USEFUL TYPES
 
@@ -204,9 +209,9 @@ export type WebshellProps<
  * @public
  */
 export interface MinimalWebViewProps {
-  onMessage?: unknown;
-  onError?: unknown;
-  injectedJavaScript?: unknown;
-  javaScriptEnabled?: unknown;
-  source?: unknown;
+  readonly onMessage?: unknown;
+  readonly onError?: unknown;
+  readonly injectedJavaScript?: unknown;
+  readonly javaScriptEnabled?: unknown;
+  readonly source?: unknown;
 }

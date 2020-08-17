@@ -4,6 +4,7 @@
 
 ```ts
 
+import { ComponentPropsWithoutRef } from 'react';
 import { ComponentType } from 'react';
 import { ElementRef } from 'react';
 import { ForwardRefExoticComponent } from 'react';
@@ -69,7 +70,7 @@ export interface MakeFeatureParams<E extends string, P> {
 }
 
 // @public
-function makeWebshell<W extends MinimalWebViewProps, F extends AssembledFeature[], C extends ComponentType<W>>(WebView: C, ...assembledFeatures: F): React_2.ForwardRefExoticComponent<WebshellHandlerProps<F[number]> & WebshellInvariantProps & W & React_2.RefAttributes<React_2.ElementRef<C>>>;
+function makeWebshell<F extends AssembledFeature[], C extends ComponentType<any>>(WebView: C, ...assembledFeatures: F): React_2.ForwardRefExoticComponent<React_2.PropsWithoutRef<WebshellProps<React_2.ComponentProps<C>, F>> & React_2.RefAttributes<React_2.ElementRef<C>>>;
 
 export default makeWebshell;
 
@@ -78,15 +79,15 @@ export { makeWebshell }
 // @public
 export interface MinimalWebViewProps {
     // (undocumented)
-    injectedJavaScript?: unknown;
+    readonly injectedJavaScript?: unknown;
     // (undocumented)
-    javaScriptEnabled?: unknown;
+    readonly javaScriptEnabled?: unknown;
     // (undocumented)
-    onError?: unknown;
+    readonly onError?: unknown;
     // (undocumented)
-    onMessage?: unknown;
+    readonly onMessage?: unknown;
     // (undocumented)
-    source?: unknown;
+    readonly source?: unknown;
 }
 
 // @public
@@ -101,7 +102,7 @@ export interface WebjsContext<O extends {}, P> {
 }
 
 // @public
-export type WebshellComponentOf<W extends MinimalWebViewProps, F extends Feature<any, any, any>[], C extends ComponentType<W>> = ForwardRefExoticComponent<WebshellProps<W, AssembledFeatureOf<F[number]>[]> & RefAttributes<ElementRef<C>>>;
+export type WebshellComponentOf<C extends ComponentType<any>, F extends Feature<any, any, any>[]> = ComponentPropsWithoutRef<C> extends MinimalWebViewProps ? ForwardRefExoticComponent<WebshellProps<ComponentPropsWithoutRef<C>, AssembledFeatureOf<F[number]>[]> & RefAttributes<ElementRef<C>>> : never;
 
 // @public
 export type WebshellHandlerProps<F extends AssembledFeature<{}, string, unknown>> = {

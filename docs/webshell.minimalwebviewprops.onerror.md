@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-onError?: unknown;
+readonly onError?: unknown;
 ```

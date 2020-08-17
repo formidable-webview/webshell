@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-onMessage?: unknown;
+readonly onMessage?: unknown;
 ```

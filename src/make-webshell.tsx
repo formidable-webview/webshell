@@ -1,21 +1,15 @@
 /* eslint-disable dot-notation */
 import * as React from 'react';
-import {
-  Component,
-  ComponentType,
-  ElementRef,
-  RefAttributes,
-  ForwardRefExoticComponent
-} from 'react';
+import { Component, ComponentType, ElementRef, ComponentProps } from 'react';
 import { NativeSyntheticEvent } from 'react-native';
 import featuresLoaderScript from './features-loader.webjs';
 import {
   AssembledFeature,
   WebshellProps,
-  MinimalWebViewProps,
   WebshellInvariantProps,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  WebshellHandlerProps
+  WebshellHandlerProps,
+  MinimalWebViewProps
 } from './types.js';
 
 interface WebViewMessage {
@@ -80,9 +74,8 @@ function filterWebViewProps<W>(props: WebshellProps<any, any>): W {
  * @public
  */
 export function makeWebshell<
-  W extends MinimalWebViewProps,
   F extends AssembledFeature[],
-  C extends ComponentType<W>
+  C extends ComponentType<any>
 >(WebView: C, ...assembledFeatures: F) {
   const serializedFeatures = serializeFeatureList(assembledFeatures);
   const injectableScript = featuresLoaderScript.replace(
@@ -90,16 +83,15 @@ export function makeWebshell<
     serializedFeatures
   );
   class Webshell extends Component<
-    WebshellProps<W, F> & { webViewRef: ElementRef<C> }
+    WebshellProps<ComponentProps<C>, F> & { webViewRef: ElementRef<C> }
   > {
-    static defaultProps = {} as WebshellProps<W, F>;
+    static defaultProps = {} as WebshellProps<ComponentProps<C>, F>;
 
     handleOnMessage = ({
       nativeEvent
     }: NativeSyntheticEvent<WebViewMessage>) => {
-      const { onMessage, onDOMError } = this.props as Required<
-        WebshellInvariantProps & W
-      >;
+      const { onMessage, onDOMError } = this.props as WebshellInvariantProps &
+        MinimalWebViewProps;
       const parsedJSON = parseJSONSafe(nativeEvent.data);
       if (isPostMessageObject(parsedJSON)) {
         const { type, identifier, body } = parsedJSON;
@@ -141,10 +133,9 @@ export function makeWebshell<
       );
     }
   }
-  return React.forwardRef<ElementRef<C>, WebshellProps<W, F>>((props, ref) => (
-    // @ts-ignore
-    <Webshell webViewRef={ref} {...props} />
-  )) as ForwardRefExoticComponent<
-    WebshellProps<W, F> & RefAttributes<ElementRef<C>>
-  >;
+  return React.forwardRef<ElementRef<C>, WebshellProps<ComponentProps<C>, F>>(
+    (props, ref) => (
+      <Webshell webViewRef={ref} {...(props as WebshellProps<any, F>)} />
+    )
+  );
 }

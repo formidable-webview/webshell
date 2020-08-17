@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-javaScriptEnabled?: unknown;
+readonly javaScriptEnabled?: unknown;
 ```

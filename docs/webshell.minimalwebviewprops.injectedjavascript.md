@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-injectedJavaScript?: unknown;
+readonly injectedJavaScript?: unknown;
 ```
