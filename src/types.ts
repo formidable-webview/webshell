@@ -3,7 +3,8 @@ import {
   ForwardRefExoticComponent,
   RefAttributes,
   ElementRef,
-  ComponentPropsWithoutRef
+  ComponentPropsWithoutRef,
+  ComponentProps
 } from 'react';
 
 // LOOKUP TYPES
@@ -66,7 +67,7 @@ export type WebshellHandlerProps<
 export type WebshellComponentOf<
   C extends ComponentType<any>,
   F extends Feature<any, any, any>[]
-> = ComponentPropsWithoutRef<C> extends MinimalWebViewProps
+> = ComponentProps<C> extends MinimalWebViewProps
   ? ForwardRefExoticComponent<
       WebshellProps<
         ComponentPropsWithoutRef<C>,
