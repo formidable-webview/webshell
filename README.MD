@@ -7,29 +7,25 @@
 
 # @formidable-webview/webshell
 
-*Webshell is:*
+`@formidable-webview/webshell` exports a simple builder-function (HOC) which
+creates an augmented `WebView` with additional DOM-based features. The returned
+component behaves exactly like a `WebView`, and given a `ref` prop, you'll get
+the underlying [`WebView`](https://github.com/react-native-community/react-native-webview) instance and be able to access its imperative methods.
 
-- A Higher-order component to handle `WebView` DOM events in `react-native`. It
-provides an abstraction layer over the [message
-  system](https://github.com/react-native-community/react-native-webview/blob/master/docs/Guide.md#communicating-between-js-and-native)
-  embedded in
-[`react-native-webview`](https://github.com/react-native-community/react-native-webview).
-- A set of utilities and good practices to implement well-tested, reliable
-scripts to run on the (`WebView`) DOM.
-
-Here are examples of features shipped with this library:
+The features provide an abstraction layer of the [message
+  system](https://github.com/react-native-community/react-native-webview/blob/master/docs/Guide.md#communicating-between-js-and-native).
+Each feature augments the `WebView` with a DOM message handler prop, for example `omDOMLinkPress`.
+Here are examples of features you can assemble in the shell:
 
 - Intercept click events on anchors and prevent navigation (`linkPressFeature`);
 - Get notified when an element size changes in the view (`dimensionsFeature`);
 
-And you can, of course, implement any feature you'd like. Also, `Webshell`
-component forwards refs to inner `WebView`, so **you can still use ref instance
-methods with no code change.**
+And you can, of course, implement any feature you'd like.
 
 ## How does it work?
 
 It uses `WebView#injectedJavascript` prop to inject javascript “features” (snippets) responsible
-for communicating information to the `Webshell` controller.
+for communicating information to the `Webshell` controller through DOM handlers.
 
 ## Install
 
@@ -101,7 +97,7 @@ are four important areas to specify in a feature:
 
 1. How does it behave in the DOM? → See the content of `linkPressScript`.
 2. What options can it be assembled with? → `LinkPressOptions`
-3. What is the name of the event handler prop which will be available in the
+3. What is the name of the DOM message handler prop which will be available in the
    `Webshell`? → `onDOMLinkPress`
 4. What type of payload does it ship with events? → `string`
 
@@ -216,8 +212,8 @@ Landmark exports:
 The objectives of the setup are:
 
 - Import DOM scripts (`.webjs`) as strings;
-- Statically check DOM scripts for errors;
-- Check DOM scripts compatibility with targeted WebViews;
+- Statically check DOM scripts for syntax errors;
+- Statically check DOM scripts compatibility given targeted WebViews versions;
 - Test the DOM scripts behaviors.
 
 ### babel
@@ -236,7 +232,7 @@ to target `.webjs` files with specific config:
 
 - Enforce ECMAScript 5 to make sure it runs on reasonably old `WebView`
   backends.
-- Enforce a list of supported browsers with the outstanding
+- Enforce a list of supported web engines with the outstanding
   [eslint-plugin-compat](https://www.npmjs.com/package/eslint-plugin-compat).
   We make sure we don't use recent web APIs without a fallback or polyfill.
 
