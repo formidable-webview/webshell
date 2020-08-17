@@ -27,8 +27,9 @@ scripts. See [the tooling section](#tooling).
 
 ## How does it work?
 
-It uses `WebView#injectedJavascript` prop to inject javascript “features” (snippets) responsible
-for communicating information to the `Webshell` controller through DOM handlers.
+It uses `WebView.injectedJavascript` prop to inject javascript “features” (snippets) responsible
+for communicating information to the `Webshell` controller through DOM
+handlers. Each feature is try-catched in siloed error-flows.
 
 ## Install
 
