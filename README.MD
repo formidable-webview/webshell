@@ -3,8 +3,6 @@
 [![codecov](https://codecov.io/gh/formidable-webview/webshell/branch/master/graph/badge.svg)](https://codecov.io/gh/formidable-webview/webshell)
 [![CI](https://github.com/formidable-webview/webshell/workflows/CI/badge.svg?branch=master)](https://github.com/formidable-webview/webshell/actions?query=branch%3Amaster+workflow%3ACI)
 
-> :warning: *This library is in early development.*
-
 # @formidable-webview/webshell
 
 `@formidable-webview/webshell` exports a simple builder-function (HOC) which
