@@ -14,13 +14,13 @@ the underlying [`WebView`](https://github.com/react-native-community/react-nativ
 
 The features provide an abstraction layer of the [message
   system](https://github.com/react-native-community/react-native-webview/blob/master/docs/Guide.md#communicating-between-js-and-native).
-Each feature augments the `WebView` with a DOM message handler prop, for example `omDOMLinkPress`.
+Each DOM feature augments the `WebView` with a DOM message handler prop, for example `omDOMLinkPress`.
 Here are examples of features you can assemble in the shell:
 
 - Intercept click events on anchors and prevent navigation (`linkPressFeature`);
 - Get notified when an element size changes in the view (`elementDimensionsFeature`);
 
-And you can, of course, [implement any feature you'd
+And you can, of course, [implement any DOM feature you'd
 like](#implementing-features). This library also presents a set of good
 practices to test features in isolation and, by extension, test any injected
 scripts. See [the tooling section](#tooling).
@@ -29,7 +29,7 @@ scripts. See [the tooling section](#tooling).
 
 It uses `WebView.injectedJavascript` prop to inject javascript “features” (snippets) responsible
 for communicating information to the `Webshell` controller through DOM
-handlers. Each feature is try-catched in siloed error-flows.
+handlers. Each DOM feature is try-catched in siloed error-flows.
 
 ## Install
 
@@ -41,7 +41,7 @@ npm install @formidable-webview/webshell
 
 This library is fairly easy to use. Just create a shell by invoking `makeShell`
 function with a `WebView` component and the assembled features you wish the
-shell to implement. Each feature can be assembled with options, which alter
+shell to implement. Each DOM feature can be assembled with options, which alter
 their behavior. For example, the `linkPressFeature` default behavior prevents
 click events on anchors to propagate, effectively disallowing redirects. You
 can, however, change this behavior to let redirects happen while still being
@@ -92,14 +92,51 @@ export default function EnhancedWebView(webViewProps) {
 
 ```
 
+## A classic use-case: implementing AutoheightWebView
+
+This component height automatically and dynamically adapts to the page height,
+even after DOM is mounted.
+
+```ts
+// integration/autoheight.tsx
+
+import React, { useCallback, useState } from 'react';
+import makeWebshell, {
+  elementDimensionsFeature,
+  ElementDimensionsObject
+} from '@formidable-webview/webshell';
+import WebView from 'react-native-webview';
+
+const Webshell = makeWebshell(
+  WebView,
+  elementDimensionsFeature.assemble({ tagName: 'body' })
+);
+
+export default function AutoheightWebView(webViewProps) {
+  const [height, setHeight] = useState<number | undefined>(undefined);
+  const onBodyDimensions = useCallback(
+    ({ height: bodyHeight }: ElementDimensionsObject) => setHeight(bodyHeight),
+    []
+  );
+  return (
+    <Webshell
+      onDOMElementDimensions={onBodyDimensions}
+      {...webViewProps}
+      style={[webViewProps.style, { height }]}
+    />
+  );
+}
+
+```
+
 <a name="implementing-features"></a>
 
 ## Implementing features
 
-To have a good sense on how to implement features, we will take a look at the
+To have a good sense on how to make new features, we will take a look at the
 `linkPressFeature` implementation. The implementation is in typescript, which
-is convenient to communicate the different types implied in a feature. There
-are four important areas to specify in a feature:
+is convenient to communicate the different types implied in a DOM feature. There
+are four important areas to specify in such feature:
 
 1. How does it behave in the DOM? → See the content of `linkPressScript`.
 2. What options can it be assembled with? → `LinkPressOptions`
@@ -246,7 +283,7 @@ to target `.webjs` files with specific config:
 
 To test injected scripts, the easiest way is to use
 [`@formidable-webview/ersatz`](https://github.com/formidable-webview/ersatz).
-Best to show with an example of our link-press feature testing:
+Best to show with an example of our link-press DOM feature testing:
 
 > :warning: Note that you will need to replace relative imports with direct
 > imports from the library,

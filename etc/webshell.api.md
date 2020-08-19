@@ -4,6 +4,7 @@
 
 ```ts
 
+import { ComponentProps } from 'react';
 import { ComponentPropsWithoutRef } from 'react';
 import { ComponentType } from 'react';
 import { ElementRef } from 'react';
@@ -102,7 +103,7 @@ export interface WebjsContext<O extends {}, P> {
 }
 
 // @public
-export type WebshellComponentOf<C extends ComponentType<any>, F extends Feature<any, any, any>[]> = ComponentPropsWithoutRef<C> extends MinimalWebViewProps ? ForwardRefExoticComponent<WebshellProps<ComponentPropsWithoutRef<C>, AssembledFeatureOf<F[number]>[]> & RefAttributes<ElementRef<C>>> : never;
+export type WebshellComponentOf<C extends ComponentType<any>, F extends Feature<any, any, any>[]> = ComponentProps<C> extends MinimalWebViewProps ? ForwardRefExoticComponent<WebshellProps<ComponentPropsWithoutRef<C>, AssembledFeatureOf<F[number]>[]> & RefAttributes<ElementRef<C>>> : never;
 
 // @public
 export type WebshellHandlerProps<F extends AssembledFeature<{}, string, unknown>> = {
