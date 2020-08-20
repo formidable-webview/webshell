@@ -1,6 +1,6 @@
 {
   "name": "@formidable-webview/webshell",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "🔥 Augment React Native WebViews with DOM features",
   "main": "lib/commonjs/index.js",
   "types": "types/@formidable-webview/webshell/index.d.ts",
