@@ -5,13 +5,17 @@
 
 # @formidable-webview/webshell
 
+:fire: Augment React Native WebViews with DOM features
+
+## Wait, what?
+
 `@formidable-webview/webshell` exports a simple builder-function (HOC) which
 creates an augmented `WebView` with additional DOM-based features. The returned
 component behaves exactly like a `WebView`, and given a `ref` prop, you'll get
 the underlying [`WebView`](https://github.com/react-native-community/react-native-webview) instance and be able to access its imperative methods.
 
-The features provide an abstraction layer of the [message
-  system](https://github.com/react-native-community/react-native-webview/blob/master/docs/Guide.md#communicating-between-js-and-native).
+The DOM features form an abstraction layer over [`WebView`'s messaging
+  system](https://github.com/react-native-community/react-native-webview/blob/master/docs/Guide.md#communicating-between-js-and-native), hence the “shell” in `Webshell`.
 Each DOM feature augments the `WebView` with a DOM message handler prop, for example `omDOMLinkPress`.
 Here are examples of features you can assemble in the shell:
 
@@ -25,9 +29,12 @@ scripts. See [the tooling section](#tooling).
 
 ## How does it work?
 
-It uses `WebView.injectedJavascript` prop to inject javascript “features” (snippets) responsible
-for communicating information to the `Webshell` controller through DOM
-handlers. Each DOM feature is try-catched in siloed error-flows.
+It uses `WebView.injectedJavascript` prop to inject javascript “features”
+(snippets) responsible for communicating information to the `Webshell`
+controller through DOM handlers. Each DOM feature is try-catched in siloed
+error-flows. You can still use `injectedJavascript`, `Webshell` will pass it to
+`Webview`. More details on how to implment features in the [dedicated
+section](#implementing-features).
 
 ## Install
 
