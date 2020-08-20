@@ -5,7 +5,8 @@
 
 # @formidable-webview/webshell
 
-:fire: Augment React Native WebViews with DOM features
+:fire: Augment React Native WebViews with DOM features (written in Typescript
+:blue_heart:)
 
 ## Wait, what?
 
