@@ -16,9 +16,10 @@ component behaves exactly like a `WebView`, and given a `ref` prop, you'll get
 the underlying [`WebView`](https://github.com/react-native-community/react-native-webview) instance and be able to access its imperative methods.
 
 The DOM features form an abstraction layer over [`WebView`'s messaging
-  system](https://github.com/react-native-community/react-native-webview/blob/master/docs/Guide.md#communicating-between-js-and-native), hence the “shell” in `Webshell`.
-Each DOM feature augments the `WebView` with a DOM message handler prop, for example `omDOMLinkPress`.
-Here are examples of features you can assemble in the shell:
+system](https://github.com/react-native-community/react-native-webview/blob/master/docs/Guide.md#communicating-between-js-and-native),
+hence the “shell” in `Webshell`. Each DOM feature augments the `WebView` with a
+DOM message handler prop, for example `omDOMLinkPress`. Here are examples of
+features you can assemble in the shell:
 
 - Intercept click events on anchors and prevent navigation (`linkPressFeature`);
 - Get notified when an element size changes in the view (`elementDimensionsFeature`);
@@ -30,11 +31,11 @@ scripts. See [the tooling section](#tooling).
 
 ## How does it work?
 
-It uses `WebView.injectedJavascript` prop to inject javascript “features”
+It uses `WebView.injectedJavascript` prop to inject JavaScript “features”
 (snippets) responsible for communicating information to the `Webshell`
-controller through DOM handlers. Each DOM feature is try-catched in siloed
+controller through DOM handlers. Each DOM feature is try-caught in siloed
 error-flows. You can still use `injectedJavascript`, `Webshell` will pass it to
-`Webview`. More details on how to implment features in the [dedicated
+`Webview`. More details on how to implement features in the [dedicated
 section](#implementing-features).
 
 ## Install
@@ -234,7 +235,7 @@ The shape of this argument is depicted in
 [WebjsContext](docs/webshell.webjscontext.md) definition. For wide
 compatibility purposes, it is recommended to
 
-- enforce ECMAScript 5 syntax with eslint;
+- enforce ECMAScript 5 syntax with ESlint;
 - lint the script with the
   [eslint-plugin-compat](https://www.npmjs.com/package/eslint-plugin-compat) to
   enforce backward compatibility with old engines;
@@ -265,7 +266,7 @@ The objectives of the setup are:
 - Statically check DOM scripts compatibility given targeted WebViews versions;
 - Test the DOM scripts behaviors.
 
-### babel
+### Babel
 
 To import `.webjs` files as strings, we will use
 [`babel-plugin-inline-import`](https://www.npmjs.com/package/babel-plugin-inline-import)
@@ -273,7 +274,7 @@ with `webjs` or whichever extension you are using for your `WebView` scripts,
 see [babel.config.js](babel.config.js) file. This plugin will allow you to
 import scripts as strings instead of compiling the module!
 
-### eslint
+### ESLint
 
 You can use
 [@formidable-webview/eslint-config-webjs](https://github.com/formidable-webview/eslint-config-webjs)
@@ -328,7 +329,7 @@ describe('Webshell with linkPressFeature', () => {
 
 ### Editor
 
-The last thing you need to do is associate Javascript syntax with the custom
+The last thing you need to do is associate JavaScript syntax with the custom
 extension you have chosen in your text editor. From now-on, you will have a full
 featured QC in those scripts!
 
