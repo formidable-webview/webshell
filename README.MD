@@ -46,13 +46,14 @@ npm install @formidable-webview/webshell
 
 ## Basic usage
 
-This library is fairly easy to use. Just create a shell by invoking `makeShell`
-function with a `WebView` component and the assembled features you wish the
-shell to implement. Each DOM feature can be assembled with options, which alter
-their behavior. For example, the `linkPressFeature` default behavior prevents
-click events on anchors to propagate, effectively disallowing redirects. You
-can, however, change this behavior to let redirects happen while still being
-notified by setting `preventDefault` option to `false`.
+This library is fairly easy to use. Just create a shell by invoking
+`makeWebshell` function with a `WebView` component and the assembled features
+you wish the shell to implement. Each DOM feature can be assembled with
+options, which alter their behavior. For example, the `linkPressFeature`
+default behavior prevents click events on anchors to propagate, effectively
+disallowing redirects. You can, however, change this behavior to let redirects
+happen while still being notified by setting `preventDefault` option to
+`false`.
 
 ```ts
 // integration/basic.tsx
