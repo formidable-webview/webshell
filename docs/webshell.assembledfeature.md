@@ -2,23 +2,17 @@
 
 [Home](./index.md) &gt; [@formidable-webview/webshell](./webshell.md) &gt; [AssembledFeature](./webshell.assembledfeature.md)
 
-## AssembledFeature interface
+## AssembledFeature type
 
-A feature with its options, ready to be consumed by [makeWebshell()](./webshell.makewebshell.md)<!-- -->.
+A feature adds new behaviors to the `WebView` DOM and offers new props.
 
 <b>Signature:</b>
 
 ```typescript
-export interface AssembledFeature<O extends {} = {}, E extends string = string, P = any> 
+export declare type AssembledFeature<O extends {} = {}, S extends {} = {}, P extends {} = {}> = {
+    readonly featureIdentifier: string;
+    readonly script: string;
+    readonly options: OptionalUnlessRequiredField<O>;
+    readonly props?: P;
+} & S;
 ```
-
-## Properties
-
-|  Property | Type | Description |
-|  --- | --- | --- |
-|  [eventHandlerName](./webshell.assembledfeature.eventhandlername.md) | E | The name of the event handler. A naming convention is <code>onDOM</code> + PascalCase event name, to avoid any collision with WebView's own props. |
-|  [identifier](./webshell.assembledfeature.identifier.md) | string | A unique identifier of the feature. The convention is to use a reverse namespace domain ending with the event name. |
-|  [options](./webshell.assembledfeature.options.md) | Partial&lt;O&gt; | Any value that can be serialized to JSON and deserialized back. This value will be passed to the top level function declared in the DOM script. |
-|  [payloadType](./webshell.assembledfeature.payloadtype.md) | P | Placeholder value to infer P. |
-|  [script](./webshell.assembledfeature.script.md) | string | The string containing valid ECMAScript 5 to be run in the WebView. |
-

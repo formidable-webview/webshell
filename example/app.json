@@ -1,0 +1,22 @@
+{
+  "name": "autoheight-example",
+  "displayName": "Autoheight example",
+  "expo": {
+    "name": "autoheight-example",
+    "slug": "autoheight-example",
+    "description": "Autoheight example for @formidable-webview/webshell",
+    "privacy": "public",
+    "version": "1.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}

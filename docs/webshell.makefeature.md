@@ -9,16 +9,16 @@ Create a feature.
 <b>Signature:</b>
 
 ```typescript
-export declare function makeFeature<O extends {}, E extends string, P>(params: MakeFeatureParams<E, P>): Feature<O, E, P>;
+export declare function makeFeature<O extends {}, S extends {}, P extends {}>(params: Pick<Feature<O, S, P>, keyof S | 'script' | 'featureIdentifier'>): Feature<O, S, P>;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  params | [MakeFeatureParams](./webshell.makefeatureparams.md)<!-- -->&lt;E, P&gt; | An object to specify attributes of the feature. |
+|  params | Pick&lt;[Feature](./webshell.feature.md)<!-- -->&lt;O, S, P&gt;, keyof S \| 'script' \| 'featureIdentifier'&gt; | An object to specify attributes of the feature. |
 
 <b>Returns:</b>
 
-[Feature](./webshell.feature.md)<!-- -->&lt;O, E, P&gt;
+[Feature](./webshell.feature.md)<!-- -->&lt;O, S, P&gt;
 

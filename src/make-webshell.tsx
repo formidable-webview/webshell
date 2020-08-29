@@ -1,6 +1,12 @@
 /* eslint-disable dot-notation */
 import * as React from 'react';
-import { Component, ComponentType, ElementRef, ComponentProps } from 'react';
+import {
+  Component,
+  ComponentType,
+  ElementRef,
+  ComponentProps,
+  ComponentPropsWithRef
+} from 'react';
 import { NativeSyntheticEvent } from 'react-native';
 import featuresLoaderScript from './features-loader.webjs';
 import {
@@ -8,8 +14,9 @@ import {
   WebshellProps,
   WebshellInvariantProps,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  WebshellHandlerProps,
-  MinimalWebViewProps
+  WebshellAssembledProps,
+  MinimalWebViewProps,
+  AssembledEventFeature
 } from './types.js';
 
 interface WebViewMessage {
@@ -43,7 +50,7 @@ function isPostMessageObject(o: unknown): o is PostMessage {
 function serializeFeature(feature: AssembledFeature) {
   return `{
     source:${feature.script},
-    identifier:${JSON.stringify(feature.identifier)},
+    identifier:${JSON.stringify(feature.featureIdentifier)},
     options:${JSON.stringify(feature.options || {})}
   }`;
 }
@@ -63,6 +70,17 @@ function filterWebViewProps<W>(props: WebshellProps<any, any>): W {
     };
   }, {} as W);
 }
+
+function isEventFeature(
+  assembledFeature: AssembledFeature
+): assembledFeature is AssembledEventFeature {
+  return Object.prototype.hasOwnProperty.call(
+    assembledFeature,
+    'eventHandlerName'
+  );
+}
+
+type Fixup<T> = T extends never ? [] : T;
 
 /**
  * Creates a React component which decorates WebView component with additionnal
@@ -99,13 +117,18 @@ export function makeWebshell<
           if (type === 'feature') {
             // Handle as a feature message
             const source = assembledFeatures.find(
-              (s) => s.identifier === identifier
+              (s) => s.featureIdentifier === identifier
             );
-            const handlerName = source?.eventHandlerName ?? null;
-            const handler =
-              typeof handlerName === 'string' ? this.props[handlerName] : null;
-            typeof handler === 'function' && handler(body);
-            return;
+            if (source && isEventFeature(source)) {
+              const handlerName = source.eventHandlerName;
+              const handler =
+                typeof handlerName === 'string'
+                  ? this.props[handlerName]
+                  : null;
+              typeof handler === 'function' && handler(body);
+              return;
+            }
+            // TODO inform user unhandled messages
           } else if (type === 'error') {
             // Handle as an error message
             typeof onDOMError === 'function' && onDOMError(identifier, body);
@@ -133,9 +156,13 @@ export function makeWebshell<
       );
     }
   }
-  return React.forwardRef<ElementRef<C>, WebshellProps<ComponentProps<C>, F>>(
-    (props, ref) => (
-      <Webshell webViewRef={ref} {...(props as WebshellProps<any, F>)} />
-    )
-  );
+  return React.forwardRef<
+    ElementRef<C>,
+    WebshellProps<ComponentPropsWithRef<C>, F>
+  >((props, ref) => (
+    <Webshell
+      webViewRef={ref}
+      {...(props as WebshellProps<ComponentPropsWithRef<any>, F>)}
+    />
+  ));
 }

@@ -1,6 +1,6 @@
 import linkPressScript from './link-press.webjs';
 import { makeFeature } from '../make-feature';
-import type { Feature } from '../types';
+import type { EventFeatureOf } from '../types';
 
 /**
  * An object describing customization for the linkPress feature.
@@ -22,12 +22,12 @@ export interface LinkPressOptions {
  *
  * @public
  */
-export const linkPressFeature: Feature<
+export const linkPressFeature: EventFeatureOf<
   LinkPressOptions,
   'onDOMLinkPress',
   string
 > = makeFeature({
   script: linkPressScript,
   eventHandlerName: 'onDOMLinkPress',
-  identifier: 'org.webshell.linkPress'
+  featureIdentifier: 'org.webshell.linkPress'
 });

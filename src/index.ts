@@ -1,16 +1,23 @@
 import { makeWebshell } from './make-webshell';
 export type {
-  Feature,
+  AssembledEventFeature,
   AssembledFeature,
   AssembledFeatureOf,
+  EventFeature,
+  EventFeatureOf,
+  EventHandlerDefinition,
+  EventHandlerProps,
   EventNameOf,
+  Feature,
   MinimalWebViewProps,
+  OptionalSpread,
+  OptionalUnlessRequiredField,
   PayloadOf,
+  WebjsContext,
+  WebshellAssembledProps,
   WebshellComponentOf,
-  WebshellProps,
   WebshellInvariantProps,
-  WebshellHandlerProps,
-  WebjsContext
+  WebshellProps
 } from './types';
 export * from './make-feature';
 export * from './features';

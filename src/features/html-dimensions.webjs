@@ -1,0 +1,57 @@
+function htmlDimensionsFeature(context) {
+  var postMessage = context.postMessage;
+  var options = context.options || {};
+
+  function postSize() {
+    var scale = window.visualViewport
+      ? window.visualViewport.scale
+      : screen.availWidth && window.innerWidth
+      ? screen.availWidth / window.innerWidth
+      : 1;
+    var scaleFactor = scale;
+    var viewportRect = document.documentElement.getBoundingClientRect();
+    var layoutViewport = {
+      width: viewportRect.width,
+      height: viewportRect.height
+    };
+    var content = {
+      width: document.documentElement.offsetWidth,
+      height: document.documentElement.offsetHeight
+    };
+    var scrollable = {
+      width: document.documentElement.scrollWidth,
+      height: document.documentElement.scrollHeight
+    };
+    var visualViewport = {
+      width: window.visualViewport.width,
+      height: window.visualViewport.height
+    };
+    var dimensions = {
+      scale: scale,
+      layoutViewport: layoutViewport,
+      visualViewport: visualViewport,
+      scrollable: scrollable,
+      content: content
+    };
+    postMessage(dimensions);
+  }
+  postSize();
+  window.onresize = postSize;
+  window.visualViewport.onresize = postSize;
+  // trigger when DOM changes
+  var MutationObserver =
+    window['MutationObserver'] || window['WebKitMutationObserver'];
+  if (MutationObserver) {
+    var observer = new MutationObserver(postSize);
+    observer.observe(document, {
+      subtree: true,
+      attributes: true
+    });
+  } else {
+    // That is a last resort fallback for older browsers
+    context.warn(
+      "This browser doesn't support MutationObserver. Falling back to a timeout."
+    );
+    setTimeout(postSize, 1000);
+  }
+}

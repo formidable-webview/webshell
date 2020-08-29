@@ -9,5 +9,5 @@ A lookup type to infer the assembled feature from a feature.
 <b>Signature:</b>
 
 ```typescript
-export declare type AssembledFeatureOf<F> = F extends Feature<infer O, infer E, infer P> ? AssembledFeature<O, E, P> : never;
+export declare type AssembledFeatureOf<F> = F extends Feature<infer O, infer S, infer P> ? AssembledFeature<O, S, P> : never;
 ```
