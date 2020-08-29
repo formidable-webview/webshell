@@ -41,7 +41,10 @@ section](#implementing-features).
 ## Install
 
 ```sh
-npm install @formidable-webview/webshell
+# With npm
+npm add --save @formidable-webview/webshell
+# With yarn
+yarn add @formidable-webview/webshell
 ```
 
 ## Basic usage

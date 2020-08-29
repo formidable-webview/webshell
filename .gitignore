@@ -65,6 +65,13 @@ buck-out/
 # Jest code coverage
 /coverage
 
+# yarn berry
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+
 # This library
 /lib/
 
