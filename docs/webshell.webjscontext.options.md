@@ -4,7 +4,7 @@
 
 ## WebjsContext.options property
 
-The options to customize the script behavior. See [AssembledFeature.options](./webshell.assembledfeature.options.md)<!-- -->.
+The options to customize the script behavior.
 
 <b>Signature:</b>
 

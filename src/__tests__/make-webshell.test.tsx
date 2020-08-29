@@ -8,59 +8,61 @@ import dummyFailingScript from './feat/dummy-failing.webjs';
 import dummyOptionScript from './feat/dummy-option.webjs';
 import { makeWebshell } from '../make-webshell';
 import { makeFeature } from '../make-feature';
-import { MinimalWebViewProps } from '../types';
+import { MinimalWebViewProps, EventFeatureOf } from '../types';
 
 const { waitForErsatz } = makeErsatzTesting(Ersatz);
 
 const DummyWebView = ({}: MinimalWebViewProps) => <View />;
 
-const helloFeature = makeFeature({
+const helloFeature: EventFeatureOf<{}, 'onDummyHello', {}> = makeFeature({
   script: dummyHelloScript,
   eventHandlerName: 'onDummyHello',
-  identifier: 'test.hello',
+  featureIdentifier: 'test.hello',
   payloadType: ''
 });
-const failingFeature = makeFeature({
+
+const failingFeature: EventFeatureOf<{}, 'onDummyFailure', {}> = makeFeature({
   script: dummyFailingScript,
   eventHandlerName: 'onDummyFailure',
-  identifier: 'test.fail',
+  featureIdentifier: 'test.fail',
   payloadType: undefined
 });
-const optionFeature = makeFeature<
+
+const optionFeature: EventFeatureOf<
   { foo: string },
   'onDummyOption',
   { foo: string }
->({
+> = makeFeature({
   script: dummyOptionScript,
   eventHandlerName: 'onDummyOption',
-  identifier: 'test.fail',
+  featureIdentifier: 'test.fail',
   payloadType: { foo: '' }
 });
 
 describe('Webshell component', () => {
   it('sould mount without error', () => {
-    const Webshell = makeWebshell(DummyWebView, helloFeature.assemble());
+    const Webshell = makeWebshell(DummyWebView, helloFeature.assemble({}));
     const { UNSAFE_getByType } = render(<Webshell />);
     const webshell = UNSAFE_getByType(Webshell);
     expect(webshell).toBeTruthy();
   });
   it('should handle feature messages', async () => {
     const onDummyHello = jest.fn();
-    const Webshell = makeWebshell(Ersatz, helloFeature.assemble());
+    const Webshell = makeWebshell(Ersatz, helloFeature.assemble({}));
     await waitForErsatz(render(<Webshell onDummyHello={onDummyHello} />));
     expect(onDummyHello).toHaveBeenCalledWith('Hello world!');
   });
   it('should handle feature failures', async () => {
     const onDummyMessage = jest.fn();
     const onFailure = jest.fn();
-    const Webshell = makeWebshell(Ersatz, failingFeature.assemble());
+    const Webshell = makeWebshell(Ersatz, failingFeature.assemble({}));
     await waitForErsatz(
       render(
         <Webshell onDummyFailure={onDummyMessage} onDOMError={onFailure} />
       )
     );
     expect(onFailure).toHaveBeenCalledWith(
-      failingFeature.identifier,
+      failingFeature.featureIdentifier,
       'I am a dummy feature failing consistently!'
     );
   });

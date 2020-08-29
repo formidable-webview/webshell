@@ -15,12 +15,15 @@
 
 |  Interface | Description |
 |  --- | --- |
-|  [AssembledFeature](./webshell.assembledfeature.md) | A feature with its options, ready to be consumed by [makeWebshell()](./webshell.makewebshell.md)<!-- -->. |
-|  [ElementDimensionsObject](./webshell.elementdimensionsobject.md) | An object describing a rectangle layout. |
-|  [ElementDimensionsOptions](./webshell.elementdimensionsoptions.md) | An object describing customization for the dimensions feature. |
-|  [Feature](./webshell.feature.md) | A feature adds new behaviors to the <code>WebView</code> DOM and offers handlers on React Native's side. |
+|  [CSSBox](./webshell.cssbox.md) |  |
+|  [CSSBoxDimensionsComputedStyle](./webshell.cssboxdimensionscomputedstyle.md) | Computed styles which affect the CSS Box dimensions. See [MDN—window.getComputedStyle](https://developer.mozilla.org/docs/Web/API/Window/getComputedStyle)<!-- -->. |
+|  [Dimensions](./webshell.dimensions.md) |  |
+|  [ElementCSSBoxDimensions](./webshell.elementcssboxdimensions.md) | An object describing an element CSS Box dimensions, see [CSSWG—CSS 2 (Box model)](https://drafts.csswg.org/css2/#box-model)<!-- -->. |
+|  [ElementCSSBoxDimensionsOptions](./webshell.elementcssboxdimensionsoptions.md) | An object describing customization for the dimensions feature. |
+|  [EventHandlerDefinition](./webshell.eventhandlerdefinition.md) | Definitions for event handlers. |
+|  [HTMLDimensions](./webshell.htmldimensions.md) | An object describing various dimensions of the HTML layout. |
+|  [HTMLDimensionsOptions](./webshell.htmldimensionsoptions.md) | An object describing customization for the dimensions feature. |
 |  [LinkPressOptions](./webshell.linkpressoptions.md) | An object describing customization for the linkPress feature. |
-|  [MakeFeatureParams](./webshell.makefeatureparams.md) | An object to specify attributes of the feature. |
 |  [MinimalWebViewProps](./webshell.minimalwebviewprops.md) | A high-compatibility type expressing minimal requirements for the WebView Component's props. |
 |  [WebjsContext](./webshell.webjscontext.md) | This type specifies the shape of the object passed to DOM features scripts. |
 |  [WebshellInvariantProps](./webshell.webshellinvariantprops.md) | Props any Webshell component will support. |
@@ -29,17 +32,26 @@
 
 |  Variable | Description |
 |  --- | --- |
-|  [elementDimensionsFeature](./webshell.elementdimensionsfeature.md) | This feature enables receiving the full width and height of an element identified by <code>tagName</code> in the WebView pixels unit, including border widths, but excluding margins. The first element matching the provided tagName is retained. A new event will be triggered on every resize. |
+|  [elementCSSBoxFeature](./webshell.elementcssboxfeature.md) | This feature enables receiving the CSS Box dimensions of an element identified by <code>tagName</code> in the <code>WebView</code> pixels unit. The first element matching the provided tagName is retained. A new event will be triggered on every resize. |
+|  [htmlDimensionsFeature](./webshell.htmldimensionsfeature.md) | This feature enables receiving various dimensions relative to the layout. |
 |  [linkPressFeature](./webshell.linkpressfeature.md) | This feature allows to intercept clicks on anchors (<code>&lt;a&gt;</code>). By default, it will prevent the click from propagating. But you can disable this option. |
 
 ## Type Aliases
 
 |  Type Alias | Description |
 |  --- | --- |
+|  [AssembledEventFeature](./webshell.assembledeventfeature.md) | A specific assembled feature which provides an event handler prop. |
+|  [AssembledFeature](./webshell.assembledfeature.md) | A feature adds new behaviors to the <code>WebView</code> DOM and offers new props. |
 |  [AssembledFeatureOf](./webshell.assembledfeatureof.md) | A lookup type to infer the assembled feature from a feature. |
+|  [EventFeature](./webshell.eventfeature.md) | A special feature which adds an event handler property. |
+|  [EventFeatureOf](./webshell.eventfeatureof.md) | A lookup type to infer an [EventFeature](./webshell.eventfeature.md) from options, handler and payload types. |
+|  [EventHandlerProps](./webshell.eventhandlerprops.md) | An object which keys are event handler names, and values are event handler functions. |
 |  [EventNameOf](./webshell.eventnameof.md) | A lookup type to find the event name from an assembled feature. |
-|  [PayloadOf](./webshell.payloadof.md) | A lookup type to find the payload type from an assembled feature. |
+|  [Feature](./webshell.feature.md) | A feature adds new behaviors to the <code>WebView</code> DOM and offers handlers on React Native's side. |
+|  [OptionalSpread](./webshell.optionalspread.md) | Utility type to create a function signature with conditional optional argument. |
+|  [OptionalUnlessRequiredField](./webshell.optionalunlessrequiredfield.md) | Utility type which returns a partial optional of parameter type unless at least one field is required. |
+|  [PayloadOf](./webshell.payloadof.md) | A lookup type to find the payload type from an assembled event feature. |
+|  [WebshellAssembledProps](./webshell.webshellassembledprops.md) | A lookup type to find the prop assembled with a feature. |
 |  [WebshellComponentOf](./webshell.webshellcomponentof.md) | A lookup type to find Webshell Component type from a list of features. |
-|  [WebshellHandlerProps](./webshell.webshellhandlerprops.md) | A lookup type to find the prop associated with a feature. |
 |  [WebshellProps](./webshell.webshellprops.md) | Props of the Webshell produced by [makeWebshell()](./webshell.makewebshell.md)<!-- -->. |
 

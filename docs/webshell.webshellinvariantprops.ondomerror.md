@@ -4,6 +4,8 @@
 
 ## WebshellInvariantProps.onDOMError property
 
+Triggered when an event handler fails.
+
 <b>Signature:</b>
 
 ```typescript

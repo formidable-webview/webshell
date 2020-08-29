@@ -16,5 +16,5 @@ export interface WebshellInvariantProps
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [onDOMError](./webshell.webshellinvariantprops.ondomerror.md) | (featureIdentifier: string, error: string) =&gt; void |  |
+|  [onDOMError](./webshell.webshellinvariantprops.ondomerror.md) | (featureIdentifier: string, error: string) =&gt; void | Triggered when an event handler fails. |
 

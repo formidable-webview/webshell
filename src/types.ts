@@ -7,6 +7,26 @@ import {
   ComponentProps
 } from 'react';
 
+// UTILITY TYPES
+
+/**
+ * Utility type which returns a partial optional of parameter type unless at
+ * least one field is required.
+ *
+ * @public
+ */
+export type OptionalUnlessRequiredField<O> = O extends Partial<O>
+  ? O | undefined
+  : O;
+
+/**
+ * Utility type to create a function signature with conditional optional
+ * argument.
+ *
+ * @public
+ */
+export type OptionalSpread<T> = T extends undefined ? [] : [T];
+
 // LOOKUP TYPES
 
 /**
@@ -14,20 +34,18 @@ import {
  *
  * @public
  */
-export type EventNameOf<T> = T extends AssembledFeature<{}, infer E, unknown>
-  ? E
+export type EventNameOf<T> = T extends AssembledEventFeature<{}, infer S, {}>
+  ? S extends EventHandlerDefinition<infer H, unknown>
+    ? H
+    : never
   : never;
 
 /**
- * A lookup type to find the payload type from an assembled feature.
+ * A lookup type to find the payload type from an assembled event feature.
  *
  * @public
  */
-export type PayloadOf<T, E extends string> = T extends AssembledFeature<
-  {},
-  E,
-  infer P
->
+export type PayloadOf<T> = T extends AssembledEventFeature<{}, string, infer P>
   ? P
   : never;
 
@@ -36,20 +54,22 @@ export type PayloadOf<T, E extends string> = T extends AssembledFeature<
  *
  * @public
  */
-export type AssembledFeatureOf<F> = F extends Feature<infer O, infer E, infer P>
-  ? AssembledFeature<O, E, P>
+export type AssembledFeatureOf<F> = F extends Feature<infer O, infer S, infer P>
+  ? AssembledFeature<O, S, P>
   : never;
 
 /**
- * A lookup type to find the prop associated with a feature.
+ * A lookup type to find the prop assembled with a feature.
  *
  * @public
  */
-export type WebshellHandlerProps<
-  F extends AssembledFeature<{}, string, unknown>
-> = {
-  [E in EventNameOf<F>]?: (p: PayloadOf<F, E>) => void;
-};
+export type WebshellAssembledProps<F> = F extends AssembledFeature<
+  {},
+  {},
+  infer P
+>
+  ? P
+  : never;
 
 /**
  * A lookup type to find Webshell Component type from a list of features.
@@ -77,7 +97,7 @@ export type WebshellComponentOf<
     >
   : never;
 
-// USEFUL TYPES
+// CONCRETE TYPES
 
 /**
  * This type specifies the shape of the object passed to DOM features scripts.
@@ -106,20 +126,133 @@ export interface WebjsContext<O extends {}, P> {
    */
   readonly error: (message: string) => void;
 }
-
 /**
- * A feature with its options, ready to be consumed by {@link makeWebshell}.
+ * A specific assembled feature which provides an event handler prop.
  *
- * @typeparam O - The shape of the JSON-serializable object that will be passed to the DOM script.
- * @typeparam E - The name of the event handler prop assembled in the webshell.
- * @typeparam P - The type of the argument which will be passed to the event handler prop.
  * @public
  */
-export interface AssembledFeature<
+export type AssembledEventFeature<
+  O = {},
+  S = EventHandlerDefinition<string, any>,
+  P = {}
+> = S extends EventHandlerDefinition<infer H, infer Payload>
+  ? AssembledFeature<O, S, EventHandlerProps<H, Payload> & P>
+  : never;
+
+/**
+ * A feature adds new behaviors to the `WebView` DOM and offers new props.
+ *
+ * @typeparam O - The shape of the JSON-serializable object that will be passed to the DOM script.
+ * @typeparam S - Static attributes of this feature.
+ * @typeparam P - The type of the assembled properties added to webshell.
+ *
+ * @public
+ */
+export type AssembledFeature<
   O extends {} = {},
-  E extends string = string,
-  P = any
-> {
+  S extends {} = {},
+  P extends {} = {}
+> = {
+  /**
+   * {@inheritdoc Feature.featureIdentifier}
+   */
+  readonly featureIdentifier: string;
+  /**
+   * {@inheritdoc Feature.script}
+   */
+  readonly script: string;
+  /**
+   * Any value that can be serialized to JSON and deserialized back.
+   * This value will be passed to the top level function declared in the DOM
+   * script.
+   */
+  readonly options: OptionalUnlessRequiredField<O>;
+  /**
+   * A placeholder type to keep track of the properties added by this feature.
+   */
+  readonly props?: P;
+} & S;
+
+/**
+ * Definitions for event handlers.
+ *
+ * @typeparam H - The event handler name.
+ * @typeparam P - The shape of the payload received by the handler function.
+ *
+ * @public
+ */
+export interface EventHandlerDefinition<H extends string, P> {
+  /**
+   * The name of the event handler. A naming convention is `onDOM` +
+   * PascalCase event name, to avoid any collision with WebView's own props.
+   *
+   * @example
+   * onDOMLinkPress
+   */
+  readonly eventHandlerName: H;
+  /**
+   * Placeholder value to infer P.
+   *
+   * @remarks This is not required, but will help typescript keep track of
+   * payload type.
+   */
+  readonly payloadType?: P;
+}
+
+/**
+ * An object which keys are event handler names, and values are event handler
+ * functions.
+ *
+ * @typeparam H - The event handler name.
+ * @typeparam P - The shape of the payload received by the handler function.
+ *
+ * @public
+ */
+export type EventHandlerProps<H extends string, P> = {
+  [k in H]?: (e: P) => void;
+};
+
+/**
+ * A lookup type to infer an {@link EventFeature} from options, handler and
+ * payload types.
+ *
+ * @public
+ */
+export type EventFeatureOf<
+  O extends {},
+  H extends string,
+  Payload,
+  OtherProps = {}
+> = EventFeature<
+  O,
+  EventHandlerDefinition<H, Payload>,
+  EventHandlerProps<H, Payload> & OtherProps
+>;
+
+/**
+ * A special feature which adds an event handler property.
+ *
+ * @public
+ */
+export type EventFeature<
+  O extends {},
+  S,
+  P = {}
+> = S extends EventHandlerDefinition<infer Event, infer Payload>
+  ? Feature<O, S, EventHandlerProps<Event, Payload> & P>
+  : never;
+
+/**
+ * A feature adds new behaviors to the `WebView` DOM and offers handlers on React
+ * Native's side.
+ *
+ * @typeparam O - The shape of the JSON-serializable object that will be passed to the DOM script.
+ * @typeparam S - Static attributes of this feature.
+ * @typeparam P - The type of the assembled properties added to webshell.
+ *
+ * @public
+ */
+export type Feature<O extends {}, S extends {}, P extends {}> = {
   /**
    * The string containing valid ECMAScript 5 to be run in the WebView.
    *
@@ -134,55 +267,20 @@ export interface AssembledFeature<
   readonly script: string;
   /**
    * A unique identifier of the feature. The convention is to use a reverse
-   * namespace domain ending with the event name.
+   * namespace domain ending with the feature name.
    *
    * @example
-   * com.archriss.linkPress
+   * org.formidable-webview/webshell.link-press
    */
-  readonly identifier: string;
-  /**
-   * The name of the event handler. A naming convention is `onDOM` +
-   * PascalCase event name, to avoid any collision with WebView's own props.
-   *
-   * @example
-   * onDOMLinkPress
-   */
-  readonly eventHandlerName: E;
-  /**
-   * Any value that can be serialized to JSON and deserialized back.
-   * This value will be passed to the top level function declared in the DOM
-   * script.
-   */
-  readonly options?: Partial<O>;
-  /**
-   * Placeholder value to infer P.
-   *
-   * @remarks This is not required, but can help with typescript so that it
-   * infers payload type P.
-   */
-  readonly payloadType?: P;
-}
-
-/**
- * A feature adds new behaviors to the `WebView` DOM and offers handlers on React
- * Native's side.
- *
- * @typeparam O - The shape of the JSON-serializable object that will be passed to the DOM script.
- * @typeparam E - The name of the event handler prop assembled in the webshell.
- * @typeparam P - The type of the argument which will be passed to the event handler prop.
- * @public
- */
-export interface Feature<O extends {}, E extends string, P> {
-  /** {@inheritdoc AssembledFeature.identifier} */
-  readonly identifier: string;
-  /** {@inheritdoc AssembledFeature.eventHandlerName} */
-  readonly eventHandlerName: E;
+  readonly featureIdentifier: string;
   /**
    * Assemble the feature source from options. The feature source object can
    * thereafter be passed to {@link makeWebshell} utility.
    */
-  readonly assemble: (options?: O) => AssembledFeature<O, E, P>;
-}
+  readonly assemble: (
+    ...args: OptionalSpread<OptionalUnlessRequiredField<O>>
+  ) => AssembledFeature<O, S, P>;
+} & S;
 
 /**
  * Props any Webshell component will support.
@@ -190,6 +288,9 @@ export interface Feature<O extends {}, E extends string, P> {
  * @public
  */
 export interface WebshellInvariantProps {
+  /**
+   * Triggered when an event handler fails.
+   */
   onDOMError?: (featureIdentifier: string, error: string) => void;
 }
 
@@ -200,8 +301,10 @@ export interface WebshellInvariantProps {
  */
 export type WebshellProps<
   W,
-  F extends AssembledFeature<{}, string, unknown>[]
-> = WebshellHandlerProps<F[number]> & WebshellInvariantProps & W;
+  F extends AssembledFeature<{}, {}, {}>[]
+> = WebshellInvariantProps &
+  W &
+  (F[number] extends never ? {} : WebshellAssembledProps<F[number]>);
 
 /**
  * A high-compatibility type expressing minimal requirements for the

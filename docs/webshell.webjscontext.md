@@ -17,7 +17,7 @@ export interface WebjsContext<O extends {}, P>
 |  Property | Type | Description |
 |  --- | --- | --- |
 |  [error](./webshell.webjscontext.error.md) | (message: string) =&gt; void | Safely post an error message to the console. |
-|  [options](./webshell.webjscontext.options.md) | O | The options to customize the script behavior. See [AssembledFeature.options](./webshell.assembledfeature.options.md)<!-- -->. |
+|  [options](./webshell.webjscontext.options.md) | O | The options to customize the script behavior. |
 |  [postMessage](./webshell.webjscontext.postmessage.md) | (payload: P) =&gt; void | When invoked, the webshell will call the handler associated with this script. |
 |  [warn](./webshell.webjscontext.warn.md) | (message: string) =&gt; void | Safely post a warn message to the console. |
 

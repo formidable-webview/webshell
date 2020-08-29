@@ -2,21 +2,16 @@
 
 [Home](./index.md) &gt; [@formidable-webview/webshell](./webshell.md) &gt; [Feature](./webshell.feature.md)
 
-## Feature interface
+## Feature type
 
 A feature adds new behaviors to the `WebView` DOM and offers handlers on React Native's side.
 
 <b>Signature:</b>
 
 ```typescript
-export interface Feature<O extends {}, E extends string, P> 
+export declare type Feature<O extends {}, S extends {}, P extends {}> = {
+    readonly script: string;
+    readonly featureIdentifier: string;
+    readonly assemble: (...args: OptionalSpread<OptionalUnlessRequiredField<O>>) => AssembledFeature<O, S, P>;
+} & S;
 ```
-
-## Properties
-
-|  Property | Type | Description |
-|  --- | --- | --- |
-|  [assemble](./webshell.feature.assemble.md) | (options?: O) =&gt; [AssembledFeature](./webshell.assembledfeature.md)<!-- -->&lt;O, E, P&gt; | Assemble the feature source from options. The feature source object can thereafter be passed to [makeWebshell()](./webshell.makewebshell.md) utility. |
-|  [eventHandlerName](./webshell.feature.eventhandlername.md) | E | The name of the event handler. A naming convention is <code>onDOM</code> + PascalCase event name, to avoid any collision with WebView's own props. |
-|  [identifier](./webshell.feature.identifier.md) | string | A unique identifier of the feature. The convention is to use a reverse namespace domain ending with the event name. |
-

@@ -4,10 +4,10 @@
 
 ## PayloadOf type
 
-A lookup type to find the payload type from an assembled feature.
+A lookup type to find the payload type from an assembled event feature.
 
 <b>Signature:</b>
 
 ```typescript
-export declare type PayloadOf<T, E extends string> = T extends AssembledFeature<{}, E, infer P> ? P : never;
+export declare type PayloadOf<T> = T extends AssembledEventFeature<{}, string, infer P> ? P : never;
 ```

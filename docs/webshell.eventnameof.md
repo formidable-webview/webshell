@@ -9,5 +9,5 @@ A lookup type to find the event name from an assembled feature.
 <b>Signature:</b>
 
 ```typescript
-export declare type EventNameOf<T> = T extends AssembledFeature<{}, infer E, unknown> ? E : never;
+export declare type EventNameOf<T> = T extends AssembledEventFeature<{}, infer S, {}> ? S extends EventHandlerDefinition<infer H, unknown> ? H : never : never;
 ```

@@ -13,22 +13,21 @@ import * as React_2 from 'react';
 import { RefAttributes } from 'react';
 
 // @public
-export interface AssembledFeature<O extends {} = {}, E extends string = string, P = any> {
-    readonly eventHandlerName: E;
-    readonly identifier: string;
-    readonly options?: Partial<O>;
-    readonly payloadType?: P;
+export type AssembledEventFeature<O = {}, S = EventHandlerDefinition<string, any>, P = {}> = S extends EventHandlerDefinition<infer H, infer Payload> ? AssembledFeature<O, S, EventHandlerProps<H, Payload> & P> : never;
+
+// @public
+export type AssembledFeature<O extends {} = {}, S extends {} = {}, P extends {} = {}> = {
+    readonly featureIdentifier: string;
     readonly script: string;
-}
+    readonly options: OptionalUnlessRequiredField<O>;
+    readonly props?: P;
+} & S;
 
 // @public
-export type AssembledFeatureOf<F> = F extends Feature<infer O, infer E, infer P> ? AssembledFeature<O, E, P> : never;
+export type AssembledFeatureOf<F> = F extends Feature<infer O, infer S, infer P> ? AssembledFeature<O, S, P> : never;
 
-// @public
-export const elementDimensionsFeature: Feature<ElementDimensionsOptions, 'onDOMElementDimensions', ElementDimensionsObject>;
-
-// @public
-export interface ElementDimensionsObject {
+// @public (undocumented)
+export interface CSSBox {
     // (undocumented)
     height: number;
     // (undocumented)
@@ -36,23 +35,113 @@ export interface ElementDimensionsObject {
 }
 
 // @public
-export interface ElementDimensionsOptions {
+export interface CSSBoxDimensionsComputedStyle {
+    // (undocumented)
+    borderBottomWidth: number;
+    // (undocumented)
+    borderLeftWidth: number;
+    // (undocumented)
+    borderRightWidth: number;
+    // (undocumented)
+    borderTopWidth: number;
+    // (undocumented)
+    marginBottom: number;
+    // (undocumented)
+    marginLeft: number;
+    // (undocumented)
+    marginRight: number;
+    // (undocumented)
+    marginTop: number;
+    // (undocumented)
+    paddingBottom: number;
+    // (undocumented)
+    paddingLeft: number;
+    // (undocumented)
+    paddingRight: number;
+    // (undocumented)
+    paddingTop: number;
+}
+
+// @public (undocumented)
+export interface Dimensions {
+    // (undocumented)
+    height: number;
+    // (undocumented)
+    width: number;
+}
+
+// @public
+export interface ElementCSSBoxDimensions {
+    borderBox: CSSBox;
+    computedStyle: CSSBoxDimensionsComputedStyle;
+    horizontalScrollbarWidth: number;
+    scale: number;
+    scrollBox: CSSBox;
+    verticalScrollbarWidth: number;
+}
+
+// @public
+export interface ElementCSSBoxDimensionsOptions {
     errorWhenNotFound?: boolean;
     tagName: string;
 }
 
+// Warning: (ae-forgotten-export) The symbol "eventHandlerName" needs to be exported by the entry point index.d.ts
+//
 // @public
-export type EventNameOf<T> = T extends AssembledFeature<{}, infer E, unknown> ? E : never;
+export const elementCSSBoxFeature: EventFeatureOf<ElementCSSBoxDimensionsOptions, typeof eventHandlerName, ElementCSSBoxDimensions>;
 
 // @public
-export interface Feature<O extends {}, E extends string, P> {
-    readonly assemble: (options?: O) => AssembledFeature<O, E, P>;
-    readonly eventHandlerName: E;
-    readonly identifier: string;
+export type EventFeature<O extends {}, S, P = {}> = S extends EventHandlerDefinition<infer Event, infer Payload> ? Feature<O, S, EventHandlerProps<Event, Payload> & P> : never;
+
+// @public
+export type EventFeatureOf<O extends {}, H extends string, Payload, OtherProps = {}> = EventFeature<O, EventHandlerDefinition<H, Payload>, EventHandlerProps<H, Payload> & OtherProps>;
+
+// @public
+export interface EventHandlerDefinition<H extends string, P> {
+    readonly eventHandlerName: H;
+    readonly payloadType?: P;
 }
 
 // @public
-export const linkPressFeature: Feature<LinkPressOptions, 'onDOMLinkPress', string>;
+export type EventHandlerProps<H extends string, P> = {
+    [k in H]?: (e: P) => void;
+};
+
+// @public
+export type EventNameOf<T> = T extends AssembledEventFeature<{}, infer S, {}> ? S extends EventHandlerDefinition<infer H, unknown> ? H : never : never;
+
+// @public
+export type Feature<O extends {}, S extends {}, P extends {}> = {
+    readonly script: string;
+    readonly featureIdentifier: string;
+    readonly assemble: (...args: OptionalSpread<OptionalUnlessRequiredField<O>>) => AssembledFeature<O, S, P>;
+} & S;
+
+// @public
+export interface HTMLDimensions {
+    // (undocumented)
+    content: Dimensions;
+    // (undocumented)
+    layoutViewport: Dimensions;
+    scale: number;
+    // (undocumented)
+    scrollable: Dimensions;
+    // (undocumented)
+    visualViewport: Dimensions;
+}
+
+// Warning: (ae-forgotten-export) The symbol "eventHandlerName" needs to be exported by the entry point index.d.ts
+//
+// @public
+export const htmlDimensionsFeature: EventFeatureOf<{}, typeof eventHandlerName_2, HTMLDimensions>;
+
+// @public
+export interface HTMLDimensionsOptions {
+}
+
+// @public
+export const linkPressFeature: EventFeatureOf<LinkPressOptions, 'onDOMLinkPress', string>;
 
 // @public
 export interface LinkPressOptions {
@@ -60,18 +149,10 @@ export interface LinkPressOptions {
 }
 
 // @public
-export function makeFeature<O extends {}, E extends string, P>(params: MakeFeatureParams<E, P>): Feature<O, E, P>;
+export function makeFeature<O extends {}, S extends {}, P extends {}>(params: Pick<Feature<O, S, P>, keyof S | 'script' | 'featureIdentifier'>): Feature<O, S, P>;
 
 // @public
-export interface MakeFeatureParams<E extends string, P> {
-    readonly eventHandlerName: E;
-    readonly identifier: string;
-    readonly payloadType?: P;
-    readonly script: string;
-}
-
-// @public
-function makeWebshell<F extends AssembledFeature[], C extends ComponentType<any>>(WebView: C, ...assembledFeatures: F): React_2.ForwardRefExoticComponent<React_2.PropsWithoutRef<WebshellProps<React_2.ComponentProps<C>, F>> & React_2.RefAttributes<React_2.ElementRef<C>>>;
+function makeWebshell<F extends AssembledFeature[], C extends ComponentType<any>>(WebView: C, ...assembledFeatures: F): React_2.ForwardRefExoticComponent<React_2.PropsWithoutRef<WebshellProps<React_2.ComponentPropsWithRef<C>, F>> & React_2.RefAttributes<React_2.ElementRef<C>>>;
 
 export default makeWebshell;
 
@@ -92,7 +173,13 @@ export interface MinimalWebViewProps {
 }
 
 // @public
-export type PayloadOf<T, E extends string> = T extends AssembledFeature<{}, E, infer P> ? P : never;
+export type OptionalSpread<T> = T extends undefined ? [] : [T];
+
+// @public
+export type OptionalUnlessRequiredField<O> = O extends Partial<O> ? O | undefined : O;
+
+// @public
+export type PayloadOf<T> = T extends AssembledEventFeature<{}, string, infer P> ? P : never;
 
 // @public
 export interface WebjsContext<O extends {}, P> {
@@ -103,21 +190,18 @@ export interface WebjsContext<O extends {}, P> {
 }
 
 // @public
+export type WebshellAssembledProps<F> = F extends AssembledFeature<{}, {}, infer P> ? P : never;
+
+// @public
 export type WebshellComponentOf<C extends ComponentType<any>, F extends Feature<any, any, any>[]> = ComponentProps<C> extends MinimalWebViewProps ? ForwardRefExoticComponent<WebshellProps<ComponentPropsWithoutRef<C>, AssembledFeatureOf<F[number]>[]> & RefAttributes<ElementRef<C>>> : never;
 
 // @public
-export type WebshellHandlerProps<F extends AssembledFeature<{}, string, unknown>> = {
-    [E in EventNameOf<F>]?: (p: PayloadOf<F, E>) => void;
-};
-
-// @public
 export interface WebshellInvariantProps {
-    // (undocumented)
     onDOMError?: (featureIdentifier: string, error: string) => void;
 }
 
 // @public
-export type WebshellProps<W, F extends AssembledFeature<{}, string, unknown>[]> = WebshellHandlerProps<F[number]> & WebshellInvariantProps & W;
+export type WebshellProps<W, F extends AssembledFeature<{}, {}, {}>[]> = WebshellInvariantProps & W & (F[number] extends never ? {} : WebshellAssembledProps<F[number]>);
 
 
 // (No @packageDocumentation comment for this package)

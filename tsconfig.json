@@ -1,6 +1,10 @@
 {
   "extends": "@tsconfig/react-native/tsconfig.json",
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@formidable-webview/webshell": ["./src/index"]
+    },
     "allowJs": false,
     "composite": false,
     "outDir": "./lib",
