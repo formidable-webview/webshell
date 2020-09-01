@@ -1,3 +1,4 @@
 *.pbxproj -text
 *.json  linguist-language=JSON-with-Comments
 *.webjs linguist-language=Javascript
+yarn.lock binary
