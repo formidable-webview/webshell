@@ -5,7 +5,7 @@ __metadata:
   version: 4
   cacheKey: 5
 
-"@babel/cli@npm:^7.10.5":
+"@babel/cli@npm:^7.11.5":
   version: 7.11.5
   resolution: "@babel/cli@npm:7.11.5"
   dependencies:
@@ -83,7 +83,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:^7.0.0, @babel/core@npm:^7.1.0, @babel/core@npm:^7.10.2, @babel/core@npm:^7.11.4, @babel/core@npm:^7.4.5, @babel/core@npm:^7.7.5, @babel/core@npm:^7.9.6":
+"@babel/core@npm:^7.0.0, @babel/core@npm:^7.1.0, @babel/core@npm:^7.10.2, @babel/core@npm:^7.11.5, @babel/core@npm:^7.4.5, @babel/core@npm:^7.7.5":
   version: 7.11.5
   resolution: "@babel/core@npm:7.11.5"
   dependencies:
@@ -1846,29 +1846,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@expo/configure-splash-screen@npm:~0.1.0":
-  version: 0.1.14
-  resolution: "@expo/configure-splash-screen@npm:0.1.14"
-  dependencies:
-    "@react-native-community/cli-platform-android": ^4.10.0
-    "@react-native-community/cli-platform-ios": ^4.10.0
-    color-string: ^1.5.3
-    commander: ^5.1.0
-    core-js: ^3.6.5
-    deep-equal: ^2.0.3
-    fs-extra: ^9.0.0
-    pngjs: ^5.0.0
-    xcode: ^3.0.0
-    xml-js: ^1.6.11
-  peerDependencies:
-    expo-splash-screen: "*"
-  bin:
-    configure-splash-screen: ./build/configure.js
-    expo-splash-screen: ./build/configure.js
-  checksum: a075d92ae774ab7535436a2b1dddee12c7f330236f9879ab04271d42f15da08c6ffa0f57b3744670fbad2b3a1cc4e3acbcbf5eaae4ac709a86df2930da9a1761
-  languageName: node
-  linkType: hard
-
 "@expo/dev-server@npm:0.1.23":
   version: 0.1.23
   resolution: "@expo/dev-server@npm:0.1.23"
@@ -2414,8 +2391,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@formidable-webview/webshell@workspace:."
   dependencies:
-    "@babel/cli": ^7.10.5
-    "@babel/core": ^7.11.4
+    "@babel/cli": ^7.11.5
+    "@babel/core": ^7.11.5
     "@babel/plugin-transform-react-jsx": ^7.10.4
     "@babel/preset-typescript": ^7.10.4
     "@babel/runtime": ^7.11.2
@@ -2431,16 +2408,16 @@ __metadata:
     "@release-it/conventional-changelog": ^1.1.4
     "@testing-library/react-native": ^7.0.2
     "@tsconfig/react-native": ^1.0.2
-    "@types/jest": ^26.0.10
-    "@types/react": ^16.9.48
-    "@types/react-native": ^0.63.10
+    "@types/jest": ^26.0.12
+    "@types/react": ^16.9.49
+    "@types/react-native": ^0.63.13
     "@types/react-test-renderer": ^16.9.3
     "@typescript-eslint/eslint-plugin": ^3.10.1
     "@typescript-eslint/parser": ^3.10.1
     babel-jest: ^26.3.0
     babel-plugin-inline-import: ^3.0.0
     embedme: ^1.21.0
-    eslint: ^7.7.0
+    eslint: ^7.8.0
     eslint-plugin-compat: ^3.8.0
     eslint-plugin-tsdoc: ^0.2.6
     husky: ^4.2.5
@@ -2449,7 +2426,7 @@ __metadata:
     prettier: ^2.1.1
     react: 16.13.1
     react-native: ^0.63.2
-    react-native-webview: ^10.8.2
+    react-native-webview: ^10.8.3
     react-test-renderer: 16.13.1
     release-it: ^13.7.0
     typescript: 3.9.7
@@ -4169,7 +4146,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:^26.0.10":
+"@types/jest@npm:^26.0.12":
   version: 26.0.12
   resolution: "@types/jest@npm:26.0.12"
   dependencies:
@@ -4288,7 +4265,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-native@npm:^0.63.10":
+"@types/react-native@npm:^0.63.13":
   version: 0.63.13
   resolution: "@types/react-native@npm:0.63.13"
   dependencies:
@@ -4306,7 +4283,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:^16.9.48":
+"@types/react@npm:*, @types/react@npm:^16.9.49":
   version: 16.9.49
   resolution: "@types/react@npm:16.9.49"
   dependencies:
@@ -5783,7 +5760,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-preset-expo@npm:^8.2.3":
+"babel-preset-expo@npm:^8.3.0":
   version: 8.3.0
   resolution: "babel-preset-expo@npm:8.3.0"
   dependencies:
@@ -9499,7 +9476,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^7.7.0":
+"eslint@npm:^7.8.0":
   version: 7.8.0
   resolution: "eslint@npm:7.8.0"
   dependencies:
@@ -9810,7 +9787,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-cli@npm:^3.21.12":
+"expo-cli@npm:^3.25.1":
   version: 3.25.1
   resolution: "expo-cli@npm:3.25.1"
   dependencies:
@@ -10009,15 +9986,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-splash-screen@npm:0.3.1, expo-splash-screen@npm:^0.3.1":
-  version: 0.3.1
-  resolution: "expo-splash-screen@npm:0.3.1"
-  dependencies:
-    "@expo/configure-splash-screen": ~0.1.0
-  checksum: c2fcb0a47971364bad5d769bd7b3c7439a60861ff0e3a61e67b67a803e3e831bf699c7e10650ad6caa6f9729918556f41e0d475fb65b1d3aa0ac1d636f2e14b4
-  languageName: node
-  linkType: hard
-
 "expo-splash-screen@npm:0.5.0, expo-splash-screen@npm:^0.5.0":
   version: 0.5.0
   resolution: "expo-splash-screen@npm:0.5.0"
@@ -10047,7 +10015,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo@npm:~38.0.8":
+"expo@npm:~38.0.10":
   version: 38.0.10
   resolution: "expo@npm:38.0.10"
   dependencies:
@@ -18628,7 +18596,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"react-native-webview@npm:^10.8.2":
+"react-native-webview@npm:^10.8.3":
   version: 10.8.3
   resolution: "react-native-webview@npm:10.8.3"
   dependencies:
@@ -22623,15 +22591,15 @@ resolve@~1.12.0:
   version: 0.0.0-use.local
   resolution: "webshell-autoheight-example@workspace:example"
   dependencies:
-    "@babel/core": ^7.9.6
-    "@babel/runtime": ^7.9.6
+    "@babel/core": ^7.11.5
+    "@babel/runtime": ^7.11.2
     "@rnhooks/device-orientation": ^0.0.1
     babel-plugin-inline-import: ^3.0.0
     babel-plugin-module-resolver: ^4.0.0
-    babel-preset-expo: ^8.2.3
-    expo: ~38.0.8
-    expo-cli: ^3.21.12
-    expo-splash-screen: ^0.3.1
+    babel-preset-expo: ^8.3.0
+    expo: ~38.0.10
+    expo-cli: ^3.25.1
+    expo-splash-screen: ^0.5.0
     expo-status-bar: ^1.0.2
     react: ~16.11.0
     react-native: "https://github.com/expo/react-native/archive/sdk-38.0.2.tar.gz"
