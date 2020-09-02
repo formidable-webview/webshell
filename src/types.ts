@@ -108,7 +108,7 @@ export type WebshellComponentOf<
  */
 export interface WebjsContext<O extends {}, P> {
   /**
-   * The options to customize the script behavior. See {@link AssembledFeature.options}.
+   * The options to customize the script behavior.
    */
   readonly options: O;
   /**
