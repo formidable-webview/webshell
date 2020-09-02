@@ -7,10 +7,8 @@ import { Dimensions } from './types';
  * An object describing various dimensions of the HTML layout.
  *
  * @remarks
- *
- * This object units are in React Native dpi, independently of the scale factor
- * between DPI and CSS pixels.
- * TODO: verify
+ * This object units are in CSS pixels. CSS pixels match device pixels when the
+ * web page has a `<meta name="viewport" content="width=device-width" />` tag.
  *
  * @public
  */

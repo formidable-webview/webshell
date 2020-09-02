@@ -7,7 +7,7 @@ import useDeviceOrientation from '@rnhooks/device-orientation';
 import { StyleProp } from 'react-native';
 
 const initialDimensions = { width: undefined, height: undefined };
-
+let numberOfEvents = 0;
 export function useWebshellAutoheight<W extends MinimalWebViewProps>({
   style,
   onNavigationStateChange,
@@ -25,16 +25,17 @@ export function useWebshellAutoheight<W extends MinimalWebViewProps>({
         width: htmlDimensions.content.width,
         height: htmlDimensions.scrollable.height
       };
-      console.info('On DOM HTML Dimensions', htmlDimensions);
+      console.info('On DOM HTML Dimensions', ++numberOfEvents, nextDimensions);
       setContentDimensions(nextDimensions);
     },
     []
   );
   const handleNavigationStateChange = React.useCallback(
     (state: any) => {
-      if (!state.loading && contentDimensions.height) {
+      console.info('NavigationState change', state);
+      if (state.loading && contentDimensions.height) {
         setContentDimensions(initialDimensions);
-        console.info('Navigation state change', state);
+        console.info('Navigation state change, resetting dimensions');
       }
       typeof onNavigationStateChange === 'function' &&
         onNavigationStateChange(state);

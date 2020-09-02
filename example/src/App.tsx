@@ -12,7 +12,7 @@ import { WebViewSource } from 'react-native-webview/lib/WebViewTypes';
 const Webshell = makeWebshell(
   WebView,
   handleHTMLDimensionsFeature.assemble(),
-  fixViewportFeature.assemble()
+  fixViewportFeature.assemble({ maxScale: 3 })
 );
 
 const width = 500;
@@ -48,16 +48,18 @@ const html = `
           height="${height}"
         />
       </div>
+      <button>Resize Image</button>
     </div>
   </body>
 </html>
 `;
 
 let source: WebViewSource = { html };
-source = {
-  uri:
-    'https://support.mozilla.org/en-US/kb/get-started-firefox-overview-main-features'
-};
+// source = { uri: 'https://en.wikipedia.org/wiki/React_Native' };
+// source = {
+//   uri:
+//     'https://support.mozilla.org/en-US/kb/get-started-firefox-overview-main-features'
+// };
 
 export default function App() {
   const autoheightProps = useWebshellAutoheight({
