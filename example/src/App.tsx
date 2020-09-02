@@ -11,7 +11,7 @@ import { WebViewSource } from 'react-native-webview/lib/WebViewTypes';
 
 const Webshell = makeWebshell(
   WebView,
-  handleHTMLDimensionsFeature.assemble(),
+  handleHTMLDimensionsFeature.assemble({ forceLegacy: true }),
   fixViewportFeature.assemble({ maxScale: 3 })
 );
 

@@ -4,6 +4,21 @@ import type { EventFeatureOf } from '../types';
 import { Dimensions } from './types';
 
 /**
+ * @public
+ */
+export interface HandleHTMLDimensionsOptions {
+  /**
+   * When available, the script will favor ResizeObserver API,
+   * which is much more accurate. Legacy mode uses other workarounds
+   * such as `document.documentElement.scrollHeight`. You can force legacy mode
+   * here to test how this script will behave with older browsers.
+   *
+   * @defaultValue false
+   */
+  forceLegacy?: boolean;
+}
+
+/**
  * An object describing various dimensions of the HTML layout.
  *
  * @remarks
@@ -25,6 +40,11 @@ export interface HTMLDimensions {
    * document.documentElement.offsetWith and document.documentElement.offsetHeight
    */
   content: Dimensions;
+  /**
+   * `false` when dimensions have been computed with ResizeObserver, true
+   * otherwise.
+   */
+  isLegacy: boolean;
 }
 
 const eventHandlerName = 'onDOMHTMLDimensions';
@@ -39,7 +59,7 @@ const eventHandlerName = 'onDOMHTMLDimensions';
  * @public
  */
 export const handleHTMLDimensionsFeature: EventFeatureOf<
-  {},
+  HandleHTMLDimensionsOptions,
   typeof eventHandlerName,
   HTMLDimensions
 > = makeFeature({

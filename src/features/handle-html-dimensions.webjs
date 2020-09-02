@@ -1,11 +1,13 @@
+/* eslint-disable no-inner-declarations */
 function htmlDimensionsFeature(context) {
   var postMessage = context.postMessage;
+  var options = context.options || {};
+  var forceLegacy = options.forceLegacy || false;
   var oldDimensions = {
     layoutViewport: { width: 0, height: 0 },
     content: { width: 0, height: 0 },
     scrollable: { width: 0, height: 0 }
   };
-
   function dimensionsAreEqual(d1, d2) {
     return (
       d1.layoutViewport.width === d2.layoutViewport.width &&
@@ -16,8 +18,7 @@ function htmlDimensionsFeature(context) {
       d1.scrollable.height === d2.scrollable.height
     );
   }
-
-  function postSize() {
+  function postDimensionsObject(scrollable, isLegacy) {
     var layoutViewport = {
       width: Math.round(document.documentElement.clientWidth),
       height: Math.round(document.documentElement.clientHeight)
@@ -26,11 +27,8 @@ function htmlDimensionsFeature(context) {
       width: Math.round(document.documentElement.offsetWidth),
       height: Math.round(document.documentElement.offsetHeight)
     };
-    var scrollable = {
-      width: Math.round(document.documentElement.scrollWidth),
-      height: Math.round(document.documentElement.scrollHeight)
-    };
     var dimensions = {
+      isLegacy: isLegacy,
       layoutViewport: layoutViewport,
       scrollable: scrollable,
       content: content
@@ -40,22 +38,50 @@ function htmlDimensionsFeature(context) {
       oldDimensions = dimensions;
     }
   }
-  postSize();
-  window.onresize = postSize;
-  // trigger when DOM changes
-  var MutationObserver =
-    window['MutationObserver'] || window['WebKitMutationObserver'];
-  if (MutationObserver) {
-    var observer = new MutationObserver(postSize);
-    observer.observe(document, {
-      subtree: true,
-      attributes: true
+  if (window.ResizeObserver && !forceLegacy) {
+    // Requires iOS Safari 13.5 or Android browser 81
+    // https://caniuse.com/#feat=mdn-api_resizeobserver
+    var resizeObserver = new window.ResizeObserver(function (entries) {
+      for (var i = 0; i < entries.length; i++) {
+        var entry = entries[i];
+        if (entry.target.tagName.toLowerCase() === 'html') {
+          postDimensionsObject(
+            {
+              width: entry.contentRect.width,
+              height: entry.contentRect.height
+            },
+            false
+          );
+        }
+      }
     });
+    resizeObserver.observe(document.documentElement);
   } else {
-    context.warn(
-      "This browser doesn't support MutationObserver." +
-        'The dimensions will still be read every 100ms and committed when a change is identified.'
-    );
+    function postSize() {
+      postDimensionsObject(
+        {
+          width: Math.round(document.documentElement.scrollWidth),
+          height: Math.round(document.documentElement.scrollHeight)
+        },
+        true
+      );
+    }
+    postSize();
+    window.onresize = postSize;
+    var MutationObserver =
+      window['MutationObserver'] || window['WebKitMutationObserver'];
+    if (MutationObserver) {
+      var observer = new MutationObserver(postSize);
+      observer.observe(document, {
+        subtree: true,
+        attributes: true
+      });
+    } else {
+      context.warn(
+        "This browser doesn't support MutationObserver." +
+          'The dimensions will still be read every 100ms and committed when a change is identified.'
+      );
+    }
+    setInterval(postSize, 100);
   }
-  setInterval(postSize, 100);
 }
