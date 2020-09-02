@@ -23,7 +23,7 @@ export function useWebshellAutoheight<W extends MinimalWebViewProps>({
     (htmlDimensions: HTMLDimensions) => {
       const nextDimensions = {
         width: htmlDimensions.content.width,
-        height: htmlDimensions.scrollable.height
+        height: htmlDimensions.content.height
       };
       console.info('On DOM HTML Dimensions', ++numberOfEvents, nextDimensions);
       setContentDimensions(nextDimensions);

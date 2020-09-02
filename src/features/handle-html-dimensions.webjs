@@ -5,32 +5,27 @@ function htmlDimensionsFeature(context) {
   var forceLegacy = options.forceLegacy || false;
   var oldDimensions = {
     layoutViewport: { width: 0, height: 0 },
-    content: { width: 0, height: 0 },
-    scrollable: { width: 0, height: 0 }
+    content: { width: 0, height: 0 }
   };
+  function extractNumericValue(pixelString) {
+    return pixelString ? parseFloat(pixelString.match(/[\d.]+/)) : 0;
+  }
   function dimensionsAreEqual(d1, d2) {
     return (
       d1.layoutViewport.width === d2.layoutViewport.width &&
       d1.layoutViewport.height === d2.layoutViewport.height &&
       d1.content.width === d2.content.width &&
-      d1.content.height === d2.content.height &&
-      d1.scrollable.width === d2.scrollable.width &&
-      d1.scrollable.height === d2.scrollable.height
+      d1.content.height === d2.content.height
     );
   }
-  function postDimensionsObject(scrollable, isLegacy) {
+  function postDimensionsObject(content, isLegacy) {
     var layoutViewport = {
-      width: Math.round(document.documentElement.clientWidth),
-      height: Math.round(document.documentElement.clientHeight)
-    };
-    var content = {
-      width: Math.round(document.documentElement.offsetWidth),
-      height: Math.round(document.documentElement.offsetHeight)
+      width: document.documentElement.clientWidth,
+      height: document.documentElement.clientHeight
     };
     var dimensions = {
       isLegacy: isLegacy,
       layoutViewport: layoutViewport,
-      scrollable: scrollable,
       content: content
     };
     if (!dimensionsAreEqual(oldDimensions, dimensions)) {
@@ -58,10 +53,16 @@ function htmlDimensionsFeature(context) {
     resizeObserver.observe(document.documentElement);
   } else {
     function postSize() {
+      var bodySize = document.body.getBoundingClientRect(),
+        bodyStyle = getComputedStyle(document.body),
+        bodyMarginBottom = extractNumericValue(bodyStyle.marginBottom),
+        bodyMarginTop = extractNumericValue(bodyStyle.marginTop),
+        bodyMarginLeft = extractNumericValue(bodyStyle.marginLeft),
+        bodyMarginRight = extractNumericValue(bodyStyle.marginRight);
       postDimensionsObject(
         {
-          width: Math.round(document.documentElement.scrollWidth),
-          height: Math.round(document.documentElement.scrollHeight)
+          width: bodySize.width + bodyMarginLeft + bodyMarginRight,
+          height: bodySize.height + bodyMarginTop + bodyMarginBottom
         },
         true
       );

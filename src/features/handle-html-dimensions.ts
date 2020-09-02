@@ -33,11 +33,7 @@ export interface HTMLDimensions {
    */
   layoutViewport: Dimensions;
   /**
-   * document.documentElement.scrollWidth and document.documentElement.scrollHeight
-   */
-  scrollable: Dimensions;
-  /**
-   * document.documentElement.offsetWith and document.documentElement.offsetHeight
+   * document.body.getBoundingClientRect() + margins
    */
   content: Dimensions;
   /**

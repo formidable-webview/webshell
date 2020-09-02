@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Constants from 'expo-constants';
-import { StyleSheet, ScrollView, PixelRatio, View } from 'react-native';
+import { StyleSheet, ScrollView, View } from 'react-native';
 import makeWebshell, {
   fixViewportFeature,
   handleHTMLDimensionsFeature
