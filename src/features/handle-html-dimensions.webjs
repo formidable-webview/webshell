@@ -39,7 +39,8 @@ function htmlDimensionsFeature(context) {
     var resizeObserver = new window.ResizeObserver(function (entries) {
       for (var i = 0; i < entries.length; i++) {
         var entry = entries[i];
-        if (entry.target.tagName.toLowerCase() === 'html') {
+        console.info(entry);
+        if (entry.target.tagName.toLowerCase() === 'body') {
           postDimensionsObject(
             {
               width: entry.contentRect.width,
@@ -50,7 +51,7 @@ function htmlDimensionsFeature(context) {
         }
       }
     });
-    resizeObserver.observe(document.documentElement);
+    resizeObserver.observe(document.body);
   } else {
     function postSize() {
       var bodySize = document.body.getBoundingClientRect(),
