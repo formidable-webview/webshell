@@ -22,7 +22,7 @@ export interface LinkPressOptions {
  *
  * @public
  */
-export const linkPressFeature: EventFeatureOf<
+export const handleLinkPressFeature: EventFeatureOf<
   LinkPressOptions,
   'onDOMLinkPress',
   string

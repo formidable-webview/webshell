@@ -1,4 +1,4 @@
-import script from './element-cssbox-dimensions.webjs';
+import script from './handle-element-cssbox-dimensions.webjs';
 import { makeFeature } from '../make-feature';
 import type { EventFeatureOf } from '../types';
 
@@ -7,7 +7,7 @@ import type { EventFeatureOf } from '../types';
  *
  * @public
  */
-export interface ElementCSSBoxDimensionsOptions {
+export interface HandleElementCSSBoxDimensionsOptions {
   /**
    * The element to target when the DOM is loaded.
    */
@@ -126,12 +126,13 @@ const eventHandlerName = 'onDOMElementCSSBoxDimensions';
  *
  * @public
  */
-export const elementCSSBoxFeature: EventFeatureOf<
-  ElementCSSBoxDimensionsOptions,
+export const handleElementCSSBoxFeature: EventFeatureOf<
+  HandleElementCSSBoxDimensionsOptions,
   typeof eventHandlerName,
   ElementCSSBoxDimensions
 > = makeFeature({
   script,
   eventHandlerName,
-  featureIdentifier: 'org.formidable-webview/webshell.element-cssbox-dimensions'
+  featureIdentifier:
+    'org.formidable-webview/webshell.handle-element-cssbox-dimensions'
 });

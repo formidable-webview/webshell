@@ -1,4 +1,4 @@
-import type { Feature, OptionalUnlessRequiredField } from './types';
+import type { Feature, RequiredIfObjectHasRequiredField } from './types';
 
 /**
  * Create a feature.
@@ -18,7 +18,7 @@ export function makeFeature<O extends {}, S extends {}, P extends {}>(
     assemble: (...args) => {
       return {
         ...params,
-        options: args[0] as OptionalUnlessRequiredField<O>
+        options: args[0] as RequiredIfObjectHasRequiredField<O>
       };
     }
   };

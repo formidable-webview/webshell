@@ -2,8 +2,8 @@ import * as React from 'react';
 import Constants from 'expo-constants';
 import { StyleSheet, ScrollView, PixelRatio, View } from 'react-native';
 import makeWebshell, {
-  htmlDimensionsFeature,
-  fixViewportFeature
+  fixViewportFeature,
+  handleHTMLDimensionsFeature
 } from '@formidable-webview/webshell';
 import { useAutoheight } from './autoheigh-hook';
 import WebView from 'react-native-webview';
@@ -11,7 +11,7 @@ import { WebViewSource } from 'react-native-webview/lib/WebViewTypes';
 
 const Webshell = makeWebshell(
   WebView,
-  htmlDimensionsFeature.assemble(),
+  handleHTMLDimensionsFeature.assemble(),
   fixViewportFeature.assemble()
 );
 

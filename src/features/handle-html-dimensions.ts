@@ -1,15 +1,6 @@
-import script from './html-dimensions.webjs';
+import script from './handle-html-dimensions.webjs';
 import { makeFeature } from '../make-feature';
 import type { EventFeatureOf } from '../types';
-
-/**
- * An object describing customization for the dimensions feature.
- *
- * @public
- */
-export interface HTMLDimensionsOptions {
-  //
-}
 
 /**
  * @public
@@ -60,19 +51,19 @@ export interface HTMLDimensions {
   content: Dimensions;
 }
 
-const eventHandlerName = 'onDOMHtmlDimensions';
+const eventHandlerName = 'onDOMHTMLDimensions';
 
 /**
  * This feature enables receiving various dimensions relative to the layout.
  *
  * @public
  */
-export const htmlDimensionsFeature: EventFeatureOf<
+export const handleHTMLDimensionsFeature: EventFeatureOf<
   {},
   typeof eventHandlerName,
   HTMLDimensions
 > = makeFeature({
   script,
   eventHandlerName,
-  featureIdentifier: 'org.formidable-webview/webshell.html-dimensions'
+  featureIdentifier: 'org.formidable-webview/webshell.handle-html-dimensions'
 });

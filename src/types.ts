@@ -15,17 +15,9 @@ import {
  *
  * @public
  */
-export type OptionalUnlessRequiredField<O> = O extends Partial<O>
+export type RequiredIfObjectHasRequiredField<O> = O extends Partial<O>
   ? O | undefined
   : O;
-
-/**
- * Utility type to create a function signature with conditional optional
- * argument.
- *
- * @public
- */
-export type OptionalSpread<T> = T extends undefined ? [] : [T];
 
 // LOOKUP TYPES
 
@@ -166,7 +158,7 @@ export type AssembledFeature<
    * This value will be passed to the top level function declared in the DOM
    * script.
    */
-  readonly options: OptionalUnlessRequiredField<O>;
+  readonly options: RequiredIfObjectHasRequiredField<O>;
   /**
    * A placeholder type to keep track of the React Props added by this feature.
    */
@@ -278,7 +270,7 @@ export type Feature<O extends {}, S extends {} = {}, P extends {} = {}> = {
    * thereafter be passed to {@link makeWebshell} utility.
    */
   readonly assemble: (
-    ...args: OptionalSpread<OptionalUnlessRequiredField<O>>
+    ...args: O extends Partial<O> ? [] | [O] : [O]
   ) => AssembledFeature<O, S, P>;
 } & S;
 
