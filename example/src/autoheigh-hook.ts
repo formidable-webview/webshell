@@ -7,12 +7,26 @@ import useDeviceOrientation from '@rnhooks/device-orientation';
 import { StyleProp } from 'react-native';
 
 const initialDimensions = { width: undefined, height: undefined };
+
 let numberOfEvents = 0;
-export function useWebshellAutoheight<W extends MinimalWebViewProps>({
-  style,
-  onNavigationStateChange,
-  scalesPageToFit
-}: W) {
+
+/**
+ * @remarks
+ * This hook has caveats you must understand:
+ *
+ * - Because the viewport height is now bound to the content heigh, you cannot
+ *   and must not have an element which height depends on viewport, such as
+ *   when using `vh` unit. That will create an infinite loop. This is why it is
+ *   strongly advised that you use autoheight only with content you have
+ *   tested.
+ * - React Native Fast Refresh can cause bugs.
+ *
+ * @param webshellProps - the `Webshell` props you whish to augment.
+ */
+export function useWebshellAutoheight<W extends MinimalWebViewProps>(
+  webshellProps: W
+) {
+  const { style, onNavigationStateChange, scalesPageToFit } = webshellProps;
   const [contentDimensions, setContentDimensions] = React.useState<{
     width: number | undefined;
     height: number | undefined;

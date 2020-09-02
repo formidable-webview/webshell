@@ -29,11 +29,13 @@ export interface HandleHTMLDimensionsOptions {
  */
 export interface HTMLDimensions {
   /**
-   * document.documentElement.clientWidth and document.documentElement.clientHeight
+   * document.documentElement.getBoundingClientRect()
    */
   layoutViewport: Dimensions;
   /**
+   * TODO: describe the link to forceLegacy and isLegacy + implementation details
    * document.body.getBoundingClientRect() + margins
+   * {@link http://www.howtocreate.co.uk/tutorials/javascript/browserwindow}
    */
   content: Dimensions;
   /**

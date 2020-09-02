@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Constants from 'expo-constants';
-import { StyleSheet, ScrollView, View } from 'react-native';
+import { StyleSheet, ScrollView, View, Text } from 'react-native';
 import makeWebshell, {
   fixViewportFeature,
   handleHTMLDimensionsFeature
@@ -11,8 +11,8 @@ import { WebViewSource } from 'react-native-webview/lib/WebViewTypes';
 
 const Webshell = makeWebshell(
   WebView,
-  handleHTMLDimensionsFeature.assemble({ forceLegacy: true }),
-  fixViewportFeature.assemble({ maxScale: 3 })
+  handleHTMLDimensionsFeature.assemble({ forceLegacy: false }),
+  fixViewportFeature.assemble({ maxScale: 2 })
 );
 
 const html = `
@@ -21,43 +21,83 @@ const html = `
   <style>
     body {
       border: 1px solid white;
-      background-color: yellow;
-      flexGrow: 0;
+      background-color: #27363b;
+      color: #aaaaaa;
+      overflow-vertical: hidden;
+      box-sizing: border-box;
     }
-    #container {
-      background-color: cornflowerblue;
+    * {
+      box-sizing: border-box;
+    }
+    li {
+      margin-bottom: 10px;
+    }
+    .container {
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+      flex-gap: 10px;
+    }
+    #fullwidth {
+      width: 100%;
+      background-color: white;
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+    }
+    article {
+      padding: 10px;
+    }
+    button {
+      font-size: 18px;
+      margin: 6px;
+      font-family: monospace;
     }
   </style>
 </head>
 <html>
   <body>
     <div id="container">
-    <h2>This WebView height is automatic</h2>
-
-      <p class="content-box">However, you cannot pinch-zoom.</p>
-
-      <div>
-        <img
-          id="image"
-          src="https://via.placeholder.com/500x200"
-          width="500"
-          height="200"
-        />
+    <article>
+      <h2>This WebView adjusts its layout to its content size</h2>
+      <ul>
+        <li>
+        Shrink and increase div by pressing buttons and notice how the WebView height adapts dynamically.
+        </li>
+        <li>
+        When the content overflows the layout (which is very bad web design!), you can still scroll horizontally.
+        The scroll is happening inside the WebView.
+        </li>
+        <li>
+        Rotate the screen and observe how the WebView height and width will adjust.
+        </li>
+        <li>
+        Because the viewport height is now bound to the content heigh, <b>you cannot and must not have an element which height depends on viewport (vh)</b>.
+        That will create an infinite loop. This is why it is strongly advised that you use autoheight only with content you have tested.
+        </li>
+      </ul>
+      <div class="container">
+        <button onclick="shrinkDiv()">-20</button>
+        <button onclick="increaseDiv()">+20</button>
       </div>
-      <button onclick="shrinkImage()">Shrink Image</button>
-      <button onclick="increaseImage()">Increase Image</button>
-      <script>
-      function shrinkImage() {
-        var image = document.getElementById('image');
-        image.width = image.width / 1.1;
-        image.height = image.height / 1.1;
-      }
-      function increaseImage() {
-        var image = document.getElementById('image');
-        image.width = image.width * 1.1;
-        image.height = image.height * 1.1;
-      }
-      </script>
+    </article>
+    <div id="fullwidth">
+      This div tag width is 100%. <br/>
+      You can control its height with the controls above.
+    </div>
+
+    <script>
+    function shrinkDiv() {
+      var div = document.getElementById('fullwidth');
+      var currentHeight = Number(getComputedStyle(div).height.match(/[\\d.]+/));
+      div.style.height = currentHeight - 20 + "px";
+    }
+    function increaseDiv() {
+      var div = document.getElementById('fullwidth');
+      var currentHeight = Number(getComputedStyle(div).height.match(/[\\d.]+/));
+      div.style.height = currentHeight + 20 + "px";
+    }
+    </script>
     </div>
   </body>
 </html>
@@ -65,26 +105,30 @@ const html = `
 
 let source: WebViewSource = { html };
 // source = { uri: 'https://en.wikipedia.org/wiki/React_Native' };
-// source = {
-//   uri:
-//     'https://support.mozilla.org/en-US/kb/get-started-firefox-overview-main-features'
-// };
+source = {
+  uri:
+    'https://support.mozilla.org/en-US/kb/get-started-firefox-overview-main-features'
+};
 
 export default function App() {
   const autoheightProps = useWebshellAutoheight({
     style: styles.autoheight
   });
-  const onLayout = ({ nativeEvent }) => console.info('LAYOUT', nativeEvent);
   return (
     <View style={styles.root}>
       <ScrollView contentContainerStyle={styles.container}>
-        <Webshell onLayout={onLayout} source={source} {...autoheightProps} />
+        <Text style={styles.text}>
+          The green area is outside of the WebView.
+        </Text>
+        <Webshell source={source} {...autoheightProps} />
+        <Text style={styles.text}>This is a React Native Text element.</Text>
       </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  text: { textAlign: 'center', padding: 10 },
   root: {
     marginTop: Constants.statusBarHeight,
     flex: 1,
@@ -93,12 +137,9 @@ const styles = StyleSheet.create({
   },
   autoheight: {
     flexGrow: 0,
-    borderWidth: 3,
-    borderColor: 'blue',
-    backgroundColor: 'transparent' // red
+    backgroundColor: 'transparent'
   },
   container: {
-    backgroundColor: '#27363b', // gray
     flexGrow: 0,
     padding: 0,
     margin: 0
