@@ -5,7 +5,7 @@ import makeWebshell, {
   fixViewportFeature,
   handleHTMLDimensionsFeature
 } from '@formidable-webview/webshell';
-import { useAutoheight } from './autoheigh-hook';
+import { useWebshellAutoheight } from './autoheigh-hook';
 import WebView from 'react-native-webview';
 import { WebViewSource } from 'react-native-webview/lib/WebViewTypes';
 
@@ -60,7 +60,7 @@ source = {
 };
 
 export default function App() {
-  const autoheightProps = useAutoheight({
+  const autoheightProps = useWebshellAutoheight({
     style: styles.autoheight
   });
   const onLayout = ({ nativeEvent }) => console.info('LAYOUT', nativeEvent);

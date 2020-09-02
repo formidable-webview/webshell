@@ -310,4 +310,7 @@ export interface MinimalWebViewProps {
   readonly injectedJavaScript?: unknown;
   readonly javaScriptEnabled?: unknown;
   readonly source?: unknown;
+  readonly style?: unknown;
+  readonly onNavigationStateChange?: unknown;
+  readonly scalesPageToFit?: unknown;
 }

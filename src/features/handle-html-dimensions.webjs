@@ -1,22 +1,15 @@
 function htmlDimensionsFeature(context) {
   var postMessage = context.postMessage;
-  var options = context.options || {};
+  var oldDimensions = {
+    layoutViewport: { width: 0, height: 0 },
+    content: { width: 0, height: 0 },
+    scrollable: { width: 0, height: 0 }
+  };
 
   function postSize() {
-    var scale = window.visualViewport
-      ? window.visualViewport.scale
-      : screen.availWidth && window.innerWidth
-      ? screen.availWidth / window.innerWidth
-      : 1;
-    var scaleFactor = scale;
-    var viewportRect = document.documentElement.getBoundingClientRect();
     var layoutViewport = {
-      width: viewportRect.width,
-      height: viewportRect.height
-    };
-    var inner = {
-      width: window.innerWidth,
-      height: window.innerHeight
+      width: document.documentElement.clientWidth,
+      height: document.documentElement.clientHeight
     };
     var content = {
       width: document.documentElement.offsetWidth,
@@ -26,23 +19,25 @@ function htmlDimensionsFeature(context) {
       width: document.documentElement.scrollWidth,
       height: document.documentElement.scrollHeight
     };
-    var visualViewport = {
-      width: window.visualViewport.width,
-      height: window.visualViewport.height
-    };
     var dimensions = {
-      scale: scale,
       layoutViewport: layoutViewport,
-      visualViewport: visualViewport,
       scrollable: scrollable,
-      content: content,
-      inner: inner
+      content: content
     };
-    postMessage(dimensions);
+    if (
+      oldDimensions.layoutViewport.width !== dimensions.layoutViewport.width ||
+      oldDimensions.layoutViewport.height !==
+        dimensions.layoutViewport.height ||
+      oldDimensions.content.width !== dimensions.content.width ||
+      oldDimensions.content.height !== dimensions.content.height ||
+      oldDimensions.scrollable.width !== dimensions.scrollable.width ||
+      oldDimensions.scrollable.height !== dimensions.scrollable.height
+    ) {
+      postMessage(dimensions);
+    }
   }
   postSize();
   window.onresize = postSize;
-  window.visualViewport.onresize = postSize;
   // trigger when DOM changes
   var MutationObserver =
     window['MutationObserver'] || window['WebKitMutationObserver'];
