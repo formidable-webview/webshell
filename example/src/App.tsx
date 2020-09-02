@@ -15,9 +15,6 @@ const Webshell = makeWebshell(
   fixViewportFeature.assemble({ maxScale: 3 })
 );
 
-const width = 500;
-const height = 200;
-
 const html = `
 <!DOCTYPE html>
 <head>
@@ -25,6 +22,7 @@ const html = `
     body {
       border: 1px solid white;
       background-color: yellow;
+      flexGrow: 0;
     }
     #container {
       background-color: cornflowerblue;
@@ -41,14 +39,25 @@ const html = `
       <div>
         <img
           id="image"
-          src="https://via.placeholder.com/${
-            PixelRatio.get() * width + 'x' + PixelRatio.get() * height
-          }"
-          width="${width}"
-          height="${height}"
+          src="https://via.placeholder.com/500x200"
+          width="500"
+          height="200"
         />
       </div>
-      <button>Resize Image</button>
+      <button onclick="shrinkImage()">Shrink Image</button>
+      <button onclick="increaseImage()">Increase Image</button>
+      <script>
+      function shrinkImage() {
+        var image = document.getElementById('image');
+        image.width = image.width / 1.1;
+        image.height = image.height / 1.1;
+      }
+      function increaseImage() {
+        var image = document.getElementById('image');
+        image.width = image.width * 1.1;
+        image.height = image.height * 1.1;
+      }
+      </script>
     </div>
   </body>
 </html>
