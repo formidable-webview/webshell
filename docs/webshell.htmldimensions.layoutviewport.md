@@ -4,6 +4,8 @@
 
 ## HTMLDimensions.layoutViewport property
 
+document.documentElement.clientWidth and document.documentElement.clientHeight
+
 <b>Signature:</b>
 
 ```typescript

@@ -160,9 +160,9 @@ are four important areas to specify in such feature:
 >
 > `import {...} from "@formidable-webview/webshell";`
 ```ts
-// src/features/link-press.ts
+// src/features/handle-link-press.ts
 
-import linkPressScript from './link-press.webjs';
+import linkPressScript from './handle-link-press.webjs';
 import { makeFeature } from '../make-feature';
 import type { EventFeatureOf } from '../types';
 
@@ -186,14 +186,14 @@ export interface LinkPressOptions {
  *
  * @public
  */
-export const linkPressFeature: EventFeatureOf<
+export const handleLinkPressFeature: EventFeatureOf<
   LinkPressOptions,
   'onDOMLinkPress',
   string
 > = makeFeature({
   script: linkPressScript,
   eventHandlerName: 'onDOMLinkPress',
-  featureIdentifier: 'org.webshell.linkPress'
+  featureIdentifier: 'org.formidable-webview/webshell.link-press'
 });
 
 ```
@@ -202,7 +202,7 @@ The behavior in the DOM is implemented in the following file (please note that
 the extension is arbitrary, see the [tooling section](#tooling)):
 
 ```js
-// src/features/link-press.webjs
+// src/features/handle-link-press.webjs
 
 function linkPressFeature(arg) {
   var postMessage = arg.postMessage;
@@ -301,21 +301,21 @@ Best to show with an example of our link-press DOM feature testing:
 >
 > `import {...} from "@formidable-webview/webshell";`
 ```ts
-// src/features/__tests__/link-press.test.tsx
+// src/features/__tests__/handle-link-press.test.tsx
 
 import * as React from 'react';
 import Ersatz from '@formidable-webview/ersatz';
 import makeErsatzTesting from '@formidable-webview/ersatz-testing';
 import { render } from '@testing-library/react-native';
 import { makeWebshell } from '../../make-webshell';
-import { linkPressFeature } from '../link-press';
+import { handleLinkPressFeature } from '../handle-link-press';
 
 const { waitForDocument } = makeErsatzTesting(Ersatz);
 
-describe('Webshell with linkPressFeature', () => {
+describe('Webshell with handleLinkPressFeature', () => {
   it('should invoke onDOMLinkPress prop when a link is pressed', async () => {
     const onDOMLinkPress = jest.fn();
-    const Webshell = makeWebshell(Ersatz, linkPressFeature.assemble());
+    const Webshell = makeWebshell(Ersatz, handleLinkPressFeature.assemble());
     const document = await waitForDocument(
       render(
         <Webshell

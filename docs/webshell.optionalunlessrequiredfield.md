@@ -9,5 +9,5 @@ Utility type which returns a partial optional of parameter type unless at least 
 <b>Signature:</b>
 
 ```typescript
-export declare type OptionalUnlessRequiredField<O> = O extends Partial<O> ? O | undefined : O;
+export declare type RequiredIfObjectHasRequiredField<O> = O extends Partial<O> ? O | undefined : O;
 ```

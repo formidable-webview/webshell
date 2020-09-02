@@ -1,4 +1,4 @@
-import linkPressScript from './link-press.webjs';
+import linkPressScript from './handle-link-press.webjs';
 import { makeFeature } from '../make-feature';
 import type { EventFeatureOf } from '../types';
 

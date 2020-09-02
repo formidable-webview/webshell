@@ -4,6 +4,8 @@
 
 ## HTMLDimensions.scrollable property
 
+document.documentElement.scrollWidth and document.documentElement.scrollHeight
+
 <b>Signature:</b>
 
 ```typescript

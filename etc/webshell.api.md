@@ -8,6 +8,7 @@ import { ComponentProps } from 'react';
 import { ComponentPropsWithoutRef } from 'react';
 import { ComponentType } from 'react';
 import { ElementRef } from 'react';
+import { Feature as Feature_2 } from 'src/types';
 import { ForwardRefExoticComponent } from 'react';
 import * as React_2 from 'react';
 import { RefAttributes } from 'react';
@@ -62,14 +63,6 @@ export interface CSSBoxDimensionsComputedStyle {
     paddingTop: number;
 }
 
-// @public (undocumented)
-export interface Dimensions {
-    // (undocumented)
-    height: number;
-    // (undocumented)
-    width: number;
-}
-
 // @public
 export interface ElementCSSBoxDimensions {
     borderBox: CSSBox;
@@ -79,17 +72,6 @@ export interface ElementCSSBoxDimensions {
     scrollBox: CSSBox;
     verticalScrollbarWidth: number;
 }
-
-// @public
-export interface ElementCSSBoxDimensionsOptions {
-    errorWhenNotFound?: boolean;
-    tagName: string;
-}
-
-// Warning: (ae-forgotten-export) The symbol "eventHandlerName" needs to be exported by the entry point index.d.ts
-//
-// @public
-export const elementCSSBoxFeature: EventFeatureOf<ElementCSSBoxDimensionsOptions, typeof eventHandlerName, ElementCSSBoxDimensions>;
 
 // @public
 export type EventFeature<O extends {}, S, P = {}> = S extends EventHandlerDefinition<infer Event, infer Payload> ? Feature<O, S, EventHandlerProps<Event, Payload> & P> : never;
@@ -112,36 +94,46 @@ export type EventHandlerProps<H extends string, P> = {
 export type EventNameOf<T> = T extends AssembledEventFeature<{}, infer S, {}> ? S extends EventHandlerDefinition<infer H, unknown> ? H : never : never;
 
 // @public
-export type Feature<O extends {}, S extends {}, P extends {}> = {
+export type Feature<O extends {}, S extends {} = {}, P extends {} = {}> = {
     readonly script: string;
     readonly featureIdentifier: string;
-    readonly assemble: (...args: OptionalSpread<OptionalUnlessRequiredField<O>>) => AssembledFeature<O, S, P>;
+    readonly assemble: (...args: O extends Partial<O> ? [] | [O] : [O]) => AssembledFeature<O, S, P>;
 } & S;
 
 // @public
-export interface HTMLDimensions {
-    // (undocumented)
-    content: Dimensions;
-    // (undocumented)
-    layoutViewport: Dimensions;
-    scale: number;
-    // (undocumented)
-    scrollable: Dimensions;
-    // (undocumented)
-    visualViewport: Dimensions;
+export const fixViewportFeature: Feature_2<FixViewportOptions>;
+
+// @public
+export interface FixViewportOptions {
+    maxScale?: number;
+}
+
+// @public
+export interface HandleElementCSSBoxDimensionsOptions {
+    errorWhenNotFound?: boolean;
+    tagName: string;
 }
 
 // Warning: (ae-forgotten-export) The symbol "eventHandlerName" needs to be exported by the entry point index.d.ts
 //
 // @public
-export const htmlDimensionsFeature: EventFeatureOf<{}, typeof eventHandlerName_2, HTMLDimensions>;
+export const handleElementCSSBoxFeature: EventFeatureOf<HandleElementCSSBoxDimensionsOptions, typeof eventHandlerName, ElementCSSBoxDimensions>;
+
+// Warning: (ae-forgotten-export) The symbol "eventHandlerName" needs to be exported by the entry point index.d.ts
+//
+// @public
+export const handleHTMLDimensionsFeature: EventFeatureOf<{}, typeof eventHandlerName_2, HTMLDimensions>;
 
 // @public
-export interface HTMLDimensionsOptions {
+export const handleLinkPressFeature: EventFeatureOf<LinkPressOptions, 'onDOMLinkPress', string>;
+
+// @public
+export interface HTMLDimensions {
+    content: Dimensions;
+    // Warning: (ae-forgotten-export) The symbol "Dimensions" needs to be exported by the entry point index.d.ts
+    layoutViewport: Dimensions;
+    scrollable: Dimensions;
 }
-
-// @public
-export const linkPressFeature: EventFeatureOf<LinkPressOptions, 'onDOMLinkPress', string>;
 
 // @public
 export interface LinkPressOptions {
@@ -171,9 +163,6 @@ export interface MinimalWebViewProps {
     // (undocumented)
     readonly source?: unknown;
 }
-
-// @public
-export type OptionalSpread<T> = T extends undefined ? [] : [T];
 
 // @public
 export type OptionalUnlessRequiredField<O> = O extends Partial<O> ? O | undefined : O;

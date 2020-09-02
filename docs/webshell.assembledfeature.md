@@ -12,7 +12,7 @@ A feature adds new behaviors to the `WebView` DOM and offers new props.
 export declare type AssembledFeature<O extends {} = {}, S extends {} = {}, P extends {} = {}> = {
     readonly featureIdentifier: string;
     readonly script: string;
-    readonly options: OptionalUnlessRequiredField<O>;
+    readonly options: RequiredIfObjectHasRequiredField<O>;
     readonly props?: P;
 } & S;
 ```

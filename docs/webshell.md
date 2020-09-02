@@ -17,12 +17,11 @@
 |  --- | --- |
 |  [CSSBox](./webshell.cssbox.md) |  |
 |  [CSSBoxDimensionsComputedStyle](./webshell.cssboxdimensionscomputedstyle.md) | Computed styles which affect the CSS Box dimensions. See [MDN—window.getComputedStyle](https://developer.mozilla.org/docs/Web/API/Window/getComputedStyle)<!-- -->. |
-|  [Dimensions](./webshell.dimensions.md) |  |
 |  [ElementCSSBoxDimensions](./webshell.elementcssboxdimensions.md) | An object describing an element CSS Box dimensions, see [CSSWG—CSS 2 (Box model)](https://drafts.csswg.org/css2/#box-model)<!-- -->. |
-|  [ElementCSSBoxDimensionsOptions](./webshell.elementcssboxdimensionsoptions.md) | An object describing customization for the dimensions feature. |
 |  [EventHandlerDefinition](./webshell.eventhandlerdefinition.md) | Definitions for event handlers. |
+|  [FixViewportOptions](./webshell.fixviewportoptions.md) | An object describing customization for the fix viewport feature. |
+|  [HandleElementCSSBoxDimensionsOptions](./webshell.handleelementcssboxdimensionsoptions.md) | An object describing customization for the dimensions feature. |
 |  [HTMLDimensions](./webshell.htmldimensions.md) | An object describing various dimensions of the HTML layout. |
-|  [HTMLDimensionsOptions](./webshell.htmldimensionsoptions.md) | An object describing customization for the dimensions feature. |
 |  [LinkPressOptions](./webshell.linkpressoptions.md) | An object describing customization for the linkPress feature. |
 |  [MinimalWebViewProps](./webshell.minimalwebviewprops.md) | A high-compatibility type expressing minimal requirements for the WebView Component's props. |
 |  [WebjsContext](./webshell.webjscontext.md) | This type specifies the shape of the object passed to DOM features scripts. |
@@ -32,9 +31,10 @@
 
 |  Variable | Description |
 |  --- | --- |
-|  [elementCSSBoxFeature](./webshell.elementcssboxfeature.md) | This feature enables receiving the CSS Box dimensions of an element identified by <code>tagName</code> in the <code>WebView</code> pixels unit. The first element matching the provided tagName is retained. A new event will be triggered on every resize. |
-|  [htmlDimensionsFeature](./webshell.htmldimensionsfeature.md) | This feature enables receiving various dimensions relative to the layout. |
-|  [linkPressFeature](./webshell.linkpressfeature.md) | This feature allows to intercept clicks on anchors (<code>&lt;a&gt;</code>). By default, it will prevent the click from propagating. But you can disable this option. |
+|  [fixViewportFeature](./webshell.fixviewportfeature.md) | This feature inserts or replace a <code>&lt;meta name=&quot;viewport&quot; /&gt;</code> tag in the head to guarantee that the viewport will not exceed device-width. See [MDN—Using the viewport meta tag ...](https://developer.mozilla.org/en-US/docs/Mozilla/Mobile/Viewport_meta_tag) |
+|  [handleElementCSSBoxFeature](./webshell.handleelementcssboxfeature.md) | This feature enables receiving the CSS Box dimensions of an element identified by <code>tagName</code> in the <code>WebView</code> pixels unit. The first element matching the provided tagName is retained. A new event will be triggered on every resize. |
+|  [handleHTMLDimensionsFeature](./webshell.handlehtmldimensionsfeature.md) | This feature enables receiving various dimensions relative to the layout. |
+|  [handleLinkPressFeature](./webshell.handlelinkpressfeature.md) | This feature allows to intercept clicks on anchors (<code>&lt;a&gt;</code>). By default, it will prevent the click from propagating. But you can disable this option. |
 
 ## Type Aliases
 
@@ -48,7 +48,6 @@
 |  [EventHandlerProps](./webshell.eventhandlerprops.md) | An object which keys are event handler names, and values are event handler functions. |
 |  [EventNameOf](./webshell.eventnameof.md) | A lookup type to find the event name from an assembled feature. |
 |  [Feature](./webshell.feature.md) | A feature adds new behaviors to the <code>WebView</code> DOM and offers handlers on React Native's side. |
-|  [OptionalSpread](./webshell.optionalspread.md) | Utility type to create a function signature with conditional optional argument. |
 |  [OptionalUnlessRequiredField](./webshell.optionalunlessrequiredfield.md) | Utility type which returns a partial optional of parameter type unless at least one field is required. |
 |  [PayloadOf](./webshell.payloadof.md) | A lookup type to find the payload type from an assembled event feature. |
 |  [WebshellAssembledProps](./webshell.webshellassembledprops.md) | A lookup type to find the prop assembled with a feature. |

@@ -9,9 +9,9 @@ A feature adds new behaviors to the `WebView` DOM and offers handlers on React N
 <b>Signature:</b>
 
 ```typescript
-export declare type Feature<O extends {}, S extends {}, P extends {}> = {
+export declare type Feature<O extends {}, S extends {} = {}, P extends {} = {}> = {
     readonly script: string;
     readonly featureIdentifier: string;
-    readonly assemble: (...args: OptionalSpread<OptionalUnlessRequiredField<O>>) => AssembledFeature<O, S, P>;
+    readonly assemble: (...args: O extends Partial<O> ? [] | [O] : [O]) => AssembledFeature<O, S, P>;
 } & S;
 ```

@@ -14,17 +14,13 @@ export interface HTMLDimensions
 
 ## Remarks
 
-You must use this feature with a meta tag viewport setting width to device width. See [MDN—Using the viewport meta tag ...](https://developer.mozilla.org/en-US/docs/Mozilla/Mobile/Viewport_meta_tag)<!-- -->.
-
-This object units are in React Native dpi, independently of the scale factor between DPI and CSS pixels.
+This object units are in React Native dpi, independently of the scale factor between DPI and CSS pixels. TODO: verify
 
 ## Properties
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [content](./webshell.htmldimensions.content.md) | [Dimensions](./webshell.dimensions.md) |  |
-|  [layoutViewport](./webshell.htmldimensions.layoutviewport.md) | [Dimensions](./webshell.dimensions.md) |  |
-|  [scale](./webshell.htmldimensions.scale.md) | number | The visual viewport scale such as defined in the [MDN—VisualViewport API](https://developer.mozilla.org/en-US/docs/Web/API/VisualViewport)<!-- -->. Because this API is quite recent, we have a fallback strategy to compute scale. |
-|  [scrollable](./webshell.htmldimensions.scrollable.md) | [Dimensions](./webshell.dimensions.md) |  |
-|  [visualViewport](./webshell.htmldimensions.visualviewport.md) | [Dimensions](./webshell.dimensions.md) |  |
+|  [content](./webshell.htmldimensions.content.md) | Dimensions | document.documentElement.offsetWith and document.documentElement.offsetHeight |
+|  [layoutViewport](./webshell.htmldimensions.layoutviewport.md) | Dimensions | document.documentElement.clientWidth and document.documentElement.clientHeight |
+|  [scrollable](./webshell.htmldimensions.scrollable.md) | Dimensions | document.documentElement.scrollWidth and document.documentElement.scrollHeight |
 

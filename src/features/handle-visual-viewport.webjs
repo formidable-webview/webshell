@@ -1,0 +1,38 @@
+function handleVisualViewportFeature(context) {
+  var postMessage = context.postMessage;
+  var options = context.options || {};
+  var isLegacy = !window.visualViewport;
+
+  function postSize() {
+    var scale = !isLegacy
+      ? window.visualViewport.scale
+      : screen.availWidth && window.innerWidth
+      ? screen.availWidth / window.innerWidth
+      : screen.width / window.innerWidth;
+    var viewportRect = document.documentElement.getBoundingClientRect();
+    var layoutViewport = {
+      width: viewportRect.width,
+      height: viewportRect.height
+    };
+    var visualViewport = {
+      width: isLegacy
+        ? layoutViewport.width / scale
+        : window.visualViewport.width,
+      height: isLegacy
+        ? layoutViewport.height / scale
+        : window.visualViewport.height
+    };
+    var dimensions = {
+      scale: scale,
+      visualViewport: visualViewport,
+      isLegacy: isLegacy
+    };
+    postMessage(dimensions);
+  }
+  postSize();
+  if (isLegacy) {
+    window.onresize = postSize;
+  } else {
+    window.visualViewport.onresize = postSize;
+  }
+}

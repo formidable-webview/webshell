@@ -4,6 +4,8 @@
 
 ## HTMLDimensions.content property
 
+document.documentElement.offsetWith and document.documentElement.offsetHeight
+
 <b>Signature:</b>
 
 ```typescript
