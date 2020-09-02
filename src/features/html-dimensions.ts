@@ -42,9 +42,21 @@ export interface HTMLDimensions {
    * The other values in this object are already in React Native dpi units.
    */
   scale: number;
+  /**
+   * document.documentElement.clientWidth and document.documentElement.clientHeight
+   */
   layoutViewport: Dimensions;
+  /**
+   * window.visualViewport.width and window.visualViewport.height
+   */
   visualViewport: Dimensions;
+  /**
+   * document.documentElement.scrollWidth and document.documentElement.scrollHeight
+   */
   scrollable: Dimensions;
+  /**
+   * document.documentElement.offsetWith and document.documentElement.offsetHeight
+   */
   content: Dimensions;
 }
 
@@ -62,5 +74,5 @@ export const htmlDimensionsFeature: EventFeatureOf<
 > = makeFeature({
   script,
   eventHandlerName,
-  featureIdentifier: 'org.webshell.htmlDimensions'
+  featureIdentifier: 'org.formidable-webview/webshell.html-dimensions'
 });

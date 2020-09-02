@@ -143,8 +143,8 @@ export type AssembledEventFeature<
  * A feature adds new behaviors to the `WebView` DOM and offers new props.
  *
  * @typeparam O - The shape of the JSON-serializable object that will be passed to the DOM script.
- * @typeparam S - Static attributes of this feature.
- * @typeparam P - The type of the assembled properties added to webshell.
+ * @typeparam S - Supplementary static attributes of this feature.
+ * @typeparam P - The type of the assembled React Props added to webshell.
  *
  * @public
  */
@@ -168,7 +168,7 @@ export type AssembledFeature<
    */
   readonly options: OptionalUnlessRequiredField<O>;
   /**
-   * A placeholder type to keep track of the properties added by this feature.
+   * A placeholder type to keep track of the React Props added by this feature.
    */
   readonly props?: P;
 } & S;
@@ -247,12 +247,12 @@ export type EventFeature<
  * Native's side.
  *
  * @typeparam O - The shape of the JSON-serializable object that will be passed to the DOM script.
- * @typeparam S - Static attributes of this feature.
- * @typeparam P - The type of the assembled properties added to webshell.
+ * @typeparam S - Supplementary static attributes of this feature.
+ * @typeparam P - The type of the assembled React Props added to webshell.
  *
  * @public
  */
-export type Feature<O extends {}, S extends {}, P extends {}> = {
+export type Feature<O extends {}, S extends {} = {}, P extends {} = {}> = {
   /**
    * The string containing valid ECMAScript 5 to be run in the WebView.
    *

@@ -133,5 +133,5 @@ export const elementCSSBoxFeature: EventFeatureOf<
 > = makeFeature({
   script,
   eventHandlerName,
-  featureIdentifier: 'org.webshell.elementCSSBoxDimensions'
+  featureIdentifier: 'org.formidable-webview/webshell.element-cssbox-dimensions'
 });

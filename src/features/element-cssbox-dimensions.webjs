@@ -1,4 +1,4 @@
-function elementCssBoxFeature(context) {
+function elementCssBoxDimensionsFeature(context) {
   var postMessage = context.postMessage;
   var options = context.options || {};
   var tagName = options.tagName;

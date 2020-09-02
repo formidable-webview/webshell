@@ -1,13 +1,19 @@
 import * as React from 'react';
 import Constants from 'expo-constants';
-import { StyleSheet, ScrollView, PixelRatio } from 'react-native';
+import { StyleSheet, ScrollView, PixelRatio, View } from 'react-native';
 import makeWebshell, {
-  htmlDimensionsFeature
+  htmlDimensionsFeature,
+  fixViewportFeature
 } from '@formidable-webview/webshell';
 import { useAutoheight } from './autoheigh-hook';
 import WebView from 'react-native-webview';
+import { WebViewSource } from 'react-native-webview/lib/WebViewTypes';
 
-const Webshell = makeWebshell(WebView, htmlDimensionsFeature.assemble());
+const Webshell = makeWebshell(
+  WebView,
+  htmlDimensionsFeature.assemble(),
+  fixViewportFeature.assemble()
+);
 
 const width = 500;
 const height = 200;
@@ -47,16 +53,23 @@ const html = `
 </html>
 `;
 
+let source: WebViewSource = { html };
+source = {
+  uri:
+    'https://support.mozilla.org/en-US/kb/get-started-firefox-overview-main-features'
+};
+
 export default function App() {
   const autoheightProps = useAutoheight({
-    style: styles.autoheight,
-    maxScale: 3
+    style: styles.autoheight
   });
   const onLayout = ({ nativeEvent }) => console.info('LAYOUT', nativeEvent);
   return (
-    <ScrollView style={styles.root} contentContainerStyle={styles.container}>
-      <Webshell onLayout={onLayout} source={{ html }} {...autoheightProps} />
-    </ScrollView>
+    <View style={styles.root}>
+      <ScrollView contentContainerStyle={styles.container}>
+        <Webshell onLayout={onLayout} source={source} {...autoheightProps} />
+      </ScrollView>
+    </View>
   );
 }
 
@@ -64,6 +77,7 @@ const styles = StyleSheet.create({
   root: {
     marginTop: Constants.statusBarHeight,
     flex: 1,
+    padding: 10,
     backgroundColor: '#99b998' // green
   },
   autoheight: {
@@ -74,7 +88,7 @@ const styles = StyleSheet.create({
   },
   container: {
     backgroundColor: '#27363b', // gray
-    flexGrow: 1,
+    flexGrow: 0,
     padding: 0,
     margin: 0
   }

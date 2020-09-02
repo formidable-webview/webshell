@@ -29,5 +29,5 @@ export const linkPressFeature: EventFeatureOf<
 > = makeFeature({
   script: linkPressScript,
   eventHandlerName: 'onDOMLinkPress',
-  featureIdentifier: 'org.webshell.linkPress'
+  featureIdentifier: 'org.formidable-webview/webshell.link-press'
 });
