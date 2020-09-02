@@ -14,5 +14,10 @@ function fixViewportFeature(context) {
   var metaViewport = document.createElement('meta');
   metaViewport.setAttribute('name', 'viewport');
   metaViewport.setAttribute('content', metaViewportContent);
-  document.getElementsByTagName('head')[0].appendChild(metaViewport);
+  var head = document.getElementsByTagName('head')[0];
+  if (!head) {
+    head = document.createElement('head');
+    document.documentElement.appendChild(head);
+  }
+  head.appendChild(metaViewport);
 }
