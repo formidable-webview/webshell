@@ -9937,7 +9937,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-linking@npm:~1.0.3":
+expo-linking@1.0.4:
   version: 1.0.4
   resolution: "expo-linking@npm:1.0.4"
   dependencies:
@@ -9947,6 +9947,19 @@ __metadata:
   peerDependencies:
     react-native: "*"
   checksum: d1114bbbbb68021a86a6791eab4103d6e0e5a5eb0f0723e8e7f8369143fd744fe15d973937315a94e3e3a0a5167a3045389a02bdcf3a236592de14f2121cebc8
+  languageName: node
+  linkType: hard
+
+"expo-linking@patch:expo-linking@1.0.4#./patches/expo-linking.patch::locator=%40formidable-webview%2Fwebshell%40workspace%3A.":
+  version: 1.0.4
+  resolution: "expo-linking@patch:expo-linking@npm%3A1.0.4#./patches/expo-linking.patch::version=1.0.4&hash=92ea51&locator=%40formidable-webview%2Fwebshell%40workspace%3A."
+  dependencies:
+    expo-constants: ~9.2.0
+    qs: ^6.5.0
+    url-parse: ^1.4.4
+  peerDependencies:
+    react-native: "*"
+  checksum: bbff9c00e883c6bd5a11b5374aa7ce47bdd5e33e675f256cf2ca0118715561656d7f01d7c8145880b1066bc15e7b37bd0de7a65b494dabdff8c7d776d9386cb9
   languageName: node
   linkType: hard
 

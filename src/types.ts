@@ -3,8 +3,7 @@ import {
   ForwardRefExoticComponent,
   RefAttributes,
   ElementRef,
-  ComponentPropsWithoutRef,
-  ComponentProps
+  ComponentPropsWithoutRef
 } from 'react';
 
 // UTILITY TYPES

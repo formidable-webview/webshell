@@ -68,6 +68,9 @@
     "release-it": "^13.7.0",
     "typescript": "3.9.7"
   },
+  "resolutions": {
+    "expo-linking": "patch:expo-linking@1.0.4#./patches/expo-linking.patch"
+  },
   "peerDependencies": {
     "react": "*",
     "react-native": "*"
