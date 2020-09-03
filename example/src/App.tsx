@@ -2,17 +2,17 @@ import * as React from 'react';
 import Constants from 'expo-constants';
 import { StyleSheet, ScrollView, View, Text } from 'react-native';
 import makeWebshell, {
-  fixViewportFeature,
-  handleHTMLDimensionsFeature
+  forceResponsiveViewportFeature,
+  handleHTMLDimensionsFeature,
+  useWebshellAutoheight
 } from '@formidable-webview/webshell';
-import { useWebshellAutoheight } from './autoheigh-hook';
 import WebView from 'react-native-webview';
 import { WebViewSource } from 'react-native-webview/lib/WebViewTypes';
 
 const Webshell = makeWebshell(
   WebView,
   handleHTMLDimensionsFeature.assemble({ forceLegacy: true }),
-  fixViewportFeature.assemble({ maxScale: 2 })
+  forceResponsiveViewportFeature.assemble({ maxScale: 2 })
 );
 
 const html = `
@@ -25,6 +25,7 @@ const html = `
       color: #aaaaaa;
       overflow-vertical: hidden;
       box-sizing: border-box;
+      font-family: serif;
     }
     * {
       box-sizing: border-box;
@@ -104,7 +105,7 @@ const html = `
 `;
 
 let source: WebViewSource = { html };
-// source = { uri: 'https://en.wikipedia.org/wiki/React_Native' };
+source = { uri: 'https://en.wikipedia.org/wiki/React_Native' };
 // source = {
 //   uri:
 //     'https://support.mozilla.org/en-US/kb/get-started-firefox-overview-main-features'

@@ -31,14 +31,15 @@ export interface VisualViewportDimensions {
 const eventHandlerName = 'onDOMVisualViewportDimensions';
 
 /**
- * This feature adds a handler triggered when the visual viewport changes.
- * It requires the relatively new VisualViewport API support on browsers.
+ * This feature adds a handler triggered when the visual viewport changes. It
+ * requires VisualViewport API support on browsers (iOS Safari 13 and Android
+ * WebView 62).
  * See {@link https://developer.mozilla.org/en-US/docs/Web/API/VisualViewport | MDN—VisualViewport API}.
  *
  * @public
  * @beta
  */
-export const handleHTMLDimensionsFeature: EventFeatureOf<
+export const handleVisualViewportFeature: EventFeatureOf<
   {},
   typeof eventHandlerName,
   VisualViewportDimensions

@@ -20,5 +20,6 @@ export type {
 } from './types';
 export * from './make-feature';
 export * from './features';
+export * from './hooks/autoheigh';
 export { makeWebshell };
 export default makeWebshell;

@@ -1,4 +1,3 @@
-/* eslint-disable no-inner-declarations */
 function htmlDimensionsFeature(context) {
   var postMessage = context.postMessage;
   var options = context.options || {};
@@ -18,6 +17,15 @@ function htmlDimensionsFeature(context) {
       d1.content.height === d2.content.height
     );
   }
+  function getBodyMargins() {
+    var bodyStyle = getComputedStyle(document.body);
+    return {
+      marginBottom: extractNumericValue(bodyStyle.marginBottom),
+      marginTop: extractNumericValue(bodyStyle.marginTop),
+      marginLeft: extractNumericValue(bodyStyle.marginLeft),
+      marginRight: extractNumericValue(bodyStyle.marginRight)
+    };
+  }
   function postDimensionsObject(content, isLegacy) {
     var layoutViewport = {
       width: document.documentElement.clientWidth,
@@ -33,57 +41,52 @@ function htmlDimensionsFeature(context) {
       oldDimensions = dimensions;
     }
   }
+  function createPostResize(isLegacy) {
+    return function postSize() {
+      var spacing = getBodyMargins();
+      var bodySize = document.body.getBoundingClientRect();
+      postDimensionsObject(
+        {
+          width: bodySize.width + spacing.marginLeft + spacing.marginRight,
+          height: bodySize.height + spacing.marginTop + spacing.marginBottom
+        },
+        isLegacy
+      );
+    };
+  }
+  // resize-observer mode
   if (window.ResizeObserver && !forceLegacy) {
     // Requires iOS Safari 13.5 or Android browser 81
     // https://caniuse.com/#feat=mdn-api_resizeobserver
+    var postResize = createPostResize(false);
     var resizeObserver = new window.ResizeObserver(function (entries) {
-      for (var i = 0; i < entries.length; i++) {
-        var entry = entries[i];
-        console.info(entry);
-        if (entry.target.tagName.toLowerCase() === 'body') {
-          postDimensionsObject(
-            {
-              width: entry.contentRect.width,
-              height: entry.contentRect.height
-            },
-            false
-          );
-        }
-      }
+      console.info(entries);
+      postResize();
     });
     resizeObserver.observe(document.body);
   } else {
-    function postSize() {
-      var bodySize = document.body.getBoundingClientRect(),
-        bodyStyle = getComputedStyle(document.body),
-        bodyMarginBottom = extractNumericValue(bodyStyle.marginBottom),
-        bodyMarginTop = extractNumericValue(bodyStyle.marginTop),
-        bodyMarginLeft = extractNumericValue(bodyStyle.marginLeft),
-        bodyMarginRight = extractNumericValue(bodyStyle.marginRight);
-      postDimensionsObject(
-        {
-          width: bodySize.width + bodyMarginLeft + bodyMarginRight,
-          height: bodySize.height + bodyMarginTop + bodyMarginBottom
-        },
-        true
-      );
-    }
-    postSize();
+    var postSize = createPostResize(true);
     window.onresize = postSize;
     var MutationObserver =
       window['MutationObserver'] || window['WebKitMutationObserver'];
+    // mutation-observer mode
     if (MutationObserver) {
       var observer = new MutationObserver(postSize);
       observer.observe(document, {
         subtree: true,
         attributes: true
       });
+      // polling mode
     } else {
+      var pollingInterval = 200;
+      postSize();
       context.warn(
         "This browser doesn't support MutationObserver." +
-          'The dimensions will still be read every 100ms and committed when a change is identified.'
+          'The dimensions will still be read every' +
+          pollingInterval +
+          'ms and committed when a change is identified.'
       );
     }
-    setInterval(postSize, 100);
+    setInterval(postSize, 200);
   }
 }
