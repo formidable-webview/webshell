@@ -1,4 +1,4 @@
-function fixViewportFeature(context) {
+function forceResponsiveViewportFeature(context) {
   var options = context.options || {};
   var maxScale = options.maxScale || 1;
   var metaViewportContent =
