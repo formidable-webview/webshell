@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Constants from 'expo-constants';
-import * as Linking from 'expo-linking';
+import * as WebBrowser from 'expo-web-browser';
 import { StyleSheet, ScrollView, Text, View } from 'react-native';
 import makeWebshell, {
   forceResponsiveViewportFeature,
@@ -178,7 +178,7 @@ export default function App() {
   const autoheightProps = useWebshellAutoheight<WebshellProps>({
     source,
     style: styles.autoheight,
-    onDOMLinkPress: Linking.openURL
+    onDOMLinkPress: WebBrowser.openBrowserAsync
   });
   return (
     <View style={styles.root}>

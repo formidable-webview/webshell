@@ -7205,6 +7205,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"compare-urls@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "compare-urls@npm:2.0.0"
+  dependencies:
+    normalize-url: ^2.0.1
+  checksum: 3c927b697f9bf8a62ff75127f02a0675343534fe3a54b5b1e933012fcc88cca821957597dc45db8766c4baf94b6903d363a6f79a82563c71142916db32b46604
+  languageName: node
+  linkType: hard
+
 "compare-versions@npm:^3.4.0, compare-versions@npm:^3.6.0":
   version: 3.6.0
   resolution: "compare-versions@npm:3.6.0"
@@ -9937,7 +9946,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-expo-linking@1.0.4:
+"expo-linking@npm:~1.0.3":
   version: 1.0.4
   resolution: "expo-linking@npm:1.0.4"
   dependencies:
@@ -9947,19 +9956,6 @@ expo-linking@1.0.4:
   peerDependencies:
     react-native: "*"
   checksum: d1114bbbbb68021a86a6791eab4103d6e0e5a5eb0f0723e8e7f8369143fd744fe15d973937315a94e3e3a0a5167a3045389a02bdcf3a236592de14f2121cebc8
-  languageName: node
-  linkType: hard
-
-"expo-linking@patch:expo-linking@1.0.4#./patches/expo-linking.patch::locator=%40formidable-webview%2Fwebshell%40workspace%3A.":
-  version: 1.0.4
-  resolution: "expo-linking@patch:expo-linking@npm%3A1.0.4#./patches/expo-linking.patch::version=1.0.4&hash=92ea51&locator=%40formidable-webview%2Fwebshell%40workspace%3A."
-  dependencies:
-    expo-constants: ~9.2.0
-    qs: ^6.5.0
-    url-parse: ^1.4.4
-  peerDependencies:
-    react-native: "*"
-  checksum: bbff9c00e883c6bd5a11b5374aa7ce47bdd5e33e675f256cf2ca0118715561656d7f01d7c8145880b1066bc15e7b37bd0de7a65b494dabdff8c7d776d9386cb9
   languageName: node
   linkType: hard
 
@@ -10025,6 +10021,18 @@ expo-linking@1.0.4:
   version: 1.0.2
   resolution: "expo-status-bar@npm:1.0.2"
   checksum: bdcfce813700aebfde6f376b96b0c520c8514cc7319c159c06c17318a9328231f93d3b8c3c0eeaa3dd4cfb0ddf9710cb43bdf9478f7098d2bcc2e695b3ed4292
+  languageName: node
+  linkType: hard
+
+"expo-web-browser@npm:~8.3.1":
+  version: 8.3.1
+  resolution: "expo-web-browser@npm:8.3.1"
+  dependencies:
+    compare-urls: ^2.0.0
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 8a354e89f6ba2421918ae838658257e00f096d2211eaf0944842fc99e587dc2ce055f1d12387f6a8a556134399531a422618d6bd72e94f509bb8458cef702881
   languageName: node
   linkType: hard
 
@@ -12880,7 +12888,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"is-plain-obj@npm:^1.1.0":
+"is-plain-obj@npm:^1.0.0, is-plain-obj@npm:^1.1.0":
   version: 1.1.0
   resolution: "is-plain-obj@npm:1.1.0"
   checksum: d2eb5a32eacd7c79f3b2fe20552d091805a5ae88a7ca2aa71226bf822e4d690ef046ed2beb795f32666a401dfbf9a25ee3d4acde5426f963d55474468708ad22
@@ -16247,6 +16255,17 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"normalize-url@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "normalize-url@npm:2.0.1"
+  dependencies:
+    prepend-http: ^2.0.0
+    query-string: ^5.0.1
+    sort-keys: ^2.0.0
+  checksum: a3491f440140838cf1ac9c4f90c3be51c85fe28e8d34dcbc421312c071152431e2de35746181d407cf35a3ddb2c2dcafb9ee9a9250fc2a6dd18c214ddf92c9ea
+  languageName: node
+  linkType: hard
+
 "normalize-url@npm:^3.0.0, normalize-url@npm:^3.3.0":
   version: 3.3.0
   resolution: "normalize-url@npm:3.3.0"
@@ -18397,6 +18416,17 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"query-string@npm:^5.0.1":
+  version: 5.1.1
+  resolution: "query-string@npm:5.1.1"
+  dependencies:
+    decode-uri-component: ^0.2.0
+    object-assign: ^4.1.0
+    strict-uri-encode: ^1.0.0
+  checksum: 68d4ad519a9fc288bc9ade3e515ce89a6806b88fd92e1459277570dca753665bb1b43e4cc7747012fc3b19b3d4283a724d519b568859943f57aaa3668c4d5b4b
+  languageName: node
+  linkType: hard
+
 "querystring-es3@npm:^0.2.0":
   version: 0.2.1
   resolution: "querystring-es3@npm:0.2.1"
@@ -20255,6 +20285,15 @@ resolve@~1.12.0:
   languageName: node
   linkType: hard
 
+"sort-keys@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "sort-keys@npm:2.0.0"
+  dependencies:
+    is-plain-obj: ^1.0.0
+  checksum: c0437ce7fbcc35e6f255f46cc4ba350cadac3199f4af3ee8c8b305f50a35b6ead4fec814a4d86ffa49c8ec9e5bf064877232a7d45270c6e31f725209a1c4ef3d
+  languageName: node
+  linkType: hard
+
 "source-list-map@npm:^2.0.0":
   version: 2.0.1
   resolution: "source-list-map@npm:2.0.1"
@@ -20604,6 +20643,13 @@ resolve@~1.12.0:
   version: 1.0.1
   resolution: "stream-shift@npm:1.0.1"
   checksum: 5d777b222e460dc660ee29acad4f99649eb8d0051d3cb648fc92f3f77557b33d0a8ad656291c2cfa87703204191534a6003c2b035606a699674d0bb600353ad3
+  languageName: node
+  linkType: hard
+
+"strict-uri-encode@npm:^1.0.0":
+  version: 1.1.0
+  resolution: "strict-uri-encode@npm:1.1.0"
+  checksum: 6c80f6998a45414d7c124772383cc10ce7bd22586af80762407cded1569666564fb8c0a4c9c997ac39a1116d46dfffc5d57135e759a0acb66a4da1191f5a3a4a
   languageName: node
   linkType: hard
 
@@ -22614,6 +22660,7 @@ resolve@~1.12.0:
     expo-cli: ^3.25.1
     expo-splash-screen: ^0.5.0
     expo-status-bar: ^1.0.2
+    expo-web-browser: ~8.3.1
     react: ~16.11.0
     react-native: "https://github.com/expo/react-native/archive/sdk-38.0.2.tar.gz"
     react-native-webview: 9.4.0

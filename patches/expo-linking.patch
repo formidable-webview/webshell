@@ -1,9 +1,0 @@
-diff --git a/build/Linking.types.d.ts b/build/Linking.types.d.ts
-index 2547771bd1cdd6a3baf5c6a078e259a3eaa51411..695e324d7e7830d56a2e790206ce9ffea083efdb 100644
---- a/build/Linking.types.d.ts
-+++ b/build/Linking.types.d.ts
-@@ -1,3 +1,4 @@
-+interface MessageEvent {}
- export declare type QueryParams = {
-     [key: string]: string | undefined;
- };

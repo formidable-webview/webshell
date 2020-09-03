@@ -1,29 +1,32 @@
 import React, { useCallback } from 'react';
 import { Linking } from 'react-native';
 import makeWebshell, {
-  linkPressFeature,
-  elementDimensionsFeature,
-  ElementDimensionsObject
+  handleLinkPressFeature,
+  handleHTMLDimensionsFeature,
+  HTMLDimensions
 } from '@formidable-webview/webshell';
 import WebView from 'react-native-webview';
 
 const Webshell = makeWebshell(
   WebView,
-  linkPressFeature.assemble({ preventDefault: true }),
-  elementDimensionsFeature.assemble({ tagName: 'body' })
+  handleLinkPressFeature.assemble({ preventDefault: true }),
+  handleHTMLDimensionsFeature.assemble()
 );
 
 export default function EnhancedWebView(webViewProps) {
   const onLinkPress = useCallback((url: string) => Linking.openURL(url), []);
   const onBodyDimensions = useCallback(
-    ({ width, height }: ElementDimensionsObject) => console.info(width, height),
+    ({ layoutViewport: { width, height } }: HTMLDimensions) =>
+      console.info(width, height),
     []
   );
   const onError = useCallback((featureIdentifier, errorMessage) => {
-    if (featureIdentifier === linkPressFeature.identifier) {
+    if (featureIdentifier === handleLinkPressFeature.featureIdentifier) {
       // Handle linkPress error
       console.error(errorMessage);
-    } else if (featureIdentifier === elementDimensionsFeature.identifier) {
+    } else if (
+      featureIdentifier === handleHTMLDimensionsFeature.featureIdentifier
+    ) {
       // Handle dimensions error
       console.error(errorMessage);
     }

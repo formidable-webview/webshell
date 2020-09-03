@@ -10,11 +10,10 @@
     "types"
   ],
   "scripts": {
-    "test": "yarn run test:ts && yarn run test:lint && yarn run test:jest && yarn run build && yarn run test:integration",
+    "test": "yarn run test:ts && yarn run test:lint && yarn run test:jest && yarn run test:doc && yarn run build",
     "test:jest": "jest src/",
-    "test:ts": "tsc --noEmit",
+    "test:ts": "tsc --noEmit --project tsconfig.json",
     "test:lint": "eslint --ext webjs,ts,tsx src/",
-    "test:integration": "tsc --project integration/tsconfig.json",
     "test:doc": "embedme --verify README.MD",
     "build": "yarn run build:source && yarn run build:defs && yarn run build:doc",
     "build:source": "bob build",
@@ -67,9 +66,6 @@
     "react-test-renderer": "16.13.1",
     "release-it": "^13.7.0",
     "typescript": "3.9.7"
-  },
-  "resolutions": {
-    "expo-linking": "patch:expo-linking@1.0.4#./patches/expo-linking.patch"
   },
   "peerDependencies": {
     "react": "*",
