@@ -103,7 +103,7 @@ export default function EnhancedWebView(webViewProps) {
 
 ```
 
-## A classic use-case: implementing AutoheightWebView
+## A full featured AutoheightWebView
 
 This component height automatically and dynamically adapts to the page height,
 even after DOM is mounted.
@@ -111,31 +111,25 @@ even after DOM is mounted.
 ```ts
 // integration/autoheight.tsx
 
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import makeWebshell, {
-  elementDimensionsFeature,
-  ElementDimensionsObject
+  handleHTMLDimensionsFeature,
+  forceResponsiveViewportFeature,
+  forceBodySizeFeature,
+  useWebshellAutoheight
 } from '@formidable-webview/webshell';
-import WebView from 'react-native-webview';
+import WebView, { WebViewProps } from 'react-native-webview';
 
 const Webshell = makeWebshell(
   WebView,
-  elementDimensionsFeature.assemble({ tagName: 'body' })
+  handleHTMLDimensionsFeature.assemble({ forceLegacy: true }),
+  forceResponsiveViewportFeature.assemble({ maxScale: 2 }),
+  forceBodySizeFeature.assemble()
 );
 
-export default function AutoheightWebView(webViewProps) {
-  const [height, setHeight] = useState<number | undefined>(undefined);
-  const onBodyDimensions = useCallback(
-    ({ height: bodyHeight }: ElementDimensionsObject) => setHeight(bodyHeight),
-    []
-  );
-  return (
-    <Webshell
-      onDOMElementDimensions={onBodyDimensions}
-      {...webViewProps}
-      style={[webViewProps.style, { height }]}
-    />
-  );
+export default function AutoheightWebView(webViewProps: WebViewProps) {
+  const autoheightWebshellProps = useWebshellAutoheight(webViewProps);
+  return <Webshell {...autoheightWebshellProps} />;
 }
 
 ```

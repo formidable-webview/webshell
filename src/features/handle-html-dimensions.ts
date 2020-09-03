@@ -52,7 +52,7 @@ const eventHandlerName = 'onDOMHTMLDimensions';
  *
  * @remarks
  * You should use this feature with a meta tag viewport setting width to device
- * width. See {@link fixViewportFeature}.
+ * width. See {@link forceResponsiveViewportFeature}.
  *
  * @public
  */

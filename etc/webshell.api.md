@@ -4,7 +4,6 @@
 
 ```ts
 
-import { ComponentProps } from 'react';
 import { ComponentPropsWithoutRef } from 'react';
 import { ComponentType } from 'react';
 import { ElementRef } from 'react';
@@ -101,10 +100,21 @@ export type Feature<O extends {}, S extends {} = {}, P extends {} = {}> = {
 } & S;
 
 // @public
-export const fixViewportFeature: Feature_2<FixViewportOptions>;
+export const forceBodySizeFeature: Feature_2<ForceBodySizeOptions>;
 
 // @public
-export interface FixViewportOptions {
+export interface ForceBodySizeOptions {
+    forceHeight?: boolean;
+    forceWidth?: boolean;
+    heightValue?: number | string;
+    widthValue?: number | string;
+}
+
+// @public
+export const forceResponsiveViewportFeature: Feature_2<ForceResponsiveViewportOptions>;
+
+// @public
+export interface ForceResponsiveViewportOptions {
     maxScale?: number;
 }
 
@@ -122,17 +132,27 @@ export const handleElementCSSBoxFeature: EventFeatureOf<HandleElementCSSBoxDimen
 // Warning: (ae-forgotten-export) The symbol "eventHandlerName" needs to be exported by the entry point index.d.ts
 //
 // @public
-export const handleHTMLDimensionsFeature: EventFeatureOf<{}, typeof eventHandlerName_2, HTMLDimensions>;
+export const handleHTMLDimensionsFeature: EventFeatureOf<HandleHTMLDimensionsOptions, typeof eventHandlerName_2, HTMLDimensions>;
+
+// @public (undocumented)
+export interface HandleHTMLDimensionsOptions {
+    forceLegacy?: boolean;
+}
 
 // @public
 export const handleLinkPressFeature: EventFeatureOf<LinkPressOptions, 'onDOMLinkPress', string>;
 
+// Warning: (ae-forgotten-export) The symbol "eventHandlerName" needs to be exported by the entry point index.d.ts
+//
+// @beta
+export const handleVisualViewportFeature: EventFeatureOf<{}, typeof eventHandlerName_3, VisualViewportDimensions>;
+
 // @public
 export interface HTMLDimensions {
     content: Dimensions;
+    isLegacy: boolean;
     // Warning: (ae-forgotten-export) The symbol "Dimensions" needs to be exported by the entry point index.d.ts
     layoutViewport: Dimensions;
-    scrollable: Dimensions;
 }
 
 // @public
@@ -144,7 +164,7 @@ export interface LinkPressOptions {
 export function makeFeature<O extends {}, S extends {}, P extends {}>(params: Pick<Feature<O, S, P>, keyof S | 'script' | 'featureIdentifier'>): Feature<O, S, P>;
 
 // @public
-function makeWebshell<F extends AssembledFeature[], C extends ComponentType<any>>(WebView: C, ...assembledFeatures: F): React_2.ForwardRefExoticComponent<React_2.PropsWithoutRef<WebshellProps<React_2.ComponentPropsWithRef<C>, F>> & React_2.RefAttributes<React_2.ElementRef<C>>>;
+function makeWebshell<C extends ComponentType<any>, F extends AssembledFeature[]>(WebView: C, ...assembledFeatures: F): React_2.ForwardRefExoticComponent<WebshellProps<React_2.ComponentPropsWithoutRef<C>, F> & React_2.RefAttributes<ElementRef<C>>>;
 
 export default makeWebshell;
 
@@ -161,7 +181,13 @@ export interface MinimalWebViewProps {
     // (undocumented)
     readonly onMessage?: unknown;
     // (undocumented)
+    readonly onNavigationStateChange?: unknown;
+    // (undocumented)
+    readonly scalesPageToFit?: unknown;
+    // (undocumented)
     readonly source?: unknown;
+    // (undocumented)
+    readonly style?: unknown;
 }
 
 // @public
@@ -169,6 +195,20 @@ export type OptionalUnlessRequiredField<O> = O extends Partial<O> ? O | undefine
 
 // @public
 export type PayloadOf<T> = T extends AssembledEventFeature<{}, string, infer P> ? P : never;
+
+// @beta
+export function useWebshellAutoheight<W extends MinimalWebViewProps>(webshellProps: W): {
+    onDOMHTMLDimensions: (htmlDimensions: HTMLDimensions) => void;
+    style: any;
+    scalesPageToFit: boolean;
+} & Pick<W, Exclude<keyof W, "style" | "scalesPageToFit" | "onNavigationStateChange">>;
+
+// @public
+export interface VisualViewportDimensions {
+    isLegacy: boolean;
+    scale: number;
+    visualViewport: Dimensions;
+}
 
 // @public
 export interface WebjsContext<O extends {}, P> {
@@ -181,8 +221,10 @@ export interface WebjsContext<O extends {}, P> {
 // @public
 export type WebshellAssembledProps<F> = F extends AssembledFeature<{}, {}, infer P> ? P : never;
 
+// Warning: (ae-forgotten-export) The symbol "WebshellComponent" needs to be exported by the entry point index.d.ts
+//
 // @public
-export type WebshellComponentOf<C extends ComponentType<any>, F extends Feature<any, any, any>[]> = ComponentProps<C> extends MinimalWebViewProps ? ForwardRefExoticComponent<WebshellProps<ComponentPropsWithoutRef<C>, AssembledFeatureOf<F[number]>[]> & RefAttributes<ElementRef<C>>> : never;
+export type WebshellComponentOf<C extends ComponentType<any>, F extends Feature<any, any, any>[]> = WebshellComponent<C, AssembledFeatureOf<F[number]>[]>;
 
 // @public
 export interface WebshellInvariantProps {

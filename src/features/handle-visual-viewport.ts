@@ -36,7 +36,6 @@ const eventHandlerName = 'onDOMVisualViewportDimensions';
  * WebView 62).
  * See {@link https://developer.mozilla.org/en-US/docs/Web/API/VisualViewport | MDN—VisualViewport API}.
  *
- * @public
  * @beta
  */
 export const handleVisualViewportFeature: EventFeatureOf<

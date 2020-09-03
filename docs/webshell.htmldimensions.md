@@ -14,13 +14,13 @@ export interface HTMLDimensions
 
 ## Remarks
 
-This object units are in React Native dpi, independently of the scale factor between DPI and CSS pixels. TODO: verify
+This object units are in CSS pixels. CSS pixels match device pixels when the web page has a `<meta name="viewport" content="width=device-width" />` tag.
 
 ## Properties
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [content](./webshell.htmldimensions.content.md) | Dimensions | document.documentElement.offsetWith and document.documentElement.offsetHeight |
-|  [layoutViewport](./webshell.htmldimensions.layoutviewport.md) | Dimensions | document.documentElement.clientWidth and document.documentElement.clientHeight |
-|  [scrollable](./webshell.htmldimensions.scrollable.md) | Dimensions | document.documentElement.scrollWidth and document.documentElement.scrollHeight |
+|  [content](./webshell.htmldimensions.content.md) | Dimensions | TODO: describe the link to forceLegacy and isLegacy + implementation details document.body.getBoundingClientRect() + margins [http://www.howtocreate.co.uk/tutorials/javascript/browserwindow](http://www.howtocreate.co.uk/tutorials/javascript/browserwindow) |
+|  [isLegacy](./webshell.htmldimensions.islegacy.md) | boolean | <code>false</code> when dimensions have been computed with ResizeObserver, true otherwise. |
+|  [layoutViewport](./webshell.htmldimensions.layoutviewport.md) | Dimensions | document.documentElement.getBoundingClientRect() |
 

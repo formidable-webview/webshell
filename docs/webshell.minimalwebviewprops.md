@@ -20,5 +20,8 @@ export interface MinimalWebViewProps
 |  [javaScriptEnabled](./webshell.minimalwebviewprops.javascriptenabled.md) | unknown |  |
 |  [onError](./webshell.minimalwebviewprops.onerror.md) | unknown |  |
 |  [onMessage](./webshell.minimalwebviewprops.onmessage.md) | unknown |  |
+|  [onNavigationStateChange](./webshell.minimalwebviewprops.onnavigationstatechange.md) | unknown |  |
+|  [scalesPageToFit](./webshell.minimalwebviewprops.scalespagetofit.md) | unknown |  |
 |  [source](./webshell.minimalwebviewprops.source.md) | unknown |  |
+|  [style](./webshell.minimalwebviewprops.style.md) | unknown |  |
 

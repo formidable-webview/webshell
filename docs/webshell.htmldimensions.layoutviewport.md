@@ -4,7 +4,7 @@
 
 ## HTMLDimensions.layoutViewport property
 
-document.documentElement.clientWidth and document.documentElement.clientHeight
+document.documentElement.getBoundingClientRect()
 
 <b>Signature:</b>
 

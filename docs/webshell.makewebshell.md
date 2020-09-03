@@ -9,7 +9,7 @@ Creates a React component which decorates WebView component with additionnal pro
 <b>Signature:</b>
 
 ```typescript
-export declare function makeWebshell<F extends AssembledFeature[], C extends ComponentType<any>>(WebView: C, ...assembledFeatures: F): React.ForwardRefExoticComponent<React.PropsWithoutRef<WebshellProps<React.ComponentPropsWithRef<C>, F>> & React.RefAttributes<React.ElementRef<C>>>;
+export declare function makeWebshell<C extends ComponentType<any>, F extends AssembledFeature[]>(WebView: C, ...assembledFeatures: F): React.ForwardRefExoticComponent<WebshellProps<React.ComponentPropsWithoutRef<C>, F> & React.RefAttributes<ElementRef<C>>>;
 ```
 
 ## Parameters
@@ -21,5 +21,5 @@ export declare function makeWebshell<F extends AssembledFeature[], C extends Com
 
 <b>Returns:</b>
 
-React.ForwardRefExoticComponent&lt;React.PropsWithoutRef&lt;[WebshellProps](./webshell.webshellprops.md)<!-- -->&lt;React.ComponentPropsWithRef&lt;C&gt;, F&gt;&gt; &amp; React.RefAttributes&lt;React.ElementRef&lt;C&gt;&gt;&gt;
+React.ForwardRefExoticComponent&lt;[WebshellProps](./webshell.webshellprops.md)<!-- -->&lt;React.ComponentPropsWithoutRef&lt;C&gt;, F&gt; &amp; React.RefAttributes&lt;ElementRef&lt;C&gt;&gt;&gt;
 

@@ -17,11 +17,10 @@ export interface ForceResponsiveViewportOptions {
 }
 
 /**
- * This feature inserts or replace a `<meta name="viewport"
- * content="width=device-width" />` tag in the head to guarantee that the
- * layout viewport will match device-width (hence, “responsive”). Minimum scale
- * is locked to 1, but you can customize maximum scale to allow pinch-zoom
- * gestures.
+ * This feature inserts or replace a `<meta name="viewport" content="width=device-width" />`
+ * tag in the head to guarantee that the layout viewport will match
+ * device-width (hence, “responsive”). Minimum scale is locked to 1, but you
+ * can customize maximum scale to allow pinch-zoom gestures.
  * See {@link https://developer.mozilla.org/en-US/docs/Mozilla/Mobile/Viewport_meta_tag | MDN—Using the viewport meta tag ...}
  *
  * @public

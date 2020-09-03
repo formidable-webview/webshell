@@ -8,36 +8,18 @@ const initialDimensions = { width: undefined, height: undefined };
 
 let numberOfEvents = 0;
 
-interface Source {
-  uri?: string;
-  html?: string;
-}
-
-function areSourcesEqual(s1: Source, s2: Source) {
-  return s1 === s2 || (s1 && s2 && s1.html === s2.html && s1.uri === s2.uri);
-}
-
 /**
  * A hook which resets dimensions on certain events.
  */
 function useAutoheightDimensions<W extends MinimalWebViewProps>(
   webshellProps: W
 ) {
-  const { scalesPageToFit, source } = webshellProps;
+  const { scalesPageToFit } = webshellProps;
   const orientation = useDeviceOrientation();
-  const previousSourceRef = React.useRef(source);
   const [contentDimensions, setContentDimensions] = React.useState<{
     width: number | undefined;
     height: number | undefined;
   }>(initialDimensions);
-  React.useEffect(() => {
-    if (
-      !areSourcesEqual(previousSourceRef.current as Source, source as Source)
-    ) {
-      setContentDimensions(initialDimensions);
-    }
-    previousSourceRef.current = source;
-  }, [source]);
   React.useEffect(() => {
     if (typeof orientation === 'string') {
       setContentDimensions(initialDimensions);
@@ -49,7 +31,7 @@ function useAutoheightDimensions<W extends MinimalWebViewProps>(
     React.useEffect(() => {
       scalesPageToFit === true &&
         console.warn(
-          `${useWebshellAutoheight.name}: You cannot use scalesPageToFit with autoheight hook.`
+          `${useWebshellAutoheight.name}: You cannot use scalesPageToFit with autoheight hook. The value will be overriden to false`
         );
     }, [scalesPageToFit]);
   return { contentDimensions, setContentDimensions };
@@ -75,6 +57,8 @@ function useAutoheightDimensions<W extends MinimalWebViewProps>(
  *   on overflow, and there is no such overflow when in autoheight mode.
  *
  * @param webshellProps - the `Webshell` props you whish to augment.
+ *
+ * @beta
  */
 export function useWebshellAutoheight<W extends MinimalWebViewProps>(
   webshellProps: W

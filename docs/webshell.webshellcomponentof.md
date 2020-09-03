@@ -9,7 +9,7 @@ A lookup type to find Webshell Component type from a list of features.
 <b>Signature:</b>
 
 ```typescript
-export declare type WebshellComponentOf<C extends ComponentType<any>, F extends Feature<any, any, any>[]> = ComponentProps<C> extends MinimalWebViewProps ? ForwardRefExoticComponent<WebshellProps<ComponentPropsWithoutRef<C>, AssembledFeatureOf<F[number]>[]> & RefAttributes<ElementRef<C>>> : never;
+export declare type WebshellComponentOf<C extends ComponentType<any>, F extends Feature<any, any, any>[]> = WebshellComponent<C, AssembledFeatureOf<F[number]>[]>;
 ```
 
 ## Example

@@ -9,10 +9,10 @@ This feature enables receiving various dimensions relative to the layout.
 <b>Signature:</b>
 
 ```typescript
-handleHTMLDimensionsFeature: EventFeatureOf<{}, typeof eventHandlerName, HTMLDimensions>
+handleHTMLDimensionsFeature: EventFeatureOf<HandleHTMLDimensionsOptions, typeof eventHandlerName, HTMLDimensions>
 ```
 
 ## Remarks
 
-You should use this feature with a meta tag viewport setting width to device width. See [fixViewportFeature](./webshell.fixviewportfeature.md)<!-- -->.
+You should use this feature with a meta tag viewport setting width to device width. See [forceResponsiveViewportFeature](./webshell.forceresponsiveviewportfeature.md)<!-- -->.
 

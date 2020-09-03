@@ -4,7 +4,7 @@
 
 ## HTMLDimensions.content property
 
-document.documentElement.offsetWith and document.documentElement.offsetHeight
+TODO: describe the link to forceLegacy and isLegacy + implementation details document.body.getBoundingClientRect() + margins [http://www.howtocreate.co.uk/tutorials/javascript/browserwindow](http://www.howtocreate.co.uk/tutorials/javascript/browserwindow)
 
 <b>Signature:</b>
 
