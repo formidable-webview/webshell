@@ -32,7 +32,7 @@ let numberOfEvents = 0;
 export function useWebshellAutoheight<W extends MinimalWebViewProps>(
   webshellProps: W
 ) {
-  const { style, onNavigationStateChange, scalesPageToFit } = webshellProps;
+  const { style, onNavigationStateChange, scalesPageToFit, ...passedProps } = webshellProps;
   const [contentDimensions, setContentDimensions] = React.useState<{
     width: number | undefined;
     height: number | undefined;
@@ -55,8 +55,8 @@ export function useWebshellAutoheight<W extends MinimalWebViewProps>(
     (state: any) => {
       console.info('NavigationState change', state);
       if (state.loading && contentDimensions.height) {
-        setContentDimensions(initialDimensions);
-        console.info('Navigation state change, resetting dimensions');
+        // setContentDimensions(initialDimensions);
+        // console.info('Navigation state change, resetting dimensions');
       }
       typeof onNavigationStateChange === 'function' &&
         onNavigationStateChange(state);
@@ -85,6 +85,7 @@ export function useWebshellAutoheight<W extends MinimalWebViewProps>(
     onDOMHTMLDimensions,
     onNavigationStateChange: handleNavigationStateChange,
     style: autoHeightStyle as StyleProp<any>,
-    scalesPageToFit: false
+    scalesPageToFit: false,
+    ...passedProps
   };
 }

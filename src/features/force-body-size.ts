@@ -35,9 +35,7 @@ export interface ForceBodySizeOptions {
 }
 
 /**
- * This feature inserts or replace a `<meta name="viewport" />` tag in the head
- * to guarantee that the viewport will not exceed device-width.
- * See {@link https://developer.mozilla.org/en-US/docs/Mozilla/Mobile/Viewport_meta_tag | MDN—Using the viewport meta tag ...}
+ * This feature sets body size programatically.
  *
  * @public
  */
