@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Constants from 'expo-constants';
 import * as Linking from 'expo-linking';
-import { StyleSheet, ScrollView, Text } from 'react-native';
+import { StyleSheet, ScrollView, Text, View } from 'react-native';
 import makeWebshell, {
   forceResponsiveViewportFeature,
   handleHTMLDimensionsFeature,
@@ -35,9 +35,11 @@ const html = `
       font-size: 14px;
     }
     h2 {
-      font-family: serif;
       color: #d4aa00;
       text-align: center;
+    }
+    h2, h3 {
+      font-family: serif;
     }
     * {
       box-sizing: border-box;
@@ -46,10 +48,9 @@ const html = `
       margin-bottom: 10px;
     }
     .container {
-      padding: 10px;
+      padding-bottom: 10px;
       display: flex;
       justify-content: center;
-      flex-gap: 10px;
     }
     footer {
       width: 100%;
@@ -86,6 +87,9 @@ const html = `
       flex-direction: columns;
       justify-content: center;
     }
+    code {
+      color: #d4aa00;
+    }
   </style>
 </head>
 <html>
@@ -98,27 +102,48 @@ const html = `
       <div class="brand">
          <a href="https://github.com/formidable-webview/webshell#readme">@formidable-webview/webshell</a>
       </div>
-      <h2>Create a WebView which adjusts its layout to its content size</h2>
+      <h2>Create a <code>WebView</code> which adjusts layout viewport to content size</h2>
+      <h3>Strengths</h3>
       <ul>
         <li>
-        Shrink and increase div by pressing buttons and notice how the WebView height adapts dynamically.
+        Created with <code>webshell</code>, a library to decorate <code>WebView</code> with on-demand features.
         </li>
         <li>
-        When the content overflows the layout (which is very bad web design!), you can still scroll horizontally.
-        The scroll is happening inside the WebView.
-        </li>
-        <li>
-        Rotate the screen and observe how the WebView height and width will adjust.
-        </li>
-        <li>
-        Because the viewport height is now bound to the content heigh, <b>you cannot and must not have an element which height depends on viewport (vh)</b>.
-        That will create an infinite loop. This is why it is strongly advised that you use autoheight only with content you have tested.
+        When the content overflows the layout on the horizontal axis (which is very bad web design!), you can still scroll horizontally.
+        The scroll is happening inside the <code>WebView</code>.
         </li>
       </ul>
-      <div class="container">
-        <button onclick="shrinkDiv()">-20</button>
-        <button onclick="increaseDiv()">+20</button>
-      </div>
+      <h3>Caveats</h3>
+      <ul>
+        <li>
+        Because the <strong>viewport height</strong> is now <strong>bound</strong> to the <strong>content heigh</strong>, you
+        must not have a <strong>body</strong> element which height depends on viewport, such as
+        when using <code>height: 100vh;</code> or <code>height: 100%;</code>. That is a cyclic dependency which would cast an infinite loop!
+        <p>
+        This can be worked around by forcing body
+        height to <strong>auto</strong>, see <code>forceBodySizeFeature</code>.
+        </p>
+        </li>
+        <li>
+        It can be buggy with <strong>React Native Fast Refresh</strong> when you change the content of the source on the fly, but that's just during development.
+        </li>
+        <li>
+        Link to scroll (#fragments) will not work, obviously.
+        </li>
+      </ul>
+      <h3>Play</h3>
+      <ul>
+        <li>
+          <strong>Shrink</strong> and <strong>increase footer</strong> by pressing buttons and notice how the <code>WebView</code> height adapts dynamically.
+        </li>
+        <div class="container">
+          <button onclick="shrinkDiv()">-20</button>
+          <button onclick="increaseDiv()">+20</button>
+        </div>
+        <li>
+        <strong>Rotate</strong> the <strong>screen</strong> and observe how the <code>WebView</code> height and width will adjust.
+        </li>
+      </ul>
     </article>
     <footer id="fullwidth">
       This footer tag width is 100%. <br/>
@@ -156,15 +181,17 @@ export default function App() {
     onDOMLinkPress: Linking.openURL
   });
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={[styles.text, styles.textInScrollView]}>
-        The white area is inside the ScrollView, outside the WebView.
-      </Text>
-      <Webshell {...autoheightProps} />
-      <Text style={[styles.text, styles.textInScrollView]}>
-        This is a React Native Text element.
-      </Text>
-    </ScrollView>
+    <View style={styles.root}>
+      <ScrollView contentContainerStyle={styles.container}>
+        <Text style={[styles.text, styles.textInScrollView]}>
+          The white area is inside the ScrollView, outside the WebView.
+        </Text>
+        <Webshell {...autoheightProps} />
+        <Text style={[styles.text, styles.textInScrollView]}>
+          This is a React Native Text element.
+        </Text>
+      </ScrollView>
+    </View>
   );
 }
 
@@ -181,9 +208,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent'
   },
   container: {
-    marginTop: Constants.statusBarHeight,
     backgroundColor: 'white',
     padding: 0,
     margin: 0
+  },
+  root: {
+    flexGrow: 1,
+    marginTop: Constants.statusBarHeight
   }
 });

@@ -79,17 +79,21 @@ export type WebshellAssembledProps<F> = F extends AssembledFeature<
 export type WebshellComponentOf<
   C extends ComponentType<any>,
   F extends Feature<any, any, any>[]
-> = ComponentProps<C> extends MinimalWebViewProps
-  ? ForwardRefExoticComponent<
-      WebshellProps<
-        ComponentPropsWithoutRef<C>,
-        AssembledFeatureOf<F[number]>[]
-      > &
-        RefAttributes<ElementRef<C>>
-    >
-  : never;
+> = WebshellComponent<C, AssembledFeatureOf<F[number]>[]>;
 
 // CONCRETE TYPES
+
+/**
+ * A `Webshell` component type derived from its features.
+ *
+ * @public
+ */
+export type WebshellComponent<
+  C extends ComponentType<any>,
+  F extends AssembledFeature[]
+> = ForwardRefExoticComponent<
+  WebshellProps<ComponentPropsWithoutRef<C>, F> & RefAttributes<ElementRef<C>>
+>;
 
 /**
  * This type specifies the shape of the object passed to DOM features scripts.

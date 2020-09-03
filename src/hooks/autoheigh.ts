@@ -8,6 +8,53 @@ const initialDimensions = { width: undefined, height: undefined };
 
 let numberOfEvents = 0;
 
+interface Source {
+  uri?: string;
+  html?: string;
+}
+
+function areSourcesEqual(s1: Source, s2: Source) {
+  return s1 === s2 || (s1 && s2 && s1.html === s2.html && s1.uri === s2.uri);
+}
+
+/**
+ * A hook which resets dimensions on certain events.
+ */
+function useAutoheightDimensions<W extends MinimalWebViewProps>(
+  webshellProps: W
+) {
+  const { scalesPageToFit, source } = webshellProps;
+  const orientation = useDeviceOrientation();
+  const previousSourceRef = React.useRef(source);
+  const [contentDimensions, setContentDimensions] = React.useState<{
+    width: number | undefined;
+    height: number | undefined;
+  }>(initialDimensions);
+  React.useEffect(() => {
+    if (
+      !areSourcesEqual(previousSourceRef.current as Source, source as Source)
+    ) {
+      setContentDimensions(initialDimensions);
+    }
+    previousSourceRef.current = source;
+  }, [source]);
+  React.useEffect(() => {
+    if (typeof orientation === 'string') {
+      setContentDimensions(initialDimensions);
+      console.info('reset dimensions +', orientation);
+    }
+  }, [orientation]);
+  __DEV__ &&
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    React.useEffect(() => {
+      scalesPageToFit === true &&
+        console.warn(
+          `${useWebshellAutoheight.name}: You cannot use scalesPageToFit with autoheight hook.`
+        );
+    }, [scalesPageToFit]);
+  return { contentDimensions, setContentDimensions };
+}
+
 /**
  * Requires {@link handleHTMLDimensionsFeature} and recommends
  * {@link forceResponsiveViewportFeature}.
@@ -32,13 +79,16 @@ let numberOfEvents = 0;
 export function useWebshellAutoheight<W extends MinimalWebViewProps>(
   webshellProps: W
 ) {
-  const { style, onNavigationStateChange, scalesPageToFit, ...passedProps } = webshellProps;
-  const [contentDimensions, setContentDimensions] = React.useState<{
-    width: number | undefined;
-    height: number | undefined;
-  }>(initialDimensions);
+  const {
+    style,
+    onNavigationStateChange,
+    scalesPageToFit,
+    ...passedProps
+  } = webshellProps;
+  const { contentDimensions, setContentDimensions } = useAutoheightDimensions(
+    webshellProps
+  );
   const { width, height } = contentDimensions;
-  const orientation = useDeviceOrientation();
   const onDOMHTMLDimensions = React.useCallback(
     (htmlDimensions: HTMLDimensions) => {
       const nextDimensions = htmlDimensions.content;
@@ -49,41 +99,15 @@ export function useWebshellAutoheight<W extends MinimalWebViewProps>(
       );
       setContentDimensions(nextDimensions);
     },
-    []
-  );
-  const handleNavigationStateChange = React.useCallback(
-    (state: any) => {
-      console.info('NavigationState change', state);
-      if (state.loading && contentDimensions.height) {
-        // setContentDimensions(initialDimensions);
-        // console.info('Navigation state change, resetting dimensions');
-      }
-      typeof onNavigationStateChange === 'function' &&
-        onNavigationStateChange(state);
-    },
-    [contentDimensions.height, onNavigationStateChange]
+    [setContentDimensions]
   );
   const autoHeightStyle = React.useMemo(
     () => [style, { width, height: height && height, flexGrow: 0 }],
     [width, height, style]
   );
-  React.useEffect(() => {
-    if (typeof orientation === 'string') {
-      setContentDimensions(initialDimensions);
-      console.info('reset dimensions +', orientation);
-    }
-  }, [orientation]);
-  __DEV__ &&
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    React.useEffect(() => {
-      scalesPageToFit === true &&
-        console.warn(
-          `${useWebshellAutoheight.name}: You cannot use scalesPageToFit with autoheight hook.`
-        );
-    }, [scalesPageToFit]);
+
   return {
     onDOMHTMLDimensions,
-    onNavigationStateChange: handleNavigationStateChange,
     style: autoHeightStyle as StyleProp<any>,
     scalesPageToFit: false,
     ...passedProps

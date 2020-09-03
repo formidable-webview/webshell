@@ -13,8 +13,6 @@ import {
   AssembledFeature,
   WebshellProps,
   WebshellInvariantProps,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  WebshellAssembledProps,
   MinimalWebViewProps,
   AssembledEventFeature
 } from './types.js';
@@ -92,9 +90,15 @@ type Fixup<T> = T extends never ? [] : T;
  * @public
  */
 export function makeWebshell<
-  F extends AssembledFeature[],
-  C extends ComponentType<any>
->(WebView: C, ...assembledFeatures: F) {
+  C extends ComponentType<any>,
+  F extends AssembledFeature[]
+>(
+  WebView: C,
+  ...assembledFeatures: F
+): React.ForwardRefExoticComponent<
+  WebshellProps<React.ComponentPropsWithoutRef<C>, F> &
+    React.RefAttributes<ElementRef<C>>
+> {
   const serializedFeatures = serializeFeatureList(assembledFeatures);
   const injectableScript = featuresLoaderScript.replace(
     '$$___FEATURES___$$',
@@ -164,5 +168,5 @@ export function makeWebshell<
       webViewRef={ref}
       {...(props as WebshellProps<ComponentPropsWithRef<any>, F>)}
     />
-  ));
+  )) as any;
 }
