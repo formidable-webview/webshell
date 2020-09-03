@@ -19,7 +19,6 @@
     "build:source": "bob build",
     "build:defs": "api-extractor run --local --verbose",
     "build:doc": "embedme README.MD && api-documenter markdown --input-folder temp --output-folder docs",
-    "init:integration": "cd integration && npm install",
     "prepublish": "yarn run build"
   },
   "repository": {

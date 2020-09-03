@@ -31,10 +31,6 @@ jobs:
       name: Documentation Tests
     - run: yarn run build
       name: Build
-    - run: yarn run init:integration
-      name: Init Integration
-    - run:  yarn run test:integration
-      name: Integration Tests
     - uses: codecov/codecov-action@v1
       with:
         file: ./coverage/clover.xml
