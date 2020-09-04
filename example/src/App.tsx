@@ -7,7 +7,8 @@ import makeWebshell, {
   handleHTMLDimensionsFeature,
   forceBodySizeFeature,
   useWebshellAutoheight,
-  handleLinkPressFeature
+  handleLinkPressFeature,
+  LinkPressTarget
 } from '@formidable-webview/webshell';
 import WebView from 'react-native-webview';
 import { WebViewSource } from 'react-native-webview/lib/WebViewTypes';
@@ -15,7 +16,7 @@ import { WebViewSource } from 'react-native-webview/lib/WebViewTypes';
 const Webshell = makeWebshell(
   WebView,
   handleLinkPressFeature.assemble(),
-  handleHTMLDimensionsFeature.assemble({ forceImplementation: 'resize' }),
+  handleHTMLDimensionsFeature.assemble({ forceImplementation: false }),
   forceResponsiveViewportFeature.assemble({ maxScale: 2 }),
   forceBodySizeFeature.assemble()
 );
@@ -193,13 +194,17 @@ source = {
     'https://support.mozilla.org/en-US/kb/get-started-firefox-overview-main-features'
 };
 
-// source = { uri: 'https://www.developpez.com/' };
+source = { uri: 'https://www.developpez.com/' };
 
 export default function App() {
   const autoheightProps = useWebshellAutoheight<WebshellProps>({
     source,
     style: styles.autoheight,
-    onDOMLinkPress: WebBrowser.openBrowserAsync
+    onDOMLinkPress: React.useCallback((target: LinkPressTarget) => {
+      if (target.scheme.match(/^https?$/)) {
+        WebBrowser.openBrowserAsync(target.uri);
+      }
+    }, [])
   });
   return (
     <View style={styles.root}>

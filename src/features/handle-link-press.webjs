@@ -13,14 +13,26 @@ function linkPressFeature(arg) {
     return null;
   }
 
+  function extractScheme(uri) {
+    var groups = uri.match(/(\w+):\/\//);
+    return (groups.length > 1 && groups[1]) || '';
+  }
+
   function interceptClickEvent(e) {
-    var href;
     var target = e.target || e.srcElement;
     var anchor = findParent('a', target);
     if (anchor) {
-      href = anchor.getAttribute('href');
+      var href = anchor.href;
       preventDefault && e.preventDefault();
-      postMessage(href);
+      postMessage({
+        uri: href,
+        scheme: extractScheme(href),
+        hrefAttribute: anchor.getAttribute('href'),
+        page: {
+          href: window.location.href,
+          origin: window.location.origin
+        }
+      });
     }
   }
   document.addEventListener('click', interceptClickEvent);

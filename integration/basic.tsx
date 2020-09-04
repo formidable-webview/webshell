@@ -3,9 +3,10 @@ import { Linking } from 'react-native';
 import makeWebshell, {
   handleLinkPressFeature,
   handleHTMLDimensionsFeature,
-  HTMLDimensions
+  HTMLDimensions,
+  LinkPressTarget
 } from '@formidable-webview/webshell';
-import WebView from 'react-native-webview';
+import WebView, { WebViewProps } from 'react-native-webview';
 
 const Webshell = makeWebshell(
   WebView,
@@ -13,11 +14,13 @@ const Webshell = makeWebshell(
   handleHTMLDimensionsFeature.assemble()
 );
 
-export default function EnhancedWebView(webViewProps) {
-  const onLinkPress = useCallback((url: string) => Linking.openURL(url), []);
+export default function EnhancedWebView(webViewProps: WebViewProps) {
+  const onLinkPress = useCallback((target: LinkPressTarget) => {
+    Linking.canOpenURL(target.uri) && Linking.openURL(target.uri);
+  }, []);
   const onBodyDimensions = useCallback(
-    ({ layoutViewport: { width, height } }: HTMLDimensions) =>
-      console.info(width, height),
+    ({ content: { height } }: HTMLDimensions) =>
+      console.info('Content has height of', height),
     []
   );
   const onError = useCallback((featureIdentifier, errorMessage) => {
@@ -34,7 +37,7 @@ export default function EnhancedWebView(webViewProps) {
   return (
     <Webshell
       onDOMLinkPress={onLinkPress}
-      onDOMElementDimensions={onBodyDimensions}
+      onDOMHTMLDimensions={onBodyDimensions}
       onDOMError={onError}
       {...webViewProps}
     />
