@@ -15,7 +15,7 @@ import { WebViewSource } from 'react-native-webview/lib/WebViewTypes';
 const Webshell = makeWebshell(
   WebView,
   handleLinkPressFeature.assemble(),
-  handleHTMLDimensionsFeature.assemble(),
+  handleHTMLDimensionsFeature.assemble({ forceImplementation: 'resize' }),
   forceResponsiveViewportFeature.assemble({ maxScale: 2 }),
   forceBodySizeFeature.assemble()
 );
@@ -188,10 +188,12 @@ const html = `
 
 let source: WebViewSource = { html };
 // source = { uri: 'https://en.wikipedia.org/wiki/React_Native' };
-// source = {
-//   uri:
-//     'https://support.mozilla.org/en-US/kb/get-started-firefox-overview-main-features'
-// };
+source = {
+  uri:
+    'https://support.mozilla.org/en-US/kb/get-started-firefox-overview-main-features'
+};
+
+// source = { uri: 'https://www.developpez.com/' };
 
 export default function App() {
   const autoheightProps = useWebshellAutoheight<WebshellProps>({

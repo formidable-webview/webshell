@@ -77,7 +77,7 @@ export function useWebshellAutoheight<W extends MinimalWebViewProps>(
     (htmlDimensions: HTMLDimensions) => {
       const nextDimensions = htmlDimensions.content;
       console.info(
-        `On DOM HTML Dimensions (legacy: ${htmlDimensions.isLegacy})`,
+        `On DOM HTML Dimensions (implementation: ${htmlDimensions.implementation})`,
         ++numberOfEvents,
         htmlDimensions
       );
