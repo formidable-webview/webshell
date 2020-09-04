@@ -1,11 +1,15 @@
 function htmlDimensionsFeature(context) {
   var postMessage = context.postMessage;
   var options = context.options || {};
-  var forceLegacy = options.forceLegacy || false;
+  var forceImplementation = options.forceImplementation || false;
+  var pollingInterval =
+    typeof options.pollingInterval === 'number' ? options.pollingInterval : 200;
   var oldDimensions = {
     layoutViewport: { width: 0, height: 0 },
     content: { width: 0, height: 0 }
   };
+  var MutationObserver =
+    window['MutationObserver'] || window['WebKitMutationObserver'];
   function extractNumericValue(pixelString) {
     return pixelString ? parseFloat(pixelString.match(/[\d.]+/)) : 0;
   }
@@ -26,13 +30,13 @@ function htmlDimensionsFeature(context) {
       marginRight: extractNumericValue(bodyStyle.marginRight)
     };
   }
-  function postDimensionsObject(content, isLegacy) {
+  function postDimensionsObject(content, implementation) {
     var layoutViewport = {
       width: document.documentElement.clientWidth,
       height: document.documentElement.clientHeight
     };
     var dimensions = {
-      isLegacy: isLegacy,
+      implementation: implementation,
       layoutViewport: layoutViewport,
       content: content
     };
@@ -41,7 +45,7 @@ function htmlDimensionsFeature(context) {
       oldDimensions = dimensions;
     }
   }
-  function createPostResize(isLegacy) {
+  function createPostDimensions(implementation) {
     return function postSize() {
       var spacing = getBodyMargins();
       var bodySize = document.body.getBoundingClientRect();
@@ -50,43 +54,41 @@ function htmlDimensionsFeature(context) {
           width: bodySize.width + spacing.marginLeft + spacing.marginRight,
           height: bodySize.height + spacing.marginTop + spacing.marginBottom
         },
-        isLegacy
+        implementation
       );
     };
   }
-  // resize-observer mode
-  if (window.ResizeObserver && !forceLegacy) {
-    // Requires iOS Safari 13.5 or Android browser 81
-    // https://caniuse.com/#feat=mdn-api_resizeobserver
-    var postResize = createPostResize(false);
-    var resizeObserver = new window.ResizeObserver(function (entries) {
-      console.info(entries);
-      postResize();
-    });
+  if (
+    window.ResizeObserver &&
+    (forceImplementation === false || forceImplementation === 'resize')
+  ) {
+    // resize mode
+    var resizePostDimensions = createPostDimensions('resize');
+    var resizeObserver = new window.ResizeObserver(resizePostDimensions);
     resizeObserver.observe(document.body);
+  } else if (
+    MutationObserver &&
+    (forceImplementation === false || forceImplementation === 'mutation')
+  ) {
+    // mutation mode
+    var observerPostDimensions = createPostDimensions('mutation');
+    window.onresize = observerPostDimensions;
+    var observer = new MutationObserver(observerPostDimensions);
+    observer.observe(document, {
+      subtree: true,
+      attributes: true
+    });
   } else {
-    var postSize = createPostResize(true);
-    window.onresize = postSize;
-    var MutationObserver =
-      window['MutationObserver'] || window['WebKitMutationObserver'];
-    // mutation-observer mode
-    if (MutationObserver) {
-      var observer = new MutationObserver(postSize);
-      observer.observe(document, {
-        subtree: true,
-        attributes: true
-      });
-      // polling mode
-    } else {
-      var pollingInterval = 200;
-      postSize();
-      context.warn(
-        "This browser doesn't support MutationObserver." +
-          'The dimensions will still be read every' +
-          pollingInterval +
-          'ms and committed when a change is identified.'
-      );
-    }
-    setInterval(postSize, 200);
+    // polling mode
+    var pollingPostDimensions = createPostDimensions('polling');
+    window.onresize = pollingPostDimensions;
+    pollingPostDimensions();
+    setInterval(pollingPostDimensions, 200);
+    context.warn(
+      "This browser doesn't support either MutationObserver or ResizeObserver." +
+        'The dimensions will still be read every' +
+        pollingInterval +
+        'ms and committed when a change is observed.'
+    );
   }
 }

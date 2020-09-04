@@ -4,18 +4,40 @@ import type { EventFeatureOf } from '../types';
 import { Dimensions } from './types';
 
 /**
+ * The script will check for different APIs in order to
+ * implement the notification of HTML dimensions changes. By order of preference:
+ * {@link https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver | ResizeObserver} (resize),
+ * {@link https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver | MutationObserver}
+ * (mutation) and polling.
+ *
+ * @public
+ */
+export type HTMLDimensionsImplementation = 'resize' | 'mutation' | 'polling';
+
+/**
  * @public
  */
 export interface HandleHTMLDimensionsOptions {
   /**
-   * When available, the script will favor ResizeObserver API,
-   * which is much more accurate. Legacy mode uses other workarounds
-   * such as `document.documentElement.scrollHeight`. You can force legacy mode
-   * here to test how this script will behave with older browsers.
+   * Force a specific implementation, if the underlying API is available.
+   *
+   * @remarks
+   *
+   * This option is useful in development to force one implementation to mock older browsers.
    *
    * @defaultValue false
    */
-  forceLegacy?: boolean;
+  forceImplementation?: HTMLDimensionsImplementation | false;
+
+  /**
+   * In polling mode, at which interval should the dimensions be retrieved?
+   *
+   * @remarks
+   * A value of 0 will disable polling.
+   *
+   * @defaultValue 200
+   */
+  pollingInterval?: number;
 }
 
 /**
@@ -29,30 +51,32 @@ export interface HandleHTMLDimensionsOptions {
  */
 export interface HTMLDimensions {
   /**
-   * document.documentElement.getBoundingClientRect()
+   * The layout viewport dimensions, e.g. the size of the WebView in device pixels.
    */
   layoutViewport: Dimensions;
+
   /**
-   * TODO: describe the link to forceLegacy and isLegacy + implementation details
-   * document.body.getBoundingClientRect() + margins
-   * {@link http://www.howtocreate.co.uk/tutorials/javascript/browserwindow}
+   * The content dimensions, e.g. the size of the body element in CSS pixels.
    */
   content: Dimensions;
+
   /**
-   * `false` when dimensions have been computed with ResizeObserver, true
-   * otherwise.
+   * Which implementation has been used to generate this event?
+   * See {@link HTMLDimensionsImplementation}.
    */
-  isLegacy: boolean;
+  implementation: HTMLDimensionsImplementation;
 }
 
 const eventHandlerName = 'onDOMHTMLDimensions';
 
 /**
- * This feature enables receiving various dimensions relative to the layout.
+ * This feature enables receiving various dimensions relative to the layout. The events
+ * will only be fired when a change is observed to either the layout or the content size.
  *
  * @remarks
- * You should use this feature with a meta tag viewport setting width to device
- * width. See {@link forceResponsiveViewportFeature}.
+ * If you need to guarantee that 1 CSS pixel = 1 Device pixel, you should use this
+ * feature with a meta tag viewport setting width to device width. See
+ * {@link forceResponsiveViewportFeature}.
  *
  * @public
  */

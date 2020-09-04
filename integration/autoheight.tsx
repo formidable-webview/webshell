@@ -9,7 +9,7 @@ import WebView, { WebViewProps } from 'react-native-webview';
 
 const Webshell = makeWebshell(
   WebView,
-  handleHTMLDimensionsFeature.assemble({ forceLegacy: true }),
+  handleHTMLDimensionsFeature.assemble(),
   forceResponsiveViewportFeature.assemble({ maxScale: 2 }),
   forceBodySizeFeature.assemble()
 );
