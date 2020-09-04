@@ -27,7 +27,7 @@ export interface LinkPressTarget {
    */
   uri: string;
   /**
-   * The URI scheme
+   * The URI scheme.
    */
   scheme: string;
   /**
