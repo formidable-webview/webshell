@@ -20,7 +20,7 @@ This object units are in CSS pixels. CSS pixels match device pixels when the web
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [content](./webshell.htmldimensions.content.md) | Dimensions | TODO: describe the link to forceLegacy and isLegacy + implementation details document.body.getBoundingClientRect() + margins [http://www.howtocreate.co.uk/tutorials/javascript/browserwindow](http://www.howtocreate.co.uk/tutorials/javascript/browserwindow) |
-|  [isLegacy](./webshell.htmldimensions.islegacy.md) | boolean | <code>false</code> when dimensions have been computed with ResizeObserver, true otherwise. |
-|  [layoutViewport](./webshell.htmldimensions.layoutviewport.md) | Dimensions | document.documentElement.getBoundingClientRect() |
+|  [content](./webshell.htmldimensions.content.md) | Dimensions | The content dimensions, e.g. the size of the body element in CSS pixels. |
+|  [implementation](./webshell.htmldimensions.implementation.md) | [HTMLDimensionsImplementation](./webshell.htmldimensionsimplementation.md) | Which implementation has been used to generate this event? See [HTMLDimensionsImplementation](./webshell.htmldimensionsimplementation.md)<!-- -->. |
+|  [layoutViewport](./webshell.htmldimensions.layoutviewport.md) | Dimensions | The layout viewport dimensions, e.g. the size of the WebView in device pixels. |
 

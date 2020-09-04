@@ -31,7 +31,7 @@ function useAutoheightDimensions<W extends MinimalWebViewProps>(
     React.useEffect(() => {
       scalesPageToFit === true &&
         console.warn(
-          `${useWebshellAutoheight.name}: You cannot use scalesPageToFit with autoheight hook. The value will be overriden to false`
+          `${useAutoheight.name}: You cannot use scalesPageToFit with autoheight hook. The value will be overriden to false`
         );
     }, [scalesPageToFit]);
   return { contentDimensions, setContentDimensions };
@@ -60,9 +60,7 @@ function useAutoheightDimensions<W extends MinimalWebViewProps>(
  *
  * @beta
  */
-export function useWebshellAutoheight<W extends MinimalWebViewProps>(
-  webshellProps: W
-) {
+export function useAutoheight<W extends MinimalWebViewProps>(webshellProps: W) {
   const {
     style,
     onNavigationStateChange,

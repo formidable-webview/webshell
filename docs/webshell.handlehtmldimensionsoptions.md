@@ -15,5 +15,6 @@ export interface HandleHTMLDimensionsOptions
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [forceLegacy](./webshell.handlehtmldimensionsoptions.forcelegacy.md) | boolean | When available, the script will favor ResizeObserver API, which is much more accurate. Legacy mode uses other workarounds such as <code>document.documentElement.scrollHeight</code>. You can force legacy mode here to test how this script will behave with older browsers. |
+|  [forceImplementation](./webshell.handlehtmldimensionsoptions.forceimplementation.md) | [HTMLDimensionsImplementation](./webshell.htmldimensionsimplementation.md) \| false | Force a specific implementation, if the underlying API is available. |
+|  [pollingInterval](./webshell.handlehtmldimensionsoptions.pollinginterval.md) | number | In polling mode, at which interval should the dimensions be retrieved? |
 

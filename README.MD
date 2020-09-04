@@ -66,9 +66,10 @@ import { Linking } from 'react-native';
 import makeWebshell, {
   handleLinkPressFeature,
   handleHTMLDimensionsFeature,
-  HTMLDimensions
+  HTMLDimensions,
+  LinkPressTarget
 } from '@formidable-webview/webshell';
-import WebView from 'react-native-webview';
+import WebView, { WebViewProps } from 'react-native-webview';
 
 const Webshell = makeWebshell(
   WebView,
@@ -76,11 +77,13 @@ const Webshell = makeWebshell(
   handleHTMLDimensionsFeature.assemble()
 );
 
-export default function EnhancedWebView(webViewProps) {
-  const onLinkPress = useCallback((url: string) => Linking.openURL(url), []);
+export default function EnhancedWebView(webViewProps: WebViewProps) {
+  const onLinkPress = useCallback((target: LinkPressTarget) => {
+    Linking.canOpenURL(target.uri) && Linking.openURL(target.uri);
+  }, []);
   const onBodyDimensions = useCallback(
-    ({ layoutViewport: { width, height } }: HTMLDimensions) =>
-      console.info(width, height),
+    ({ content: { height } }: HTMLDimensions) =>
+      console.info('Content has height of', height),
     []
   );
   const onError = useCallback((featureIdentifier, errorMessage) => {
@@ -97,7 +100,7 @@ export default function EnhancedWebView(webViewProps) {
   return (
     <Webshell
       onDOMLinkPress={onLinkPress}
-      onDOMElementDimensions={onBodyDimensions}
+      onDOMHTMLDimensions={onBodyDimensions}
       onDOMError={onError}
       {...webViewProps}
     />
@@ -119,20 +122,20 @@ import makeWebshell, {
   handleHTMLDimensionsFeature,
   forceResponsiveViewportFeature,
   forceBodySizeFeature,
-  useWebshellAutoheight
+  useAutoheight
 } from '@formidable-webview/webshell';
 import WebView, { WebViewProps } from 'react-native-webview';
 
 const Webshell = makeWebshell(
   WebView,
-  handleHTMLDimensionsFeature.assemble({ forceLegacy: true }),
+  handleHTMLDimensionsFeature.assemble(),
   forceResponsiveViewportFeature.assemble({ maxScale: 2 }),
   forceBodySizeFeature.assemble()
 );
 
 export default function AutoheightWebView(webViewProps: WebViewProps) {
-  const autoheightWebshellProps = useWebshellAutoheight(webViewProps);
-  return <Webshell {...autoheightWebshellProps} />;
+  const autoheightProps = useAutoheight(webViewProps);
+  return <Webshell {...autoheightProps} />;
 }
 
 ```
@@ -178,6 +181,39 @@ export interface LinkPressOptions {
 }
 
 /**
+ * The target of a link press event.
+ *
+ * @public
+ */
+export interface LinkPressTarget {
+  /**
+   * The full URI of the target.
+   */
+  uri: string;
+  /**
+   * The URI scheme
+   */
+  scheme: string;
+  /**
+   * The exact content of the `href` attribute.
+   */
+  hrefAttribute: string;
+  /**
+   * An object describing the page location from which the click originated.
+   */
+  page: {
+    /**
+     * See {@link https://developer.mozilla.org/en-US/docs/Web/API/Location/origin}.
+     */
+    origin: string;
+    /**
+     * See {@link https://developer.mozilla.org/en-US/docs/Web/API/Location/href}.
+     */
+    href: string;
+  };
+}
+
+/**
  * This feature allows to intercept clicks on anchors (`<a>`). By default, it
  * will prevent the click from propagating. But you can disable this option.
  *
@@ -186,7 +222,7 @@ export interface LinkPressOptions {
 export const handleLinkPressFeature: EventFeatureOf<
   LinkPressOptions,
   'onDOMLinkPress',
-  string
+  LinkPressTarget
 > = makeFeature({
   script: linkPressScript,
   eventHandlerName: 'onDOMLinkPress',
@@ -216,14 +252,26 @@ function linkPressFeature(arg) {
     return null;
   }
 
+  function extractScheme(uri) {
+    var groups = uri.match(/(\w+):\/\//);
+    return (groups.length > 1 && groups[1]) || '';
+  }
+
   function interceptClickEvent(e) {
-    var href;
     var target = e.target || e.srcElement;
     var anchor = findParent('a', target);
     if (anchor) {
-      href = anchor.getAttribute('href');
+      var href = anchor.href;
       preventDefault && e.preventDefault();
-      postMessage(href);
+      postMessage({
+        uri: href,
+        scheme: extractScheme(href),
+        hrefAttribute: anchor.getAttribute('href'),
+        page: {
+          href: window.location.href,
+          origin: window.location.origin
+        }
+      });
     }
   }
   document.addEventListener('click', interceptClickEvent);

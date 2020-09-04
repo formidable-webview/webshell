@@ -4,7 +4,7 @@
 
 ## HTMLDimensions.content property
 
-TODO: describe the link to forceLegacy and isLegacy + implementation details document.body.getBoundingClientRect() + margins [http://www.howtocreate.co.uk/tutorials/javascript/browserwindow](http://www.howtocreate.co.uk/tutorials/javascript/browserwindow)
+The content dimensions, e.g. the size of the body element in CSS pixels.
 
 <b>Signature:</b>
 

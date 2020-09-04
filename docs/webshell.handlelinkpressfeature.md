@@ -9,5 +9,5 @@ This feature allows to intercept clicks on anchors (`<a>`<!-- -->). By default, 
 <b>Signature:</b>
 
 ```typescript
-handleLinkPressFeature: EventFeatureOf<LinkPressOptions, 'onDOMLinkPress', string>
+handleLinkPressFeature: EventFeatureOf<LinkPressOptions, 'onDOMLinkPress', LinkPressTarget>
 ```

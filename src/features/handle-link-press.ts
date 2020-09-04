@@ -16,6 +16,11 @@ export interface LinkPressOptions {
   preventDefault?: boolean;
 }
 
+/**
+ * The target of a link press event.
+ *
+ * @public
+ */
 export interface LinkPressTarget {
   /**
    * The full URI of the target.

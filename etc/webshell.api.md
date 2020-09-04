@@ -136,11 +136,12 @@ export const handleHTMLDimensionsFeature: EventFeatureOf<HandleHTMLDimensionsOpt
 
 // @public (undocumented)
 export interface HandleHTMLDimensionsOptions {
-    forceLegacy?: boolean;
+    forceImplementation?: HTMLDimensionsImplementation | false;
+    pollingInterval?: number;
 }
 
 // @public
-export const handleLinkPressFeature: EventFeatureOf<LinkPressOptions, 'onDOMLinkPress', string>;
+export const handleLinkPressFeature: EventFeatureOf<LinkPressOptions, 'onDOMLinkPress', LinkPressTarget>;
 
 // Warning: (ae-forgotten-export) The symbol "eventHandlerName" needs to be exported by the entry point index.d.ts
 //
@@ -150,14 +151,28 @@ export const handleVisualViewportFeature: EventFeatureOf<{}, typeof eventHandler
 // @public
 export interface HTMLDimensions {
     content: Dimensions;
-    isLegacy: boolean;
+    implementation: HTMLDimensionsImplementation;
     // Warning: (ae-forgotten-export) The symbol "Dimensions" needs to be exported by the entry point index.d.ts
     layoutViewport: Dimensions;
 }
 
 // @public
+export type HTMLDimensionsImplementation = 'resize' | 'mutation' | 'polling';
+
+// @public
 export interface LinkPressOptions {
     preventDefault?: boolean;
+}
+
+// @public
+export interface LinkPressTarget {
+    hrefAttribute: string;
+    page: {
+        origin: string;
+        href: string;
+    };
+    scheme: string;
+    uri: string;
 }
 
 // @public
@@ -197,7 +212,7 @@ export type OptionalUnlessRequiredField<O> = O extends Partial<O> ? O | undefine
 export type PayloadOf<T> = T extends AssembledEventFeature<{}, string, infer P> ? P : never;
 
 // @beta
-export function useWebshellAutoheight<W extends MinimalWebViewProps>(webshellProps: W): {
+export function useAutoheight<W extends MinimalWebViewProps>(webshellProps: W): {
     onDOMHTMLDimensions: (htmlDimensions: HTMLDimensions) => void;
     style: any;
     scalesPageToFit: boolean;

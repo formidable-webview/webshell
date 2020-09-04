@@ -6,7 +6,7 @@ import makeWebshell, {
   forceResponsiveViewportFeature,
   handleHTMLDimensionsFeature,
   forceBodySizeFeature,
-  useWebshellAutoheight,
+  useAutoheight,
   handleLinkPressFeature,
   LinkPressTarget
 } from '@formidable-webview/webshell';
@@ -197,7 +197,7 @@ source = {
 source = { uri: 'https://www.developpez.com/' };
 
 export default function App() {
-  const autoheightProps = useWebshellAutoheight<WebshellProps>({
+  const autoheightProps = useAutoheight<WebshellProps>({
     source,
     style: styles.autoheight,
     onDOMLinkPress: React.useCallback((target: LinkPressTarget) => {

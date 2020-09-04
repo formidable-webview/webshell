@@ -4,7 +4,7 @@
 
 ## HTMLDimensions.layoutViewport property
 
-document.documentElement.getBoundingClientRect()
+The layout viewport dimensions, e.g. the size of the WebView in device pixels.
 
 <b>Signature:</b>
 

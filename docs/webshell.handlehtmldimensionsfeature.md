@@ -4,7 +4,7 @@
 
 ## handleHTMLDimensionsFeature variable
 
-This feature enables receiving various dimensions relative to the layout.
+This feature enables receiving various dimensions relative to the layout. The events will only be fired when a change is observed to either the layout or the content size.
 
 <b>Signature:</b>
 
@@ -14,5 +14,5 @@ handleHTMLDimensionsFeature: EventFeatureOf<HandleHTMLDimensionsOptions, typeof 
 
 ## Remarks
 
-You should use this feature with a meta tag viewport setting width to device width. See [forceResponsiveViewportFeature](./webshell.forceresponsiveviewportfeature.md)<!-- -->.
+If you need to guarantee that 1 CSS pixel = 1 Device pixel, you should use this feature with a meta tag viewport setting width to device width. See [forceResponsiveViewportFeature](./webshell.forceresponsiveviewportfeature.md)<!-- -->.
 

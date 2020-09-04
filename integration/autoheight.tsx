@@ -3,7 +3,7 @@ import makeWebshell, {
   handleHTMLDimensionsFeature,
   forceResponsiveViewportFeature,
   forceBodySizeFeature,
-  useWebshellAutoheight
+  useAutoheight
 } from '@formidable-webview/webshell';
 import WebView, { WebViewProps } from 'react-native-webview';
 
@@ -15,6 +15,6 @@ const Webshell = makeWebshell(
 );
 
 export default function AutoheightWebView(webViewProps: WebViewProps) {
-  const autoheightProps = useWebshellAutoheight(webViewProps);
+  const autoheightProps = useAutoheight(webViewProps);
   return <Webshell {...autoheightProps} />;
 }
