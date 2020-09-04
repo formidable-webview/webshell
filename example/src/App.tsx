@@ -6,17 +6,20 @@ import makeWebshell, {
   forceResponsiveViewportFeature,
   handleHTMLDimensionsFeature,
   forceBodySizeFeature,
-  useAutoheight,
+  handleHashChangeFeature,
   handleLinkPressFeature,
-  LinkPressTarget
+  useAutoheight,
+  LinkPressTarget,
+  HashChangeEvent
 } from '@formidable-webview/webshell';
 import WebView from 'react-native-webview';
 import { WebViewSource } from 'react-native-webview/lib/WebViewTypes';
 
 const Webshell = makeWebshell(
   WebView,
-  handleLinkPressFeature.assemble(),
+  handleLinkPressFeature.assemble({ preventDefault: true }),
   handleHTMLDimensionsFeature.assemble({ forceImplementation: false }),
+  handleHashChangeFeature.assemble({ shouldResetHashOnEvent: true }),
   forceResponsiveViewportFeature.assemble({ maxScale: 2 }),
   forceBodySizeFeature.assemble()
 );
@@ -26,21 +29,22 @@ type WebshellProps = React.ComponentProps<typeof Webshell>;
 const html = `
 <!DOCTYPE html>
 <head>
+  <meta charset="UTF-8">
   <style>
     body {
       border: 1px solid #d4aa00;
       background-color: #2b2b2b;
-      color: white;
+      color: #c9c9c9;
       overflow-vertical: hidden;
       box-sizing: border-box;
       font-size: 14px;
     }
-    h2 {
-      color: #d4aa00;
-      text-align: center;
-    }
     h2, h3 {
+      color: white;
       font-family: serif;
+    }
+    h2 {
+      text-align: center;
     }
     * {
       box-sizing: border-box;
@@ -66,6 +70,9 @@ const html = `
     }
     article {
       padding: 10px;
+    }
+    strong {
+      color: white;
     }
     button {
       font-size: 18px;
@@ -98,7 +105,9 @@ const html = `
     }
     a {
       color: #329ea8;
-      text-decoration: none;
+    }
+    a[href ^="#"] {
+      color: white;
     }
   </style>
 </head>
@@ -107,7 +116,9 @@ const html = `
     <div id="container">
     <article>
       <div class="image-container">
-        <img src="https://avatars3.githubusercontent.com/u/69217828?s=400&u=f3c683287f866a197e49df2c7308fed60df79589&v=4" width="40" height="40" />
+        <a href="https://github.com/formidable-webview/webshell#readme">
+          <img src="https://avatars3.githubusercontent.com/u/69217828?s=400&u=f3c683287f866a197e49df2c7308fed60df79589&v=4" width="40" height="40" />
+        </a>
       </div>
       <div class="brand">
          <a href="https://github.com/formidable-webview/webshell#readme">@formidable-webview/webshell</a>
@@ -115,25 +126,31 @@ const html = `
       <h2>Create a WebView which adjusts layout viewport to content size</h2>
       Thanks to <code>webshell</code> library, you can decorate <code>WebView</code> with on-demand features.
       It doesn't add a WebView dependency; you pick the WebView you want and use <code>makeWebshell</code> to add the desired features.
-      <h3>Strengths</h3>
+      <h3>Pros</h3>
       <ul>
         <li>
-        The behavior has been studied and is rigorous. It will use the best API available in the browser <strong>to dynamically adapt layout to content size</strong>. In order of preference, <a href="https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver">ResizeObserver</a>, <a href="https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver">MutationObserver</a> an finally, simple polling.
+        The behavior has been studied and is rigorous. It will use the best API available in the browser <strong>to dynamically adapt layout to content size</strong>. In order of preference, <a href="https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver">ResizeObserver</a>, <a href="https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver">MutationObserver</a> and finally, simple polling.
+        </li>
+        <li>
+        The width of the viewport will naturally span to the available horizontal space and doesn't need to be specified.
+        </li>
+        <li>
+        The height of the viewport dynamically adapts to its content height, even during screen rotations. See the <a href="#play">Play</a> section bellow.
         </li>
         <li>
         When the content overflows the layout on the horizontal axis, you can still scroll horizontally.
         The scroll is happening inside the <code>WebView</code>.
         </li>
       </ul>
-      <h3>Caveats</h3>
+      <h3>Caveats and Workarounds</h3>
       <ul>
         <li>
         Because the <strong>viewport height</strong> is now <strong>bound</strong> to the <strong>content heigh</strong>, you
-        must not have a <strong>body</strong> element which height depends on viewport, such as
-        when using <code>height: 100vh;</code> or <code>height: 100%;</code>. That is a cyclic dependency which would cast an infinite loop!
+        must not have a <strong>body</strong> element height depending on viewport height, such as
+        when using <code>height: 100vh;</code> or <code>height: 100%;</code>. That is an evil cyclic dependency ready to cast an infinite loop!
         <p class="workaround">
-        This can be worked around by forcing body
-        height to <strong>auto</strong> with <code>forceBodySizeFeature</code>.
+        This can be guaranteed by forcing body
+        height to <strong>auto</strong> with webshell's <code>forceBodySizeFeature</code>.
         </p>
         </li>
         <li>
@@ -141,17 +158,21 @@ const html = `
         which have been built for desktop. For this autoheight component to be reliable, you must guarantee that the content has a
         <a href="https://www.w3schools.com/css/css_rwd_viewport.asp">meta viewport element</a> in the header.
         <p class="workaround">
-        This can be worked around by forcing responsive layout with <code>forceResponsiveViewportFeature</code>.
+        This can be guaranteed by forcing responsive layout with webshell's <code>forceResponsiveViewportFeature</code>.
         </p>
         </li>
         <li>
-        It is buggy with <strong>React Native</strong> <a href="https://reactnative.dev/docs/fast-refresh">Fast Refresh</a> when you change the content of the source on the fly, but that's just during development.
+        Link to hash (#) will not work out of the box, because the <code>WebView</code> is not scrollable anymore.
+        <p class="workaround">
+        However, you can react to hash changes and scroll imperatively with <code>handleHashChangeFeature</code>.
+        This is exactly how it is implemented here, <a href="#container">try this</a>.
+        </p>
         </li>
         <li>
-        Link to scroll (#fragments) will not work, obviously, because there is no scrollable content anymore.
+        While using <strong>React Native</strong> <a href="https://reactnative.dev/docs/fast-refresh">Fast Refresh</a> and changing the content of the source on the fly, you can run into weird behaviors.
         </li>
       </ul>
-      <h3>Play</h3>
+      <h3 id="play">Play</h3>
       <ul>
         <li>
           <strong>Shrink</strong> and <strong>increase footer</strong> by pressing buttons and notice how the <code>WebView</code> height adapts dynamically.
@@ -166,8 +187,7 @@ const html = `
       </div>
     </article>
     <footer id="fullwidth">
-      This footer tag width is 100%. <br/>
-      You can change its height with the controls above.
+      <em>Change this footer height with the controls above</em>.
     </footer>
 
     <script>
@@ -189,31 +209,47 @@ const html = `
 
 let source: WebViewSource = { html };
 // source = { uri: 'https://en.wikipedia.org/wiki/React_Native' };
-source = {
-  uri:
-    'https://support.mozilla.org/en-US/kb/get-started-firefox-overview-main-features'
-};
+// source = {
+//   uri:
+//     'https://support.mozilla.org/en-US/kb/get-started-firefox-overview-main-features'
+// };
 
-source = { uri: 'https://www.developpez.com/' };
+// source = { uri: 'https://www.developpez.com/' };
 
 export default function App() {
+  const scrollViewRef = React.useRef<ScrollView>(null);
+  const onDOMLinkPress = React.useCallback((target: LinkPressTarget) => {
+    if (target.scheme.match(/^https?$/)) {
+      WebBrowser.openBrowserAsync(target.uri);
+    }
+  }, []);
+  const onDOMHashChange = React.useCallback(
+    (e: HashChangeEvent) =>
+      scrollViewRef.current?.scrollTo({
+        y: e.targetElementBoundingRect.y,
+        animated: true
+      }),
+    []
+  );
   const autoheightProps = useAutoheight<WebshellProps>({
-    source,
-    style: styles.autoheight,
-    onDOMLinkPress: React.useCallback((target: LinkPressTarget) => {
-      if (target.scheme.match(/^https?$/)) {
-        WebBrowser.openBrowserAsync(target.uri);
-      }
-    }, [])
+    webViewProps: {
+      source,
+      style: styles.autoheight
+    },
+    debug: false
   });
   return (
     <View style={styles.root}>
-      <ScrollView contentContainerStyle={styles.container}>
+      <ScrollView ref={scrollViewRef} contentContainerStyle={styles.container}>
         <Text style={[styles.text, styles.textInScrollView]}>
           The white area is inside the ScrollView, outside the WebView. The
           dark-gray area delimits the WebView.
         </Text>
-        <Webshell {...autoheightProps} />
+        <Webshell
+          onDOMLinkPress={onDOMLinkPress}
+          onDOMHashChange={onDOMHashChange}
+          {...autoheightProps}
+        />
         <Text style={[styles.text, styles.textInScrollView]}>
           This is a React Native Text element.
         </Text>

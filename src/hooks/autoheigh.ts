@@ -23,7 +23,6 @@ function useAutoheightDimensions<W extends MinimalWebViewProps>(
   React.useEffect(() => {
     if (typeof orientation === 'string') {
       setContentDimensions(initialDimensions);
-      console.info('reset dimensions +', orientation);
     }
   }, [orientation]);
   __DEV__ &&
@@ -56,32 +55,44 @@ function useAutoheightDimensions<W extends MinimalWebViewProps>(
  *   “#help”), there will be no scrolling, because this is handled by WebView
  *   on overflow, and there is no such overflow when in autoheight mode.
  *
- * @param webshellProps - the `Webshell` props you whish to augment.
+ * @param webViewProps - The `Webshell` props you whish to transform.
+ * @returns - The `Webshell` props implementing autoheight behavior.
  *
  * @beta
  */
-export function useAutoheight<W extends MinimalWebViewProps>(webshellProps: W) {
+export function useAutoheight<W extends MinimalWebViewProps>({
+  webViewProps,
+  debug = __DEV__
+}: {
+  webViewProps: W;
+  debug?: boolean;
+}) {
   const {
     style,
     onNavigationStateChange,
     scalesPageToFit,
     ...passedProps
-  } = webshellProps;
+  } = webViewProps;
   const { contentDimensions, setContentDimensions } = useAutoheightDimensions(
-    webshellProps
+    webViewProps
   );
   const { width, height } = contentDimensions;
   const onDOMHTMLDimensions = React.useCallback(
     (htmlDimensions: HTMLDimensions) => {
       const nextDimensions = htmlDimensions.content;
-      console.info(
-        `On DOM HTML Dimensions (implementation: ${htmlDimensions.implementation})`,
-        ++numberOfEvents,
-        htmlDimensions
-      );
+      debug &&
+        console.info(
+          `${
+            useAutoheight.name
+          }: DOMHTMLDimensions event #${++numberOfEvents} (implementation: ${
+            htmlDimensions.implementation
+          }, content width: ${htmlDimensions.content.width}, content height: ${
+            htmlDimensions.content.height
+          })`
+        );
       setContentDimensions(nextDimensions);
     },
-    [setContentDimensions]
+    [debug, setContentDimensions]
   );
   const autoHeightStyle = React.useMemo(
     () => [style, { width, height: height && height, flexGrow: 0 }],
@@ -89,9 +100,9 @@ export function useAutoheight<W extends MinimalWebViewProps>(webshellProps: W) {
   );
 
   return {
+    ...passedProps,
     onDOMHTMLDimensions,
     style: autoHeightStyle as StyleProp<any>,
-    scalesPageToFit: false,
-    ...passedProps
+    scalesPageToFit: false
   };
 }

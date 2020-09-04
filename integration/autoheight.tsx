@@ -15,6 +15,6 @@ const Webshell = makeWebshell(
 );
 
 export default function AutoheightWebView(webViewProps: WebViewProps) {
-  const autoheightProps = useAutoheight(webViewProps);
+  const autoheightProps = useAutoheight({ webViewProps });
   return <Webshell {...autoheightProps} />;
 }
