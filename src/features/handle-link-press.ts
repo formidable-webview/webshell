@@ -43,6 +43,20 @@ export interface LinkPressTarget {
    */
   hrefAttribute: string;
   /**
+   * The bounding rectangle of the anchor which has been clicked.
+   * See {@link https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect | Element.getBoundingClientRect()}
+   */
+  clickedAnchorBoundingRect: {
+    x: number;
+    y: number;
+    top: number;
+    left: number;
+    right: number;
+    bottom: number;
+    width: number;
+    height: number;
+  };
+  /**
    * An object describing the page location from which the click originated.
    */
   page: {

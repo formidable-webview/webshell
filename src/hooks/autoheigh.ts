@@ -12,7 +12,8 @@ let numberOfEvents = 0;
  * A hook which resets dimensions on certain events.
  */
 function useAutoheightDimensions<W extends MinimalWebViewProps>(
-  webshellProps: W
+  webshellProps: W,
+  extraLayout?: any
 ) {
   const { scalesPageToFit } = webshellProps;
   const orientation = useDeviceOrientation();
@@ -21,10 +22,8 @@ function useAutoheightDimensions<W extends MinimalWebViewProps>(
     height: number | undefined;
   }>(initialDimensions);
   React.useEffect(() => {
-    if (typeof orientation === 'string') {
-      setContentDimensions(initialDimensions);
-    }
-  }, [orientation]);
+    setContentDimensions(initialDimensions);
+  }, [orientation, extraLayout]);
   __DEV__ &&
     // eslint-disable-next-line react-hooks/rules-of-hooks
     React.useEffect(() => {
@@ -34,6 +33,15 @@ function useAutoheightDimensions<W extends MinimalWebViewProps>(
         );
     }, [scalesPageToFit]);
   return { contentDimensions, setContentDimensions };
+}
+
+/**
+ * @public
+ */
+export interface AutoheightConfig<W extends MinimalWebViewProps> {
+  webViewProps: W;
+  extraLayout?: any;
+  debug?: boolean;
 }
 
 /**
@@ -62,11 +70,9 @@ function useAutoheightDimensions<W extends MinimalWebViewProps>(
  */
 export function useAutoheight<W extends MinimalWebViewProps>({
   webViewProps,
+  extraLayout,
   debug = __DEV__
-}: {
-  webViewProps: W;
-  debug?: boolean;
-}) {
+}: AutoheightConfig<W>) {
   const {
     style,
     onNavigationStateChange,
@@ -74,7 +80,8 @@ export function useAutoheight<W extends MinimalWebViewProps>({
     ...passedProps
   } = webViewProps;
   const { contentDimensions, setContentDimensions } = useAutoheightDimensions(
-    webViewProps
+    webViewProps,
+    extraLayout
   );
   const { width, height } = contentDimensions;
   const onDOMHTMLDimensions = React.useCallback(

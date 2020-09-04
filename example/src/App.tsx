@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Constants from 'expo-constants';
 import * as WebBrowser from 'expo-web-browser';
-import { StyleSheet, ScrollView, Text, View } from 'react-native';
+import { StyleSheet, ScrollView, Text, View, Button } from 'react-native';
 import makeWebshell, {
   forceResponsiveViewportFeature,
   handleHTMLDimensionsFeature,
@@ -32,7 +32,6 @@ const html = `
   <meta charset="UTF-8">
   <style>
     body {
-      border: 1px solid #d4aa00;
       background-color: #2b2b2b;
       color: #c9c9c9;
       overflow-vertical: hidden;
@@ -96,8 +95,21 @@ const html = `
       justify-content: center;
     }
     .workaround {
+      position: relative;
+      padding-horizontal: 10px;
+      padding: 10px;
       border: 1px solid #d4aa00;
-      padding: 5px;
+      border-radius: 10px;
+      background-color: #303030;
+    }
+    .workaround::before {
+      content: "💡";
+      line-height: 1em;
+      left: -20px;
+      top: calc(50% - 0.5em);
+      position: absolute;
+      color: yellow;
+      font-weight: bold;
     }
     code {
       color: #d4aa00;
@@ -105,9 +117,15 @@ const html = `
     }
     a {
       color: #329ea8;
+      font-style: italic;
+      text-decoration: none;
     }
     a[href ^="#"] {
       color: white;
+    }
+    kbd {
+      background-color: #d4aa00;
+      color: #2b2b2b;
     }
   </style>
 </head>
@@ -149,8 +167,8 @@ const html = `
         must not have a <strong>body</strong> element height depending on viewport height, such as
         when using <code>height: 100vh;</code> or <code>height: 100%;</code>. That is an evil cyclic dependency ready to cast an infinite loop!
         <p class="workaround">
-        This can be guaranteed by forcing body
-        height to <strong>auto</strong> with webshell's <code>forceBodySizeFeature</code>.
+          This can be guaranteed by forcing body
+          height to <strong>auto</strong> with webshell's <code>forceBodySizeFeature</code>.
         </p>
         </li>
         <li>
@@ -162,10 +180,19 @@ const html = `
         </p>
         </li>
         <li>
-        Link to hash (#) will not work out of the box, because the <code>WebView</code> is not scrollable anymore.
+        Scroll to hash on link press (#) will not work out of the box, because the <code>WebView</code> is not scrollable anymore.
         <p class="workaround">
-        However, you can react to hash changes and scroll imperatively with <code>handleHashChangeFeature</code>.
+        However, you can react to <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/hashchange_event">hash changes</a> and scroll imperatively with <code>handleHashChangeFeature</code>.
         This is exactly how it is implemented here, <a href="#container">try this</a>.
+        </p>
+        </li>
+        <li>
+        When you press the <kbd>ADD PADDING AROUND WEBVIEW</kbd> button above this <code>WebView</code>,
+        you will notice the layout reajusts to padding changes. Unfortunately, this cannot be done automatically.
+        <p class="workaround">
+        You need to provide <code>useAutoheight</code> with <code>extraLayoutViewportProps</code>
+        in order to trigger a layout viewport reinitialization when this value changes. This is
+        similar to <a href="https://reactnative.dev/docs/flatlist#extradata">React Native FlatList extraData prop</a>.
         </p>
         </li>
         <li>
@@ -184,6 +211,9 @@ const html = `
       <div class="container">
         <button onclick="shrinkDiv()">-20</button>
         <button onclick="increaseDiv()">+20</button>
+      </div>
+      <div class="container">
+        <a href="#container">↑ go to top</a>
       </div>
     </article>
     <footer id="fullwidth">
@@ -217,7 +247,12 @@ let source: WebViewSource = { html };
 // source = { uri: 'https://www.developpez.com/' };
 
 export default function App() {
+  const [padding, setPadding] = React.useState(0);
   const scrollViewRef = React.useRef<ScrollView>(null);
+  const changePadding = React.useCallback(
+    () => setPadding((p) => (p ? 0 : 20)),
+    []
+  );
   const onDOMLinkPress = React.useCallback((target: LinkPressTarget) => {
     if (target.scheme.match(/^https?$/)) {
       WebBrowser.openBrowserAsync(target.uri);
@@ -236,20 +271,26 @@ export default function App() {
       source,
       style: styles.autoheight
     },
+    extraLayout: padding,
     debug: false
   });
   return (
     <View style={styles.root}>
       <ScrollView ref={scrollViewRef} contentContainerStyle={styles.container}>
-        <Text style={[styles.text, styles.textInScrollView]}>
-          The white area is inside the ScrollView, outside the WebView. The
-          dark-gray area delimits the WebView.
-        </Text>
-        <Webshell
-          onDOMLinkPress={onDOMLinkPress}
-          onDOMHashChange={onDOMHashChange}
-          {...autoheightProps}
-        />
+        <View style={styles.buttonContainer}>
+          <Button
+            onPress={changePadding}
+            color="#d4aa00"
+            title={`${padding ? 'Remove' : 'Add'} padding around WebView`}
+          />
+        </View>
+        <View style={{ paddingHorizontal: padding }}>
+          <Webshell
+            onDOMLinkPress={onDOMLinkPress}
+            onDOMHashChange={onDOMHashChange}
+            {...autoheightProps}
+          />
+        </View>
         <Text style={[styles.text, styles.textInScrollView]}>
           This is a React Native Text element.
         </Text>
@@ -269,6 +310,9 @@ const styles = StyleSheet.create({
   autoheight: {
     flexGrow: 0,
     backgroundColor: 'transparent'
+  },
+  buttonContainer: {
+    padding: 10
   },
   container: {
     backgroundColor: 'white',
