@@ -1,6 +1,6 @@
 import linkPressScript from './handle-link-press.webjs';
 import { makeFeature } from '../make-feature';
-import type { EventFeatureOf } from '../types';
+import type { EventFeatureOf, DOMRect } from '../types';
 
 /**
  * An object describing customization for the linkPress feature.
@@ -46,26 +46,23 @@ export interface LinkPressTarget {
    * The bounding rectangle of the anchor which has been clicked.
    * See {@link https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect | Element.getBoundingClientRect()}
    */
-  clickedAnchorBoundingRect: {
-    x: number;
-    y: number;
-    top: number;
-    left: number;
-    right: number;
-    bottom: number;
-    width: number;
-    height: number;
-  };
+  clickedAnchorBoundingRect: DOMRect;
   /**
    * An object describing the page location from which the click originated.
    */
   page: {
     /**
      * See {@link https://developer.mozilla.org/en-US/docs/Web/API/Location/origin}.
+     *
+     * @remarks
+     * Has the special value `null` when not bound to a URL (`{ html }` source).
      */
-    origin: string;
+    origin: string | null;
     /**
      * See {@link https://developer.mozilla.org/en-US/docs/Web/API/Location/href}.
+     *
+     * @remarks
+     * Has the special value `about:blank` when not bound to a URL (`{ html }` source).
      */
     href: string;
   };

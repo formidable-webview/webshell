@@ -261,7 +261,7 @@ export default function App() {
   const onDOMHashChange = React.useCallback(
     (e: HashChangeEvent) =>
       scrollViewRef.current?.scrollTo({
-        y: e.targetElementBoundingRect.y,
+        y: e.targetElementBoundingRect.top,
         animated: true
       }),
     []

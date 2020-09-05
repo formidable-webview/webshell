@@ -20,8 +20,7 @@ const dimensionsMatcher: Record<keyof ElementCSSBoxDimensions, any> = {
   scrollBox: boxMatcher,
   computedStyle: expect.any(Object),
   horizontalScrollbarWidth: expect.any(Number),
-  verticalScrollbarWidth: expect.any(Number),
-  scale: expect.any(Number)
+  verticalScrollbarWidth: expect.any(Number)
 };
 
 describe('Webshell with elementCSSBoxFeature', () => {
@@ -38,7 +37,7 @@ describe('Webshell with elementCSSBoxFeature', () => {
     `;
     const Webshell = makeWebshell(
       Ersatz,
-      handleElementCSSBoxFeature.assemble({ tagName: 'table' })
+      handleElementCSSBoxFeature.assemble({ target: { tagName: 'table' } })
     );
     await waitForErsatz(
       render(

@@ -36,8 +36,6 @@ function linkPressFeature(arg) {
       }
       var rect = anchor.getBoundingClientRect();
       var clickedAnchorBoundingRect = {
-        x: rect.x,
-        y: rect.y,
         top: rect.top,
         left: rect.left,
         bottom: rect.bottom,

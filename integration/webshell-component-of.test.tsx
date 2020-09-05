@@ -26,16 +26,16 @@ export type WebshellWithElementDimensionsFeatureType = WebshellComponentOf<
 Webshell1 = makeWebshell(WebView);
 Webshell2 = makeWebshell(
   WebView,
-  handleElementCSSBoxFeature.assemble({ tagName: 'body' })
+  handleElementCSSBoxFeature.assemble({ target: 'body' })
 ) as WebshellComponentOf<typeof WebView, [typeof handleElementCSSBoxFeature]>;
 Webshell3 = makeWebshell(
   WebView,
-  handleElementCSSBoxFeature.assemble({ tagName: 'body' }),
+  handleElementCSSBoxFeature.assemble({ target: 'body' }),
   handleLinkPressFeature.assemble({})
 );
 const Webshell4 = makeWebshell(
   WebView,
-  handleElementCSSBoxFeature.assemble({ tagName: 'body' }),
+  handleElementCSSBoxFeature.assemble({ target: 'body' }),
   handleLinkPressFeature.assemble({})
 );
 

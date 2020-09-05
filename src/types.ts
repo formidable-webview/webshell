@@ -95,33 +95,6 @@ export type WebshellComponent<
 >;
 
 /**
- * This type specifies the shape of the object passed to DOM features scripts.
- *
- * @typeparam O - The shape of the JSON-serializable object that will be passed to the DOM script.
- * @typeparam P - The type of the argument which will be passed to the event handler prop.
- * @public
- */
-export interface WebjsContext<O extends {}, P> {
-  /**
-   * The options to customize the script behavior.
-   */
-  readonly options: O;
-  /**
-   * When invoked, the webshell will call the handler associated with this script.
-   *
-   * @param payload - The value which will be passed to the handler.
-   */
-  readonly postMessage: (payload: P) => void;
-  /**
-   * Safely post a warn message to the console.
-   */
-  readonly warn: (message: string) => void;
-  /**
-   * Safely post an error message to the console.
-   */
-  readonly error: (message: string) => void;
-}
-/**
  * A specific assembled feature which provides an event handler prop.
  *
  * @public
@@ -316,4 +289,143 @@ export interface MinimalWebViewProps {
   readonly style?: unknown;
   readonly onNavigationStateChange?: unknown;
   readonly scalesPageToFit?: unknown;
+}
+
+// DOM TYPES
+
+declare type HTMLCollection = {};
+
+/**
+ * This type specifies the shape of the object passed to DOM features scripts.
+ *
+ * @typeparam O - The shape of the JSON-serializable object that will be passed to the DOM script.
+ * @typeparam P - The type of the argument which will be passed to the event handler prop.
+ * @public
+ */
+export interface WebjsContext<O extends {}, P> {
+  /**
+   * The options to customize the script behavior.
+   */
+  readonly options: O;
+  /**
+   * When invoked, the webshell will call the handler associated with this script.
+   *
+   * @param payload - The value which will be passed to the handler.
+   */
+  postMessage(payload: P): void;
+  /**
+   * Safely post a warn message to the console.
+   */
+  warn(message: string): void;
+  /**
+   * Safely post an error message to the console.
+   */
+  error(message: string): void;
+  /**
+   * A utility to select one or many elements in the DOM.
+   */
+  getDOMSelection(
+    selector: DOMElementRequest,
+    isCollection: false
+  ): HTMLElement;
+  getDOMSelection(
+    selector: DOMCollectionRequest,
+    isCollection: true
+  ): HTMLCollection;
+  /**
+   * @param style - The style to parse, e.g. `'18px'`
+   * @returns Numeric value in CSS pixels.
+   */
+  extractNumericValueFromStyle(style: string): number;
+}
+
+/**
+ * See {@link https://developer.mozilla.org/en-US/docs/Web/API/DOMRect | DOMRect}.
+ *
+ * @public
+ */
+export interface DOMRect {
+  top: number;
+  left: number;
+  right: number;
+  bottom: number;
+  width: number;
+  height: number;
+}
+
+/**
+ * A request to select one element in the DOM.
+ *
+ * @remarks
+ * A string will be interpreted as a query.
+ * See {@link https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector | Document.querySelector() }
+ *
+ * @public
+ */
+export type DOMElementRequest =
+  | ElementQueryRequest
+  | ElementClassNameRequest
+  | ElementTagNameRequest
+  | string;
+
+/**
+ * A request to select a collection of elements in the DOM.
+ *
+ * @remarks
+ * A string will be interpreted as a query.
+ * See {@link https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll | Document.querySelectorAll() }
+ * @public
+ */
+export type DOMCollectionRequest =
+  | ElementQueryRequest
+  | ElementClassNameRequest
+  | ElementIdRequest
+  | ElementTagNameRequest
+  | string;
+
+/**
+ * @public
+ */
+export interface ElementQueryRequest {
+  /**
+   * A query string.
+   * See {@link https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll | Document.querySelectorAll() }
+   */
+  query: string;
+}
+
+/**
+ * @public
+ */
+export interface ElementIdRequest {
+  /**
+   * An id (case-insensitive);
+   * See {@link https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById | Document.getElementById() }
+   */
+  id: string;
+}
+
+/**
+ * @public
+ */
+export interface ElementClassNameRequest {
+  /**
+   * One or many case-sensitive class names, separated by spaces.
+   * See {@link https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementsByClassName | Document.getElementsByClassName() }
+   */
+  className: string;
+}
+
+/**
+ * @public
+ */
+export interface ElementTagNameRequest {
+  /**
+   * A tag name.
+   * See {@link https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementsByClassName | Document.getElementsByTagName() }
+   *
+   * @remarks
+   * `'html'` will select `document.documentElement`.
+   */
+  tagName: string;
 }

@@ -1,6 +1,6 @@
 import script from './handle-element-cssbox-dimensions.webjs';
 import { makeFeature } from '../make-feature';
-import type { EventFeatureOf } from '../types';
+import type { EventFeatureOf, DOMElementRequest } from '../types';
 
 /**
  * An object describing customization for the dimensions feature.
@@ -9,9 +9,9 @@ import type { EventFeatureOf } from '../types';
  */
 export interface HandleElementCSSBoxDimensionsOptions {
   /**
-   * The element to target when the DOM is loaded.
+   * The element to target. This argument is required.
    */
-  tagName: string;
+  target: DOMElementRequest;
   /**
    * When no elements are found matching the providing tag, should the script
    * raise an error?
@@ -31,7 +31,7 @@ export interface CSSBox {
 
 /**
  * Computed styles which affect the CSS Box dimensions.
- * See {@link https://developer.mozilla.org/docs/Web/API/Window/getComputedStyle | MDN—window.getComputedStyle}.
+ * See {@link https://developer.mozilla.org/docs/Web/API/Window/getComputedStyle | window.getComputedStyle()}.
  *
  * @public
  */
@@ -52,24 +52,15 @@ export interface CSSBoxDimensionsComputedStyle {
 
 /**
  * An object describing an element CSS Box dimensions, see
- * {@link https://drafts.csswg.org/css2/#box-model | CSSWG—CSS 2 (Box model)}.
+ * {@link https://drafts.csswg.org/css2/#box-model | CSS 2 (Box model)}.
  *
  * @remarks
  *
- * This object units are in React Native dpi, independently of the scale factor
- * between the browser width in dpi and the browser viewport in CSS pixels.
+ * This object scalar units are CSS pixels.
  *
  * @public
  */
 export interface ElementCSSBoxDimensions {
-  /**
-   * The ratio between the `WebView` width in dpi and the `window.innerWidth`
-   * in CSS pixels.
-   *
-   * @remarks
-   * The other values in this object are already in React Native dpi units.
-   */
-  scale: number;
   /**
    * A box formed by `scrollWidth` and `scrollHeight` element properties.
    *
@@ -92,12 +83,12 @@ export interface ElementCSSBoxDimensions {
   borderBox: CSSBox;
   /**
    * The computed box style. See
-   * {@link https://developer.mozilla.org/docs/Web/API/Window/getComputedStyle | MDN—window.getComputedStyle}.
+   * {@link https://developer.mozilla.org/docs/Web/API/Window/getComputedStyle | window.getComputedStyle()}.
    *
    * @remarks
    * Be aware that the computed vertical margins might collapse in the
    * viewport. See
-   * {@link https://drafts.csswg.org/css2/#collapsing-margins | CSSWG—CSS 2 (collapsing margins)}
+   * {@link https://drafts.csswg.org/css2/#collapsing-margins | CSS 2 (collapsing margins)}
    */
   computedStyle: CSSBoxDimensionsComputedStyle;
   /**

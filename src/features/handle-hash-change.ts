@@ -1,6 +1,6 @@
 import linkPressScript from './handle-hash-change.webjs';
 import { makeFeature } from '../make-feature';
-import type { EventFeatureOf } from '../types';
+import type { EventFeatureOf, DOMRect } from '../types';
 
 /**
  * An object describing customization for the hash change feature.
@@ -30,16 +30,7 @@ export interface HashChangeEvent {
    * The bounding rectangle of the element targeted by hash.
    * See {@link https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect | Element.getBoundingClientRect()}
    */
-  targetElementBoundingRect: {
-    x: number;
-    y: number;
-    top: number;
-    left: number;
-    right: number;
-    bottom: number;
-    width: number;
-    height: number;
-  };
+  targetElementBoundingRect: DOMRect;
 }
 
 /**

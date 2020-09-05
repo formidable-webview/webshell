@@ -1,6 +1,47 @@
 // eslint-disable-next-line no-undef
 var features = $$___FEATURES___$$;
 var RNWV = window.ReactNativeWebView;
+function extractNumericValueFromStyle(pixelString) {
+  return pixelString ? parseFloat(pixelString.match(/[\d.]+/)) : 0;
+}
+function getDOMSelection(request, isCollection) {
+  var normalRequest =
+    typeof request === 'string' ? { query: request } : request;
+  var selection;
+  if (
+    !isCollection &&
+    (normalRequest.query === 'html' || normalRequest.tagName === 'html')
+  ) {
+    return document.documentElement;
+  }
+  if (
+    !isCollection &&
+    (normalRequest.query === 'body' || normalRequest.tagName === 'body')
+  ) {
+    return document.body;
+  }
+  if (normalRequest.query) {
+    return isCollection
+      ? document.querySelectorAll(normalRequest.query)
+      : document.querySelector(normalRequest.query);
+  }
+  if (normalRequest.className) {
+    selection = document.getElementsByClassName(normalRequest.className);
+    return isCollection
+      ? selection
+      : (selection.length && selection[0]) || null;
+  }
+  if (normalRequest.id) {
+    return document.getElementById(normalRequest.id) || null;
+  }
+  if (normalRequest.tagName) {
+    selection = document.getElementsByTagName(normalRequest.tagName);
+    if (isCollection) {
+      return selection;
+    }
+    return (selection.length && selection[0]) || null;
+  }
+}
 function registerFeature(specs) {
   if (specs && typeof specs === 'object') {
     var executable = specs.source;
@@ -10,6 +51,8 @@ function registerFeature(specs) {
     return;
   }
   var context = {
+    getDOMSelection: getDOMSelection,
+    extractNumericValueFromStyle: extractNumericValueFromStyle,
     postMessage: function (message) {
       RNWV.postMessage(
         JSON.stringify({

@@ -1,79 +1,51 @@
 function elementCssBoxDimensionsFeature(context) {
   var postMessage = context.postMessage;
   var options = context.options || {};
-  var tagName = options.tagName;
+  var target = options.target;
   var shouldThrowWhenNotFound = options.errorWhenNotFound === true;
 
-  if (typeof tagName !== 'string') {
-    throw new Error('Missing required tagName option');
+  if (!target || (typeof target !== 'string' && typeof target !== 'object')) {
+    throw new Error('Missing or wrong type for required target option');
   }
-  function extractNumericValue(pixelString) {
-    return pixelString ? parseFloat(pixelString.match(/[\d.]+/)) : 0;
-  }
-  function findElement() {
-    var elements = document.getElementsByTagName(tagName);
-    if (elements.length > 0) {
-      return elements[0];
-    }
-    return null;
-  }
+
   function postSize() {
-    var element = findElement();
+    var element = context.getDOMSelection(target, false);
     if (element != null) {
-      var scale = window.visualViewport
-        ? window.visualViewport.scale
-        : screen.availWidth && window.innerWidth
-        ? screen.availWidth / window.innerWidth
-        : 1;
-      var scaleFactor = scale;
       var clientRect = element.getBoundingClientRect(),
         styles = getComputedStyle(element),
-        paddingLeft =
-          extractNumericValue(styles.getPropertyValue('padding-left')) *
-          scaleFactor,
-        paddingRight =
-          extractNumericValue(styles.getPropertyValue('padding-right')) *
-          scaleFactor,
-        paddingTop =
-          extractNumericValue(styles.getPropertyValue('padding-top')) *
-          scaleFactor,
-        paddingBottom =
-          extractNumericValue(styles.getPropertyValue('padding-bottom')) *
-          scaleFactor,
-        borderLeftWidth =
-          extractNumericValue(styles.getPropertyValue('border-left-width')) *
-          scaleFactor,
-        borderRightWidth =
-          extractNumericValue(styles.getPropertyValue('border-right-width')) *
-          scaleFactor,
-        borderTopWidth =
-          extractNumericValue(styles.getPropertyValue('border-top-width')) *
-          scaleFactor,
-        borderBottomWidth =
-          extractNumericValue(styles.getPropertyValue('border-bottom-width')) *
-          scaleFactor,
-        marginLeft =
-          extractNumericValue(styles.getPropertyValue('margin-left')) *
-          scaleFactor,
-        marginRight =
-          extractNumericValue(styles.getPropertyValue('margin-right')) *
-          scaleFactor,
-        marginTop =
-          extractNumericValue(styles.getPropertyValue('margin-top')) *
-          scaleFactor,
-        marginBottom =
-          extractNumericValue(styles.getPropertyValue('margin-bottom')) *
-          scaleFactor,
-        borderBoxWidth = clientRect.width * scaleFactor,
-        borderBoxHeight = clientRect.height * scaleFactor,
-        horizontalScrollbarWidth =
-          (element.offsetHeight - element.clientHeight) * scaleFactor,
-        verticalScrollbarWidth =
-          (element.offsetWidth - element.clientWidth) * scaleFactor,
-        scrollBoxWidth = element.scrollWidth * scaleFactor,
-        scrollBoxHeight = element.scrollHeight * scaleFactor;
+        paddingLeft = context.extractNumericValueFromStyle(styles.paddingLeft),
+        paddingRight = context.extractNumericValueFromStyle(
+          styles.paddingRight
+        ),
+        paddingTop = context.extractNumericValueFromStyle(styles.paddingTop),
+        paddingBottom = context.extractNumericValueFromStyle(
+          styles.paddingBottom
+        ),
+        borderLeftWidth = context.extractNumericValueFromStyle(
+          styles.borderLeftWidth
+        ),
+        borderRightWidth = context.extractNumericValueFromStyle(
+          styles.borderRightWidth
+        ),
+        borderTopWidth = context.extractNumericValueFromStyle(
+          styles.borderTopWidth
+        ),
+        borderBottomWidth = context.extractNumericValueFromStyle(
+          styles.borderBottomWidth
+        ),
+        marginLeft = context.extractNumericValueFromStyle(styles.marginLeft),
+        marginRight = context.extractNumericValueFromStyle(styles.marginRight),
+        marginTop = context.extractNumericValueFromStyle(styles.marginTop),
+        marginBottom = context.extractNumericValueFromStyle(
+          styles.marginBottom
+        ),
+        borderBoxWidth = clientRect.width,
+        borderBoxHeight = clientRect.height,
+        horizontalScrollbarWidth = element.offsetHeight - element.clientHeight,
+        verticalScrollbarWidth = element.offsetWidth - element.clientWidth,
+        scrollBoxWidth = element.scrollWidth,
+        scrollBoxHeight = element.scrollHeight;
       var dimensions = {
-        scale: scaleFactor,
         scrollBox: {
           width: scrollBoxWidth,
           height: scrollBoxHeight
@@ -101,7 +73,9 @@ function elementCssBoxDimensionsFeature(context) {
       };
       postMessage(dimensions);
     } else if (shouldThrowWhenNotFound) {
-      throw new Error("Couldn't find an element with tagName " + tagName);
+      throw new Error(
+        "Couldn't find an element for target " + JSON.stringify(target)
+      );
     }
   }
   postSize();
@@ -118,8 +92,8 @@ function elementCssBoxDimensionsFeature(context) {
   } else {
     // That is a last resort fallback for older browsers
     context.warn(
-      "This browser doesn't support MutationObserver. Falling back to a timeout."
+      "This browser doesn't support MutationObserver. Falling back to an interval."
     );
-    setTimeout(postSize, 1000);
+    setInterval(postSize, 200);
   }
 }
