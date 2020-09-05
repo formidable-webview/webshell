@@ -1,4 +1,4 @@
-function linkPressFeature(arg) {
+function handleLinkPressFeature(arg) {
   var postMessage = arg.postMessage;
   var options = arg.options || {};
   var preventDefault = options.preventDefault !== false;

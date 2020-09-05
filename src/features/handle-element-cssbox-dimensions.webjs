@@ -1,8 +1,8 @@
-function elementCssBoxDimensionsFeature(context) {
+function handleElementCssBoxDimensionsFeature(context) {
   var postMessage = context.postMessage;
   var options = context.options || {};
   var target = options.target;
-  var shouldThrowWhenNotFound = options.errorWhenNotFound === true;
+  var shouldThrowWhenNotFound = options.shouldThrowWhenNotFound === true;
 
   if (!target || (typeof target !== 'string' && typeof target !== 'object')) {
     throw new Error('Missing or wrong type for required target option');

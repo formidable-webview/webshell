@@ -4,4 +4,4 @@ export * from './handle-link-press';
 export * from './handle-hash-change';
 export * from './handle-visual-viewport';
 export * from './force-responsive-viewport';
-export * from './force-body-size';
+export * from './force-element-size';

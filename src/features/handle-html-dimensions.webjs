@@ -1,4 +1,4 @@
-function htmlDimensionsFeature(context) {
+function handleHTMLDimensionsFeature(context) {
   var postMessage = context.postMessage;
   var options = context.options || {};
   var forceImplementation = options.forceImplementation || false;

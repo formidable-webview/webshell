@@ -13,12 +13,12 @@ export interface HandleElementCSSBoxDimensionsOptions {
    */
   target: DOMElementRequest;
   /**
-   * When no elements are found matching the providing tag, should the script
+   * When no elements are found matching the target, should the script
    * raise an error?
    *
    * @defaultValue false
    */
-  errorWhenNotFound?: boolean;
+  shouldThrowWhenNotFound?: boolean;
 }
 
 /**

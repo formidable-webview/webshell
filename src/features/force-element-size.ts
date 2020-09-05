@@ -1,13 +1,17 @@
-import script from './force-body-size.webjs';
+import script from './force-element-size.webjs';
 import { makeFeature } from '../make-feature';
-import { Feature } from 'src/types';
+import { DOMElementRequest } from 'src/types';
 
 /**
  * An object describing customization for the force body feature.
  *
  * @public
  */
-export interface ForceBodySizeOptions {
+export interface ForceElementSizeOptions {
+  /**
+   * The element to target.
+   */
+  target: DOMElementRequest;
   /**
    * The width to override.
    *
@@ -32,14 +36,23 @@ export interface ForceBodySizeOptions {
    * @defaultvalue true
    */
   forceHeight?: boolean;
+  /**
+   * When no element is found matching the target, should the script raise an
+   * error?
+   *
+   * @defaultValue false
+   */
+  shouldThrowWhenNotFound?: boolean;
 }
 
 /**
- * This feature sets body size programatically.
+ * This feature sets element size programmatically and only once, when
+ * {@link https://developer.mozilla.org/fr/docs/Web/Events/DOMContentLoaded | DOMContentLoaded}
+ * has been fired.
  *
  * @public
  */
-export const forceBodySizeFeature: Feature<ForceBodySizeOptions> = makeFeature({
+export const forceElementSizeFeature = makeFeature<ForceElementSizeOptions>({
   script,
-  featureIdentifier: 'org.formidable-webview/webshell.force-body-size'
+  featureIdentifier: 'org.formidable-webview/webshell.force-element-size'
 });

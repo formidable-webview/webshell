@@ -10,7 +10,7 @@ import type { Feature, RequiredIfObjectHasRequiredField } from './types';
  * @typeparam P - The type of the new properties added to webshell.
  * @public
  */
-export function makeFeature<O extends {}, S extends {}, P extends {}>(
+export function makeFeature<O extends {}, S extends {} = {}, P extends {} = {}>(
   params: Pick<Feature<O, S, P>, keyof S | 'script' | 'featureIdentifier'>
 ): Feature<O, S, P> {
   return {

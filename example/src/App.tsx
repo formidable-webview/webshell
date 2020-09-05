@@ -5,7 +5,7 @@ import { StyleSheet, ScrollView, Text, View, Button } from 'react-native';
 import makeWebshell, {
   forceResponsiveViewportFeature,
   handleHTMLDimensionsFeature,
-  forceBodySizeFeature,
+  forceElementSizeFeature,
   handleHashChangeFeature,
   handleLinkPressFeature,
   useAutoheight,
@@ -21,7 +21,7 @@ const Webshell = makeWebshell(
   handleHTMLDimensionsFeature.assemble({ forceImplementation: false }),
   handleHashChangeFeature.assemble({ shouldResetHashOnEvent: true }),
   forceResponsiveViewportFeature.assemble({ maxScale: 2 }),
-  forceBodySizeFeature.assemble()
+  forceElementSizeFeature.assemble({ target: 'body' })
 );
 
 type WebshellProps = React.ComponentProps<typeof Webshell>;
