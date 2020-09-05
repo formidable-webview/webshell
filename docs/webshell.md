@@ -16,7 +16,7 @@
 
 |  Interface | Description |
 |  --- | --- |
-|  [AutoheightConfig](./webshell.autoheightconfig.md) |  |
+|  [AutoheightParams](./webshell.autoheightparams.md) | Named parameters for autoheight hook. |
 |  [CSSBox](./webshell.cssbox.md) |  |
 |  [CSSBoxDimensionsComputedStyle](./webshell.cssboxdimensionscomputedstyle.md) | Computed styles which affect the CSS Box dimensions. See [window.getComputedStyle()](https://developer.mozilla.org/docs/Web/API/Window/getComputedStyle)<!-- -->. |
 |  [ElementCSSBoxDimensions](./webshell.elementcssboxdimensions.md) | An object describing an element CSS Box dimensions, see [CSS 2 (Box model)](https://drafts.csswg.org/css2/#box-model)<!-- -->. |

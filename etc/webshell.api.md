@@ -27,13 +27,11 @@ export type AssembledFeature<O extends {} = {}, S extends {} = {}, P extends {} 
 // @public
 export type AssembledFeatureOf<F> = F extends Feature<infer O, infer S, infer P> ? AssembledFeature<O, S, P> : never;
 
-// @public (undocumented)
-export interface AutoheightConfig<W extends MinimalWebViewProps> {
+// @public
+export interface AutoheightParams<W extends MinimalWebViewProps> {
     // (undocumented)
     debug?: boolean;
-    // (undocumented)
     extraLayout?: any;
-    // (undocumented)
     webViewProps: W;
 }
 
@@ -251,7 +249,7 @@ export type OptionalUnlessRequiredField<O> = O extends Partial<O> ? O | undefine
 export type PayloadOf<T> = T extends AssembledEventFeature<{}, string, infer P> ? P : never;
 
 // @beta
-export function useAutoheight<W extends MinimalWebViewProps>({ webViewProps, extraLayout, debug }: AutoheightConfig<W>): Pick<W, Exclude<keyof W, "style" | "scalesPageToFit" | "onNavigationStateChange">> & {
+export function useAutoheight<W extends MinimalWebViewProps>({ webViewProps, extraLayout, debug }: AutoheightParams<W>): Pick<W, Exclude<keyof W, "style" | "scalesPageToFit" | "onNavigationStateChange">> & {
     onDOMHTMLDimensions: (htmlDimensions: HTMLDimensions) => void;
     style: any;
     scalesPageToFit: boolean;

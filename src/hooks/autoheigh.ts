@@ -36,11 +36,25 @@ function useAutoheightDimensions<W extends MinimalWebViewProps>(
 }
 
 /**
+ * Named parameters for autoheight hook.
+ *
  * @public
  */
-export interface AutoheightConfig<W extends MinimalWebViewProps> {
+export interface AutoheightParams<W extends MinimalWebViewProps> {
+  /**
+   * You should pass all the props directed to the WebView here. This is
+   * important because this hook might react to some props and warn you of
+   * certain incompatibilities.
+   */
   webViewProps: W;
+  /**
+   * A marker property for telling the hook to reset layout viewport dimensions
+   * when its value changes.
+   */
   extraLayout?: any;
+  /**
+   * @defaultvalue `__DEV__`
+   */
   debug?: boolean;
 }
 
@@ -58,7 +72,9 @@ export interface AutoheightConfig<W extends MinimalWebViewProps> {
  *   Hence, it is strongly advised that you use autoheight only with content
  *   you have been able to test. This can be worked around by forcing body
  *   height to 'auto', see {@link forceElementSizeFeature}.
+ *
  * - React Native Fast Refresh can cause bugs.
+ *
  * - When the user clicks to fragment links within the same page (e.g,
  *   “#help”), there will be no scrolling, because this is handled by WebView
  *   on overflow, and there is no such overflow when in autoheight mode.
@@ -72,7 +88,7 @@ export function useAutoheight<W extends MinimalWebViewProps>({
   webViewProps,
   extraLayout,
   debug = __DEV__
-}: AutoheightConfig<W>) {
+}: AutoheightParams<W>) {
   const {
     style,
     onNavigationStateChange,
