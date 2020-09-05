@@ -9,7 +9,9 @@ import type { EventFeatureOf, DOMRect } from '../types';
  */
 export interface HandleHashChangeOptions {
   /**
-   * Reset the hash to empty after triggering the event.
+   * Reset the hash to the empty string after triggering the event.
+   * This is recommended if you want to make sure any upcoming link press on
+   * an anchor with a local hash `href` will trigger the `hashchange` event.
    *
    * @defaultValue false
    */
