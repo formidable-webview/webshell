@@ -53,6 +53,8 @@ export interface AutoheightParams<W extends MinimalWebViewProps> {
    */
   extraLayout?: any;
   /**
+   * Print warnings and suggestions.
+   *
    * @defaultvalue `__DEV__`
    */
   debug?: boolean;
@@ -76,7 +78,7 @@ export interface AutoheightParams<W extends MinimalWebViewProps> {
  * - React Native Fast Refresh can cause bugs.
  *
  * - When the user clicks to fragment links within the same page (e.g,
- *   “#help”), there will be no scrolling, because this is handled by WebView
+ *   “`#help`”), there will be no scrolling, because this is handled by WebView
  *   on overflow, and there is no such overflow when in autoheight mode.
  *
  * @param webViewProps - The `Webshell` props you whish to transform.
