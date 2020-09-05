@@ -9,7 +9,7 @@ Create a feature.
 <b>Signature:</b>
 
 ```typescript
-export declare function makeFeature<O extends {}, S extends {}, P extends {}>(params: Pick<Feature<O, S, P>, keyof S | 'script' | 'featureIdentifier'>): Feature<O, S, P>;
+export declare function makeFeature<O extends {}, S extends {} = {}, P extends {} = {}>(params: Pick<Feature<O, S, P>, keyof S | 'script' | 'featureIdentifier'>): Feature<O, S, P>;
 ```
 
 ## Parameters

@@ -10,20 +10,23 @@
 |  --- | --- |
 |  [makeFeature(params)](./webshell.makefeature.md) | Create a feature. |
 |  [makeWebshell(WebView, assembledFeatures)](./webshell.makewebshell.md) | Creates a React component which decorates WebView component with additionnal props to handle events from the DOM. |
-|  [useAutoheight(webshellProps)](./webshell.useautoheight.md) | <b><i>(BETA)</i></b> Requires [handleHTMLDimensionsFeature](./webshell.handlehtmldimensionsfeature.md) and recommends [forceResponsiveViewportFeature](./webshell.forceresponsiveviewportfeature.md)<!-- -->. |
+|  [useAutoheight({ webViewProps, extraLayout, debug })](./webshell.useautoheight.md) | <b><i>(BETA)</i></b> Requires [handleHTMLDimensionsFeature](./webshell.handlehtmldimensionsfeature.md) and recommends [forceResponsiveViewportFeature](./webshell.forceresponsiveviewportfeature.md)<!-- -->. |
 
 ## Interfaces
 
 |  Interface | Description |
 |  --- | --- |
+|  [AutoheightConfig](./webshell.autoheightconfig.md) |  |
 |  [CSSBox](./webshell.cssbox.md) |  |
-|  [CSSBoxDimensionsComputedStyle](./webshell.cssboxdimensionscomputedstyle.md) | Computed styles which affect the CSS Box dimensions. See [MDN—window.getComputedStyle](https://developer.mozilla.org/docs/Web/API/Window/getComputedStyle)<!-- -->. |
-|  [ElementCSSBoxDimensions](./webshell.elementcssboxdimensions.md) | An object describing an element CSS Box dimensions, see [CSSWG—CSS 2 (Box model)](https://drafts.csswg.org/css2/#box-model)<!-- -->. |
+|  [CSSBoxDimensionsComputedStyle](./webshell.cssboxdimensionscomputedstyle.md) | Computed styles which affect the CSS Box dimensions. See [window.getComputedStyle()](https://developer.mozilla.org/docs/Web/API/Window/getComputedStyle)<!-- -->. |
+|  [ElementCSSBoxDimensions](./webshell.elementcssboxdimensions.md) | An object describing an element CSS Box dimensions, see [CSS 2 (Box model)](https://drafts.csswg.org/css2/#box-model)<!-- -->. |
 |  [EventHandlerDefinition](./webshell.eventhandlerdefinition.md) | Definitions for event handlers. |
-|  [ForceBodySizeOptions](./webshell.forcebodysizeoptions.md) | An object describing customization for the force body feature. |
+|  [ForceElementSizeOptions](./webshell.forceelementsizeoptions.md) | An object describing customization for the force body feature. |
 |  [ForceResponsiveViewportOptions](./webshell.forceresponsiveviewportoptions.md) | An object describing customization for the fix viewport feature. |
 |  [HandleElementCSSBoxDimensionsOptions](./webshell.handleelementcssboxdimensionsoptions.md) | An object describing customization for the dimensions feature. |
+|  [HandleHashChangeOptions](./webshell.handlehashchangeoptions.md) | An object describing customization for the hash change feature. |
 |  [HandleHTMLDimensionsOptions](./webshell.handlehtmldimensionsoptions.md) |  |
+|  [HashChangeEvent](./webshell.hashchangeevent.md) | A hash change event. |
 |  [HTMLDimensions](./webshell.htmldimensions.md) | An object describing various dimensions of the HTML layout. |
 |  [LinkPressOptions](./webshell.linkpressoptions.md) | An object describing customization for the linkPress feature. |
 |  [LinkPressTarget](./webshell.linkpresstarget.md) | The target of a link press event. |
@@ -36,9 +39,10 @@
 
 |  Variable | Description |
 |  --- | --- |
-|  [forceBodySizeFeature](./webshell.forcebodysizefeature.md) | This feature sets body size programatically. |
+|  [forceElementSizeFeature](./webshell.forceelementsizefeature.md) | This feature sets element size programmatically and only once, when [DOMContentLoaded](https://developer.mozilla.org/fr/docs/Web/Events/DOMContentLoaded) has been fired. |
 |  [forceResponsiveViewportFeature](./webshell.forceresponsiveviewportfeature.md) | This feature inserts or replace a <code>&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width&quot; /&gt;</code> tag in the head to guarantee that the layout viewport will match device-width (hence, “responsive”). Minimum scale is locked to 1, but you can customize maximum scale to allow pinch-zoom gestures. See [MDN—Using the viewport meta tag ...](https://developer.mozilla.org/en-US/docs/Mozilla/Mobile/Viewport_meta_tag) |
 |  [handleElementCSSBoxFeature](./webshell.handleelementcssboxfeature.md) | This feature enables receiving the CSS Box dimensions of an element identified by <code>tagName</code> in the <code>WebView</code> pixels unit. The first element matching the provided tagName is retained. A new event will be triggered on every resize. |
+|  [handleHashChangeFeature](./webshell.handlehashchangefeature.md) | This feature allows to intercept clicks on anchors (<code>&lt;a&gt;</code>). By default, it will prevent the click from propagating. But you can disable this option. |
 |  [handleHTMLDimensionsFeature](./webshell.handlehtmldimensionsfeature.md) | This feature enables receiving various dimensions relative to the layout. The events will only be fired when a change is observed to either the layout or the content size. |
 |  [handleLinkPressFeature](./webshell.handlelinkpressfeature.md) | This feature allows to intercept clicks on anchors (<code>&lt;a&gt;</code>). By default, it will prevent the click from propagating. But you can disable this option. |
 |  [handleVisualViewportFeature](./webshell.handlevisualviewportfeature.md) | <b><i>(BETA)</i></b> This feature adds a handler triggered when the visual viewport changes. It requires VisualViewport API support on browsers (iOS Safari 13 and Android WebView 62). See [MDN—VisualViewport API](https://developer.mozilla.org/en-US/docs/Web/API/VisualViewport)<!-- -->. |

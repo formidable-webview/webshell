@@ -16,8 +16,9 @@ export interface LinkPressTarget
 
 |  Property | Type | Description |
 |  --- | --- | --- |
+|  [clickedAnchorBoundingRect](./webshell.linkpresstarget.clickedanchorboundingrect.md) | DOMRect | The bounding rectangle of the anchor which has been clicked. See [Element.getBoundingClientRect()](https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect) |
 |  [hrefAttribute](./webshell.linkpresstarget.hrefattribute.md) | string | The exact content of the <code>href</code> attribute. |
-|  [page](./webshell.linkpresstarget.page.md) | { origin: string; href: string; } | An object describing the page location from which the click originated. |
-|  [scheme](./webshell.linkpresstarget.scheme.md) | string | The URI scheme |
+|  [page](./webshell.linkpresstarget.page.md) | { origin: string \| null; href: string; } | An object describing the page location from which the click originated. |
+|  [scheme](./webshell.linkpresstarget.scheme.md) | string | The URI scheme. |
 |  [uri](./webshell.linkpresstarget.uri.md) | string | The full URI of the target. |
 

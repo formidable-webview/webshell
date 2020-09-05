@@ -4,7 +4,7 @@
 
 ## LinkPressTarget.scheme property
 
-The URI scheme
+The URI scheme.
 
 <b>Signature:</b>
 

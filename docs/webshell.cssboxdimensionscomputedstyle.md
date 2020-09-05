@@ -4,7 +4,7 @@
 
 ## CSSBoxDimensionsComputedStyle interface
 
-Computed styles which affect the CSS Box dimensions. See [MDN—window.getComputedStyle](https://developer.mozilla.org/docs/Web/API/Window/getComputedStyle)<!-- -->.
+Computed styles which affect the CSS Box dimensions. See [window.getComputedStyle()](https://developer.mozilla.org/docs/Web/API/Window/getComputedStyle)<!-- -->.
 
 <b>Signature:</b>
 

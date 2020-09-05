@@ -2,12 +2,23 @@
 
 [Home](./index.md) &gt; [@formidable-webview/webshell](./webshell.md) &gt; [WebjsContext](./webshell.webjscontext.md) &gt; [postMessage](./webshell.webjscontext.postmessage.md)
 
-## WebjsContext.postMessage property
+## WebjsContext.postMessage() method
 
 When invoked, the webshell will call the handler associated with this script.
 
 <b>Signature:</b>
 
 ```typescript
-readonly postMessage: (payload: P) => void;
+postMessage(payload: P): void;
 ```
+
+## Parameters
+
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  payload | P | The value which will be passed to the handler. |
+
+<b>Returns:</b>
+
+void
+

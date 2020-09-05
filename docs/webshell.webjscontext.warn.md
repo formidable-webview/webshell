@@ -2,12 +2,23 @@
 
 [Home](./index.md) &gt; [@formidable-webview/webshell](./webshell.md) &gt; [WebjsContext](./webshell.webjscontext.md) &gt; [warn](./webshell.webjscontext.warn.md)
 
-## WebjsContext.warn property
+## WebjsContext.warn() method
 
 Safely post a warn message to the console.
 
 <b>Signature:</b>
 
 ```typescript
-readonly warn: (message: string) => void;
+warn(message: string): void;
 ```
+
+## Parameters
+
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  message | string |  |
+
+<b>Returns:</b>
+
+void
+

@@ -4,7 +4,7 @@
 
 ## ElementCSSBoxDimensions interface
 
-An object describing an element CSS Box dimensions, see [CSSWG—CSS 2 (Box model)](https://drafts.csswg.org/css2/#box-model)<!-- -->.
+An object describing an element CSS Box dimensions, see [CSS 2 (Box model)](https://drafts.csswg.org/css2/#box-model)<!-- -->.
 
 <b>Signature:</b>
 
@@ -14,16 +14,15 @@ export interface ElementCSSBoxDimensions
 
 ## Remarks
 
-This object units are in React Native dpi, independently of the scale factor between the browser width in dpi and the browser viewport in CSS pixels.
+This object scalar units are CSS pixels.
 
 ## Properties
 
 |  Property | Type | Description |
 |  --- | --- | --- |
 |  [borderBox](./webshell.elementcssboxdimensions.borderbox.md) | [CSSBox](./webshell.cssbox.md) | The border box as specified in the [CSS Box Model](https://drafts.csswg.org/css-box-3/#valdef-box-border-box)<!-- -->. |
-|  [computedStyle](./webshell.elementcssboxdimensions.computedstyle.md) | [CSSBoxDimensionsComputedStyle](./webshell.cssboxdimensionscomputedstyle.md) | The computed box style. See [MDN—window.getComputedStyle](https://developer.mozilla.org/docs/Web/API/Window/getComputedStyle)<!-- -->. |
+|  [computedStyle](./webshell.elementcssboxdimensions.computedstyle.md) | [CSSBoxDimensionsComputedStyle](./webshell.cssboxdimensionscomputedstyle.md) | The computed box style. See [window.getComputedStyle()](https://developer.mozilla.org/docs/Web/API/Window/getComputedStyle)<!-- -->. |
 |  [horizontalScrollbarWidth](./webshell.elementcssboxdimensions.horizontalscrollbarwidth.md) | number | The width of the horizontal scrollbar. |
-|  [scale](./webshell.elementcssboxdimensions.scale.md) | number | The ratio between the <code>WebView</code> width in dpi and the <code>window.innerWidth</code> in CSS pixels. |
 |  [scrollBox](./webshell.elementcssboxdimensions.scrollbox.md) | [CSSBox](./webshell.cssbox.md) | A box formed by <code>scrollWidth</code> and <code>scrollHeight</code> element properties. |
 |  [verticalScrollbarWidth](./webshell.elementcssboxdimensions.verticalscrollbarwidth.md) | number | The width of the vertical scrollbar. |
 

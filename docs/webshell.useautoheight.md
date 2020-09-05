@@ -12,26 +12,28 @@ Requires [handleHTMLDimensionsFeature](./webshell.handlehtmldimensionsfeature.md
 <b>Signature:</b>
 
 ```typescript
-export declare function useAutoheight<W extends MinimalWebViewProps>(webshellProps: W): {
+export declare function useAutoheight<W extends MinimalWebViewProps>({ webViewProps, extraLayout, debug }: AutoheightConfig<W>): Pick<W, Exclude<keyof W, "style" | "scalesPageToFit" | "onNavigationStateChange">> & {
     onDOMHTMLDimensions: (htmlDimensions: HTMLDimensions) => void;
     style: any;
     scalesPageToFit: boolean;
-} & Pick<W, Exclude<keyof W, "style" | "scalesPageToFit" | "onNavigationStateChange">>;
+};
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  webshellProps | W | the <code>Webshell</code> props you whish to augment. |
+|  { webViewProps, extraLayout, debug } | [AutoheightConfig](./webshell.autoheightconfig.md)<!-- -->&lt;W&gt; |  |
 
 <b>Returns:</b>
 
-{ onDOMHTMLDimensions: (htmlDimensions: [HTMLDimensions](./webshell.htmldimensions.md)<!-- -->) =&gt; void; style: any; scalesPageToFit: boolean; } &amp; Pick&lt;W, Exclude&lt;keyof W, "style" \| "scalesPageToFit" \| "onNavigationStateChange"&gt;&gt;
+Pick&lt;W, Exclude&lt;keyof W, "style" \| "scalesPageToFit" \| "onNavigationStateChange"&gt;&gt; &amp; { onDOMHTMLDimensions: (htmlDimensions: [HTMLDimensions](./webshell.htmldimensions.md)<!-- -->) =&gt; void; style: any; scalesPageToFit: boolean; }
+
+- The `Webshell` props implementing autoheight behavior.
 
 ## Remarks
 
 This hook has caveats you must understand:
 
-- Because the viewport height is now bound to the content heigh, you cannot and must not have an element which height depends on viewport, such as when using `vh` unit or `height: 100%;` on body. That will either create an infinite loop, or a zero-height page (this happens for Wikipedia). Hence, it is strongly advised that you use autoheight only with content you have been able to test. This can be worked around by forcing body height to 'auto', see [forceBodySizeFeature](./webshell.forcebodysizefeature.md)<!-- -->. - React Native Fast Refresh can cause bugs. - When the user clicks to fragment links within the same page (e.g, “\#help”), there will be no scrolling, because this is handled by WebView on overflow, and there is no such overflow when in autoheight mode.
+- Because the viewport height is now bound to the content heigh, you cannot and must not have an element which height depends on viewport, such as when using `vh` unit or `height: 100%;` on body. That will either create an infinite loop, or a zero-height page (this happens for Wikipedia). Hence, it is strongly advised that you use autoheight only with content you have been able to test. This can be worked around by forcing body height to 'auto', see [forceElementSizeFeature](./webshell.forceelementsizefeature.md)<!-- -->. - React Native Fast Refresh can cause bugs. - When the user clicks to fragment links within the same page (e.g, “\#help”), there will be no scrolling, because this is handled by WebView on overflow, and there is no such overflow when in autoheight mode.
 

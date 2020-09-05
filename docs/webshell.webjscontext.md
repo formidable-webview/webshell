@@ -16,8 +16,16 @@ export interface WebjsContext<O extends {}, P>
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [error](./webshell.webjscontext.error.md) | (message: string) =&gt; void | Safely post an error message to the console. |
 |  [options](./webshell.webjscontext.options.md) | O | The options to customize the script behavior. |
-|  [postMessage](./webshell.webjscontext.postmessage.md) | (payload: P) =&gt; void | When invoked, the webshell will call the handler associated with this script. |
-|  [warn](./webshell.webjscontext.warn.md) | (message: string) =&gt; void | Safely post a warn message to the console. |
+
+## Methods
+
+|  Method | Description |
+|  --- | --- |
+|  [error(message)](./webshell.webjscontext.error.md) | Safely post an error message to the console. |
+|  [extractNumericValueFromStyle(style)](./webshell.webjscontext.extractnumericvaluefromstyle.md) |  |
+|  [getDOMSelection(selector, isCollection)](./webshell.webjscontext.getdomselection.md) | A utility to select one or many elements in the DOM. |
+|  [getDOMSelection(selector, isCollection)](./webshell.webjscontext.getdomselection_1.md) |  |
+|  [postMessage(payload)](./webshell.webjscontext.postmessage.md) | When invoked, the webshell will call the handler associated with this script. |
+|  [warn(message)](./webshell.webjscontext.warn.md) | Safely post a warn message to the console. |
 

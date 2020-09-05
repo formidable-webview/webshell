@@ -10,7 +10,7 @@ An object describing the page location from which the click originated.
 
 ```typescript
 page: {
-        origin: string;
+        origin: string | null;
         href: string;
     };
 ```

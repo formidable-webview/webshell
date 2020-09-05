@@ -57,7 +57,7 @@ export interface AutoheightConfig<W extends MinimalWebViewProps> {
  *   an infinite loop, or a zero-height page (this happens for Wikipedia).
  *   Hence, it is strongly advised that you use autoheight only with content
  *   you have been able to test. This can be worked around by forcing body
- *   height to 'auto', see {@link forceBodySizeFeature}.
+ *   height to 'auto', see {@link forceElementSizeFeature}.
  * - React Native Fast Refresh can cause bugs.
  * - When the user clicks to fragment links within the same page (e.g,
  *   “#help”), there will be no scrolling, because this is handled by WebView

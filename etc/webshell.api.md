@@ -6,6 +6,7 @@
 
 import { ComponentPropsWithoutRef } from 'react';
 import { ComponentType } from 'react';
+import { DOMElementRequest as DOMElementRequest_2 } from 'src/types';
 import { ElementRef } from 'react';
 import { Feature as Feature_2 } from 'src/types';
 import { ForwardRefExoticComponent } from 'react';
@@ -25,6 +26,16 @@ export type AssembledFeature<O extends {} = {}, S extends {} = {}, P extends {} 
 
 // @public
 export type AssembledFeatureOf<F> = F extends Feature<infer O, infer S, infer P> ? AssembledFeature<O, S, P> : never;
+
+// @public (undocumented)
+export interface AutoheightConfig<W extends MinimalWebViewProps> {
+    // (undocumented)
+    debug?: boolean;
+    // (undocumented)
+    extraLayout?: any;
+    // (undocumented)
+    webViewProps: W;
+}
 
 // @public (undocumented)
 export interface CSSBox {
@@ -67,7 +78,6 @@ export interface ElementCSSBoxDimensions {
     borderBox: CSSBox;
     computedStyle: CSSBoxDimensionsComputedStyle;
     horizontalScrollbarWidth: number;
-    scale: number;
     scrollBox: CSSBox;
     verticalScrollbarWidth: number;
 }
@@ -100,13 +110,24 @@ export type Feature<O extends {}, S extends {} = {}, P extends {} = {}> = {
 } & S;
 
 // @public
-export const forceBodySizeFeature: Feature_2<ForceBodySizeOptions>;
+export const forceElementSizeFeature: {
+    readonly script: string;
+    readonly featureIdentifier: string;
+    readonly assemble: (...args: [] | [ForceElementSizeOptions]) => {
+        readonly featureIdentifier: string;
+        readonly script: string;
+        readonly options: ForceElementSizeOptions | undefined;
+        readonly props?: {} | undefined;
+    };
+};
 
 // @public
-export interface ForceBodySizeOptions {
+export interface ForceElementSizeOptions {
     forceHeight?: boolean;
     forceWidth?: boolean;
     heightValue?: number | string;
+    shouldThrowWhenNotFound?: boolean;
+    target: DOMElementRequest_2;
     widthValue?: number | string;
 }
 
@@ -120,14 +141,23 @@ export interface ForceResponsiveViewportOptions {
 
 // @public
 export interface HandleElementCSSBoxDimensionsOptions {
-    errorWhenNotFound?: boolean;
-    tagName: string;
+    shouldThrowWhenNotFound?: boolean;
+    // Warning: (ae-forgotten-export) The symbol "DOMElementRequest" needs to be exported by the entry point index.d.ts
+    target: DOMElementRequest;
 }
 
 // Warning: (ae-forgotten-export) The symbol "eventHandlerName" needs to be exported by the entry point index.d.ts
 //
 // @public
 export const handleElementCSSBoxFeature: EventFeatureOf<HandleElementCSSBoxDimensionsOptions, typeof eventHandlerName, ElementCSSBoxDimensions>;
+
+// @public
+export const handleHashChangeFeature: EventFeatureOf<HandleHashChangeOptions, 'onDOMHashChange', HashChangeEvent>;
+
+// @public
+export interface HandleHashChangeOptions {
+    shouldResetHashOnEvent?: boolean;
+}
 
 // Warning: (ae-forgotten-export) The symbol "eventHandlerName" needs to be exported by the entry point index.d.ts
 //
@@ -149,6 +179,13 @@ export const handleLinkPressFeature: EventFeatureOf<LinkPressOptions, 'onDOMLink
 export const handleVisualViewportFeature: EventFeatureOf<{}, typeof eventHandlerName_3, VisualViewportDimensions>;
 
 // @public
+export interface HashChangeEvent {
+    hash: string;
+    // Warning: (ae-forgotten-export) The symbol "DOMRect" needs to be exported by the entry point index.d.ts
+    targetElementBoundingRect: DOMRect;
+}
+
+// @public
 export interface HTMLDimensions {
     content: Dimensions;
     implementation: HTMLDimensionsImplementation;
@@ -161,14 +198,16 @@ export type HTMLDimensionsImplementation = 'resize' | 'mutation' | 'polling';
 
 // @public
 export interface LinkPressOptions {
+    ignoreHashChange?: boolean;
     preventDefault?: boolean;
 }
 
 // @public
 export interface LinkPressTarget {
+    clickedAnchorBoundingRect: DOMRect;
     hrefAttribute: string;
     page: {
-        origin: string;
+        origin: string | null;
         href: string;
     };
     scheme: string;
@@ -176,7 +215,7 @@ export interface LinkPressTarget {
 }
 
 // @public
-export function makeFeature<O extends {}, S extends {}, P extends {}>(params: Pick<Feature<O, S, P>, keyof S | 'script' | 'featureIdentifier'>): Feature<O, S, P>;
+export function makeFeature<O extends {}, S extends {} = {}, P extends {} = {}>(params: Pick<Feature<O, S, P>, keyof S | 'script' | 'featureIdentifier'>): Feature<O, S, P>;
 
 // @public
 function makeWebshell<C extends ComponentType<any>, F extends AssembledFeature[]>(WebView: C, ...assembledFeatures: F): React_2.ForwardRefExoticComponent<WebshellProps<React_2.ComponentPropsWithoutRef<C>, F> & React_2.RefAttributes<ElementRef<C>>>;
@@ -212,11 +251,11 @@ export type OptionalUnlessRequiredField<O> = O extends Partial<O> ? O | undefine
 export type PayloadOf<T> = T extends AssembledEventFeature<{}, string, infer P> ? P : never;
 
 // @beta
-export function useAutoheight<W extends MinimalWebViewProps>(webshellProps: W): {
+export function useAutoheight<W extends MinimalWebViewProps>({ webViewProps, extraLayout, debug }: AutoheightConfig<W>): Pick<W, Exclude<keyof W, "style" | "scalesPageToFit" | "onNavigationStateChange">> & {
     onDOMHTMLDimensions: (htmlDimensions: HTMLDimensions) => void;
     style: any;
     scalesPageToFit: boolean;
-} & Pick<W, Exclude<keyof W, "style" | "scalesPageToFit" | "onNavigationStateChange">>;
+};
 
 // @public
 export interface VisualViewportDimensions {
@@ -227,10 +266,18 @@ export interface VisualViewportDimensions {
 
 // @public
 export interface WebjsContext<O extends {}, P> {
-    readonly error: (message: string) => void;
+    error(message: string): void;
+    // (undocumented)
+    extractNumericValueFromStyle(style: string): number;
+    getDOMSelection(selector: DOMElementRequest, isCollection: false): HTMLElement;
+    // Warning: (ae-forgotten-export) The symbol "DOMCollectionRequest" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "HTMLCollection" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    getDOMSelection(selector: DOMCollectionRequest, isCollection: true): HTMLCollection;
     readonly options: O;
-    readonly postMessage: (payload: P) => void;
-    readonly warn: (message: string) => void;
+    postMessage(payload: P): void;
+    warn(message: string): void;
 }
 
 // @public

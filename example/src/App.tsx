@@ -168,7 +168,7 @@ const html = `
         when using <code>height: 100vh;</code> or <code>height: 100%;</code>. That is an evil cyclic dependency ready to cast an infinite loop!
         <p class="workaround">
           This can be guaranteed by forcing body
-          height to <strong>auto</strong> with webshell's <code>forceBodySizeFeature</code>.
+          height to <strong>auto</strong> with webshell's <code>forceElementSizeFeature</code>.
         </p>
         </li>
         <li>

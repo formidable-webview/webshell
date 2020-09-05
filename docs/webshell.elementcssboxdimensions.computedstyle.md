@@ -4,7 +4,7 @@
 
 ## ElementCSSBoxDimensions.computedStyle property
 
-The computed box style. See [MDN—window.getComputedStyle](https://developer.mozilla.org/docs/Web/API/Window/getComputedStyle)<!-- -->.
+The computed box style. See [window.getComputedStyle()](https://developer.mozilla.org/docs/Web/API/Window/getComputedStyle)<!-- -->.
 
 <b>Signature:</b>
 
@@ -14,5 +14,5 @@ computedStyle: CSSBoxDimensionsComputedStyle;
 
 ## Remarks
 
-Be aware that the computed vertical margins might collapse in the viewport. See [CSSWG—CSS 2 (collapsing margins)](https://drafts.csswg.org/css2/#collapsing-margins)
+Be aware that the computed vertical margins might collapse in the viewport. See [CSS 2 (collapsing margins)](https://drafts.csswg.org/css2/#collapsing-margins)
 

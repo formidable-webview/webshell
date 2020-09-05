@@ -16,6 +16,6 @@ export interface HandleElementCSSBoxDimensionsOptions
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [errorWhenNotFound](./webshell.handleelementcssboxdimensionsoptions.errorwhennotfound.md) | boolean | When no elements are found matching the providing tag, should the script raise an error? |
-|  [tagName](./webshell.handleelementcssboxdimensionsoptions.tagname.md) | string | The element to target when the DOM is loaded. |
+|  [shouldThrowWhenNotFound](./webshell.handleelementcssboxdimensionsoptions.shouldthrowwhennotfound.md) | boolean | When no elements are found matching the target, should the script raise an error? |
+|  [target](./webshell.handleelementcssboxdimensionsoptions.target.md) | DOMElementRequest | The element to target. This argument is required. |
 

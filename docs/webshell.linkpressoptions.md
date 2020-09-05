@@ -16,5 +16,6 @@ export interface LinkPressOptions
 
 |  Property | Type | Description |
 |  --- | --- | --- |
+|  [ignoreHashChange](./webshell.linkpressoptions.ignorehashchange.md) | boolean | Don't trigger an event when the target <code>href</code> is inside the page, e.g. <code>#top</code>. See also [handleHashChangeFeature](./webshell.handlehashchangefeature.md)<!-- -->. |
 |  [preventDefault](./webshell.linkpressoptions.preventdefault.md) | boolean | Prevent click events on anchors to propagate. |
 

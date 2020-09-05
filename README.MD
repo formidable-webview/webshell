@@ -121,7 +121,7 @@ import React from 'react';
 import makeWebshell, {
   handleHTMLDimensionsFeature,
   forceResponsiveViewportFeature,
-  forceBodySizeFeature,
+  forceElementSizeFeature,
   useAutoheight
 } from '@formidable-webview/webshell';
 import WebView, { WebViewProps } from 'react-native-webview';
@@ -130,11 +130,11 @@ const Webshell = makeWebshell(
   WebView,
   handleHTMLDimensionsFeature.assemble(),
   forceResponsiveViewportFeature.assemble({ maxScale: 2 }),
-  forceBodySizeFeature.assemble()
+  forceElementSizeFeature.assemble({ target: 'body' })
 );
 
 export default function AutoheightWebView(webViewProps: WebViewProps) {
-  const autoheightProps = useAutoheight(webViewProps);
+  const autoheightProps = useAutoheight({ webViewProps });
   return <Webshell {...autoheightProps} />;
 }
 
@@ -159,12 +159,13 @@ are four important areas to specify in such feature:
 > imports from the library,
 >
 > `import {...} from "@formidable-webview/webshell";`
+
 ```ts
 // src/features/handle-link-press.ts
 
 import linkPressScript from './handle-link-press.webjs';
 import { makeFeature } from '../make-feature';
-import type { EventFeatureOf } from '../types';
+import type { EventFeatureOf, DOMRect } from '../types';
 
 /**
  * An object describing customization for the linkPress feature.
@@ -178,6 +179,14 @@ export interface LinkPressOptions {
    * @defaultValue true
    */
   preventDefault?: boolean;
+
+  /**
+   * Don't trigger an event when the target `href` is inside the page, e.g.
+   * `#top`. See also {@link handleHashChangeFeature}.
+   *
+   * @defaultValue true
+   */
+  ignoreHashChange?: boolean;
 }
 
 /**
@@ -191,7 +200,7 @@ export interface LinkPressTarget {
    */
   uri: string;
   /**
-   * The URI scheme
+   * The URI scheme.
    */
   scheme: string;
   /**
@@ -199,15 +208,26 @@ export interface LinkPressTarget {
    */
   hrefAttribute: string;
   /**
+   * The bounding rectangle of the anchor which has been clicked.
+   * See {@link https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect | Element.getBoundingClientRect()}
+   */
+  clickedAnchorBoundingRect: DOMRect;
+  /**
    * An object describing the page location from which the click originated.
    */
   page: {
     /**
      * See {@link https://developer.mozilla.org/en-US/docs/Web/API/Location/origin}.
+     *
+     * @remarks
+     * Has the special value `null` when not bound to a URL (`{ html }` source).
      */
-    origin: string;
+    origin: string | null;
     /**
      * See {@link https://developer.mozilla.org/en-US/docs/Web/API/Location/href}.
+     *
+     * @remarks
+     * Has the special value `about:blank` when not bound to a URL (`{ html }` source).
      */
     href: string;
   };
@@ -237,10 +257,14 @@ the extension is arbitrary, see the [tooling section](#tooling)):
 ```js
 // src/features/handle-link-press.webjs
 
-function linkPressFeature(arg) {
+function handleLinkPressFeature(arg) {
   var postMessage = arg.postMessage;
   var options = arg.options || {};
   var preventDefault = options.preventDefault !== false;
+  var ignoreHashChange =
+    typeof options.ignoreHashChange === 'boolean'
+      ? options.ignoreHashChange
+      : true;
 
   function findParent(tagname, el) {
     while (el) {
@@ -254,7 +278,7 @@ function linkPressFeature(arg) {
 
   function extractScheme(uri) {
     var groups = uri.match(/(\w+):\/\//);
-    return (groups.length > 1 && groups[1]) || '';
+    return (groups && groups.length > 1 && groups[1]) || '';
   }
 
   function interceptClickEvent(e) {
@@ -262,11 +286,28 @@ function linkPressFeature(arg) {
     var anchor = findParent('a', target);
     if (anchor) {
       var href = anchor.href;
+      if (
+        ignoreHashChange &&
+        anchor.origin === window.location.origin &&
+        anchor.pathname === window.location.pathname
+      ) {
+        return;
+      }
+      var rect = anchor.getBoundingClientRect();
+      var clickedAnchorBoundingRect = {
+        top: rect.top,
+        left: rect.left,
+        bottom: rect.bottom,
+        right: rect.right,
+        width: rect.width,
+        height: rect.height
+      };
       preventDefault && e.preventDefault();
       postMessage({
         uri: href,
         scheme: extractScheme(href),
         hrefAttribute: anchor.getAttribute('href'),
+        clickedAnchorBoundingRect: clickedAnchorBoundingRect,
         page: {
           href: window.location.href,
           origin: window.location.origin
@@ -345,6 +386,7 @@ Best to show with an example of our link-press DOM feature testing:
 > imports from the library,
 >
 > `import {...} from "@formidable-webview/webshell";`
+
 ```ts
 // src/features/__tests__/handle-link-press.test.tsx
 
@@ -353,7 +395,7 @@ import Ersatz from '@formidable-webview/ersatz';
 import makeErsatzTesting from '@formidable-webview/ersatz-testing';
 import { render } from '@testing-library/react-native';
 import { makeWebshell } from '../../make-webshell';
-import { handleLinkPressFeature } from '../handle-link-press';
+import { handleLinkPressFeature, LinkPressTarget } from '../handle-link-press';
 
 const { waitForDocument } = makeErsatzTesting(Ersatz);
 
@@ -370,7 +412,20 @@ describe('Webshell with handleLinkPressFeature', () => {
       )
     );
     document.getElementById('anchor0').click();
-    expect(onDOMLinkPress).toHaveBeenCalledWith('https://foo.org');
+    expect(onDOMLinkPress).toHaveBeenCalledWith({
+      uri: 'https://foo.org/',
+      scheme: expect.any(String),
+      hrefAttribute: expect.any(String),
+      clickedAnchorBoundingRect: {
+        top: expect.any(Number),
+        left: expect.any(Number),
+        right: expect.any(Number),
+        bottom: expect.any(Number),
+        width: expect.any(Number),
+        height: expect.any(Number)
+      },
+      page: expect.any(Object)
+    } as Record<keyof LinkPressTarget, any>);
   });
 });
 

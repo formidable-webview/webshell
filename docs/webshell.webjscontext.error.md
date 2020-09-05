@@ -2,12 +2,23 @@
 
 [Home](./index.md) &gt; [@formidable-webview/webshell](./webshell.md) &gt; [WebjsContext](./webshell.webjscontext.md) &gt; [error](./webshell.webjscontext.error.md)
 
-## WebjsContext.error property
+## WebjsContext.error() method
 
 Safely post an error message to the console.
 
 <b>Signature:</b>
 
 ```typescript
-readonly error: (message: string) => void;
+error(message: string): void;
 ```
+
+## Parameters
+
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  message | string |  |
+
+<b>Returns:</b>
+
+void
+
