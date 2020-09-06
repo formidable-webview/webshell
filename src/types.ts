@@ -257,9 +257,15 @@ export type Feature<O extends {}, S extends {} = {}, P extends {} = {}> = {
  */
 export interface WebshellInvariantProps {
   /**
-   * Triggered when an event handler fails.
+   * Triggered when a feature script throws.
    */
   onDOMError?: (featureIdentifier: string, error: string) => void;
+  /**
+   * Report DOM error messages from features in the console.
+   *
+   * @defaultvalue `__DEV__`
+   */
+  debug?: boolean;
 }
 
 /**

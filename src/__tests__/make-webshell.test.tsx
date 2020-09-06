@@ -14,28 +14,41 @@ const { waitForErsatz } = makeErsatzTesting(Ersatz);
 
 const DummyWebView = ({}: MinimalWebViewProps) => <View />;
 
-const helloFeature: EventFeatureOf<{}, 'onDummyHello', {}> = makeFeature({
+const helloFeature: EventFeatureOf<{}, 'onDOMDummyHello', {}> = makeFeature({
   script: dummyHelloScript,
-  eventHandlerName: 'onDummyHello',
+  eventHandlerName: 'onDOMDummyHello',
   featureIdentifier: 'test.hello',
   payloadType: ''
 });
 
-const failingFeature: EventFeatureOf<{}, 'onDummyFailure', {}> = makeFeature({
-  script: dummyFailingScript,
-  eventHandlerName: 'onDummyFailure',
-  featureIdentifier: 'test.fail',
-  payloadType: undefined
-});
+const failingFeature: EventFeatureOf<{}, 'onDOMDummyFailure', {}> = makeFeature(
+  {
+    script: dummyFailingScript,
+    eventHandlerName: 'onDOMDummyFailure',
+    featureIdentifier: 'test.fail',
+    payloadType: undefined
+  }
+);
 
 const optionFeature: EventFeatureOf<
   { foo: string },
-  'onDummyOption',
+  'onDOMDummyOption',
   { foo: string }
 > = makeFeature({
   script: dummyOptionScript,
-  eventHandlerName: 'onDummyOption',
+  eventHandlerName: 'onDOMDummyOption',
   featureIdentifier: 'test.fail',
+  payloadType: { foo: '' }
+});
+
+const faultyFeature: EventFeatureOf<
+  { foo: string },
+  'onFaultyFeature',
+  { foo: string }
+> = makeFeature({
+  script: dummyOptionScript,
+  eventHandlerName: 'onFaultyFeature',
+  featureIdentifier: 'test.never',
   payloadType: { foo: '' }
 });
 
@@ -47,18 +60,24 @@ describe('Webshell component', () => {
     expect(webshell).toBeTruthy();
   });
   it('should handle feature messages', async () => {
-    const onDummyHello = jest.fn();
+    const onDOMDummyHello = jest.fn();
     const Webshell = makeWebshell(Ersatz, helloFeature.assemble({}));
-    await waitForErsatz(render(<Webshell onDummyHello={onDummyHello} />));
-    expect(onDummyHello).toHaveBeenCalledWith('Hello world!');
+    await waitForErsatz(
+      render(<Webshell debug={false} onDOMDummyHello={onDOMDummyHello} />)
+    );
+    expect(onDOMDummyHello).toHaveBeenCalledWith('Hello world!');
   });
   it('should handle feature failures', async () => {
-    const onDummyMessage = jest.fn();
+    const onDOMDummyFailure = jest.fn();
     const onFailure = jest.fn();
     const Webshell = makeWebshell(Ersatz, failingFeature.assemble({}));
     await waitForErsatz(
       render(
-        <Webshell onDummyFailure={onDummyMessage} onDOMError={onFailure} />
+        <Webshell
+          debug={false}
+          onDOMDummyFailure={onDOMDummyFailure}
+          onDOMError={onFailure}
+        />
       )
     );
     expect(onFailure).toHaveBeenCalledWith(
@@ -67,16 +86,18 @@ describe('Webshell component', () => {
     );
   });
   it('should pass options to feature scripts', async () => {
-    const onDummyOption = jest.fn();
+    const onDOMDummyOption = jest.fn();
     const Webshell = makeWebshell(
       Ersatz,
       optionFeature.assemble({ foo: 'bar' })
     );
-    await waitForErsatz(render(<Webshell onDummyOption={onDummyOption} />));
-    expect(onDummyOption).toHaveBeenCalledWith({ foo: 'bar' });
+    await waitForErsatz(
+      render(<Webshell debug={false} onDOMDummyOption={onDOMDummyOption} />)
+    );
+    expect(onDOMDummyOption).toHaveBeenCalledWith({ foo: 'bar' });
   });
   it('should keep support for onMessage and injectedJavascript', async () => {
-    const onDummyOption = jest.fn();
+    const onDOMDummyOption = jest.fn();
     const onMessage = jest.fn();
     const injectedJavaScript = "window.ReactNativeWebView.postMessage('test');";
     const Webshell = makeWebshell(
@@ -86,19 +107,22 @@ describe('Webshell component', () => {
     await waitForErsatz(
       render(
         <Webshell
-          onDummyOption={onDummyOption}
+          onDOMDummyOption={onDOMDummyOption}
           injectedJavaScript={injectedJavaScript}
           onMessage={onMessage}
         />
       )
     );
-    expect(onDummyOption).toHaveBeenCalledWith({ foo: 'bar' });
+    expect(onDOMDummyOption).toHaveBeenCalledWith({ foo: 'bar' });
     expect(onMessage).toHaveBeenCalledTimes(1);
   });
   it('it should provide a reference to the inner WebView', async () => {
     const Webshell = makeWebshell(Ersatz);
     const ersatzRef = React.createRef<Ersatz>();
-    await waitForErsatz(render(<Webshell ref={ersatzRef} />));
+    await waitForErsatz(render(<Webshell debug={false} ref={ersatzRef} />));
     expect(ersatzRef.current).toBeInstanceOf(Ersatz);
+  });
+  it("it should throw when provided with an event handler feature which doesn't comply with name requirement: starts with 'onDOM'", async () => {
+    expect(() => makeWebshell(Ersatz, faultyFeature.assemble())).toThrow();
   });
 });

@@ -13,7 +13,8 @@ import {
   WebshellProps,
   WebshellInvariantProps,
   MinimalWebViewProps,
-  AssembledEventFeature
+  AssembledEventFeature,
+  EventHandlerDefinition
 } from './types.js';
 
 interface WebViewMessage {
@@ -85,14 +86,16 @@ function isEventFeature(
 ): assembledFeature is AssembledEventFeature {
   return Object.prototype.hasOwnProperty.call(
     assembledFeature,
-    'eventHandlerName'
+    'eventHandlerName' as keyof EventHandlerDefinition<any, any>
   );
 }
 
-type Fixup<T> = T extends never ? [] : T;
+function isInvalidFeature<F extends AssembledFeature>(feat: F): boolean {
+  return isEventFeature(feat) && !feat.eventHandlerName.startsWith('onDOM');
+}
 
 /**
- * Creates a React component which decorates WebView component with additionnal
+ * Creates a React component which decorates WebView component with additional
  * props to handle events from the DOM.
  *
  * @param WebView - A WebView component, typically exported from `react-native-webview`.
@@ -115,12 +118,23 @@ export function makeWebshell<
     '$$___FEATURES___$$',
     serializedFeatures
   );
+  if (__DEV__) {
+    const failingFeature = assembledFeatures.find(isInvalidFeature) as
+      | AssembledEventFeature<any, any>
+      | undefined;
+    if (failingFeature) {
+      throw new TypeError(
+        `[makeWebshell]: Event handler feature ${failingFeature.featureIdentifier} event handler name, "${failingFeature.eventHandlerName}" doesn't comply with handler name requirement: name must start with "onDOM".`
+      );
+    }
+  }
   const Webshell = (
     props: WebshellProps<ComponentProps<C>, F> & { webViewRef: ElementRef<C> }
   ) => {
     const {
       onMessage,
       onDOMError,
+      debug,
       ...otherProps
     } = props as WebshellInvariantProps & MinimalWebViewProps;
     const domHandlers = extractDOMHandlers(otherProps);
@@ -141,13 +155,23 @@ export function makeWebshell<
                   typeof handlerName === 'string'
                     ? domHandlers[handlerName]
                     : null;
-                typeof handler === 'function' && handler(body);
+                if (typeof handler === 'function') {
+                  handler(body);
+                } else {
+                  debug &&
+                    console.info(
+                      `[Webshell]: script from feature ${identifier} sent an event, but there is no handler prop attached to it (${handlerName}).`
+                    );
+                }
                 return;
               }
-              // TODO inform user unhandled messages
             } else if (type === 'error') {
               // Handle as an error message
               typeof onDOMError === 'function' && onDOMError(identifier, body);
+              debug &&
+                console.warn(
+                  `[Webshell]: script from feature ${identifier} raised an error: ${body}`
+                );
               return;
             }
           }
@@ -175,6 +199,9 @@ export function makeWebshell<
         />
       </Animated.View>
     );
+  };
+  Webshell.defaultProps = {
+    debug: __DEV__
   };
   return React.forwardRef<
     ElementRef<C>,
