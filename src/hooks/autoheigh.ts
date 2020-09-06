@@ -185,6 +185,7 @@ export function useAutoheight<
     style: autoHeightStyle,
     scalesPageToFit: false,
     showsVerticalScrollIndicator: false,
+    disableScrollViewPanResponder: true,
     webshellAnimatedHeight: animated ? (animatedHeight as any) : undefined
   };
 }
