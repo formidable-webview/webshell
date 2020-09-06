@@ -107,8 +107,6 @@ export interface ElementCSSBoxDimensions {
   verticalScrollbarWidth: number;
 }
 
-const eventHandlerName = 'onDOMElementCSSBoxDimensions';
-
 /**
  * This feature enables receiving the CSS Box dimensions of an element
  * identified by `tagName` in the `WebView` pixels unit. The first element
@@ -119,11 +117,11 @@ const eventHandlerName = 'onDOMElementCSSBoxDimensions';
  */
 export const handleElementCSSBoxFeature: EventFeatureOf<
   HandleElementCSSBoxDimensionsOptions,
-  typeof eventHandlerName,
+  'onDOMElementCSSBoxDimensions',
   ElementCSSBoxDimensions
 > = makeFeature({
   script,
-  eventHandlerName,
+  eventHandlerName: 'onDOMElementCSSBoxDimensions',
   featureIdentifier:
     'org.formidable-webview/webshell.handle-element-cssbox-dimensions'
 });

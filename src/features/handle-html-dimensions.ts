@@ -67,8 +67,6 @@ export interface HTMLDimensions {
   implementation: HTMLDimensionsImplementation;
 }
 
-const eventHandlerName = 'onDOMHTMLDimensions';
-
 /**
  * This feature enables receiving various dimensions relative to the layout. The events
  * will only be fired when a change is observed to either the layout or the content size.
@@ -82,10 +80,10 @@ const eventHandlerName = 'onDOMHTMLDimensions';
  */
 export const handleHTMLDimensionsFeature: EventFeatureOf<
   HandleHTMLDimensionsOptions,
-  typeof eventHandlerName,
+  'onDOMHTMLDimensions',
   HTMLDimensions
 > = makeFeature({
   script,
-  eventHandlerName,
+  eventHandlerName: 'onDOMHTMLDimensions',
   featureIdentifier: 'org.formidable-webview/webshell.handle-html-dimensions'
 });

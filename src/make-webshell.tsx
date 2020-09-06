@@ -1,13 +1,12 @@
 /* eslint-disable dot-notation */
 import * as React from 'react';
 import {
-  Component,
   ComponentType,
   ElementRef,
   ComponentProps,
   ComponentPropsWithRef
 } from 'react';
-import { NativeSyntheticEvent } from 'react-native';
+import { NativeSyntheticEvent, Animated } from 'react-native';
 import featuresLoaderScript from './features-loader.webjs';
 import {
   AssembledFeature,
@@ -57,6 +56,18 @@ function serializeFeatureList(specs: AssembledFeature[]) {
   return `[${specs.map(serializeFeature).join(',')}]`;
 }
 
+function extractDOMHandlers(props: WebshellProps<any, any>): any {
+  return Object.keys(props).reduce((obj, key) => {
+    if (key.startsWith('onDOM')) {
+      return {
+        ...obj,
+        [key]: props[key]
+      };
+    }
+    return obj;
+  }, {});
+}
+
 function filterWebViewProps<W>(props: WebshellProps<any, any>): W {
   return Object.keys(props).reduce((obj, key) => {
     if (key.startsWith('onDOM')) {
@@ -104,62 +115,67 @@ export function makeWebshell<
     '$$___FEATURES___$$',
     serializedFeatures
   );
-  class Webshell extends Component<
-    WebshellProps<ComponentProps<C>, F> & { webViewRef: ElementRef<C> }
-  > {
-    static defaultProps = {} as WebshellProps<ComponentProps<C>, F>;
-
-    handleOnMessage = ({
-      nativeEvent
-    }: NativeSyntheticEvent<WebViewMessage>) => {
-      const { onMessage, onDOMError } = this.props as WebshellInvariantProps &
-        MinimalWebViewProps;
-      const parsedJSON = parseJSONSafe(nativeEvent.data);
-      if (isPostMessageObject(parsedJSON)) {
-        const { type, identifier, body } = parsedJSON;
-        if (typeof type === 'string' && typeof identifier === 'string') {
-          if (type === 'feature') {
-            // Handle as a feature message
-            const source = assembledFeatures.find(
-              (s) => s.featureIdentifier === identifier
-            );
-            if (source && isEventFeature(source)) {
-              const handlerName = source.eventHandlerName;
-              const handler =
-                typeof handlerName === 'string'
-                  ? this.props[handlerName]
-                  : null;
-              typeof handler === 'function' && handler(body);
+  const Webshell = (
+    props: WebshellProps<ComponentProps<C>, F> & { webViewRef: ElementRef<C> }
+  ) => {
+    const {
+      onMessage,
+      onDOMError,
+      ...otherProps
+    } = props as WebshellInvariantProps & MinimalWebViewProps;
+    const domHandlers = extractDOMHandlers(otherProps);
+    const handleOnMessage = React.useCallback(
+      ({ nativeEvent }: NativeSyntheticEvent<WebViewMessage>) => {
+        const parsedJSON = parseJSONSafe(nativeEvent.data);
+        if (isPostMessageObject(parsedJSON)) {
+          const { type, identifier, body } = parsedJSON;
+          if (typeof type === 'string' && typeof identifier === 'string') {
+            if (type === 'feature') {
+              // Handle as a feature message
+              const source = assembledFeatures.find(
+                (s) => s.featureIdentifier === identifier
+              );
+              if (source && isEventFeature(source)) {
+                const handlerName = source.eventHandlerName;
+                const handler =
+                  typeof handlerName === 'string'
+                    ? domHandlers[handlerName]
+                    : null;
+                typeof handler === 'function' && handler(body);
+                return;
+              }
+              // TODO inform user unhandled messages
+            } else if (type === 'error') {
+              // Handle as an error message
+              typeof onDOMError === 'function' && onDOMError(identifier, body);
               return;
             }
-            // TODO inform user unhandled messages
-          } else if (type === 'error') {
-            // Handle as an error message
-            typeof onDOMError === 'function' && onDOMError(identifier, body);
-            return;
           }
+        } else {
+          typeof onMessage === 'function' && onMessage(nativeEvent);
         }
-      } else {
-        typeof onMessage === 'function' && onMessage(nativeEvent);
-      }
-    };
-
-    render() {
-      const { webViewRef, injectedJavaScript, ...webViewProps } = this.props;
+      },
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [...Object.values(domHandlers), onDOMError, onMessage]
+    );
+    const { webViewRef, injectedJavaScript, ...webViewProps } = props;
+    const resultingJavascript = React.useMemo(() => {
       const safeUserscript =
         typeof injectedJavaScript === 'string' ? injectedJavaScript : '';
-      const resultingJavascript = `(function(){${safeUserscript};${injectableScript};})();true;`;
-      return (
+      return `(function(){${safeUserscript};${injectableScript};})();true;`;
+    }, [injectedJavaScript]);
+    return (
+      <Animated.View>
         <WebView
           {...filterWebViewProps(webViewProps)}
           ref={webViewRef}
           injectedJavaScript={resultingJavascript}
           javaScriptEnabled={true}
-          onMessage={this.handleOnMessage}
+          onMessage={handleOnMessage}
         />
-      );
-    }
-  }
+      </Animated.View>
+    );
+  };
   return React.forwardRef<
     ElementRef<C>,
     WebshellProps<ComponentPropsWithRef<C>, F>

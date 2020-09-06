@@ -76,6 +76,9 @@ buck-out/
 !.yarn/sdks
 !.yarn/versions
 
+# Todos
+*.todo
+
 # This library
 /lib/
 
