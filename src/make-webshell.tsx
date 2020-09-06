@@ -124,7 +124,7 @@ export function makeWebshell<
       | undefined;
     if (failingFeature) {
       throw new TypeError(
-        `[makeWebshell]: Feature ${failingFeature.featureIdentifier} event handler name, "${failingFeature.eventHandlerName}" doesn't comply with handler name requirement: name must start with "onDOM".`
+        `[makeWebshell]: Feature "${failingFeature.featureIdentifier}" event handler name, "${failingFeature.eventHandlerName}" doesn't comply with handler name requirement: name must start with "onDOM".`
       );
     }
   }
@@ -160,7 +160,7 @@ export function makeWebshell<
                 } else {
                   debug &&
                     console.info(
-                      `[Webshell]: script from feature ${identifier} sent an event, but there is no handler prop attached to it (${handlerName}).`
+                      `[Webshell]: script from feature "${identifier}" sent an event, but there is no handler prop attached to it (${handlerName}).`
                     );
                 }
                 return;
@@ -170,7 +170,7 @@ export function makeWebshell<
               typeof onDOMError === 'function' && onDOMError(identifier, body);
               debug &&
                 console.warn(
-                  `[Webshell]: script from feature ${identifier} raised an error: ${body}`
+                  `[Webshell]: script from feature "${identifier}" raised an error: ${body}`
                 );
               return;
             }
