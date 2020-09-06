@@ -281,7 +281,7 @@ export interface WebshellInvariantProps {
  * @public
  */
 export type WebshellProps<
-  W,
+  W extends MinimalWebViewProps,
   F extends AssembledFeature<{}, {}, {}>[]
 > = WebshellInvariantProps &
   W &

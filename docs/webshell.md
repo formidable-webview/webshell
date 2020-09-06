@@ -10,13 +10,14 @@
 |  --- | --- |
 |  [makeFeature(params)](./webshell.makefeature.md) | Create a feature. |
 |  [makeWebshell(WebView, assembledFeatures)](./webshell.makewebshell.md) | Creates a React component which decorates WebView component with additional props to handle events from the DOM. |
-|  [useAutoheight({ webViewProps, extraLayout, animated })](./webshell.useautoheight.md) | <b><i>(BETA)</i></b> Requires [handleHTMLDimensionsFeature](./webshell.handlehtmldimensionsfeature.md) and recommends [forceResponsiveViewportFeature](./webshell.forceresponsiveviewportfeature.md)<!-- -->. |
+|  [useAutoheight({ webshellProps, extraLayout, animated, onContentSizeChange })](./webshell.useautoheight.md) | <b><i>(BETA)</i></b> Requires [handleHTMLDimensionsFeature](./webshell.handlehtmldimensionsfeature.md) and recommends [forceResponsiveViewportFeature](./webshell.forceresponsiveviewportfeature.md)<!-- -->. |
 
 ## Interfaces
 
 |  Interface | Description |
 |  --- | --- |
 |  [AutoheightParams](./webshell.autoheightparams.md) | Named parameters for autoheight hook. |
+|  [ContentSize](./webshell.contentsize.md) |  |
 |  [CSSBox](./webshell.cssbox.md) |  |
 |  [CSSBoxDimensionsComputedStyle](./webshell.cssboxdimensionscomputedstyle.md) | Computed styles which affect the CSS Box dimensions. See [window.getComputedStyle()](https://developer.mozilla.org/docs/Web/API/Window/getComputedStyle)<!-- -->. |
 |  [ElementCSSBoxDimensions](./webshell.elementcssboxdimensions.md) | An object describing an element CSS Box dimensions, see [CSS 2 (Box model)](https://drafts.csswg.org/css2/#box-model)<!-- -->. |

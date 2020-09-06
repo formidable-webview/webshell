@@ -12,13 +12,12 @@ Requires [handleHTMLDimensionsFeature](./webshell.handlehtmldimensionsfeature.md
 <b>Signature:</b>
 
 ```typescript
-export declare function useAutoheight<W extends MinimalWebViewProps>({ webViewProps, extraLayout, animated }: AutoheightParams<W>): Pick<W & {
-    webshellDebug?: boolean | undefined;
-}, Exclude<keyof W, "style" | "webshellDebug" | "onNavigationStateChange" | "scalesPageToFit">> & {
+export declare function useAutoheight<S extends WebshellProps<MinimalWebViewProps, [AssembledFeatureOf<typeof handleHTMLDimensionsFeature>]>>({ webshellProps, extraLayout, animated, onContentSizeChange }: AutoheightParams<S>): Pick<S, Exclude<keyof S, "style" | "webshellDebug" | "onNavigationStateChange" | "scalesPageToFit" | "onDOMHTMLDimensions">> & {
     webshellDebug: boolean | undefined;
     onDOMHTMLDimensions: (htmlDimensions: HTMLDimensions) => void;
     style: StyleProp<ViewStyle>;
     scalesPageToFit: boolean;
+    showsVerticalScrollIndicator: boolean;
     webshellAnimatedHeight: any;
 };
 ```
@@ -27,11 +26,11 @@ export declare function useAutoheight<W extends MinimalWebViewProps>({ webViewPr
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  { webViewProps, extraLayout, animated } | [AutoheightParams](./webshell.autoheightparams.md)<!-- -->&lt;W&gt; |  |
+|  { webshellProps, extraLayout, animated, onContentSizeChange } | [AutoheightParams](./webshell.autoheightparams.md)<!-- -->&lt;S&gt; |  |
 
 <b>Returns:</b>
 
-Pick&lt;W &amp; { webshellDebug?: boolean \| undefined; }, Exclude&lt;keyof W, "style" \| "webshellDebug" \| "onNavigationStateChange" \| "scalesPageToFit"&gt;&gt; &amp; { webshellDebug: boolean \| undefined; onDOMHTMLDimensions: (htmlDimensions: [HTMLDimensions](./webshell.htmldimensions.md)<!-- -->) =&gt; void; style: StyleProp&lt;ViewStyle&gt;; scalesPageToFit: boolean; webshellAnimatedHeight: any; }
+Pick&lt;S, Exclude&lt;keyof S, "style" \| "webshellDebug" \| "onNavigationStateChange" \| "scalesPageToFit" \| "onDOMHTMLDimensions"&gt;&gt; &amp; { webshellDebug: boolean \| undefined; onDOMHTMLDimensions: (htmlDimensions: [HTMLDimensions](./webshell.htmldimensions.md)<!-- -->) =&gt; void; style: StyleProp&lt;ViewStyle&gt;; scalesPageToFit: boolean; showsVerticalScrollIndicator: boolean; webshellAnimatedHeight: any; }
 
 - The `Webshell` props implementing autoheight behavior.
 

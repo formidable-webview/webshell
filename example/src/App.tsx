@@ -1,7 +1,15 @@
 import * as React from 'react';
 import Constants from 'expo-constants';
 import * as WebBrowser from 'expo-web-browser';
-import { StyleSheet, ScrollView, Text, View, Switch } from 'react-native';
+import {
+  StyleSheet,
+  ScrollView,
+  Text,
+  View,
+  Switch,
+  Button,
+  LayoutRectangle
+} from 'react-native';
 import makeWebshell, {
   forceResponsiveViewportFeature,
   handleHTMLDimensionsFeature,
@@ -10,7 +18,8 @@ import makeWebshell, {
   handleLinkPressFeature,
   useAutoheight,
   LinkPressTarget,
-  HashChangeEvent
+  HashChangeEvent,
+  ContentSize
 } from '@formidable-webview/webshell';
 import WebView from 'react-native-webview';
 import { WebViewSource } from 'react-native-webview/lib/WebViewTypes';
@@ -142,7 +151,7 @@ const html = `
       <div class="brand">
          <a href="https://github.com/formidable-webview/webshell#readme">@formidable-webview/webshell</a>
       </div>
-      <h2>Create a WebView which adjusts layout viewport to content size</h2>
+      <h2>Create a WebView which adjusts layout viewport to content size, dynamically</h2>
       Thanks to <code>webshell</code> library, you can decorate <code>WebView</code> with on-demand features.
       It doesn't add a WebView dependency; you pick the WebView you want and use <code>makeWebshell</code> to add the desired features.
       <h3>Pros</h3>
@@ -249,7 +258,14 @@ let source: WebViewSource = { html };
 
 export default function App() {
   const [padding, setPadding] = React.useState(0);
-  const [animated, setAnimated] = React.useState(true);
+  const [animated, setAnimated] = React.useState(false);
+  const [instance, setInstance] = React.useState(0);
+  const [showStats, setShowStats] = React.useState(false);
+  const [contentSize, setContentSize] = React.useState<ContentSize>({
+    height: undefined,
+    width: undefined
+  });
+  const [layout, setLayout] = React.useState<LayoutRectangle | null>(null);
   const scrollViewRef = React.useRef<ScrollView>(null);
   const onDOMLinkPress = React.useCallback((target: LinkPressTarget) => {
     if (target.scheme.match(/^https?$/)) {
@@ -265,31 +281,38 @@ export default function App() {
     []
   );
   const autoheightProps = useAutoheight<WebshellProps>({
-    webViewProps: {
+    webshellProps: {
       source,
       style: styles.autoheight,
       webshellDebug: true
     },
     extraLayout: padding,
+    onContentSizeChange: setContentSize,
     animated
   });
   const webshellContainerStyle = {
     paddingHorizontal: padding,
     alignSelf: 'stretch' as 'stretch'
   };
+  React.useEffect(() => {
+    setContentSize({ width: undefined, height: undefined });
+    setLayout(null);
+  }, [instance]);
   return (
     <View style={styles.root}>
       <ScrollView
         pointerEvents="box-none"
         ref={scrollViewRef}
-        contentContainerStyle={styles.container}>
+        contentContainerStyle={[
+          styles.container,
+          showStats ? { paddingBottom: STAT_HEIGHT } : null
+        ]}>
         <View style={styles.controlsContainer}>
           <View style={styles.controlContainer}>
-            <Text>Add padding around WebView?</Text>
+            <Text>Add space around WebView?</Text>
             <Switch
               value={!!padding}
               onValueChange={() => setPadding(padding ? 0 : 20)}
-              thumbColor={padding ? '#d4aa00' : undefined}
             />
           </View>
           <View style={styles.controlContainer}>
@@ -297,28 +320,77 @@ export default function App() {
             <Switch
               value={animated}
               onValueChange={() => setAnimated(!animated)}
-              thumbColor={animated ? '#d4aa00' : undefined}
+            />
+          </View>
+          <View style={styles.controlContainer}>
+            <Text>Show stats?</Text>
+            <Switch
+              value={showStats}
+              onValueChange={() => setShowStats(!showStats)}
+            />
+          </View>
+          <View style={styles.controlContainer}>
+            <Button
+              onPress={() => setInstance(instance + 1)}
+              title="Reload Webshell"
             />
           </View>
         </View>
         <View style={webshellContainerStyle}>
           <Webshell
+            key={instance}
             onDOMLinkPress={onDOMLinkPress}
             onDOMHashChange={onDOMHashChange}
+            onLayout={(e) => setLayout(e.nativeEvent.layout)}
             {...autoheightProps}
           />
         </View>
         <Text style={[styles.text, styles.textInScrollView]}>
-          This is a React Native Text element.
+          This is a React Native Text element bellow the WebView.
         </Text>
       </ScrollView>
+      {showStats && (
+        <ScrollView horizontal={true} style={styles.stats}>
+          <Text
+            style={{ fontFamily: 'monospace', color: 'white', fontSize: 12 }}>
+            <Text style={{ fontWeight: 'bold' }}>Content</Text>
+            {'  '}Width:{' '}
+            {contentSize.width === undefined
+              ? 'unset'
+              : Math.round(contentSize.width)}
+            {', '}
+            Height:{' '}
+            {contentSize.height === undefined
+              ? 'unset'
+              : Math.round(contentSize.height)}
+            {'\n'}
+            <Text style={{ fontWeight: 'bold' }}>Viewport</Text> Width:{' '}
+            {layout == null ? 'unset' : Math.round(layout.width)}
+            {', '}
+            Height: {layout == null ? 'unset' : Math.round(layout.height)}
+            {'\n'}
+            <Text style={{ fontWeight: 'bold' }}>URL</Text>
+            {'      '}
+            {source['uri'] || 'about:blank'}
+          </Text>
+        </ScrollView>
+      )}
     </View>
   );
 }
 
-const BUTTON_CONTAINER_HEIGHT = 80;
+const BUTTON_CONTAINER_HEIGHT = 180;
+const STAT_HEIGHT = 50;
 
 const styles = StyleSheet.create({
+  stats: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: 'black',
+    height: STAT_HEIGHT
+  },
   text: {
     textAlign: 'center',
     padding: 10,
@@ -332,10 +404,10 @@ const styles = StyleSheet.create({
   controlContainer: {
     justifyContent: 'space-between',
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    padding: 5
   },
   controlsContainer: {
-    padding: 10,
     maxWidth: 350,
     height: BUTTON_CONTAINER_HEIGHT
   },

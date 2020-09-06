@@ -31,12 +31,19 @@ export type AssembledFeature<O extends {} = {}, S extends {} = {}, P extends {} 
 export type AssembledFeatureOf<F> = F extends Feature<infer O, infer S, infer P> ? AssembledFeature<O, S, P> : never;
 
 // @public
-export interface AutoheightParams<W extends MinimalWebViewProps> {
+export interface AutoheightParams<S extends WebshellProps<MinimalWebViewProps, []>> {
     animated?: boolean;
     extraLayout?: any;
-    webViewProps: W & {
-        webshellDebug?: boolean;
-    };
+    onContentSizeChange?: (contentSize: ContentSize) => void;
+    webshellProps: S;
+}
+
+// @public (undocumented)
+export interface ContentSize {
+    // (undocumented)
+    height: number | undefined;
+    // (undocumented)
+    width: number | undefined;
 }
 
 // @public (undocumented)
@@ -247,13 +254,12 @@ export type OptionalUnlessRequiredField<O> = O extends Partial<O> ? O | undefine
 export type PayloadOf<T> = T extends AssembledEventFeature<{}, string, infer P> ? P : never;
 
 // @beta
-export function useAutoheight<W extends MinimalWebViewProps>({ webViewProps, extraLayout, animated }: AutoheightParams<W>): Pick<W & {
-    webshellDebug?: boolean | undefined;
-}, Exclude<keyof W, "style" | "webshellDebug" | "onNavigationStateChange" | "scalesPageToFit">> & {
+export function useAutoheight<S extends WebshellProps<MinimalWebViewProps, [AssembledFeatureOf<typeof handleHTMLDimensionsFeature>]>>({ webshellProps, extraLayout, animated, onContentSizeChange }: AutoheightParams<S>): Pick<S, Exclude<keyof S, "style" | "webshellDebug" | "onNavigationStateChange" | "scalesPageToFit" | "onDOMHTMLDimensions">> & {
     webshellDebug: boolean | undefined;
     onDOMHTMLDimensions: (htmlDimensions: HTMLDimensions) => void;
     style: StyleProp<ViewStyle>;
     scalesPageToFit: boolean;
+    showsVerticalScrollIndicator: boolean;
     webshellAnimatedHeight: any;
 };
 
@@ -296,7 +302,7 @@ export interface WebshellInvariantProps {
 }
 
 // @public
-export type WebshellProps<W, F extends AssembledFeature<{}, {}, {}>[]> = WebshellInvariantProps & W & (F[number] extends never ? {} : WebshellAssembledProps<F[number]>);
+export type WebshellProps<W extends MinimalWebViewProps, F extends AssembledFeature<{}, {}, {}>[]> = WebshellInvariantProps & W & (F[number] extends never ? {} : WebshellAssembledProps<F[number]>);
 
 
 // (No @packageDocumentation comment for this package)
