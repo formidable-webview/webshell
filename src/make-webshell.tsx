@@ -124,7 +124,7 @@ export function makeWebshell<
       | undefined;
     if (failingFeature) {
       throw new TypeError(
-        `[makeWebshell]: Event handler feature ${failingFeature.featureIdentifier} event handler name, "${failingFeature.eventHandlerName}" doesn't comply with handler name requirement: name must start with "onDOM".`
+        `[makeWebshell]: Feature ${failingFeature.featureIdentifier} event handler name, "${failingFeature.eventHandlerName}" doesn't comply with handler name requirement: name must start with "onDOM".`
       );
     }
   }
