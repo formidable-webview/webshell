@@ -261,7 +261,7 @@ export default function App() {
   const onDOMHashChange = React.useCallback(
     (e: HashChangeEvent) =>
       scrollViewRef.current?.scrollTo({
-        y: e.targetElementBoundingRect.top,
+        y: e.targetElementBoundingRect.top + BUTTON_CONTAINER_HEIGHT,
         animated: true
       }),
     []
@@ -299,6 +299,8 @@ export default function App() {
   );
 }
 
+const BUTTON_CONTAINER_HEIGHT = 60;
+
 const styles = StyleSheet.create({
   text: {
     textAlign: 'center',
@@ -312,7 +314,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent'
   },
   buttonContainer: {
-    padding: 10
+    padding: 10,
+    height: BUTTON_CONTAINER_HEIGHT
   },
   container: {
     backgroundColor: 'white',
