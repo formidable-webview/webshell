@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Constants from 'expo-constants';
 import * as WebBrowser from 'expo-web-browser';
-import { StyleSheet, ScrollView, Text, View, Button } from 'react-native';
+import { StyleSheet, ScrollView, Text, View, Switch } from 'react-native';
 import makeWebshell, {
   forceResponsiveViewportFeature,
   handleHTMLDimensionsFeature,
@@ -249,11 +249,8 @@ let source: WebViewSource = { html };
 
 export default function App() {
   const [padding, setPadding] = React.useState(0);
+  const [animated, setAnimated] = React.useState(true);
   const scrollViewRef = React.useRef<ScrollView>(null);
-  const changePadding = React.useCallback(
-    () => setPadding((p) => (p ? 0 : 20)),
-    []
-  );
   const onDOMLinkPress = React.useCallback((target: LinkPressTarget) => {
     if (target.scheme.match(/^https?$/)) {
       WebBrowser.openBrowserAsync(target.uri);
@@ -274,7 +271,7 @@ export default function App() {
       webshellDebug: true
     },
     extraLayout: padding,
-    animated: true
+    animated
   });
   const webshellContainerStyle = {
     paddingHorizontal: padding,
@@ -286,12 +283,23 @@ export default function App() {
         pointerEvents="box-none"
         ref={scrollViewRef}
         contentContainerStyle={styles.container}>
-        <View style={styles.buttonContainer}>
-          <Button
-            onPress={changePadding}
-            color="#d4aa00"
-            title={`${padding ? 'Remove' : 'Add'} padding around WebView`}
-          />
+        <View style={styles.controlsContainer}>
+          <View style={styles.controlContainer}>
+            <Text>Add padding around WebView?</Text>
+            <Switch
+              value={!!padding}
+              onValueChange={() => setPadding(padding ? 0 : 20)}
+              thumbColor={padding ? '#d4aa00' : undefined}
+            />
+          </View>
+          <View style={styles.controlContainer}>
+            <Text>Use height animations?</Text>
+            <Switch
+              value={animated}
+              onValueChange={() => setAnimated(!animated)}
+              thumbColor={animated ? '#d4aa00' : undefined}
+            />
+          </View>
         </View>
         <View style={webshellContainerStyle}>
           <Webshell
@@ -308,7 +316,7 @@ export default function App() {
   );
 }
 
-const BUTTON_CONTAINER_HEIGHT = 60;
+const BUTTON_CONTAINER_HEIGHT = 80;
 
 const styles = StyleSheet.create({
   text: {
@@ -321,8 +329,14 @@ const styles = StyleSheet.create({
   autoheight: {
     backgroundColor: 'transparent'
   },
-  buttonContainer: {
+  controlContainer: {
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  controlsContainer: {
     padding: 10,
+    maxWidth: 350,
     height: BUTTON_CONTAINER_HEIGHT
   },
   container: {
