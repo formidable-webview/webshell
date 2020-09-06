@@ -4,10 +4,12 @@
 
 ## AutoheightParams.webViewProps property
 
-You should pass all the props directed to the WebView here. This is important because this hook might react to some props and warn you of certain incompatibilities.
+You should pass all the props directed to `Webshell` here. This is important because this hook might react to some props and warn you of some incompatibilities.
 
 <b>Signature:</b>
 
 ```typescript
-webViewProps: W;
+webViewProps: W & {
+        webshellDebug?: boolean;
+    };
 ```

@@ -9,8 +9,8 @@
 |  Function | Description |
 |  --- | --- |
 |  [makeFeature(params)](./webshell.makefeature.md) | Create a feature. |
-|  [makeWebshell(WebView, assembledFeatures)](./webshell.makewebshell.md) | Creates a React component which decorates WebView component with additionnal props to handle events from the DOM. |
-|  [useAutoheight({ webViewProps, extraLayout, debug })](./webshell.useautoheight.md) | <b><i>(BETA)</i></b> Requires [handleHTMLDimensionsFeature](./webshell.handlehtmldimensionsfeature.md) and recommends [forceResponsiveViewportFeature](./webshell.forceresponsiveviewportfeature.md)<!-- -->. |
+|  [makeWebshell(WebView, assembledFeatures)](./webshell.makewebshell.md) | Creates a React component which decorates WebView component with additional props to handle events from the DOM. |
+|  [useAutoheight({ webViewProps, extraLayout, animated })](./webshell.useautoheight.md) | <b><i>(BETA)</i></b> Requires [handleHTMLDimensionsFeature](./webshell.handlehtmldimensionsfeature.md) and recommends [forceResponsiveViewportFeature](./webshell.forceresponsiveviewportfeature.md)<!-- -->. |
 
 ## Interfaces
 
@@ -45,7 +45,7 @@
 |  [handleHashChangeFeature](./webshell.handlehashchangefeature.md) | This feature allows to intercept clicks on anchors (<code>&lt;a&gt;</code>). By default, it will prevent the click from propagating. But you can disable this option. |
 |  [handleHTMLDimensionsFeature](./webshell.handlehtmldimensionsfeature.md) | This feature enables receiving various dimensions relative to the layout. The events will only be fired when a change is observed to either the layout or the content size. |
 |  [handleLinkPressFeature](./webshell.handlelinkpressfeature.md) | This feature allows to intercept clicks on anchors (<code>&lt;a&gt;</code>). By default, it will prevent the click from propagating. But you can disable this option. |
-|  [handleVisualViewportFeature](./webshell.handlevisualviewportfeature.md) | <b><i>(BETA)</i></b> This feature adds a handler triggered when the visual viewport changes. It requires VisualViewport API support on browsers (iOS Safari 13 and Android WebView 62). See [MDN—VisualViewport API](https://developer.mozilla.org/en-US/docs/Web/API/VisualViewport)<!-- -->. |
+|  [handleVisualViewportFeature](./webshell.handlevisualviewportfeature.md) | <b><i>(BETA)</i></b> This feature adds a handler triggered when the visual viewport changes. It requires VisualViewport API support on browsers (iOS Safari 13 and Android WebView 62). See [VisualViewport API](https://developer.mozilla.org/en-US/docs/Web/API/VisualViewport)<!-- -->. |
 
 ## Type Aliases
 

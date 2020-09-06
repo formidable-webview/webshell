@@ -5,6 +5,7 @@ import {
   ElementRef,
   ComponentPropsWithoutRef
 } from 'react';
+import { Animated } from 'react-native';
 
 // UTILITY TYPES
 
@@ -265,7 +266,13 @@ export interface WebshellInvariantProps {
    *
    * @defaultvalue `__DEV__`
    */
-  debug?: boolean;
+  webshellDebug?: boolean;
+  /**
+   * When this value is truthy, the `WebView` will be wrapped with an
+   * `Animated.View` container and any content size change will trigger a
+   * height animation.
+   */
+  webshellAnimatedHeight?: Animated.Value | null;
 }
 
 /**

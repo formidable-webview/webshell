@@ -9,7 +9,7 @@ This feature enables receiving various dimensions relative to the layout. The ev
 <b>Signature:</b>
 
 ```typescript
-handleHTMLDimensionsFeature: EventFeatureOf<HandleHTMLDimensionsOptions, typeof eventHandlerName, HTMLDimensions>
+handleHTMLDimensionsFeature: EventFeatureOf<HandleHTMLDimensionsOptions, 'onDOMHTMLDimensions', HTMLDimensions>
 ```
 
 ## Remarks

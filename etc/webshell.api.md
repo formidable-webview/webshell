@@ -4,6 +4,7 @@
 
 ```ts
 
+import { Animated } from 'react-native';
 import { ComponentPropsWithoutRef } from 'react';
 import { ComponentType } from 'react';
 import { DOMElementRequest as DOMElementRequest_2 } from 'src/types';
@@ -12,6 +13,8 @@ import { Feature as Feature_2 } from 'src/types';
 import { ForwardRefExoticComponent } from 'react';
 import * as React_2 from 'react';
 import { RefAttributes } from 'react';
+import { StyleProp } from 'react-native';
+import { ViewStyle } from 'react-native';
 
 // @public
 export type AssembledEventFeature<O = {}, S = EventHandlerDefinition<string, any>, P = {}> = S extends EventHandlerDefinition<infer H, infer Payload> ? AssembledFeature<O, S, EventHandlerProps<H, Payload> & P> : never;
@@ -29,10 +32,11 @@ export type AssembledFeatureOf<F> = F extends Feature<infer O, infer S, infer P>
 
 // @public
 export interface AutoheightParams<W extends MinimalWebViewProps> {
-    // (undocumented)
-    debug?: boolean;
+    animated?: boolean;
     extraLayout?: any;
-    webViewProps: W;
+    webViewProps: W & {
+        webshellDebug?: boolean;
+    };
 }
 
 // @public (undocumented)
@@ -144,10 +148,8 @@ export interface HandleElementCSSBoxDimensionsOptions {
     target: DOMElementRequest;
 }
 
-// Warning: (ae-forgotten-export) The symbol "eventHandlerName" needs to be exported by the entry point index.d.ts
-//
 // @public
-export const handleElementCSSBoxFeature: EventFeatureOf<HandleElementCSSBoxDimensionsOptions, typeof eventHandlerName, ElementCSSBoxDimensions>;
+export const handleElementCSSBoxFeature: EventFeatureOf<HandleElementCSSBoxDimensionsOptions, 'onDOMElementCSSBoxDimensions', ElementCSSBoxDimensions>;
 
 // @public
 export const handleHashChangeFeature: EventFeatureOf<HandleHashChangeOptions, 'onDOMHashChange', HashChangeEvent>;
@@ -157,10 +159,8 @@ export interface HandleHashChangeOptions {
     shouldResetHashOnEvent?: boolean;
 }
 
-// Warning: (ae-forgotten-export) The symbol "eventHandlerName" needs to be exported by the entry point index.d.ts
-//
 // @public
-export const handleHTMLDimensionsFeature: EventFeatureOf<HandleHTMLDimensionsOptions, typeof eventHandlerName_2, HTMLDimensions>;
+export const handleHTMLDimensionsFeature: EventFeatureOf<HandleHTMLDimensionsOptions, 'onDOMHTMLDimensions', HTMLDimensions>;
 
 // @public (undocumented)
 export interface HandleHTMLDimensionsOptions {
@@ -171,10 +171,8 @@ export interface HandleHTMLDimensionsOptions {
 // @public
 export const handleLinkPressFeature: EventFeatureOf<LinkPressOptions, 'onDOMLinkPress', LinkPressTarget>;
 
-// Warning: (ae-forgotten-export) The symbol "eventHandlerName" needs to be exported by the entry point index.d.ts
-//
 // @beta
-export const handleVisualViewportFeature: EventFeatureOf<{}, typeof eventHandlerName_3, VisualViewportDimensions>;
+export const handleVisualViewportFeature: EventFeatureOf<{}, 'onDOMVisualViewport', VisualViewportDimensions>;
 
 // @public
 export interface HashChangeEvent {
@@ -249,10 +247,14 @@ export type OptionalUnlessRequiredField<O> = O extends Partial<O> ? O | undefine
 export type PayloadOf<T> = T extends AssembledEventFeature<{}, string, infer P> ? P : never;
 
 // @beta
-export function useAutoheight<W extends MinimalWebViewProps>({ webViewProps, extraLayout, debug }: AutoheightParams<W>): Pick<W, Exclude<keyof W, "style" | "scalesPageToFit" | "onNavigationStateChange">> & {
+export function useAutoheight<W extends MinimalWebViewProps>({ webViewProps, extraLayout, animated }: AutoheightParams<W>): Pick<W & {
+    webshellDebug?: boolean | undefined;
+}, Exclude<keyof W, "style" | "webshellDebug" | "onNavigationStateChange" | "scalesPageToFit">> & {
+    webshellDebug: boolean | undefined;
     onDOMHTMLDimensions: (htmlDimensions: HTMLDimensions) => void;
-    style: any;
+    style: StyleProp<ViewStyle>;
     scalesPageToFit: boolean;
+    webshellAnimatedHeight: any;
 };
 
 // @public
@@ -289,6 +291,8 @@ export type WebshellComponentOf<C extends ComponentType<any>, F extends Feature<
 // @public
 export interface WebshellInvariantProps {
     onDOMError?: (featureIdentifier: string, error: string) => void;
+    webshellAnimatedHeight?: Animated.Value | null;
+    webshellDebug?: boolean;
 }
 
 // @public

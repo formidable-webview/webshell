@@ -134,7 +134,8 @@ export function makeWebshell<
     const {
       onMessage,
       onDOMError,
-      debug,
+      webshellDebug,
+      webshellAnimatedHeight,
       ...otherProps
     } = props as WebshellInvariantProps & MinimalWebViewProps;
     const domHandlers = extractDOMHandlers(otherProps);
@@ -158,7 +159,7 @@ export function makeWebshell<
                 if (typeof handler === 'function') {
                   handler(body);
                 } else {
-                  debug &&
+                  webshellDebug &&
                     console.info(
                       `[Webshell]: script from feature "${identifier}" sent an event, but there is no handler prop attached to it (${handlerName}).`
                     );
@@ -168,7 +169,7 @@ export function makeWebshell<
             } else if (type === 'error') {
               // Handle as an error message
               typeof onDOMError === 'function' && onDOMError(identifier, body);
-              debug &&
+              webshellDebug &&
                 console.warn(
                   `[Webshell]: script from feature "${identifier}" raised an error: ${body}`
                 );
@@ -182,26 +183,40 @@ export function makeWebshell<
       // eslint-disable-next-line react-hooks/exhaustive-deps
       [...Object.values(domHandlers), onDOMError, onMessage]
     );
-    const { webViewRef, injectedJavaScript, ...webViewProps } = props;
+    const { webViewRef, injectedJavaScript, style, ...webViewProps } = props;
     const resultingJavascript = React.useMemo(() => {
       const safeUserscript =
         typeof injectedJavaScript === 'string' ? injectedJavaScript : '';
       return `(function(){${safeUserscript};${injectableScript};})();true;`;
     }, [injectedJavaScript]);
-    return (
-      <Animated.View>
-        <WebView
-          {...filterWebViewProps(webViewProps)}
-          ref={webViewRef}
-          injectedJavaScript={resultingJavascript}
-          javaScriptEnabled={true}
-          onMessage={handleOnMessage}
-        />
-      </Animated.View>
+    const renderInContainer = React.useCallback(
+      (children: any) => {
+        const animatedStyle = {
+          height: webshellAnimatedHeight || undefined,
+          flexGrow: 1,
+          alignSelf: 'stretch' as 'stretch'
+        };
+        return webshellAnimatedHeight ? (
+          <Animated.View style={animatedStyle} children={children} />
+        ) : (
+          children
+        );
+      },
+      [webshellAnimatedHeight]
+    );
+    return renderInContainer(
+      <WebView
+        {...filterWebViewProps(webViewProps)}
+        style={style}
+        ref={webViewRef}
+        injectedJavaScript={resultingJavascript}
+        javaScriptEnabled={true}
+        onMessage={handleOnMessage}
+      />
     );
   };
   Webshell.defaultProps = {
-    debug: __DEV__
+    webshellDebug: __DEV__
   };
   return React.forwardRef<
     ElementRef<C>,

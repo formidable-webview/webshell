@@ -63,7 +63,9 @@ describe('Webshell component', () => {
     const onDOMDummyHello = jest.fn();
     const Webshell = makeWebshell(Ersatz, helloFeature.assemble({}));
     await waitForErsatz(
-      render(<Webshell debug={false} onDOMDummyHello={onDOMDummyHello} />)
+      render(
+        <Webshell webshellDebug={false} onDOMDummyHello={onDOMDummyHello} />
+      )
     );
     expect(onDOMDummyHello).toHaveBeenCalledWith('Hello world!');
   });
@@ -74,7 +76,7 @@ describe('Webshell component', () => {
     await waitForErsatz(
       render(
         <Webshell
-          debug={false}
+          webshellDebug={false}
           onDOMDummyFailure={onDOMDummyFailure}
           onDOMError={onFailure}
         />
@@ -92,7 +94,9 @@ describe('Webshell component', () => {
       optionFeature.assemble({ foo: 'bar' })
     );
     await waitForErsatz(
-      render(<Webshell debug={false} onDOMDummyOption={onDOMDummyOption} />)
+      render(
+        <Webshell webshellDebug={false} onDOMDummyOption={onDOMDummyOption} />
+      )
     );
     expect(onDOMDummyOption).toHaveBeenCalledWith({ foo: 'bar' });
   });
@@ -119,7 +123,9 @@ describe('Webshell component', () => {
   it('it should provide a reference to the inner WebView', async () => {
     const Webshell = makeWebshell(Ersatz);
     const ersatzRef = React.createRef<Ersatz>();
-    await waitForErsatz(render(<Webshell debug={false} ref={ersatzRef} />));
+    await waitForErsatz(
+      render(<Webshell webshellDebug={false} ref={ersatzRef} />)
+    );
     expect(ersatzRef.current).toBeInstanceOf(Ersatz);
   });
   it("it should throw when provided with an event handler feature which doesn't comply with name requirement: starts with 'onDOM'", async () => {

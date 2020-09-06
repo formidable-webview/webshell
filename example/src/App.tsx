@@ -66,6 +66,7 @@ const html = `
       align-items: center;
       min-height: 60px;
       text-align: center;
+      transition: height 200ms ease;
     }
     article {
       padding: 10px;
@@ -269,14 +270,22 @@ export default function App() {
   const autoheightProps = useAutoheight<WebshellProps>({
     webViewProps: {
       source,
-      style: styles.autoheight
+      style: styles.autoheight,
+      webshellDebug: true
     },
     extraLayout: padding,
-    debug: false
+    animated: true
   });
+  const webshellContainerStyle = {
+    paddingHorizontal: padding,
+    alignSelf: 'stretch' as 'stretch'
+  };
   return (
     <View style={styles.root}>
-      <ScrollView ref={scrollViewRef} contentContainerStyle={styles.container}>
+      <ScrollView
+        pointerEvents="box-none"
+        ref={scrollViewRef}
+        contentContainerStyle={styles.container}>
         <View style={styles.buttonContainer}>
           <Button
             onPress={changePadding}
@@ -284,7 +293,7 @@ export default function App() {
             title={`${padding ? 'Remove' : 'Add'} padding around WebView`}
           />
         </View>
-        <View style={{ paddingHorizontal: padding }}>
+        <View style={webshellContainerStyle}>
           <Webshell
             onDOMLinkPress={onDOMLinkPress}
             onDOMHashChange={onDOMHashChange}
@@ -310,7 +319,6 @@ const styles = StyleSheet.create({
   },
   textInScrollView: { color: 'black' },
   autoheight: {
-    flexGrow: 0,
     backgroundColor: 'transparent'
   },
   buttonContainer: {
@@ -320,7 +328,8 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
     padding: 0,
-    margin: 0
+    margin: 0,
+    alignItems: 'center'
   },
   root: {
     flexGrow: 1,

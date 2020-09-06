@@ -16,5 +16,7 @@ export interface WebshellInvariantProps
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [onDOMError](./webshell.webshellinvariantprops.ondomerror.md) | (featureIdentifier: string, error: string) =&gt; void | Triggered when an event handler fails. |
+|  [onDOMError](./webshell.webshellinvariantprops.ondomerror.md) | (featureIdentifier: string, error: string) =&gt; void | Triggered when a feature script throws. |
+|  [webshellAnimatedHeight](./webshell.webshellinvariantprops.webshellanimatedheight.md) | Animated.Value \| null | When this value is truthy, the <code>WebView</code> will be wrapped with an <code>Animated.View</code> container and any content size change will trigger a height animation. |
+|  [webshellDebug](./webshell.webshellinvariantprops.webshelldebug.md) | boolean | Report DOM error messages from features in the console. |
 

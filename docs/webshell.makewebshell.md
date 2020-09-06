@@ -4,7 +4,7 @@
 
 ## makeWebshell() function
 
-Creates a React component which decorates WebView component with additionnal props to handle events from the DOM.
+Creates a React component which decorates WebView component with additional props to handle events from the DOM.
 
 <b>Signature:</b>
 

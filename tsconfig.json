@@ -13,5 +13,5 @@
     "noImplicitAny": false,
     "skipLibCheck": true
   },
-  "exclude": ["node_modules", "**/__tests__", "lib", "types"]
+  "exclude": ["node_modules", "lib", "types"]
 }

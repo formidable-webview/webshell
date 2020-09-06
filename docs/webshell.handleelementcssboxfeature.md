@@ -9,5 +9,5 @@ This feature enables receiving the CSS Box dimensions of an element identified b
 <b>Signature:</b>
 
 ```typescript
-handleElementCSSBoxFeature: EventFeatureOf<HandleElementCSSBoxDimensionsOptions, typeof eventHandlerName, ElementCSSBoxDimensions>
+handleElementCSSBoxFeature: EventFeatureOf<HandleElementCSSBoxDimensionsOptions, 'onDOMElementCSSBoxDimensions', ElementCSSBoxDimensions>
 ```

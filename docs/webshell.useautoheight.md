@@ -12,10 +12,14 @@ Requires [handleHTMLDimensionsFeature](./webshell.handlehtmldimensionsfeature.md
 <b>Signature:</b>
 
 ```typescript
-export declare function useAutoheight<W extends MinimalWebViewProps>({ webViewProps, extraLayout, debug }: AutoheightParams<W>): Pick<W, Exclude<keyof W, "style" | "scalesPageToFit" | "onNavigationStateChange">> & {
+export declare function useAutoheight<W extends MinimalWebViewProps>({ webViewProps, extraLayout, animated }: AutoheightParams<W>): Pick<W & {
+    webshellDebug?: boolean | undefined;
+}, Exclude<keyof W, "style" | "webshellDebug" | "onNavigationStateChange" | "scalesPageToFit">> & {
+    webshellDebug: boolean | undefined;
     onDOMHTMLDimensions: (htmlDimensions: HTMLDimensions) => void;
-    style: any;
+    style: StyleProp<ViewStyle>;
     scalesPageToFit: boolean;
+    webshellAnimatedHeight: any;
 };
 ```
 
@@ -23,11 +27,11 @@ export declare function useAutoheight<W extends MinimalWebViewProps>({ webViewPr
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  { webViewProps, extraLayout, debug } | [AutoheightParams](./webshell.autoheightparams.md)<!-- -->&lt;W&gt; |  |
+|  { webViewProps, extraLayout, animated } | [AutoheightParams](./webshell.autoheightparams.md)<!-- -->&lt;W&gt; |  |
 
 <b>Returns:</b>
 
-Pick&lt;W, Exclude&lt;keyof W, "style" \| "scalesPageToFit" \| "onNavigationStateChange"&gt;&gt; &amp; { onDOMHTMLDimensions: (htmlDimensions: [HTMLDimensions](./webshell.htmldimensions.md)<!-- -->) =&gt; void; style: any; scalesPageToFit: boolean; }
+Pick&lt;W &amp; { webshellDebug?: boolean \| undefined; }, Exclude&lt;keyof W, "style" \| "webshellDebug" \| "onNavigationStateChange" \| "scalesPageToFit"&gt;&gt; &amp; { webshellDebug: boolean \| undefined; onDOMHTMLDimensions: (htmlDimensions: [HTMLDimensions](./webshell.htmldimensions.md)<!-- -->) =&gt; void; style: StyleProp&lt;ViewStyle&gt;; scalesPageToFit: boolean; webshellAnimatedHeight: any; }
 
 - The `Webshell` props implementing autoheight behavior.
 
@@ -39,5 +43,5 @@ This hook has caveats you must understand:
 
 - React Native Fast Refresh can cause bugs.
 
-- When the user clicks to fragment links within the same page (e.g, “\#help”), there will be no scrolling, because this is handled by WebView on overflow, and there is no such overflow when in autoheight mode.
+- When the user clicks to fragment links within the same page (e.g, “`#help`<!-- -->”), there will be no scrolling, because this is handled by WebView on overflow, and there is no such overflow when in autoheight mode.
 

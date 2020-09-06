@@ -1,8 +1,9 @@
 import * as React from 'react';
-import type { StyleProp } from 'react-native';
 import { MinimalWebViewProps } from '../types';
 import { useDeviceOrientation } from './device-orientation';
 import type { HTMLDimensions } from '../features/handle-html-dimensions';
+import { useAnimation } from './animated';
+import { StyleProp, ViewStyle, Dimensions } from 'react-native';
 
 const initialDimensions = { width: undefined, height: undefined };
 
@@ -42,24 +43,38 @@ function useAutoheightDimensions<W extends MinimalWebViewProps>(
  */
 export interface AutoheightParams<W extends MinimalWebViewProps> {
   /**
-   * You should pass all the props directed to the WebView here. This is
+   * You should pass all the props directed to `Webshell` here. This is
    * important because this hook might react to some props and warn you of
-   * certain incompatibilities.
+   * some incompatibilities.
    */
-  webViewProps: W;
+  webViewProps: W & { webshellDebug?: boolean };
   /**
    * A marker property for telling the hook to reset layout viewport dimensions
    * when its value changes.
    */
   extraLayout?: any;
   /**
-   * Print warnings and suggestions.
+   * Animate height transitions.
    *
-   * @defaultvalue `__DEV__`
+   * @defaultValue false
    */
-  debug?: boolean;
+  animated?: boolean;
 }
 
+// Hook
+function useDiff(value: number) {
+  // The ref object is a generic container whose current property is mutable ...
+  // ... and can hold any value, similar to an instance property on a class
+  const ref = React.useRef<number>(0);
+
+  // Store current value in ref
+  React.useEffect(() => {
+    ref.current = value;
+  }, [value]); // Only re-run if value changes
+
+  // Return previous value (happens before update in useEffect above)
+  return value - ref.current;
+}
 /**
  * Requires {@link handleHTMLDimensionsFeature} and recommends
  * {@link forceResponsiveViewportFeature}.
@@ -81,7 +96,7 @@ export interface AutoheightParams<W extends MinimalWebViewProps> {
  *   “`#help`”), there will be no scrolling, because this is handled by WebView
  *   on overflow, and there is no such overflow when in autoheight mode.
  *
- * @param webViewProps - The `Webshell` props you whish to transform.
+ * @param param0 - The parameters to specify autoheight behavior.
  * @returns - The `Webshell` props implementing autoheight behavior.
  *
  * @beta
@@ -89,12 +104,13 @@ export interface AutoheightParams<W extends MinimalWebViewProps> {
 export function useAutoheight<W extends MinimalWebViewProps>({
   webViewProps,
   extraLayout,
-  debug = __DEV__
+  animated
 }: AutoheightParams<W>) {
   const {
     style,
     onNavigationStateChange,
     scalesPageToFit,
+    webshellDebug,
     ...passedProps
   } = webViewProps;
   const { contentDimensions, setContentDimensions } = useAutoheightDimensions(
@@ -102,10 +118,17 @@ export function useAutoheight<W extends MinimalWebViewProps>({
     extraLayout
   );
   const { width, height } = contentDimensions;
+  const diffHeight = Math.abs(useDiff(height || 0));
+  const animatedHeight = useAnimation({
+    duration: Math.min(Math.max(diffHeight, 5), 500),
+    toValue: height || Dimensions.get('window').height,
+    type: 'timing',
+    useNativeDriver: false
+  });
   const onDOMHTMLDimensions = React.useCallback(
     (htmlDimensions: HTMLDimensions) => {
       const nextDimensions = htmlDimensions.content;
-      debug &&
+      webshellDebug &&
         console.info(
           `${
             useAutoheight.name
@@ -117,17 +140,25 @@ export function useAutoheight<W extends MinimalWebViewProps>({
         );
       setContentDimensions(nextDimensions);
     },
-    [debug, setContentDimensions]
+    [webshellDebug, setContentDimensions]
   );
-  const autoHeightStyle = React.useMemo(
-    () => [style, { width, height: height && height, flexGrow: 0 }],
+  const autoHeightStyle = React.useMemo<StyleProp<ViewStyle>>(
+    () => [
+      style as StyleProp<ViewStyle>,
+      {
+        width,
+        height,
+        alignSelf: 'stretch'
+      }
+    ],
     [width, height, style]
   );
-
   return {
     ...passedProps,
+    webshellDebug,
     onDOMHTMLDimensions,
-    style: autoHeightStyle as StyleProp<any>,
-    scalesPageToFit: false
+    style: autoHeightStyle,
+    scalesPageToFit: false,
+    webshellAnimatedHeight: animated ? (animatedHeight as any) : undefined
   };
 }

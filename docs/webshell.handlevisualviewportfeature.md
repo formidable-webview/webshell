@@ -7,10 +7,10 @@
 > This API is provided as a preview for developers and may change based on feedback that we receive. Do not use this API in a production environment.
 > 
 
-This feature adds a handler triggered when the visual viewport changes. It requires VisualViewport API support on browsers (iOS Safari 13 and Android WebView 62). See [MDN—VisualViewport API](https://developer.mozilla.org/en-US/docs/Web/API/VisualViewport)<!-- -->.
+This feature adds a handler triggered when the visual viewport changes. It requires VisualViewport API support on browsers (iOS Safari 13 and Android WebView 62). See [VisualViewport API](https://developer.mozilla.org/en-US/docs/Web/API/VisualViewport)<!-- -->.
 
 <b>Signature:</b>
 
 ```typescript
-handleVisualViewportFeature: EventFeatureOf<{}, typeof eventHandlerName, VisualViewportDimensions>
+handleVisualViewportFeature: EventFeatureOf<{}, 'onDOMVisualViewport', VisualViewportDimensions>
 ```

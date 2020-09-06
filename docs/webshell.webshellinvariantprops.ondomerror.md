@@ -4,7 +4,7 @@
 
 ## WebshellInvariantProps.onDOMError property
 
-Triggered when an event handler fails.
+Triggered when a feature script throws.
 
 <b>Signature:</b>
 
