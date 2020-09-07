@@ -88,7 +88,7 @@ export function useControls({ scrollViewRef }: Props) {
       scrollViewRef.current?.scrollToEnd({ animated: true });
     const toggleSettings = () => sheetRef.current?.snapTo(isSheetOpen ? 0 : 1);
     return (
-      <Appbar style={styles.appbar}>
+      <Appbar style={styles.bottomSheetHeader}>
         <Appbar.Action size={20} icon="refresh" onPress={rerenderWebshell} />
         <Appbar.Action
           size={20}
@@ -133,12 +133,6 @@ export function useControls({ scrollViewRef }: Props) {
 }
 
 const styles = StyleSheet.create({
-  appbar: {
-    alignSelf: 'stretch',
-    justifyContent: 'center',
-    height: APPBAR_HEIGHT,
-    backgroundColor: BACKGROUND_DARK
-  },
   pagePicker: {
     alignSelf: 'stretch',
     color: 'white',
@@ -153,18 +147,12 @@ const styles = StyleSheet.create({
     borderColor: 'gray'
   },
   bottomSheetHeader: {
-    borderTopRightRadius: 10,
-    borderTopLeftRadius: 10,
-    borderColor: 'gray',
-    padding: 3,
-    borderTopWidth: StyleSheet.hairlineWidth,
-    borderLeftWidth: StyleSheet.hairlineWidth,
-    borderRightWidth: StyleSheet.hairlineWidth,
-    alignItems: 'center',
+    alignSelf: 'stretch',
     justifyContent: 'center',
-    height: BOTTOM_SHEET_COLLAPSED_OFFSET,
-    backgroundColor: '#120e56',
-    flexDirection: 'row'
+    height: APPBAR_HEIGHT,
+    backgroundColor: BACKGROUND_DARK,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderColor: 'white'
   },
   controlText: {
     paddingRight: 10

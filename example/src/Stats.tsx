@@ -1,5 +1,5 @@
 import { default as React, memo } from 'react';
-import { Text, LayoutRectangle, StyleSheet } from 'react-native';
+import { Text, LayoutRectangle, StyleSheet, Platform } from 'react-native';
 import { STAT_HEIGHT, BACKGROUND_DARK } from './styles';
 import { WebViewSource } from 'react-native-webview/lib/WebViewTypes';
 import { ContentSize } from '@formidable-webview/webshell';
@@ -49,10 +49,16 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     backgroundColor: BACKGROUND_DARK,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderColor: 'white',
     padding: 3,
     height: STAT_HEIGHT
   },
-  text: { fontFamily: 'monospace', color: 'white', fontSize: 12 },
+  text: {
+    fontFamily: Platform.select({ default: 'monospace', ios: 'Menlo' }),
+    color: 'white',
+    fontSize: 12
+  },
   entryName: {
     fontWeight: 'bold'
   }
