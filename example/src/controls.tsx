@@ -22,7 +22,6 @@ export function useControls({ scrollViewRef }: Props) {
   const [showStats, setShowStats] = React.useState(false);
   const [sourceName, setSourceName] = React.useState<string>('welcome');
   const [isSheetOpen, setIsSheetOpen] = React.useState(false);
-  console.info(isSheetOpen);
   const togglePadding = () => setPaddingHz(paddingHz ? 0 : 20);
   const toggleTextAbove = () => setHasTextAbove(!hasTextAbove);
   const toggleAnimated = () => setAnimated(!animated);

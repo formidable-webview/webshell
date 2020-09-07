@@ -305,7 +305,7 @@ export default function App() {
     webshellProps: {
       source,
       style: styles.autoheight,
-      webshellDebug: true
+      webshellDebug: false
     },
     extraLayout: paddingHz,
     onContentSizeChange: setContentSize,
