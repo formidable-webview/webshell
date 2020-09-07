@@ -90,17 +90,23 @@ export function useControls({ scrollViewRef }: Props) {
     return (
       <Appbar style={styles.bottomSheetHeader}>
         <Appbar.Action size={20} icon="refresh" onPress={rerenderWebshell} />
+        <Appbar.Content title="" />
         <Appbar.Action
           size={20}
-          icon="arrow-expand-up"
+          icon="chevron-triple-up"
           onPress={scrollToStart}
         />
         <Appbar.Action
           size={20}
-          icon="arrow-expand-down"
+          icon="chevron-triple-down"
           onPress={scrollToEnd}
         />
-        <Appbar.Action size={20} icon="settings" onPress={toggleSettings} />
+        <Appbar.Content title="" />
+        <Appbar.Action
+          size={20}
+          icon={isSheetOpen ? 'arrow-expand-down' : 'arrow-expand-up'}
+          onPress={toggleSettings}
+        />
       </Appbar>
     );
   }, [scrollViewRef, isSheetOpen]);
