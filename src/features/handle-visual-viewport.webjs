@@ -2,8 +2,7 @@ function handleVisualViewportFeature(context) {
   var postMessage = context.postMessage;
   var options = context.options || {};
   var isLegacy = !window.visualViewport;
-
-  function postSize() {
+  var postSize = context.makeCallbackSafe(function () {
     var scale = !isLegacy
       ? window.visualViewport.scale
       : screen.availWidth && window.innerWidth
@@ -28,9 +27,10 @@ function handleVisualViewportFeature(context) {
       isLegacy: isLegacy
     };
     postMessage(dimensions);
-  }
+  });
   postSize();
   if (isLegacy) {
+    context.warn('VisualViewport API is unavailable.');
     window.onresize = postSize;
   } else {
     window.visualViewport.onresize = postSize;

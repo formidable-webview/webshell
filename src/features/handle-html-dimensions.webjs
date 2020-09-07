@@ -46,7 +46,7 @@ function handleHTMLDimensionsFeature(context) {
     }
   }
   function createPostDimensions(implementation) {
-    return function postSize() {
+    return context.makeCallbackSafe(function postSize() {
       var spacing = getBodyMargins();
       var bodySize = document.body.getBoundingClientRect();
       postDimensionsObject(
@@ -56,7 +56,7 @@ function handleHTMLDimensionsFeature(context) {
         },
         implementation
       );
-    };
+    });
   }
   if (
     window.ResizeObserver &&

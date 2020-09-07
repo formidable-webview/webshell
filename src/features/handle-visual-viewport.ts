@@ -22,8 +22,9 @@ export interface VisualViewportDimensions {
    */
   visualViewport: Dimensions;
   /**
-   * `false` when these values are comming from the VisualViewport API and
-   * `true` when they are "best guess".
+   * `false` when these values are coming from the VisualViewport API and
+   * `true` when they are "best guess". In legacy mode, be warned that you will
+   * not receive frequent updates when the user pinch-zoom.
    */
   isLegacy: boolean;
 }

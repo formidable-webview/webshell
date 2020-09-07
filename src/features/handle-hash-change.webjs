@@ -2,7 +2,7 @@ function handleHashChangeFeature(context) {
   var postMessage = context.postMessage;
   var options = context.options || {};
   var shouldResetHashOnEvent = !!options.shouldResetHashOnEvent;
-  function handleHashChangeEvent() {
+  var handleHashChangeEvent = context.makeCallbackSafe(function () {
     var newhash = document.location.hash;
     var name = newhash.substr(1);
     var targetEl =
@@ -26,6 +26,6 @@ function handleHashChangeFeature(context) {
         targetElementBoundingRect: targetElementBoundingRect
       });
     }
-  }
+  });
   window.addEventListener('hashchange', handleHashChangeEvent);
 }

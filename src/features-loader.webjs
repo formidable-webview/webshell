@@ -4,6 +4,15 @@ var RNWV = window.ReactNativeWebView;
 function extractNumericValueFromPixelString(pixelString) {
   return pixelString ? parseFloat(pixelString.match(/[\d.]+/)) : 0;
 }
+function makeCallbackSafe(onError, callback) {
+  return function () {
+    try {
+      callback.apply(null, arguments);
+    } catch (e) {
+      onError(e);
+    }
+  };
+}
 function getDOMSelection(request, isCollection) {
   var normalRequest =
     typeof request === 'string' ? { query: request } : request;
@@ -50,9 +59,26 @@ function registerFeature(specs) {
   } else {
     return;
   }
+  function sendErrorMessage(e) {
+    context.error(e);
+    RNWV.postMessage(
+      JSON.stringify({
+        type: 'error',
+        identifier: snippetIdentifier,
+        __isWebshellPostMessage: true,
+        body:
+          typeof e === 'string'
+            ? e
+            : typeof e === 'object' && typeof e.message === 'string'
+            ? e.message
+            : 'unknown error'
+      })
+    );
+  }
   var context = {
     getDOMSelection: getDOMSelection,
     extractNumericValueFromPixelString: extractNumericValueFromPixelString,
+    makeCallbackSafe: makeCallbackSafe.bind(null, sendErrorMessage),
     postMessage: function (message) {
       RNWV.postMessage(
         JSON.stringify({
@@ -77,20 +103,7 @@ function registerFeature(specs) {
     try {
       executable.call(null, context);
     } catch (e) {
-      context.error(e);
-      RNWV.postMessage(
-        JSON.stringify({
-          type: 'error',
-          identifier: snippetIdentifier,
-          __isWebshellPostMessage: true,
-          body:
-            typeof e === 'string'
-              ? e
-              : typeof e === 'object' && typeof e.message === 'string'
-              ? e.message
-              : 'unknown error'
-        })
-      );
+      sendErrorMessage(e);
     }
   }
 }

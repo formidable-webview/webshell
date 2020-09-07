@@ -8,7 +8,7 @@ function handleElementCssBoxDimensionsFeature(context) {
     throw new Error('Missing or wrong type for required target option');
   }
 
-  function postSize() {
+  var postSize = context.makeCallbackSafe(function () {
     var element = context.getDOMSelection(target, false);
     if (element != null) {
       var clientRect = element.getBoundingClientRect(),
@@ -87,7 +87,7 @@ function handleElementCssBoxDimensionsFeature(context) {
         "Couldn't find an element for target " + JSON.stringify(target)
       );
     }
-  }
+  });
   postSize();
   window.onresize = postSize;
   // trigger when DOM changes

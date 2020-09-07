@@ -327,6 +327,13 @@ export interface WebjsContext<O extends {}, P> {
    */
   postMessage(payload: P): void;
   /**
+   * Create a function which execute a callback in a try-catch block that will
+   * grab errors en send them to the `Webshell` component.
+   *
+   * @param callback - The callback to try-catch.
+   */
+  makeCallbackSafe<T extends Function>(callback: T): T;
+  /**
    * Safely post a warn message to the console.
    */
   warn(message: string): void;
