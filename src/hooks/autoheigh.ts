@@ -4,7 +4,6 @@ import {
   WebshellProps,
   AssembledFeatureOf
 } from '../types';
-import { useDeviceOrientation } from './device-orientation';
 import type {
   HTMLDimensions,
   handleHTMLDimensionsFeature
@@ -20,18 +19,13 @@ let numberOfEvents = 0;
  * A hook which resets dimensions on certain events.
  */
 function useAutoheightDimensions<W extends MinimalWebViewProps>(
-  webshellProps: W,
-  extraLayout?: any
+  webshellProps: W
 ) {
   const { scalesPageToFit } = webshellProps;
-  const orientation = useDeviceOrientation();
   const [contentDimensions, setContentDimensions] = React.useState<{
     width: number | undefined;
     height: number | undefined;
   }>(initialDimensions);
-  React.useEffect(() => {
-    setContentDimensions(initialDimensions);
-  }, [orientation, extraLayout]);
   __DEV__ &&
     // eslint-disable-next-line react-hooks/rules-of-hooks
     React.useEffect(() => {
@@ -61,17 +55,13 @@ export interface AutoheightParams<
 > {
   /**
    * You should pass all the props directed to `Webshell` here. This is
-   * important because this hook might react to some props and warn you of
+   * important because this hook might react to specific props and warn you of
    * some incompatibilities.
    */
   webshellProps: S;
   /**
-   * A marker property for telling the hook to reset layout viewport dimensions
-   * when its value changes.
-   */
-  extraLayout?: any;
-  /**
    * Animate height transitions.
+   * **Warning**: this feature is experimental.
    *
    * @defaultValue false
    */
@@ -105,9 +95,6 @@ function useDiff(value: number) {
  *   Hence, it is strongly advised that you use autoheight only with content
  *   you have been able to test. This can be worked around by forcing body
  *   height to 'auto', see {@link forceElementSizeFeature}.
- *
- * - React Native Fast Refresh can cause bugs.
- *
  * - When the user clicks to fragment links within the same page (e.g,
  *   “`#help`”), there will be no scrolling, because this is handled by WebView
  *   on overflow, and there is no such overflow when in autoheight mode.
@@ -123,7 +110,7 @@ export function useAutoheight<
     [AssembledFeatureOf<typeof handleHTMLDimensionsFeature>]
   >
 >(params: AutoheightParams<S>) {
-  const { webshellProps, extraLayout, animated, onContentSizeChange } = params;
+  const { webshellProps, animated, onContentSizeChange } = params;
   const {
     style,
     onNavigationStateChange,
@@ -133,8 +120,7 @@ export function useAutoheight<
     ...passedProps
   } = webshellProps;
   const { contentDimensions, setContentDimensions } = useAutoheightDimensions(
-    webshellProps,
-    extraLayout
+    webshellProps
   );
   const { height } = contentDimensions;
   const diffHeight = Math.abs(useDiff(height || 0));

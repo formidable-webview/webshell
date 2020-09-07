@@ -4,7 +4,7 @@
 
 ## AutoheightParams.animated property
 
-Animate height transitions.
+Animate height transitions. \*\*Warning\*\*: this feature is experimental.
 
 <b>Signature:</b>
 

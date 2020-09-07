@@ -16,8 +16,7 @@ export interface AutoheightParams<S extends WebshellProps<MinimalWebViewProps, [
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [animated](./webshell.autoheightparams.animated.md) | boolean | Animate height transitions. |
-|  [extraLayout](./webshell.autoheightparams.extralayout.md) | any | A marker property for telling the hook to reset layout viewport dimensions when its value changes. |
+|  [animated](./webshell.autoheightparams.animated.md) | boolean | Animate height transitions. \*\*Warning\*\*: this feature is experimental. |
 |  [onContentSizeChange](./webshell.autoheightparams.oncontentsizechange.md) | (contentSize: [ContentSize](./webshell.contentsize.md)<!-- -->) =&gt; void | Triggered when content size changes. Also triggered when reset to undefined. |
-|  [webshellProps](./webshell.autoheightparams.webshellprops.md) | S | You should pass all the props directed to <code>Webshell</code> here. This is important because this hook might react to some props and warn you of some incompatibilities. |
+|  [webshellProps](./webshell.autoheightparams.webshellprops.md) | S | You should pass all the props directed to <code>Webshell</code> here. This is important because this hook might react to specific props and warn you of some incompatibilities. |
 

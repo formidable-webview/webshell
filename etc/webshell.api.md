@@ -33,7 +33,6 @@ export type AssembledFeatureOf<F> = F extends Feature<infer O, infer S, infer P>
 // @public
 export interface AutoheightParams<S extends WebshellProps<MinimalWebViewProps, []>> {
     animated?: boolean;
-    extraLayout?: any;
     onContentSizeChange?: (contentSize: ContentSize) => void;
     webshellProps: S;
 }

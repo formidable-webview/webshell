@@ -4,7 +4,7 @@
 
 ## AutoheightParams.webshellProps property
 
-You should pass all the props directed to `Webshell` here. This is important because this hook might react to some props and warn you of some incompatibilities.
+You should pass all the props directed to `Webshell` here. This is important because this hook might react to specific props and warn you of some incompatibilities.
 
 <b>Signature:</b>
 

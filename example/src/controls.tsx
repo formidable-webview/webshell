@@ -6,7 +6,8 @@ import BottomSheet from 'reanimated-bottom-sheet';
 import {
   BOTTOM_SHEET_COLLAPSED_OFFSET,
   BOTTOM_SHEET_CONTENT_HEIGHT,
-  APPBAR_HEIGHT
+  APPBAR_HEIGHT,
+  BACKGROUND_DARK
 } from './styles';
 
 interface Props {
@@ -19,7 +20,7 @@ export function useControls({ scrollViewRef }: Props) {
   const [hasTextAbove, setHasTextAbove] = React.useState(false);
   const [animated, setAnimated] = React.useState(false);
   const [instance, setInstance] = React.useState(0);
-  const [showStats, setShowStats] = React.useState(false);
+  const [showStats, setShowStats] = React.useState(true);
   const [sourceName, setSourceName] = React.useState<string>('welcome');
   const [isSheetOpen, setIsSheetOpen] = React.useState(false);
   const togglePadding = () => setPaddingHz(paddingHz ? 0 : 20);
@@ -70,7 +71,7 @@ export function useControls({ scrollViewRef }: Props) {
                 <Switch value={animated} onValueChange={toggleAnimated} />
               </View>
               <View style={styles.controlContainer}>
-                <Text style={styles.controlText}>Show console?</Text>
+                <Text style={styles.controlText}>Show stats?</Text>
                 <Switch value={showStats} onValueChange={toggleShowStats} />
               </View>
             </List.Section>
@@ -136,7 +137,7 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     justifyContent: 'center',
     height: APPBAR_HEIGHT,
-    backgroundColor: '#1d2d47'
+    backgroundColor: BACKGROUND_DARK
   },
   pagePicker: {
     alignSelf: 'stretch',

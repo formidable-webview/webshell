@@ -307,7 +307,6 @@ export default function App() {
       style: styles.autoheight,
       webshellDebug: false
     },
-    extraLayout: paddingHz,
     onContentSizeChange: setContentSize,
     animated
   });
