@@ -13,30 +13,40 @@ function handleElementCssBoxDimensionsFeature(context) {
     if (element != null) {
       var clientRect = element.getBoundingClientRect(),
         styles = getComputedStyle(element),
-        paddingLeft = context.extractNumericValueFromStyle(styles.paddingLeft),
-        paddingRight = context.extractNumericValueFromStyle(
+        paddingLeft = context.extractNumericValueFromPixelString(
+          styles.paddingLeft
+        ),
+        paddingRight = context.extractNumericValueFromPixelString(
           styles.paddingRight
         ),
-        paddingTop = context.extractNumericValueFromStyle(styles.paddingTop),
-        paddingBottom = context.extractNumericValueFromStyle(
+        paddingTop = context.extractNumericValueFromPixelString(
+          styles.paddingTop
+        ),
+        paddingBottom = context.extractNumericValueFromPixelString(
           styles.paddingBottom
         ),
-        borderLeftWidth = context.extractNumericValueFromStyle(
+        borderLeftWidth = context.extractNumericValueFromPixelString(
           styles.borderLeftWidth
         ),
-        borderRightWidth = context.extractNumericValueFromStyle(
+        borderRightWidth = context.extractNumericValueFromPixelString(
           styles.borderRightWidth
         ),
-        borderTopWidth = context.extractNumericValueFromStyle(
+        borderTopWidth = context.extractNumericValueFromPixelString(
           styles.borderTopWidth
         ),
-        borderBottomWidth = context.extractNumericValueFromStyle(
+        borderBottomWidth = context.extractNumericValueFromPixelString(
           styles.borderBottomWidth
         ),
-        marginLeft = context.extractNumericValueFromStyle(styles.marginLeft),
-        marginRight = context.extractNumericValueFromStyle(styles.marginRight),
-        marginTop = context.extractNumericValueFromStyle(styles.marginTop),
-        marginBottom = context.extractNumericValueFromStyle(
+        marginLeft = context.extractNumericValueFromPixelString(
+          styles.marginLeft
+        ),
+        marginRight = context.extractNumericValueFromPixelString(
+          styles.marginRight
+        ),
+        marginTop = context.extractNumericValueFromPixelString(
+          styles.marginTop
+        ),
+        marginBottom = context.extractNumericValueFromPixelString(
           styles.marginBottom
         ),
         borderBoxWidth = clientRect.width,

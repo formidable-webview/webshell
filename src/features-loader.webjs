@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-undef
 var features = $$___FEATURES___$$;
 var RNWV = window.ReactNativeWebView;
-function extractNumericValueFromStyle(pixelString) {
+function extractNumericValueFromPixelString(pixelString) {
   return pixelString ? parseFloat(pixelString.match(/[\d.]+/)) : 0;
 }
 function getDOMSelection(request, isCollection) {
@@ -52,7 +52,7 @@ function registerFeature(specs) {
   }
   var context = {
     getDOMSelection: getDOMSelection,
-    extractNumericValueFromStyle: extractNumericValueFromStyle,
+    extractNumericValueFromPixelString: extractNumericValueFromPixelString,
     postMessage: function (message) {
       RNWV.postMessage(
         JSON.stringify({

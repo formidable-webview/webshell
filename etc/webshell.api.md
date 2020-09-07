@@ -274,7 +274,7 @@ export interface VisualViewportDimensions {
 export interface WebjsContext<O extends {}, P> {
     error(message: string): void;
     // (undocumented)
-    extractNumericValueFromStyle(style: string): number;
+    extractNumericValueFromPixelString(style: string): number;
     getDOMSelection(selector: DOMElementRequest, isCollection: false): HTMLElement;
     // Warning: (ae-forgotten-export) The symbol "DOMCollectionRequest" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "HTMLCollection" needs to be exported by the entry point index.d.ts

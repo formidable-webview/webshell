@@ -349,7 +349,7 @@ export interface WebjsContext<O extends {}, P> {
    * @param style - The style to parse, e.g. `'18px'`
    * @returns Numeric value in CSS pixels.
    */
-  extractNumericValueFromStyle(style: string): number;
+  extractNumericValueFromPixelString(style: string): number;
 }
 
 /**
