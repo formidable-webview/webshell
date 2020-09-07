@@ -1,4 +1,4 @@
-import { default as React, RefObject, useCallback } from 'react';
+import { default as React, RefObject, useCallback, memo } from 'react';
 import { StyleSheet, ScrollView, View } from 'react-native';
 import { Switch, Text, Surface, List, Appbar } from 'react-native-paper';
 import { Picker } from '@react-native-community/picker';
@@ -14,6 +14,39 @@ interface Props {
   scrollViewRef: RefObject<ScrollView>;
 }
 
+const ControlsHeader = memo(
+  ({
+    forceRerender,
+    scrollToStart,
+    scrollToEnd,
+    isSheetOpen,
+    toggleSettings
+  }: any) => {
+    return (
+      <Appbar style={styles.bottomSheetHeader}>
+        <Appbar.Action size={20} icon="refresh" onPress={forceRerender} />
+        <Appbar.Content title="" />
+        <Appbar.Action
+          size={20}
+          icon="chevron-triple-up"
+          onPress={scrollToStart}
+        />
+        <Appbar.Action
+          size={20}
+          icon="chevron-triple-down"
+          onPress={scrollToEnd}
+        />
+        <Appbar.Content title="" />
+        <Appbar.Action
+          size={20}
+          icon={isSheetOpen ? 'arrow-expand-down' : 'arrow-expand-up'}
+          onPress={toggleSettings}
+        />
+      </Appbar>
+    );
+  }
+);
+
 export function useControls({ scrollViewRef }: Props) {
   const sheetRef = React.useRef<BottomSheet>(null);
   const [paddingHz, setPaddingHz] = React.useState(0);
@@ -23,14 +56,33 @@ export function useControls({ scrollViewRef }: Props) {
   const [showStats, setShowStats] = React.useState(true);
   const [sourceName, setSourceName] = React.useState<string>('welcome');
   const [isSheetOpen, setIsSheetOpen] = React.useState(false);
-  const togglePadding = () => setPaddingHz(paddingHz ? 0 : 20);
-  const toggleTextAbove = () => setHasTextAbove(!hasTextAbove);
-  const toggleAnimated = () => setAnimated(!animated);
-  const toggleShowStats = () => setShowStats(!showStats);
+  const togglePadding = React.useCallback(
+    () => setPaddingHz((p) => (p ? 0 : 20)),
+    []
+  );
+  const toggleTextAbove = React.useCallback(
+    () => setHasTextAbove((b) => !b),
+    []
+  );
+  const toggleAnimated = React.useCallback(() => setAnimated((a) => !a), []);
+  const toggleShowStats = React.useCallback(() => setShowStats((s) => !s), []);
   const setSheetOpenTrue = React.useCallback(() => setIsSheetOpen(true), []);
   const setSheetOpenFalse = React.useCallback(() => setIsSheetOpen(false), []);
-  const renderControls = () => {
-    return (
+  const forceRerender = React.useCallback(() => setInstance((i) => i + 1), []);
+  const scrollToStart = React.useCallback(
+    () => scrollViewRef.current?.scrollTo({ y: 0, animated: true }),
+    [scrollViewRef]
+  );
+  const scrollToEnd = React.useCallback(
+    () => scrollViewRef.current?.scrollToEnd({ animated: true }),
+    [scrollViewRef]
+  );
+  const toggleSettings = React.useCallback(
+    () => sheetRef.current?.snapTo(isSheetOpen ? 0 : 1),
+    [isSheetOpen]
+  );
+  const renderControls = React.useCallback(
+    () => (
       <Surface>
         <View style={styles.bottomSheet}>
           <View style={styles.controlsContainer}>
@@ -78,38 +130,30 @@ export function useControls({ scrollViewRef }: Props) {
           </View>
         </View>
       </Surface>
-    );
-  };
+    ),
+    [
+      sourceName,
+      showStats,
+      animated,
+      hasTextAbove,
+      paddingHz,
+      toggleTextAbove,
+      toggleAnimated,
+      toggleShowStats,
+      togglePadding
+    ]
+  );
   const renderHeader = useCallback(() => {
-    const rerenderWebshell = () => setInstance((i) => i + 1);
-    const scrollToStart = () =>
-      scrollViewRef.current?.scrollTo({ y: 0, animated: true });
-    const scrollToEnd = () =>
-      scrollViewRef.current?.scrollToEnd({ animated: true });
-    const toggleSettings = () => sheetRef.current?.snapTo(isSheetOpen ? 0 : 1);
     return (
-      <Appbar style={styles.bottomSheetHeader}>
-        <Appbar.Action size={20} icon="refresh" onPress={rerenderWebshell} />
-        <Appbar.Content title="" />
-        <Appbar.Action
-          size={20}
-          icon="chevron-triple-up"
-          onPress={scrollToStart}
-        />
-        <Appbar.Action
-          size={20}
-          icon="chevron-triple-down"
-          onPress={scrollToEnd}
-        />
-        <Appbar.Content title="" />
-        <Appbar.Action
-          size={20}
-          icon={isSheetOpen ? 'arrow-expand-down' : 'arrow-expand-up'}
-          onPress={toggleSettings}
-        />
-      </Appbar>
+      <ControlsHeader
+        forceRerender={forceRerender}
+        scrollToEnd={scrollToEnd}
+        scrollToStart={scrollToStart}
+        toggleSettings={toggleSettings}
+        isSheetOpen={isSheetOpen}
+      />
     );
-  }, [scrollViewRef, isSheetOpen]);
+  }, [isSheetOpen, scrollToStart, scrollToEnd, toggleSettings, forceRerender]);
   const bottomSheet = (
     <BottomSheet
       enabledInnerScrolling={false}

@@ -131,6 +131,7 @@ export default function App() {
               onDOMHashChange={onDOMHashChange}
               onLayout={onLayout}
               pointerEvents="none"
+              test={"qsdqsdqs"}
               {...autoheightProps}
             />
           </View>

@@ -86,12 +86,14 @@
       font-size: 12px;
     }
     a {
-      color: #329ea8;
-      font-style: italic;
-      text-decoration: none;
+      color: #5c78f5;
     }
     a[href ^="#"] {
       color: white;
+      font-style: normal;
+      border: 1px solid rgb(255, 117, 181);
+      padding: 1px;
+      text-decoration: none;
     }
     kbd {
       background-color: #d4aa00;
@@ -155,18 +157,6 @@
         However, you can react to <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/hashchange_event">hash changes</a> and scroll imperatively with <code>handleHashChangeFeature</code>.
         This is exactly how it is implemented here, <a href="#container">try this</a>.
         </p>
-        </li>
-        <li>
-        When you press the <kbd>ADD PADDING AROUND WEBVIEW</kbd> button above this <code>WebView</code>,
-        you will notice the layout reajusts to padding changes. Unfortunately, this cannot be done automatically.
-        <p class="workaround">
-        You need to provide <code>useAutoheight</code> with <code>extraLayoutViewportProps</code>
-        in order to trigger a layout viewport reinitialization when this value changes. This is
-        similar to <a href="https://reactnative.dev/docs/flatlist#extradata">React Native FlatList extraData prop</a>.
-        </p>
-        </li>
-        <li>
-        While using <strong>React Native</strong> <a href="https://reactnative.dev/docs/fast-refresh">Fast Refresh</a> and changing the content of the source on the fly, you can run into weird behaviors.
         </li>
       </ul>
       <h3 id="play">Play</h3>
