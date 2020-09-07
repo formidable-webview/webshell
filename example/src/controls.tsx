@@ -26,20 +26,12 @@ const ControlsHeader = memo(
       <Appbar style={styles.bottomSheetHeader}>
         <Appbar.Action size={20} icon="refresh" onPress={forceRerender} />
         <Appbar.Content title="" />
-        <Appbar.Action
-          size={20}
-          icon="chevron-triple-up"
-          onPress={scrollToStart}
-        />
-        <Appbar.Action
-          size={20}
-          icon="chevron-triple-down"
-          onPress={scrollToEnd}
-        />
+        <Appbar.Action size={20} icon="chevron-up" onPress={scrollToStart} />
+        <Appbar.Action size={20} icon="chevron-down" onPress={scrollToEnd} />
         <Appbar.Content title="" />
         <Appbar.Action
           size={20}
-          icon={isSheetOpen ? 'arrow-expand-down' : 'arrow-expand-up'}
+          icon={isSheetOpen ? 'arrow-expand-down' : 'settings'}
           onPress={toggleSettings}
         />
       </Appbar>
@@ -116,7 +108,7 @@ export function useControls({ scrollViewRef }: Props) {
               </View>
               <View style={styles.controlContainer}>
                 <Text style={styles.controlText}>
-                  Add RN Text elements around WebView?
+                  Add React Native elements around WebView?
                 </Text>
                 <Switch value={hasTextAround} onValueChange={toggleTextAbove} />
               </View>

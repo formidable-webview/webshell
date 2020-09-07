@@ -29,14 +29,14 @@
     footer {
       width: 100%;
       background-color: #1a1a1a;
-      color: white;
       padding: 10px;
       display: flex;
       justify-content: center;
+      flex-direction: column;
       align-items: center;
-      min-height: 60px;
+      min-height: 80px;
       text-align: center;
-      transition: height 200ms ease;
+      transition: height 20ms ease;
     }
     article {
       padding: 10px;
@@ -83,8 +83,8 @@
       font-weight: bold;
     }
     code {
-      color: #d4aa00;
-      font-size: 12px;
+      color: white;
+      font-size: 13px;
     }
     a {
       color: #5c78f5;
@@ -95,10 +95,6 @@
       border: 1px solid white;
       padding: 1px;
       text-decoration: none;
-    }
-    kbd {
-      background-color: #d4aa00;
-      color: #2b2b2b;
     }
   </style>
 </head>
@@ -115,23 +111,23 @@
          <a href="https://github.com/formidable-webview/webshell#readme">@formidable-webview/webshell</a>
       </div>
       <h2>Craft a Full-Featured, Dynamic Autoheight WebView</h2>
-      Thanks to <code>webshell</code> library, you can decorate <code>WebView</code> with on-demand features.
-      It doesn't add a WebView dependency; you pick the WebView you want and use <code>makeWebshell</code> to add the desired features.
-      This solution uses <code>useAutoheight</code> hook exported by <code>webshell</code>.
+      This solution uses <code>useAutoheight</code> hook exported by <a href="https://github.com/formidable-webview/webshell#readme">@formidable-webview/webshell</a>.
       <h3>Pros</h3>
       <ul>
         <li>
-        The behavior has been studied and is rigorous. It will use the best API available in the browser <strong>to dynamically adapt layout to content size</strong>. In order of preference, <a href="https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver">ResizeObserver</a>, <a href="https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver">MutationObserver</a> and finally, simple polling.
-        </li>
-        <li>
-        The <strong>width</strong> of the viewport will naturally grow to the available horizontal space and doesn't need to be specified.
+        The <strong>width</strong> of the viewport will grow to the available horizontal space and won't need to be specified.
         You can override this behavior by setting explicit <code>width</code> as a named argument of <code>useAutoheight</code> hook.
         </li>
         <li>
         The <strong>height</strong> of the viewport, also called layout height, will dynamically adapts to the content height, which has been constrained by the layout width as we have just mentioned!
         It means that anytime the content changes or the layout width changes, such as in screen rotations, the layout height will get updated.
-        See the <a href="#play">&darr; Play</a> section bellow.
+        See the <a href="#play">&darr;&nbsp;Play</a> section below.
         </li>
+        <li>
+          This hook will rely on webshell's <code>handleHTMLDimensionsFeature</code> to use the best API available in the browser <strong>
+          and dynamically adapt layout to content size</strong>.
+          In order of preference, <a href="https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver">ResizeObserver</a>, <a href="https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver">MutationObserver</a> and finally, simple polling.
+          </li>
         <li>
         When the content overflows the layout on the horizontal axis, you can still scroll horizontally.
         The scroll is happening inside the <code>WebView</code>.
@@ -160,7 +156,7 @@
         Scroll to hash on link press (#) will not work out of the box, because the <code>WebView</code> is not scrollable anymore.
         <p class="workaround">
         However, you can react to <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/hashchange_event">hash changes</a> and scroll imperatively with <code>handleHashChangeFeature</code>.
-        This is exactly how it is implemented here, <a href="#container">&uarr; try this</a>.
+        This is exactly how it is implemented here, <a href="#container">&uarr;&nbsp;try&nbsp;this</a>.
         </p>
         </li>
       </ul>
@@ -168,31 +164,34 @@
       <ul>
         <li>
           <strong>Shrink</strong> and <strong>increase footer</strong> by pressing buttons and notice how the <code>WebView</code> height adapts dynamically.
+          <div class="container">
+            <button onclick="shrinkDiv()">-20</button>
+            <button onclick="increaseDiv()">+20</button>
+          </div>
         </li>
         <li>
         <strong>Rotate</strong> the <strong>screen</strong> and observe how the <code>WebView</code> height and width will adjust.
         </li>
+        <li>
+          Change configuration by pressing the app bar button below and observe how this <code>WebView</code> react.
+        </li>
       </ul>
-      <div class="container">
-        <button onclick="shrinkDiv()">-20</button>
-        <button onclick="increaseDiv()">+20</button>
-      </div>
-      <div class="container">
-        <a href="#container">↑ go to top</a>
-      </div>
     </article>
-    <footer id="fullwidth">
+    <footer id="footer">
       <em>Change this footer height with the controls above.</em>
+      <div class="container">
+        <a style="margin-top:10px;" href="#container">&uarr;&nbsp;back&nbsp;to&nbsp;top</a>
+      </div>
     </footer>
 
     <script>
     function shrinkDiv() {
-      var div = document.getElementById('fullwidth');
+      var div = document.getElementById('footer');
       var currentHeight = Number(getComputedStyle(div).height.match(/[\d.]+/)[0]);
       div.style.height = currentHeight - 20 + "px";
     }
     function increaseDiv() {
-      var div = document.getElementById('fullwidth');
+      var div = document.getElementById('footer');
       var currentHeight = Number(getComputedStyle(div).height.match(/[\d.]+/)[0]);
       div.style.height = currentHeight + 20 + "px";
     }
