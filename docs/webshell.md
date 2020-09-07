@@ -10,7 +10,7 @@
 |  --- | --- |
 |  [makeFeature(params)](./webshell.makefeature.md) | Create a feature. |
 |  [makeWebshell(WebView, assembledFeatures)](./webshell.makewebshell.md) | Creates a React component which decorates WebView component with additional props to handle events from the DOM. |
-|  [useAutoheight({ webshellProps, extraLayout, animated, onContentSizeChange })](./webshell.useautoheight.md) | <b><i>(BETA)</i></b> Requires [handleHTMLDimensionsFeature](./webshell.handlehtmldimensionsfeature.md) and recommends [forceResponsiveViewportFeature](./webshell.forceresponsiveviewportfeature.md)<!-- -->. |
+|  [useAutoheight(params)](./webshell.useautoheight.md) | <b><i>(BETA)</i></b> Requires [handleHTMLDimensionsFeature](./webshell.handlehtmldimensionsfeature.md) and recommends [forceResponsiveViewportFeature](./webshell.forceresponsiveviewportfeature.md)<!-- -->. |
 
 ## Interfaces
 

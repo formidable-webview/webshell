@@ -257,9 +257,9 @@ the extension is arbitrary, see the [tooling section](#tooling)):
 ```js
 // src/features/handle-link-press.webjs
 
-function handleLinkPressFeature(arg) {
-  var postMessage = arg.postMessage;
-  var options = arg.options || {};
+function handleLinkPressFeature(context) {
+  var postMessage = context.postMessage;
+  var options = context.options || {};
   var preventDefault = options.preventDefault !== false;
   var ignoreHashChange =
     typeof options.ignoreHashChange === 'boolean'
@@ -281,7 +281,7 @@ function handleLinkPressFeature(arg) {
     return (groups && groups.length > 1 && groups[1]) || '';
   }
 
-  function interceptClickEvent(e) {
+  var interceptClickEvent = context.makeCallbackSafe(function (e) {
     var target = e.target || e.srcElement;
     var anchor = findParent('a', target);
     if (anchor) {
@@ -314,7 +314,7 @@ function handleLinkPressFeature(arg) {
         }
       });
     }
-  }
+  });
   document.addEventListener('click', interceptClickEvent);
 }
 

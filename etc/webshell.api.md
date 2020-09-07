@@ -254,12 +254,13 @@ export type OptionalUnlessRequiredField<O> = O extends Partial<O> ? O | undefine
 export type PayloadOf<T> = T extends AssembledEventFeature<{}, string, infer P> ? P : never;
 
 // @beta
-export function useAutoheight<S extends WebshellProps<MinimalWebViewProps, [AssembledFeatureOf<typeof handleHTMLDimensionsFeature>]>>({ webshellProps, extraLayout, animated, onContentSizeChange }: AutoheightParams<S>): Pick<S, Exclude<keyof S, "style" | "webshellDebug" | "onNavigationStateChange" | "scalesPageToFit" | "onDOMHTMLDimensions">> & {
+export function useAutoheight<S extends WebshellProps<MinimalWebViewProps, [AssembledFeatureOf<typeof handleHTMLDimensionsFeature>]>>(params: AutoheightParams<S>): Pick<S, Exclude<keyof S, "style" | "webshellDebug" | "onNavigationStateChange" | "scalesPageToFit" | "onDOMHTMLDimensions">> & {
     webshellDebug: boolean | undefined;
     onDOMHTMLDimensions: (htmlDimensions: HTMLDimensions) => void;
     style: StyleProp<ViewStyle>;
     scalesPageToFit: boolean;
     showsVerticalScrollIndicator: boolean;
+    disableScrollViewPanResponder: boolean;
     webshellAnimatedHeight: any;
 };
 
@@ -281,6 +282,7 @@ export interface WebjsContext<O extends {}, P> {
     //
     // (undocumented)
     getDOMSelection(selector: DOMCollectionRequest, isCollection: true): HTMLCollection;
+    makeCallbackSafe<T extends Function>(callback: T): T;
     readonly options: O;
     postMessage(payload: P): void;
     warn(message: string): void;

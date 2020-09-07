@@ -136,7 +136,7 @@ export function useAutoheight<
     webshellProps,
     extraLayout
   );
-  const { width, height } = contentDimensions;
+  const { height } = contentDimensions;
   const diffHeight = Math.abs(useDiff(height || 0));
   const animatedHeight = useAnimation({
     duration: Math.min(Math.max(diffHeight, 5), 500),
@@ -171,12 +171,12 @@ export function useAutoheight<
     () => [
       style as StyleProp<ViewStyle>,
       {
-        width,
+        width: '100%',
         height,
         alignSelf: 'stretch'
       }
     ],
-    [width, height, style]
+    [height, style]
   );
   return {
     ...passedProps,

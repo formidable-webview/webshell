@@ -14,18 +14,16 @@ import makeWebshell, {
   ContentSize
 } from '@formidable-webview/webshell';
 import WebView from 'react-native-webview';
-import BottomSheet from 'reanimated-bottom-sheet';
-import {
-  Provider as PaperProvider,
-  Switch,
-  Text,
-  Surface,
-  DarkTheme,
-  List,
-  Appbar
-} from 'react-native-paper';
-import { Picker } from '@react-native-community/picker';
+import { Provider as PaperProvider, Text, DarkTheme } from 'react-native-paper';
 import { WebViewSource } from 'react-native-webview/lib/WebViewTypes';
+import {
+  TOP_TEXT_HEIGHT,
+  BOTTOM_SHEET_COLLAPSED_OFFSET,
+  STAT_HEIGHT
+} from './styles';
+import { Stats } from './Stats';
+import { Theme } from 'react-native-paper/lib/typescript/src/types';
+import { useControls } from './controls';
 
 const Webshell = makeWebshell(
   WebView,
@@ -250,8 +248,6 @@ const html = `
 </html>
 `;
 
-// source = { uri: 'https://www.developpez.com/' };
-
 const sourceMap: Record<string, WebViewSource> = {
   welcome: { html },
   wikipedia: { uri: 'https://en.wikipedia.org/wiki/React_Native' },
@@ -264,26 +260,37 @@ const sourceMap: Record<string, WebViewSource> = {
   fox: { uri: 'https://www.foxnews.com/' }
 };
 
+const theme: Theme = {
+  ...DarkTheme,
+  colors: { ...DarkTheme.colors, surface: '#1f1b6f' }
+};
+
 export default function App() {
-  const [paddingHz, setPaddingHz] = React.useState(0);
-  const [hasTextAbove, setHasTextAbove] = React.useState(false);
-  const [animated, setAnimated] = React.useState(false);
-  const [instance, setInstance] = React.useState(0);
-  const [showStats, setShowStats] = React.useState(false);
-  const [sourceName, setSourceName] = React.useState<string>('welcome');
   const [contentSize, setContentSize] = React.useState<ContentSize>({
     height: undefined,
     width: undefined
   });
   const [layout, setLayout] = React.useState<LayoutRectangle | null>(null);
-  const source = sourceMap[sourceName];
   const scrollViewRef = React.useRef<ScrollView>(null);
-  const sheetRef = React.useRef<BottomSheet>(null);
+  const {
+    animated,
+    bottomSheet,
+    hasTextAbove,
+    instance,
+    paddingHz,
+    showStats,
+    sourceName
+  } = useControls({ scrollViewRef });
+  const source = sourceMap[sourceName];
   const onDOMLinkPress = React.useCallback((target: LinkPressTarget) => {
     if (target.scheme.match(/^https?$/)) {
       WebBrowser.openBrowserAsync(target.uri);
     }
   }, []);
+  const onLayout = React.useCallback(
+    (e) => setLayout(e.nativeEvent.layout),
+    []
+  );
   const onDOMHashChange = React.useCallback(
     (e: HashChangeEvent) =>
       scrollViewRef.current?.scrollTo({
@@ -312,118 +319,11 @@ export default function App() {
     setContentSize({ width: undefined, height: undefined });
     setLayout(null);
   }, [instance]);
-  const renderControls = () => {
-    return (
-      <Surface>
-        <View style={styles.bottomSheet}>
-          <View style={styles.controlsContainer}>
-            <List.Section title="Page">
-              <View>
-                <Picker
-                  style={{
-                    alignSelf: 'stretch',
-                    color: 'white',
-                    fontFamily: 'serif',
-                    backgroundColor: 'rgba(0,0,0,0.2)',
-                    borderRadius: 20
-                  }}
-                  dropdownIconColor="white"
-                  selectedValue={sourceName}
-                  mode="dropdown"
-                  onValueChange={setSourceName}>
-                  <Picker.Item label="Introduction" value="welcome" />
-                  <Picker.Item
-                    label="Wikipedia (React Native)"
-                    value="wikipedia"
-                  />
-                  <Picker.Item
-                    label="Firefox (getting started)"
-                    value="firefox"
-                  />
-                  <Picker.Item label="Washington Post" value="washington" />
-                  <Picker.Item label="Fox News" value="fox" />
-                  <Picker.Item label="Expo (Get Started)" value="expo" />
-                </Picker>
-              </View>
-            </List.Section>
-            <List.Section title="Customize">
-              <View style={styles.controlContainer}>
-                <Text style={styles.controlText}>
-                  Add space left and right of WebView?
-                </Text>
-                <Switch
-                  value={!!paddingHz}
-                  onValueChange={() => setPaddingHz(paddingHz ? 0 : 20)}
-                />
-              </View>
-              <View style={styles.controlContainer}>
-                <Text style={styles.controlText}>Add Text above WebView?</Text>
-                <Switch
-                  value={hasTextAbove}
-                  onValueChange={() => setHasTextAbove(!hasTextAbove)}
-                />
-              </View>
-              <View style={styles.controlContainer}>
-                <Text style={styles.controlText}>Use height animations?</Text>
-                <Switch
-                  value={animated}
-                  onValueChange={() => setAnimated(!animated)}
-                />
-              </View>
-              <View style={styles.controlContainer}>
-                <Text style={styles.controlText}>Show stats?</Text>
-                <Switch
-                  value={showStats}
-                  onValueChange={() => setShowStats(!showStats)}
-                />
-              </View>
-            </List.Section>
-          </View>
-        </View>
-      </Surface>
-    );
-  };
-  const renderHeader = () => (
-    <Appbar
-      style={{
-        alignSelf: 'stretch',
-        justifyContent: 'center',
-        height: APPBAR_HEIGHT,
-        backgroundColor: '#120e56'
-      }}>
-      <Appbar.Action
-        size={20}
-        icon="refresh"
-        onPress={() => setInstance(instance + 1)}
-      />
-      <Appbar.Action
-        size={20}
-        icon="arrow-expand-up"
-        onPress={() =>
-          scrollViewRef.current?.scrollTo({ y: 0, animated: true })
-        }
-      />
-      <Appbar.Action
-        size={20}
-        icon="arrow-expand-down"
-        onPress={() => scrollViewRef.current?.scrollToEnd({ animated: true })}
-      />
-      <Appbar.Action
-        size={20}
-        icon="settings"
-        onPress={() => sheetRef.current?.snapTo(1)}
-      />
-    </Appbar>
-  );
+
   return (
-    <PaperProvider
-      theme={{
-        ...DarkTheme,
-        colors: { ...DarkTheme.colors, surface: '#1f1b6f' }
-      }}>
+    <PaperProvider theme={theme}>
       <View style={styles.root}>
         <ScrollView
-          pointerEvents="box-none"
           ref={scrollViewRef}
           contentContainerStyle={[
             styles.container,
@@ -441,7 +341,7 @@ export default function App() {
               key={instance}
               onDOMLinkPress={onDOMLinkPress}
               onDOMHashChange={onDOMHashChange}
-              onLayout={(e) => setLayout(e.nativeEvent.layout)}
+              onLayout={onLayout}
               {...autoheightProps}
             />
           </View>
@@ -450,87 +350,19 @@ export default function App() {
             ScrollView, bellow the WebView component.
           </Text>
         </ScrollView>
-        {showStats && (
-          <ScrollView horizontal={true} style={styles.stats}>
-            <Text
-              style={{ fontFamily: 'monospace', color: 'green', fontSize: 12 }}>
-              <Text
-                style={{
-                  fontWeight: 'bold',
-                  fontFamily: 'monospace',
-                  color: 'green'
-                }}>
-                Content
-              </Text>
-              {'  '}Width:{' '}
-              {contentSize.width === undefined
-                ? 'unset'
-                : Math.round(contentSize.width)}
-              {', '}
-              Height:{' '}
-              {contentSize.height === undefined
-                ? 'unset'
-                : Math.round(contentSize.height)}
-              {'\n'}
-              <Text
-                style={{
-                  fontWeight: 'bold',
-                  fontFamily: 'monospace',
-                  color: 'green'
-                }}>
-                Viewport
-              </Text>{' '}
-              Width: {layout == null ? 'unset' : Math.round(layout.width)}
-              {', '}
-              Height: {layout == null ? 'unset' : Math.round(layout.height)}
-              {'\n'}
-              <Text
-                style={{
-                  fontWeight: 'bold',
-                  fontFamily: 'monospace',
-                  color: 'green'
-                }}>
-                URL
-              </Text>
-              {'      '}
-              {source['uri'] || 'about:blank'}
-            </Text>
-          </ScrollView>
-        )}
+        <Stats
+          display={showStats}
+          contentSize={contentSize}
+          layout={layout}
+          source={source}
+        />
       </View>
-      <BottomSheet
-        enabledInnerScrolling={false}
-        enabledContentTapInteraction={false}
-        enabledHeaderGestureInteraction={true}
-        ref={sheetRef}
-        snapPoints={[
-          BOTTOM_SHEET_COLLAPSED_OFFSET,
-          BOTTOM_SHEET_CONTENT_HEIGHT,
-          BOTTOM_SHEET_COLLAPSED_OFFSET
-        ]}
-        renderContent={renderControls}
-        renderHeader={renderHeader}
-      />
+      {bottomSheet}
     </PaperProvider>
   );
 }
 
-const BOTTOM_SHEET_CONTENT_HEIGHT = 450;
-const STAT_HEIGHT = 55;
-const TOP_TEXT_HEIGHT = 60;
-const APPBAR_HEIGHT = 45;
-const BOTTOM_SHEET_COLLAPSED_OFFSET = APPBAR_HEIGHT;
-
 const styles = StyleSheet.create({
-  stats: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: 'black',
-    padding: 3,
-    height: STAT_HEIGHT
-  },
   text: {
     textAlign: 'center',
     padding: 10,
@@ -540,42 +372,6 @@ const styles = StyleSheet.create({
   textInScrollView: { color: 'black' },
   autoheight: {
     backgroundColor: 'transparent'
-  },
-  controlText: {
-    fontFamily: 'serif',
-    paddingRight: 10
-  },
-  controlContainer: {
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 5
-  },
-  bottomSheet: {
-    height: BOTTOM_SHEET_CONTENT_HEIGHT,
-    alignItems: 'center',
-    borderLeftWidth: StyleSheet.hairlineWidth,
-    borderRightWidth: StyleSheet.hairlineWidth,
-    borderColor: 'gray'
-  },
-  bottomSheetHeaderText: {
-    fontSize: 16,
-    fontFamily: 'serif',
-    fontStyle: 'italic'
-  },
-  bottomSheetHeader: {
-    borderTopRightRadius: 10,
-    borderTopLeftRadius: 10,
-    borderColor: 'gray',
-    padding: 3,
-    borderTopWidth: StyleSheet.hairlineWidth,
-    borderLeftWidth: StyleSheet.hairlineWidth,
-    borderRightWidth: StyleSheet.hairlineWidth,
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: BOTTOM_SHEET_COLLAPSED_OFFSET,
-    backgroundColor: '#120e56',
-    flexDirection: 'row'
   },
   controlsContainer: {
     maxWidth: 400
