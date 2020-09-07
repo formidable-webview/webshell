@@ -1531,6 +1531,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@callstack/react-theme-provider@npm:^3.0.5":
+  version: 3.0.5
+  resolution: "@callstack/react-theme-provider@npm:3.0.5"
+  dependencies:
+    deepmerge: ^3.2.0
+    hoist-non-react-statics: ^3.3.0
+  peerDependencies:
+    react: ^16.3.0
+  checksum: 6a5409f891d217fafee572db923b41ed8345b490be26c8c55b9d8c33828f07d75dc19ae89d78d9ea416302d74eced2299fda20d5e7e0960c09c109a61923c5eb
+  languageName: node
+  linkType: hard
+
 "@cnakazawa/watch@npm:^1.0.3":
   version: 1.0.4
   resolution: "@cnakazawa/watch@npm:1.0.4"
@@ -1710,6 +1722,15 @@ __metadata:
   version: 9.1.2
   resolution: "@commitlint/types@npm:9.1.2"
   checksum: 8141d7c945fca656a840258e79492ec999c2a40688e5693fbfd74a49e4dfb94f44a0ce4a435cca90a31013b03e410c9b6321e8631c0108b03145253746ab5cae
+  languageName: node
+  linkType: hard
+
+"@egjs/hammerjs@npm:^2.0.17":
+  version: 2.0.17
+  resolution: "@egjs/hammerjs@npm:2.0.17"
+  dependencies:
+    "@types/hammerjs": ^2.0.36
+  checksum: a4d8bc16513b3163a4fb7ce9af6ebda91d3fc7472f7826c33350732b148ab5ce2ad1060ee3cb22dae512325a999f68e51ebda49ea517184cc65cba665e785d2a
   languageName: node
   linkType: hard
 
@@ -3820,6 +3841,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-native-community/picker@1.6.0":
+  version: 1.6.0
+  resolution: "@react-native-community/picker@npm:1.6.0"
+  peerDependencies:
+    react: ^16.0
+    react-native: ">=0.57"
+  checksum: bf016108079a160450c813732446f53da10b9e6385da81103a1582d9b7487099a8e2efc40c9cf8b28d45c8971ab4db096f196e4596285a9476ee0a135c048009
+  languageName: node
+  linkType: hard
+
 "@release-it/conventional-changelog@npm:^1.1.4":
   version: 1.1.4
   resolution: "@release-it/conventional-changelog@npm:1.1.4"
@@ -4094,6 +4125,13 @@ __metadata:
   dependencies:
     "@types/node": "*"
   checksum: 5e2ec610a96de2a7b13ee1e071a31a225b68df07880f80f1112a3540299288d943c69c0f1114a60480aa137d424333392c11732969f14b964c1c419fae48a6f0
+  languageName: node
+  linkType: hard
+
+"@types/hammerjs@npm:^2.0.36":
+  version: 2.0.36
+  resolution: "@types/hammerjs@npm:2.0.36"
+  checksum: 7ca40b0b93262e7af6884d306bfa1360a36e974fb19c4f20170e9892244ed414898e6ff75923f1b27829d0d37000a7d3610f04c04cdf9a7e475439a7a32782d1
   languageName: node
   linkType: hard
 
@@ -7080,7 +7118,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"color@npm:^3.0.0":
+"color@npm:^3.0.0, color@npm:^3.1.2":
   version: 3.1.2
   resolution: "color@npm:3.1.2"
   dependencies:
@@ -11735,6 +11773,22 @@ fsevents@^1.2.7:
   version: 4.2.1
   resolution: "hoek@npm:4.2.1"
   checksum: 38f6c7a1e6bc7783d88b2878e9157507ff637252c93b4b7de524fc637584fd52d6c188e82baafc95baf5fcf9616558d60618f309b71f77d891a87bfd9559b8de
+  languageName: node
+  linkType: hard
+
+"hoist-non-react-statics@npm:^2.3.1":
+  version: 2.5.5
+  resolution: "hoist-non-react-statics@npm:2.5.5"
+  checksum: 0a9ed7b8bff4b02f2e0ebf2e113ce7cb9153c656c711b33cac09153cd5013deb51277c368291e3fe5f229abae208464b2abda6cd8eb2ea9230b779f2b6dd4355
+  languageName: node
+  linkType: hard
+
+"hoist-non-react-statics@npm:^3.3.0":
+  version: 3.3.2
+  resolution: "hoist-non-react-statics@npm:3.3.2"
+  dependencies:
+    react-is: ^16.7.0
+  checksum: d3e3791d6e3a2741ce0ba38e878081dec49247ef22982a990c80941ee1f564ef16cd5a511bcc8c5e54f1ce8205535e0414ca5feea722c0690c80040be7ebf9df
   languageName: node
   linkType: hard
 
@@ -18597,7 +18651,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"react-is@npm:^16.12.0, react-is@npm:^16.8.1, react-is@npm:^16.8.4, react-is@npm:^16.8.6":
+"react-is@npm:^16.12.0, react-is@npm:^16.7.0, react-is@npm:^16.8.1, react-is@npm:^16.8.4, react-is@npm:^16.8.6":
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
   checksum: 11bcf1267a314a522615f626f3ce3727a3a24cdbf61c4d452add3550a7875326669631326cfb1ba3e92b6f72244c32ffecf93ad21c0cad8455d3e169d0e3f060
@@ -18615,6 +18669,45 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"react-native-gesture-handler@npm:~1.6.0":
+  version: 1.6.1
+  resolution: "react-native-gesture-handler@npm:1.6.1"
+  dependencies:
+    "@egjs/hammerjs": ^2.0.17
+    hoist-non-react-statics: ^2.3.1
+    invariant: ^2.2.4
+    prop-types: ^15.7.2
+  checksum: 877e5da6a699c767689b118b6d96864c681d0a02174086cc3a9944471857665cc1aa406c9403d1cde632ee8793951e3b0c32035dd32a7bbcb2bea5ae13e4bdd4
+  languageName: node
+  linkType: hard
+
+"react-native-paper@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "react-native-paper@npm:4.1.0"
+  dependencies:
+    "@callstack/react-theme-provider": ^3.0.5
+    color: ^3.1.2
+    react-native-safe-area-view: ^0.14.9
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+    react-native-vector-icons: "*"
+  checksum: 27da7031518837e6d392566c1a1c193aca4694ea23aef6838ce7be9b2cbf66a9818c9a8d7a4bf88ecf261d93cb9019a7ffb1c0bd7e5ce7b9f5bbf4e2c4bbf40d
+  languageName: node
+  linkType: hard
+
+"react-native-reanimated@npm:~1.9.0":
+  version: 1.9.0
+  resolution: "react-native-reanimated@npm:1.9.0"
+  dependencies:
+    fbjs: ^1.0.0
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 6c1276a838f80467eeedf53a8821455bb2d5d4c4bece5cc5b0aac7713935502f5d4e8730d637163f1d21a19e647686fedcc45188934a509c4c3304b62f753232
+  languageName: node
+  linkType: hard
+
 "react-native-safe-area-context@npm:~3.0.7":
   version: 3.0.7
   resolution: "react-native-safe-area-context@npm:3.0.7"
@@ -18622,6 +18715,18 @@ fsevents@^1.2.7:
     react: "*"
     react-native: "*"
   checksum: 166d003aae9c78204b16bea23f39208085bba603769b597c07cf96d7d2cbd9524d1a16e6f7aafc3f95b92b6c3e42a410b8279139ad80b3cb67ab9ece7f49f981
+  languageName: node
+  linkType: hard
+
+"react-native-safe-area-view@npm:^0.14.9":
+  version: 0.14.9
+  resolution: "react-native-safe-area-view@npm:0.14.9"
+  dependencies:
+    hoist-non-react-statics: ^2.3.1
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: e5597a40a7c124df3bb6407072e819fdff527109a632051dfaaf0614524e8a27575cf580677396b93ff492f7db1923ba59044d9fb6569003980bcaaa0c3a27c5
   languageName: node
   linkType: hard
 
@@ -18924,6 +19029,18 @@ fsevents@^1.2.7:
   dependencies:
     picomatch: ^2.2.1
   checksum: 0159f43eb0a90cf4fde5989b607e0a6bef4e6332dc8648f1b50fbc013f1158e1d021bcfd6dad1dc2895da2bb14cdac408239d047e3d61a01dd3a44376e6ec1f1
+  languageName: node
+  linkType: hard
+
+"reanimated-bottom-sheet@npm:^1.0.0-alpha.22":
+  version: 1.0.0-alpha.22
+  resolution: "reanimated-bottom-sheet@npm:1.0.0-alpha.22"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+    react-native-gesture-handler: "*"
+    react-native-reanimated: "*"
+  checksum: 0e8263131da86112d392872edfbb456dbc782f096de3a00a47517022bd7266ece5a4ec2b4f15edbd34b5a04ca99d2adfafccd72f20f9bc64df9e5a2de2686006
   languageName: node
   linkType: hard
 
@@ -22652,6 +22769,7 @@ resolve@~1.12.0:
   dependencies:
     "@babel/core": ^7.11.5
     "@babel/runtime": ^7.11.2
+    "@react-native-community/picker": 1.6.0
     "@rnhooks/device-orientation": ^0.0.1
     babel-plugin-inline-import: ^3.0.0
     babel-plugin-module-resolver: ^4.0.0
@@ -22663,7 +22781,11 @@ resolve@~1.12.0:
     expo-web-browser: ~8.3.1
     react: ~16.11.0
     react-native: "https://github.com/expo/react-native/archive/sdk-38.0.2.tar.gz"
+    react-native-gesture-handler: ~1.6.0
+    react-native-paper: ^4.1.0
+    react-native-reanimated: ~1.9.0
     react-native-webview: 9.4.0
+    reanimated-bottom-sheet: ^1.0.0-alpha.22
   languageName: unknown
   linkType: soft
 

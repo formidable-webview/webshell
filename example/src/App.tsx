@@ -1,15 +1,7 @@
 import * as React from 'react';
 import Constants from 'expo-constants';
 import * as WebBrowser from 'expo-web-browser';
-import {
-  StyleSheet,
-  ScrollView,
-  Text,
-  View,
-  Switch,
-  Button,
-  LayoutRectangle
-} from 'react-native';
+import { StyleSheet, ScrollView, View, LayoutRectangle } from 'react-native';
 import makeWebshell, {
   forceResponsiveViewportFeature,
   handleHTMLDimensionsFeature,
@@ -22,6 +14,17 @@ import makeWebshell, {
   ContentSize
 } from '@formidable-webview/webshell';
 import WebView from 'react-native-webview';
+import BottomSheet from 'reanimated-bottom-sheet';
+import {
+  Provider as PaperProvider,
+  Switch,
+  Text,
+  Surface,
+  DarkTheme,
+  List,
+  Appbar
+} from 'react-native-paper';
+import { Picker } from '@react-native-community/picker';
 import { WebViewSource } from 'react-native-webview/lib/WebViewTypes';
 
 const Webshell = makeWebshell(
@@ -227,7 +230,7 @@ const html = `
       </div>
     </article>
     <footer id="fullwidth">
-      <em>Change this footer height with the controls above</em>.
+      <em>Change this footer height with the controls above.</em>
     </footer>
 
     <script>
@@ -247,26 +250,35 @@ const html = `
 </html>
 `;
 
-let source: WebViewSource = { html };
-// source = { uri: 'https://en.wikipedia.org/wiki/React_Native' };
-// source = {
-//   uri:
-//     'https://support.mozilla.org/en-US/kb/get-started-firefox-overview-main-features'
-// };
-
 // source = { uri: 'https://www.developpez.com/' };
 
+const sourceMap: Record<string, WebViewSource> = {
+  welcome: { html },
+  wikipedia: { uri: 'https://en.wikipedia.org/wiki/React_Native' },
+  firefox: {
+    uri:
+      'https://support.mozilla.org/en-US/kb/get-started-firefox-overview-main-features'
+  },
+  expo: { uri: 'https://docs.expo.io/' },
+  washington: { uri: 'https://www.washingtonpost.com/' },
+  fox: { uri: 'https://www.foxnews.com/' }
+};
+
 export default function App() {
-  const [padding, setPadding] = React.useState(0);
+  const [paddingHz, setPaddingHz] = React.useState(0);
+  const [hasTextAbove, setHasTextAbove] = React.useState(false);
   const [animated, setAnimated] = React.useState(false);
   const [instance, setInstance] = React.useState(0);
   const [showStats, setShowStats] = React.useState(false);
+  const [sourceName, setSourceName] = React.useState<string>('welcome');
   const [contentSize, setContentSize] = React.useState<ContentSize>({
     height: undefined,
     width: undefined
   });
   const [layout, setLayout] = React.useState<LayoutRectangle | null>(null);
+  const source = sourceMap[sourceName];
   const scrollViewRef = React.useRef<ScrollView>(null);
+  const sheetRef = React.useRef<BottomSheet>(null);
   const onDOMLinkPress = React.useCallback((target: LinkPressTarget) => {
     if (target.scheme.match(/^https?$/)) {
       WebBrowser.openBrowserAsync(target.uri);
@@ -275,10 +287,12 @@ export default function App() {
   const onDOMHashChange = React.useCallback(
     (e: HashChangeEvent) =>
       scrollViewRef.current?.scrollTo({
-        y: e.targetElementBoundingRect.top + BUTTON_CONTAINER_HEIGHT,
+        y:
+          e.targetElementBoundingRect.top +
+          (hasTextAbove ? TOP_TEXT_HEIGHT : 0),
         animated: true
       }),
-    []
+    [hasTextAbove]
   );
   const autoheightProps = useAutoheight<WebshellProps>({
     webshellProps: {
@@ -286,109 +300,235 @@ export default function App() {
       style: styles.autoheight,
       webshellDebug: true
     },
-    extraLayout: padding,
+    extraLayout: paddingHz,
     onContentSizeChange: setContentSize,
     animated
   });
   const webshellContainerStyle = {
-    paddingHorizontal: padding,
+    paddingHorizontal: paddingHz,
     alignSelf: 'stretch' as 'stretch'
   };
   React.useEffect(() => {
     setContentSize({ width: undefined, height: undefined });
     setLayout(null);
   }, [instance]);
+  const renderControls = () => {
+    return (
+      <Surface>
+        <View style={styles.bottomSheet}>
+          <View style={styles.controlsContainer}>
+            <List.Section title="Page">
+              <View>
+                <Picker
+                  style={{
+                    alignSelf: 'stretch',
+                    color: 'white',
+                    fontFamily: 'serif',
+                    backgroundColor: 'rgba(0,0,0,0.2)',
+                    borderRadius: 20
+                  }}
+                  dropdownIconColor="white"
+                  selectedValue={sourceName}
+                  mode="dropdown"
+                  onValueChange={setSourceName}>
+                  <Picker.Item label="Introduction" value="welcome" />
+                  <Picker.Item
+                    label="Wikipedia (React Native)"
+                    value="wikipedia"
+                  />
+                  <Picker.Item
+                    label="Firefox (getting started)"
+                    value="firefox"
+                  />
+                  <Picker.Item label="Washington Post" value="washington" />
+                  <Picker.Item label="Fox News" value="fox" />
+                  <Picker.Item label="Expo (Get Started)" value="expo" />
+                </Picker>
+              </View>
+            </List.Section>
+            <List.Section title="Customize">
+              <View style={styles.controlContainer}>
+                <Text style={styles.controlText}>
+                  Add space left and right of WebView?
+                </Text>
+                <Switch
+                  value={!!paddingHz}
+                  onValueChange={() => setPaddingHz(paddingHz ? 0 : 20)}
+                />
+              </View>
+              <View style={styles.controlContainer}>
+                <Text style={styles.controlText}>Add Text above WebView?</Text>
+                <Switch
+                  value={hasTextAbove}
+                  onValueChange={() => setHasTextAbove(!hasTextAbove)}
+                />
+              </View>
+              <View style={styles.controlContainer}>
+                <Text style={styles.controlText}>Use height animations?</Text>
+                <Switch
+                  value={animated}
+                  onValueChange={() => setAnimated(!animated)}
+                />
+              </View>
+              <View style={styles.controlContainer}>
+                <Text style={styles.controlText}>Show stats?</Text>
+                <Switch
+                  value={showStats}
+                  onValueChange={() => setShowStats(!showStats)}
+                />
+              </View>
+            </List.Section>
+          </View>
+        </View>
+      </Surface>
+    );
+  };
+  const renderHeader = () => (
+    <Appbar
+      style={{
+        alignSelf: 'stretch',
+        justifyContent: 'center',
+        height: APPBAR_HEIGHT,
+        backgroundColor: '#120e56'
+      }}>
+      <Appbar.Action
+        size={20}
+        icon="refresh"
+        onPress={() => setInstance(instance + 1)}
+      />
+      <Appbar.Action
+        size={20}
+        icon="arrow-expand-up"
+        onPress={() =>
+          scrollViewRef.current?.scrollTo({ y: 0, animated: true })
+        }
+      />
+      <Appbar.Action
+        size={20}
+        icon="arrow-expand-down"
+        onPress={() => scrollViewRef.current?.scrollToEnd({ animated: true })}
+      />
+      <Appbar.Action
+        size={20}
+        icon="settings"
+        onPress={() => sheetRef.current?.snapTo(1)}
+      />
+    </Appbar>
+  );
   return (
-    <View style={styles.root}>
-      <ScrollView
-        pointerEvents="box-none"
-        ref={scrollViewRef}
-        contentContainerStyle={[
-          styles.container,
-          showStats ? { paddingBottom: STAT_HEIGHT } : null
-        ]}>
-        <View style={styles.controlsContainer}>
-          <View style={styles.controlContainer}>
-            <Text>Add space around WebView?</Text>
-            <Switch
-              value={!!padding}
-              onValueChange={() => setPadding(padding ? 0 : 20)}
+    <PaperProvider
+      theme={{
+        ...DarkTheme,
+        colors: { ...DarkTheme.colors, surface: '#1f1b6f' }
+      }}>
+      <View style={styles.root}>
+        <ScrollView
+          pointerEvents="box-none"
+          ref={scrollViewRef}
+          contentContainerStyle={[
+            styles.container,
+            { paddingBottom: BOTTOM_SHEET_COLLAPSED_OFFSET },
+            showStats ? { paddingTop: STAT_HEIGHT } : null
+          ]}>
+          <View style={webshellContainerStyle}>
+            {hasTextAbove ? (
+              <Text style={[styles.text, { height: TOP_TEXT_HEIGHT }]}>
+                This is a React Native Text element inside of the containing
+                ScrollView, above the WebView component.
+              </Text>
+            ) : null}
+            <Webshell
+              key={instance}
+              onDOMLinkPress={onDOMLinkPress}
+              onDOMHashChange={onDOMHashChange}
+              onLayout={(e) => setLayout(e.nativeEvent.layout)}
+              {...autoheightProps}
             />
           </View>
-          <View style={styles.controlContainer}>
-            <Text>Use height animations?</Text>
-            <Switch
-              value={animated}
-              onValueChange={() => setAnimated(!animated)}
-            />
-          </View>
-          <View style={styles.controlContainer}>
-            <Text>Show stats?</Text>
-            <Switch
-              value={showStats}
-              onValueChange={() => setShowStats(!showStats)}
-            />
-          </View>
-          <View style={styles.controlContainer}>
-            <Button
-              onPress={() => setInstance(instance + 1)}
-              title="Reload Webshell"
-            />
-          </View>
-        </View>
-        <View style={webshellContainerStyle}>
-          <Webshell
-            key={instance}
-            onDOMLinkPress={onDOMLinkPress}
-            onDOMHashChange={onDOMHashChange}
-            onLayout={(e) => setLayout(e.nativeEvent.layout)}
-            {...autoheightProps}
-          />
-        </View>
-        <Text style={[styles.text, styles.textInScrollView]}>
-          This is a React Native Text element bellow the WebView.
-        </Text>
-      </ScrollView>
-      {showStats && (
-        <ScrollView horizontal={true} style={styles.stats}>
-          <Text
-            style={{ fontFamily: 'monospace', color: 'white', fontSize: 12 }}>
-            <Text style={{ fontWeight: 'bold' }}>Content</Text>
-            {'  '}Width:{' '}
-            {contentSize.width === undefined
-              ? 'unset'
-              : Math.round(contentSize.width)}
-            {', '}
-            Height:{' '}
-            {contentSize.height === undefined
-              ? 'unset'
-              : Math.round(contentSize.height)}
-            {'\n'}
-            <Text style={{ fontWeight: 'bold' }}>Viewport</Text> Width:{' '}
-            {layout == null ? 'unset' : Math.round(layout.width)}
-            {', '}
-            Height: {layout == null ? 'unset' : Math.round(layout.height)}
-            {'\n'}
-            <Text style={{ fontWeight: 'bold' }}>URL</Text>
-            {'      '}
-            {source['uri'] || 'about:blank'}
+          <Text style={[styles.text, styles.textInScrollView]}>
+            This is a React Native Text element inside of the containing
+            ScrollView, bellow the WebView component.
           </Text>
         </ScrollView>
-      )}
-    </View>
+        {showStats && (
+          <ScrollView horizontal={true} style={styles.stats}>
+            <Text
+              style={{ fontFamily: 'monospace', color: 'green', fontSize: 12 }}>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  fontFamily: 'monospace',
+                  color: 'green'
+                }}>
+                Content
+              </Text>
+              {'  '}Width:{' '}
+              {contentSize.width === undefined
+                ? 'unset'
+                : Math.round(contentSize.width)}
+              {', '}
+              Height:{' '}
+              {contentSize.height === undefined
+                ? 'unset'
+                : Math.round(contentSize.height)}
+              {'\n'}
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  fontFamily: 'monospace',
+                  color: 'green'
+                }}>
+                Viewport
+              </Text>{' '}
+              Width: {layout == null ? 'unset' : Math.round(layout.width)}
+              {', '}
+              Height: {layout == null ? 'unset' : Math.round(layout.height)}
+              {'\n'}
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  fontFamily: 'monospace',
+                  color: 'green'
+                }}>
+                URL
+              </Text>
+              {'      '}
+              {source['uri'] || 'about:blank'}
+            </Text>
+          </ScrollView>
+        )}
+      </View>
+      <BottomSheet
+        enabledInnerScrolling={false}
+        enabledContentTapInteraction={false}
+        enabledHeaderGestureInteraction={true}
+        ref={sheetRef}
+        snapPoints={[
+          BOTTOM_SHEET_COLLAPSED_OFFSET,
+          BOTTOM_SHEET_CONTENT_HEIGHT,
+          BOTTOM_SHEET_COLLAPSED_OFFSET
+        ]}
+        renderContent={renderControls}
+        renderHeader={renderHeader}
+      />
+    </PaperProvider>
   );
 }
 
-const BUTTON_CONTAINER_HEIGHT = 180;
-const STAT_HEIGHT = 50;
+const BOTTOM_SHEET_CONTENT_HEIGHT = 450;
+const STAT_HEIGHT = 55;
+const TOP_TEXT_HEIGHT = 60;
+const APPBAR_HEIGHT = 45;
+const BOTTOM_SHEET_COLLAPSED_OFFSET = APPBAR_HEIGHT;
 
 const styles = StyleSheet.create({
   stats: {
     position: 'absolute',
-    bottom: 0,
+    top: 0,
     left: 0,
     right: 0,
     backgroundColor: 'black',
+    padding: 3,
     height: STAT_HEIGHT
   },
   text: {
@@ -401,21 +541,50 @@ const styles = StyleSheet.create({
   autoheight: {
     backgroundColor: 'transparent'
   },
+  controlText: {
+    fontFamily: 'serif',
+    paddingRight: 10
+  },
   controlContainer: {
     justifyContent: 'space-between',
     flexDirection: 'row',
     alignItems: 'center',
     padding: 5
   },
+  bottomSheet: {
+    height: BOTTOM_SHEET_CONTENT_HEIGHT,
+    alignItems: 'center',
+    borderLeftWidth: StyleSheet.hairlineWidth,
+    borderRightWidth: StyleSheet.hairlineWidth,
+    borderColor: 'gray'
+  },
+  bottomSheetHeaderText: {
+    fontSize: 16,
+    fontFamily: 'serif',
+    fontStyle: 'italic'
+  },
+  bottomSheetHeader: {
+    borderTopRightRadius: 10,
+    borderTopLeftRadius: 10,
+    borderColor: 'gray',
+    padding: 3,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderLeftWidth: StyleSheet.hairlineWidth,
+    borderRightWidth: StyleSheet.hairlineWidth,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: BOTTOM_SHEET_COLLAPSED_OFFSET,
+    backgroundColor: '#120e56',
+    flexDirection: 'row'
+  },
   controlsContainer: {
-    maxWidth: 350,
-    height: BUTTON_CONTAINER_HEIGHT
+    maxWidth: 400
   },
   container: {
-    backgroundColor: 'white',
     padding: 0,
     margin: 0,
-    alignItems: 'center'
+    alignItems: 'center',
+    paddingBottom: BOTTOM_SHEET_COLLAPSED_OFFSET
   },
   root: {
     flexGrow: 1,

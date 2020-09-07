@@ -12,6 +12,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@react-native-community/picker": "1.6.0",
     "@rnhooks/device-orientation": "^0.0.1",
     "expo": "~38.0.10",
     "expo-splash-screen": "^0.5.0",
@@ -19,7 +20,11 @@
     "expo-web-browser": "~8.3.1",
     "react": "~16.11.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-38.0.2.tar.gz",
-    "react-native-webview": "9.4.0"
+    "react-native-gesture-handler": "~1.6.0",
+    "react-native-paper": "^4.1.0",
+    "react-native-reanimated": "~1.9.0",
+    "react-native-webview": "9.4.0",
+    "reanimated-bottom-sheet": "^1.0.0-alpha.22"
   },
   "devDependencies": {
     "@babel/core": "^7.11.5",
