@@ -16,7 +16,9 @@ export const Stats = memo(({ display, source, contentSize, layout }: Props) => {
   return display ? (
     <ScrollView horizontal={true} style={styles.stats}>
       <Text selectable style={styles.text}>
-        <Text style={styles.entryName}>Content</Text>
+        <Text style={styles.entryName}>{source['uri'] || 'about:blank'}</Text>
+        {'\n'}
+        <Text style={styles.entryName}>content</Text>
         {'  '}W:{' '}
         {contentSize.width === undefined
           ? 'unset'
@@ -27,16 +29,10 @@ export const Stats = memo(({ display, source, contentSize, layout }: Props) => {
           ? 'unset'
           : Math.round(contentSize.height)}
         {'\n'}
-        <Text style={styles.entryName}>Viewport</Text> W:{' '}
+        <Text style={styles.entryName}>viewport</Text> W:{' '}
         {layout == null ? 'unset' : Math.round(layout.width)}
         {', '}
         H: {layout == null ? 'unset' : Math.round(layout.height)}
-        {'\n'}
-        <Text selectable style={styles.entryName}>
-          URL
-        </Text>
-        {'      '}
-        {source['uri'] || 'about:blank'}
       </Text>
     </ScrollView>
   ) : null;

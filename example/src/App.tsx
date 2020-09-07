@@ -14,7 +14,12 @@ import makeWebshell, {
   ContentSize
 } from '@formidable-webview/webshell';
 import WebView from 'react-native-webview';
-import { Provider as PaperProvider, Text, DarkTheme } from 'react-native-paper';
+import {
+  Provider as PaperProvider,
+  Text,
+  DarkTheme,
+  Surface
+} from 'react-native-paper';
 import { WebViewSource } from 'react-native-webview/lib/WebViewTypes';
 import {
   TOP_TEXT_HEIGHT,
@@ -71,6 +76,8 @@ export default function App() {
     sourceName
   } = useControls({ scrollViewRef });
   const source = sourceMap[sourceName];
+  const statsSpacingTop = showStats ? STAT_HEIGHT : 0;
+  const textSpacingTop = hasTextAround ? TOP_TEXT_HEIGHT : 0;
   const onDOMLinkPress = React.useCallback((target: LinkPressTarget) => {
     if (target.scheme.match(/^https?$/)) {
       WebBrowser.openBrowserAsync(target.uri);
@@ -107,7 +114,9 @@ export default function App() {
     setContentSize({ width: undefined, height: undefined });
     setLayout(null);
   }, [instance]);
-
+  React.useEffect(() => {
+    scrollViewRef.current?.scrollTo({ y: textSpacingTop, animated: true });
+  }, [source, textSpacingTop]);
   return (
     <PaperProvider theme={theme}>
       <View style={styles.root}>
@@ -115,18 +124,21 @@ export default function App() {
           ref={scrollViewRef}
           contentContainerStyle={[
             styles.container,
-            { paddingBottom: BOTTOM_SHEET_COLLAPSED_OFFSET },
-            showStats ? { paddingTop: STAT_HEIGHT } : null
+            {
+              paddingBottom: BOTTOM_SHEET_COLLAPSED_OFFSET,
+              paddingTop: statsSpacingTop
+            }
           ]}>
           <View style={webshellContainerStyle}>
             {hasTextAround ? (
-              <Text style={[styles.text, { height: TOP_TEXT_HEIGHT }]}>
-                This is a React Native Text element inside of the containing
-                ScrollView, above the WebView component.
-              </Text>
+              <Surface>
+                <Text style={[styles.textElement, { height: TOP_TEXT_HEIGHT }]}>
+                  This is a React Native Text element inside of the containing
+                  ScrollView, above the WebView component.
+                </Text>
+              </Surface>
             ) : null}
             <Webshell
-              caca={'sssss789564qsqqssqdqdsdsssqqs44566456sqslk789789,987'}
               key={instance}
               onDOMLinkPress={onDOMLinkPress}
               onDOMHashChange={onDOMHashChange}
@@ -136,10 +148,12 @@ export default function App() {
             />
           </View>
           {hasTextAround ? (
-            <Text style={[styles.text, { height: TOP_TEXT_HEIGHT }]}>
-              This is a React Native Text element inside of the containing
-              ScrollView, bellow the WebView component.
-            </Text>
+            <Surface>
+              <Text style={[styles.textElement, { height: TOP_TEXT_HEIGHT }]}>
+                This is a React Native Text element inside of the containing
+                ScrollView, bellow the WebView component.
+              </Text>
+            </Surface>
           ) : null}
         </ScrollView>
         <Stats
@@ -155,10 +169,9 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  text: {
+  textElement: {
     textAlign: 'center',
     padding: 10,
-    color: '#1a1a1a',
     fontStyle: 'italic'
   },
   textInScrollView: { color: 'black' },
