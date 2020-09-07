@@ -109,10 +109,18 @@ export default function EnhancedWebView(webViewProps: WebViewProps) {
 
 ```
 
-## A full featured AutoheightWebView
+## Craft a Full-Featured, Dynamic AutoheightWebView
+
+### Understanding the chain of constraints
 
 This component height automatically and dynamically adapts to the page height,
 even after DOM is mounted.
+
+// TODO develop
+
+Layout Width → Content Width → Content Height → Layout height
+
+### Example
 
 ```ts
 // integration/autoheight.tsx

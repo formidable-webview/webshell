@@ -50,7 +50,7 @@ const ControlsHeader = memo(
 export function useControls({ scrollViewRef }: Props) {
   const sheetRef = React.useRef<BottomSheet>(null);
   const [paddingHz, setPaddingHz] = React.useState(0);
-  const [hasTextAbove, setHasTextAbove] = React.useState(false);
+  const [hasTextAround, setHasTextAround] = React.useState(false);
   const [animated, setAnimated] = React.useState(false);
   const [instance, setInstance] = React.useState(0);
   const [showStats, setShowStats] = React.useState(true);
@@ -61,7 +61,7 @@ export function useControls({ scrollViewRef }: Props) {
     []
   );
   const toggleTextAbove = React.useCallback(
-    () => setHasTextAbove((b) => !b),
+    () => setHasTextAround((b) => !b),
     []
   );
   const toggleAnimated = React.useCallback(() => setAnimated((a) => !a), []);
@@ -115,8 +115,10 @@ export function useControls({ scrollViewRef }: Props) {
                 <Switch value={!!paddingHz} onValueChange={togglePadding} />
               </View>
               <View style={styles.controlContainer}>
-                <Text style={styles.controlText}>Add Text above WebView?</Text>
-                <Switch value={hasTextAbove} onValueChange={toggleTextAbove} />
+                <Text style={styles.controlText}>
+                  Add RN Text elements around WebView?
+                </Text>
+                <Switch value={hasTextAround} onValueChange={toggleTextAbove} />
               </View>
               <View style={styles.controlContainer}>
                 <Text style={styles.controlText}>Use height animations?</Text>
@@ -135,7 +137,7 @@ export function useControls({ scrollViewRef }: Props) {
       sourceName,
       showStats,
       animated,
-      hasTextAbove,
+      hasTextAround,
       paddingHz,
       toggleTextAbove,
       toggleAnimated,
@@ -174,7 +176,7 @@ export function useControls({ scrollViewRef }: Props) {
   return {
     bottomSheet,
     paddingHz,
-    hasTextAbove,
+    hasTextAround,
     animated,
     instance,
     showStats,

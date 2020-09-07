@@ -71,6 +71,12 @@ export interface AutoheightParams<
    * Also triggered when reset to undefined.
    */
   onContentSizeChange?: (contentSize: ContentSize) => void;
+  /**
+   * By default, the width of `Webshell` will grow to the horizontal space available.
+   * This is realized with `width: '100%'` and `alignSelf: 'stretch'`.
+   * If you need to set explicit width, do it here.
+   */
+  width?: number;
 }
 
 function useDiff(value: number) {
@@ -110,7 +116,12 @@ export function useAutoheight<
     [AssembledFeatureOf<typeof handleHTMLDimensionsFeature>]
   >
 >(params: AutoheightParams<S>) {
-  const { webshellProps, animated, onContentSizeChange } = params;
+  const {
+    webshellProps,
+    animated,
+    onContentSizeChange,
+    width: userExplicitWidth
+  } = params;
   const {
     style,
     onNavigationStateChange,
@@ -157,12 +168,13 @@ export function useAutoheight<
     () => [
       style as StyleProp<ViewStyle>,
       {
-        width: '100%',
+        width:
+          typeof userExplicitWidth === 'number' ? userExplicitWidth : '100%',
         height,
         alignSelf: 'stretch'
       }
     ],
-    [height, style]
+    [height, userExplicitWidth, style]
   );
   return {
     ...passedProps,

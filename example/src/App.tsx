@@ -64,7 +64,7 @@ export default function App() {
   const {
     animated,
     bottomSheet,
-    hasTextAbove,
+    hasTextAround,
     instance,
     paddingHz,
     showStats,
@@ -85,10 +85,10 @@ export default function App() {
       scrollViewRef.current?.scrollTo({
         y:
           e.targetElementBoundingRect.top +
-          (hasTextAbove ? TOP_TEXT_HEIGHT : 0),
+          (hasTextAround ? TOP_TEXT_HEIGHT : 0),
         animated: true
       }),
-    [hasTextAbove]
+    [hasTextAround]
   );
   const autoheightProps = useAutoheight<WebshellProps>({
     webshellProps: {
@@ -119,26 +119,28 @@ export default function App() {
             showStats ? { paddingTop: STAT_HEIGHT } : null
           ]}>
           <View style={webshellContainerStyle}>
-            {hasTextAbove ? (
+            {hasTextAround ? (
               <Text style={[styles.text, { height: TOP_TEXT_HEIGHT }]}>
                 This is a React Native Text element inside of the containing
                 ScrollView, above the WebView component.
               </Text>
             ) : null}
             <Webshell
+              caca={'sssssqsqs'}
               key={instance}
               onDOMLinkPress={onDOMLinkPress}
               onDOMHashChange={onDOMHashChange}
               onLayout={onLayout}
               pointerEvents="none"
-              test={"qsdqsdqs"}
               {...autoheightProps}
             />
           </View>
-          <Text style={[styles.text, styles.textInScrollView]}>
-            This is a React Native Text element inside of the containing
-            ScrollView, bellow the WebView component.
-          </Text>
+          {hasTextAround ? (
+            <Text style={[styles.text, { height: TOP_TEXT_HEIGHT }]}>
+              This is a React Native Text element inside of the containing
+              ScrollView, bellow the WebView component.
+            </Text>
+          ) : null}
         </ScrollView>
         <Stats
           display={showStats}
