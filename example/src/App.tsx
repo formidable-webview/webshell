@@ -31,17 +31,6 @@ import { Theme } from 'react-native-paper/lib/typescript/src/types';
 import { useControls } from './controls';
 import introduction from './introduction.html';
 
-const Webshell = makeWebshell(
-  WebView,
-  handleLinkPressFeature.assemble({ preventDefault: true }),
-  handleHTMLDimensionsFeature.assemble({ forceImplementation: false }),
-  handleHashChangeFeature.assemble({ shouldResetHashOnEvent: true }),
-  forceResponsiveViewportFeature.assemble({ maxScale: 2 }),
-  forceElementSizeFeature.assemble({ target: 'body' })
-);
-
-type WebshellProps = React.ComponentProps<typeof Webshell>;
-
 const sourceMap: Record<string, WebViewSource> = {
   welcome: { html: introduction },
   wikipedia: { uri: 'https://en.wikipedia.org/wiki/React_Native' },
@@ -67,6 +56,8 @@ export default function App() {
   const [layout, setLayout] = React.useState<LayoutRectangle | null>(null);
   const scrollViewRef = React.useRef<ScrollView>(null);
   const {
+    allowWebViewNavigation,
+    allowPinchToZoom,
     animated,
     bottomSheet,
     hasTextAround,
@@ -75,14 +66,38 @@ export default function App() {
     showStats,
     sourceName
   } = useControls({ scrollViewRef });
+  const Webshell = React.useMemo(
+    () =>
+      makeWebshell(
+        WebView,
+        handleLinkPressFeature.assemble({
+          preventDefault: !allowWebViewNavigation
+        }),
+        handleHTMLDimensionsFeature.assemble({ forceImplementation: false }),
+        handleHashChangeFeature.assemble({ shouldResetHashOnEvent: true }),
+        forceResponsiveViewportFeature.assemble({
+          maxScale: allowPinchToZoom ? 1.5 : 1
+        }),
+        forceElementSizeFeature.assemble({ target: 'body' })
+      ),
+    [allowWebViewNavigation, allowPinchToZoom]
+  );
+  type WebshellProps = React.ComponentProps<typeof Webshell>;
   const source = sourceMap[sourceName];
   const statsSpacingTop = showStats ? STAT_HEIGHT : 0;
   const textSpacingTop = hasTextAround ? TOP_TEXT_HEIGHT : 0;
-  const onDOMLinkPress = React.useCallback((target: LinkPressTarget) => {
-    if (target.scheme.match(/^https?$/)) {
-      WebBrowser.openBrowserAsync(target.uri);
-    }
-  }, []);
+  const onDOMLinkPress = React.useCallback(
+    (target: LinkPressTarget) => {
+      if (target.scheme.match(/^https?$/)) {
+        if (!allowWebViewNavigation) {
+          WebBrowser.openBrowserAsync(target.uri);
+        } else {
+          scrollViewRef.current?.scrollTo({ y: textSpacingTop });
+        }
+      }
+    },
+    [allowWebViewNavigation, textSpacingTop]
+  );
   const onLayout = React.useCallback(
     (e) => setLayout(e.nativeEvent.layout),
     []
@@ -121,7 +136,11 @@ export default function App() {
     <PaperProvider theme={theme}>
       <View style={styles.root}>
         <ScrollView
+          key={instance}
           ref={scrollViewRef}
+          pinchGestureEnabled={false} //
+          disableScrollViewPanResponder
+          pointerEvents="box-none"
           contentContainerStyle={[
             styles.container,
             {
@@ -129,29 +148,27 @@ export default function App() {
               paddingTop: statsSpacingTop
             }
           ]}>
+          {hasTextAround ? (
+            <Surface style={styles.textContainer}>
+              <Text style={[styles.textElement, { height: TOP_TEXT_HEIGHT }]}>
+                This is a React Native Text element inside of the containing
+                ScrollView, above the WebView component.
+              </Text>
+            </Surface>
+          ) : null}
           <View style={webshellContainerStyle}>
-            {hasTextAround ? (
-              <Surface>
-                <Text style={[styles.textElement, { height: TOP_TEXT_HEIGHT }]}>
-                  This is a React Native Text element inside of the containing
-                  ScrollView, above the WebView component.
-                </Text>
-              </Surface>
-            ) : null}
             <Webshell
-              key={instance}
               onDOMLinkPress={onDOMLinkPress}
               onDOMHashChange={onDOMHashChange}
               onLayout={onLayout}
-              pointerEvents="none"
               {...autoheightProps}
             />
           </View>
           {hasTextAround ? (
-            <Surface>
+            <Surface style={styles.textContainer}>
               <Text style={[styles.textElement, { height: TOP_TEXT_HEIGHT }]}>
                 This is a React Native Text element inside of the containing
-                ScrollView, bellow the WebView component.
+                ScrollView, below the WebView component.
               </Text>
             </Surface>
           ) : null}
@@ -172,7 +189,12 @@ const styles = StyleSheet.create({
   textElement: {
     textAlign: 'center',
     padding: 10,
-    fontStyle: 'italic'
+    fontStyle: 'italic',
+    textAlignVertical: 'center'
+  },
+  textContainer: {
+    alignSelf: 'stretch',
+    opacity: 0.92
   },
   textInScrollView: { color: 'black' },
   autoheight: {

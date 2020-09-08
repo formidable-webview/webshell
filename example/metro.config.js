@@ -12,7 +12,6 @@ const modules = Object.keys({
 const metroDefault = require('metro-config/src/defaults/defaults.js');
 
 module.exports = {
-  resetCache: true,
   projectRoot: __dirname,
   watchFolders: [root],
 

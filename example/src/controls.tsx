@@ -1,8 +1,10 @@
 import { default as React, RefObject, useCallback, memo } from 'react';
 import { StyleSheet, ScrollView, View } from 'react-native';
+import { useWindowDimensions } from 'react-native';
 import { Switch, Text, Surface, List, Appbar } from 'react-native-paper';
 import { Picker } from '@react-native-community/picker';
 import BottomSheet from 'reanimated-bottom-sheet';
+import Constants from 'expo-constants';
 import {
   BOTTOM_SHEET_COLLAPSED_OFFSET,
   BOTTOM_SHEET_CONTENT_HEIGHT,
@@ -47,6 +49,11 @@ export function useControls({ scrollViewRef }: Props) {
   const [instance, setInstance] = React.useState(0);
   const [showStats, setShowStats] = React.useState(true);
   const [sourceName, setSourceName] = React.useState<string>('welcome');
+  const [allowPinchToZoom, setAllowPinchToZoom] = React.useState(false);
+  const windowDimensions = useWindowDimensions();
+  const [allowWebViewNavigation, setAllowWebViewNavigation] = React.useState(
+    false
+  );
   const [isSheetOpen, setIsSheetOpen] = React.useState(false);
   const togglePadding = React.useCallback(
     () => setPaddingHz((p) => (p ? 0 : 20)),
@@ -58,6 +65,14 @@ export function useControls({ scrollViewRef }: Props) {
   );
   const toggleAnimated = React.useCallback(() => setAnimated((a) => !a), []);
   const toggleShowStats = React.useCallback(() => setShowStats((s) => !s), []);
+  const toggleAllowPinchToZoom = React.useCallback(
+    () => setAllowPinchToZoom((p) => !p),
+    []
+  );
+  const toggleAllowWebViewNavigation = React.useCallback(
+    () => setAllowWebViewNavigation((s) => !s),
+    []
+  );
   const setSheetOpenTrue = React.useCallback(() => setIsSheetOpen(true), []);
   const setSheetOpenFalse = React.useCallback(() => setIsSheetOpen(false), []);
   const forceRerender = React.useCallback(() => setInstance((i) => i + 1), []);
@@ -73,9 +88,13 @@ export function useControls({ scrollViewRef }: Props) {
     () => sheetRef.current?.snapTo(isSheetOpen ? 0 : 1),
     [isSheetOpen]
   );
+  const snapPointExpended = Math.min(
+    BOTTOM_SHEET_CONTENT_HEIGHT + BOTTOM_SHEET_COLLAPSED_OFFSET,
+    windowDimensions.height - Constants.statusBarHeight
+  );
   const renderControls = React.useCallback(
     () => (
-      <Surface>
+      <Surface style={{ height: BOTTOM_SHEET_CONTENT_HEIGHT }}>
         <View style={styles.bottomSheet}>
           <View style={styles.controlsContainer}>
             <List.Section title="Page">
@@ -120,6 +139,24 @@ export function useControls({ scrollViewRef }: Props) {
                 <Text style={styles.controlText}>Show stats?</Text>
                 <Switch value={showStats} onValueChange={toggleShowStats} />
               </View>
+              <View style={styles.controlContainer}>
+                <Text style={styles.controlText}>
+                  Allow pinch-to-zoom (x1.5)?
+                </Text>
+                <Switch
+                  value={allowPinchToZoom}
+                  onValueChange={toggleAllowPinchToZoom}
+                />
+              </View>
+              <View style={styles.controlContainer}>
+                <Text style={styles.controlText}>
+                  Open links with system web browser?
+                </Text>
+                <Switch
+                  value={!allowWebViewNavigation}
+                  onValueChange={toggleAllowWebViewNavigation}
+                />
+              </View>
             </List.Section>
           </View>
         </View>
@@ -131,10 +168,14 @@ export function useControls({ scrollViewRef }: Props) {
       animated,
       hasTextAround,
       paddingHz,
+      allowWebViewNavigation,
+      allowPinchToZoom,
       toggleTextAbove,
       toggleAnimated,
       toggleShowStats,
-      togglePadding
+      togglePadding,
+      toggleAllowWebViewNavigation,
+      toggleAllowPinchToZoom
     ]
   );
   const renderHeader = useCallback(() => {
@@ -150,13 +191,13 @@ export function useControls({ scrollViewRef }: Props) {
   }, [isSheetOpen, scrollToStart, scrollToEnd, toggleSettings, forceRerender]);
   const bottomSheet = (
     <BottomSheet
-      enabledInnerScrolling={false}
+      enabledInnerScrolling={true}
       enabledContentTapInteraction={false}
       enabledHeaderGestureInteraction={true}
       ref={sheetRef}
       snapPoints={[
         BOTTOM_SHEET_COLLAPSED_OFFSET,
-        BOTTOM_SHEET_CONTENT_HEIGHT,
+        snapPointExpended,
         BOTTOM_SHEET_COLLAPSED_OFFSET
       ]}
       renderContent={renderControls}
@@ -165,8 +206,13 @@ export function useControls({ scrollViewRef }: Props) {
       onCloseStart={setSheetOpenFalse}
     />
   );
+  React.useEffect(() => {
+    sheetRef.current?.snapTo(0);
+  }, [windowDimensions.height]);
   return {
     bottomSheet,
+    allowPinchToZoom,
+    allowWebViewNavigation,
     paddingHz,
     hasTextAround,
     animated,
@@ -184,8 +230,8 @@ const styles = StyleSheet.create({
     borderRadius: 20
   },
   bottomSheet: {
-    height: BOTTOM_SHEET_CONTENT_HEIGHT,
     alignItems: 'center',
+    flexGrow: 1,
     borderLeftWidth: StyleSheet.hairlineWidth,
     borderRightWidth: StyleSheet.hairlineWidth,
     borderColor: 'gray'
