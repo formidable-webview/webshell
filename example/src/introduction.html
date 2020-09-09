@@ -8,6 +8,7 @@
         color: #c9c9c9;
         box-sizing: border-box;
         font-size: 14px;
+        margin: 0;
       }
       h2,
       h3 {
@@ -15,6 +16,7 @@
         font-family: serif;
       }
       h2 {
+        font-size: 1.8em;
         text-align: center;
       }
       * {
@@ -23,50 +25,82 @@
       li {
         margin-bottom: 10px;
       }
-      .container {
-        padding-bottom: 10px;
+      #root {
         display: flex;
+        flex-direction: column;
         justify-content: center;
+        align-items: center;
+        width: 100%;
+      }
+      header, footer {
+        color: aliceblue;
+        font-style: italic;
+        background-color: #1b1b1b;
+        padding: 20px;
+        line-height: 1.2;
+      }
+      header {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: center;
       }
       footer {
         width: 100%;
-        background-color: #1a1a1a;
-        padding: 10px;
         display: flex;
         justify-content: center;
         flex-direction: column;
         align-items: center;
         min-height: 80px;
         text-align: center;
-        transition: height 20ms ease;
+        transition: height 60ms ease;
       }
       article {
         padding: 10px;
+        max-width: 480px;
       }
       strong {
         color: white;
         font-weight: normal;
       }
       button {
+        background-color: transparent;
+        display: inline-block;
+        padding: 0.35em 1.2em;
+        border: 0.1em solid white;
+        margin: 0 0.3em 0.3em 0;
+        border-radius: 0.12em;
+        box-sizing: border-box;
+        text-decoration: none;
+        font-weight: 300;
+        color: white;
+        text-align: center;
+        transition: all 200ms;
         font-size: 18px;
         margin: 6px;
         font-family: monospace;
       }
-      .brand {
-        padding: 10px;
-        text-align: center;
-        font-family: monospace;
+      button:active {
+        color: #1a1a1a;
+        background-color: white;
       }
-      .brand > a {
-        font-size: 10px;
+      button:focus {
+        outline-color: white;
+        outline-width: 4px;
+      }
+      code {
         color: white;
-        text-decoration: none;
-        font-weight: bold;
+        font-size: 13px;
       }
-      .image-container {
-        display: flex;
-        flex-direction: columns;
-        justify-content: center;
+      a {
+        color: #8396e9;
+      }
+      a[href^='#'] {
+        color: white;
+        font-style: normal;
+        border: 1px solid #a4aeda;
+        padding: 1px;
+        text-decoration: none;
       }
       .workaround {
         position: relative;
@@ -83,47 +117,48 @@
         position: absolute;
         font-weight: bold;
       }
-      code {
-        color: white;
-        font-size: 13px;
+      .subtitle a {
+        color: #a4aeda;
       }
-      a {
-        color: #8396e9;
+      .subtitle img {
+        margin-right: 8px;
       }
-      a[href^='#'] {
-        color: white;
-        font-style: normal;
-        border: 1px solid white;
-        padding: 1px;
-        text-decoration: none;
+      .container {
+        padding: 10px;
+        display: flex;
+        justify-content: center;
       }
     </style>
   </head>
   <body>
-    <div id="container">
-      <article>
-        <div class="image-container">
-          <a href="https://github.com/formidable-webview/webshell#readme">
-            <img
-              src="https://avatars3.githubusercontent.com/u/69217828?s=400&u=f3c683287f866a197e49df2c7308fed60df79589&v=4"
-              width="40"
-              height="40"
-            />
-          </a>
-        </div>
-        <div class="brand">
+    <div id="root">
+      <header>
+        <a href="https://github.com/formidable-webview/webshell#readme">
+          <img
+            src="https://avatars3.githubusercontent.com/u/69217828?s=400&u=f3c683287f866a197e49df2c7308fed60df79589&v=4"
+            width="40"
+            height="40"
+          />
+        </a>
+        <span>
+          This solution is based on <code>makeWebshell</code>
+          <a href="https://reactjs.org/docs/higher-order-components.html"
+            >HOC</a
+          >
+          and <code>useAutoheight</code>
+          hook exported by
           <a href="https://github.com/formidable-webview/webshell#readme"
             >@formidable-webview/webshell</a
-          >
+          >.
+        </span>
+      </header>
+      <article>
+        <div class="title">
+          <h2>
+            Craft a Full-Featured, Dynamic Autoheight WebView-based component
+            with <em>webshell</em>
+          </h2>
         </div>
-        <h2>
-          Craft a Full-Featured, Dynamic Autoheight WebView-based component with
-          Webshell
-        </h2>
-        This solution uses <code>useAutoheight</code> hook exported by
-        <a href="https://github.com/formidable-webview/webshell#readme"
-          >@formidable-webview/webshell</a
-        >.
         <h3>Pros</h3>
         <ul>
           <li>
@@ -203,7 +238,7 @@
               >
               and scroll imperatively with <code>handleHashChangeFeature</code>.
               This is exactly how it is implemented here,
-              <a href="#container">&uarr;&nbsp;try&nbsp;this</a>.
+              <a href="#root">&uarr;&nbsp;try&nbsp;this</a>.
             </p>
           </li>
         </ul>
@@ -211,13 +246,11 @@
         <ul>
           <li>
             <strong>Shrink</strong> and <strong>increase footer</strong> by
-            pressing buttons and notice how the <code>WebView</code> height
+            pressing buttons above footer and notice how the <code>WebView</code> height
             adapts dynamically.
-            <div class="container">
-              <button onclick="shrinkDiv()">-20</button>
-              <button onclick="increaseDiv()">+20</button>
-            </div>
           </li>
+        </ul>
+        <ul>
           <li>
             <strong>Rotate</strong> the <strong>screen</strong> and observe how
             the <code>WebView</code> height and width will adjust.
@@ -228,12 +261,14 @@
           </li>
         </ul>
       </article>
+      <div style="margin-bottom: 20px;" class="container">
+        <button onclick="shrinkDiv()">-20</button>
+        <button onclick="increaseDiv()">+20</button>
+      </div>
       <footer id="footer">
         <em>Change this footer height with the controls above.</em>
         <div class="container">
-          <a style="margin-top: 10px" href="#container"
-            >&uarr;&nbsp;back&nbsp;to&nbsp;top</a
-          >
+          <a href="#root">&uarr;&nbsp;back&nbsp;to&nbsp;top</a>
         </div>
       </footer>
 

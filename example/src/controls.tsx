@@ -8,8 +8,7 @@ import Constants from 'expo-constants';
 import {
   BOTTOM_SHEET_COLLAPSED_OFFSET,
   BOTTOM_SHEET_CONTENT_HEIGHT,
-  APPBAR_HEIGHT,
-  BACKGROUND_DARK
+  APPBAR_HEIGHT
 } from './styles';
 
 interface Props {
@@ -44,7 +43,7 @@ const ControlsHeader = memo(
 export function useControls({ scrollViewRef }: Props) {
   const sheetRef = React.useRef<BottomSheet>(null);
   const [paddingHz, setPaddingHz] = React.useState(0);
-  const [hasTextAround, setHasTextAround] = React.useState(false);
+  const [showEvidence, setShowEvidence] = React.useState(false);
   const [animated, setAnimated] = React.useState(false);
   const [instance, setInstance] = React.useState(0);
   const [showStats, setShowStats] = React.useState(true);
@@ -60,7 +59,7 @@ export function useControls({ scrollViewRef }: Props) {
     []
   );
   const toggleTextAbove = React.useCallback(
-    () => setHasTextAround((b) => !b),
+    () => setShowEvidence((b) => !b),
     []
   );
   const toggleAnimated = React.useCallback(() => setAnimated((a) => !a), []);
@@ -134,7 +133,7 @@ export function useControls({ scrollViewRef }: Props) {
                 <Text style={styles.controlText}>
                   Add React Native elements around WebView?
                 </Text>
-                <Switch value={hasTextAround} onValueChange={toggleTextAbove} />
+                <Switch value={showEvidence} onValueChange={toggleTextAbove} />
               </View>
               <View style={styles.controlContainer}>
                 <Text style={styles.controlText}>Use height animations?</Text>
@@ -171,7 +170,7 @@ export function useControls({ scrollViewRef }: Props) {
       sourceName,
       showStats,
       animated,
-      hasTextAround,
+      showEvidence,
       paddingHz,
       allowWebViewNavigation,
       allowPinchToZoom,
@@ -208,7 +207,9 @@ export function useControls({ scrollViewRef }: Props) {
       renderContent={renderControls}
       renderHeader={renderHeader}
       onOpenStart={setSheetOpenTrue}
+      onOpenEnd={setSheetOpenTrue}
       onCloseStart={setSheetOpenFalse}
+      onCloseEnd={setSheetOpenFalse}
     />
   );
   React.useEffect(() => {
@@ -219,7 +220,7 @@ export function useControls({ scrollViewRef }: Props) {
     allowPinchToZoom,
     allowWebViewNavigation,
     paddingHz,
-    hasTextAround,
+    showEvidence,
     animated,
     instance,
     showStats,
@@ -229,9 +230,6 @@ export function useControls({ scrollViewRef }: Props) {
 
 const styles = StyleSheet.create({
   pagePicker: {
-    alignSelf: 'stretch',
-    color: 'white',
-    backgroundColor: 'rgba(0,0,0,0.2)',
     borderRadius: 20
   },
   bottomSheet: {
@@ -245,7 +243,6 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     justifyContent: 'center',
     height: APPBAR_HEIGHT,
-    backgroundColor: BACKGROUND_DARK,
     borderTopWidth: StyleSheet.hairlineWidth,
     borderColor: 'white'
   },

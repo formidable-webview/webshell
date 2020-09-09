@@ -14,12 +14,7 @@ import makeWebshell, {
   ContentSize
 } from '@formidable-webview/webshell';
 import WebView from 'react-native-webview';
-import {
-  Provider as PaperProvider,
-  Text,
-  DarkTheme,
-  Surface
-} from 'react-native-paper';
+import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
 import { WebViewSource } from 'react-native-webview/lib/WebViewTypes';
 import {
   TOP_TEXT_HEIGHT,
@@ -30,6 +25,7 @@ import { Stats } from './Stats';
 import { Theme } from 'react-native-paper/lib/typescript/src/types';
 import { useControls } from './controls';
 import introduction from './introduction.html';
+import { Evidence } from './Evidence';
 
 const sourceMap: Record<string, WebViewSource> = {
   welcome: { html: introduction },
@@ -49,10 +45,7 @@ const sourceMap: Record<string, WebViewSource> = {
   }
 };
 
-const theme: Theme = {
-  ...DarkTheme,
-  colors: { ...DarkTheme.colors, surface: '#1f1b6f' }
-};
+const theme: Theme = DefaultTheme;
 
 export default function App() {
   const [contentSize, setContentSize] = React.useState<ContentSize>({
@@ -66,7 +59,7 @@ export default function App() {
     allowPinchToZoom,
     animated,
     bottomSheet,
-    hasTextAround,
+    showEvidence,
     instance,
     paddingHz,
     showStats,
@@ -91,7 +84,7 @@ export default function App() {
   type WebshellProps = React.ComponentProps<typeof Webshell>;
   const source = sourceMap[sourceName];
   const statsSpacingTop = showStats ? STAT_HEIGHT : 0;
-  const textSpacingTop = hasTextAround ? TOP_TEXT_HEIGHT : 0;
+  const textSpacingTop = showEvidence ? TOP_TEXT_HEIGHT : 0;
   const onDOMLinkPress = React.useCallback(
     (target: LinkPressTarget) => {
       if (target.scheme.match(/^https?$/)) {
@@ -113,10 +106,10 @@ export default function App() {
       scrollViewRef.current?.scrollTo({
         y:
           e.targetElementBoundingRect.top +
-          (hasTextAround ? TOP_TEXT_HEIGHT : 0),
+          (showEvidence ? TOP_TEXT_HEIGHT : 0),
         animated: true
       }),
-    [hasTextAround]
+    [showEvidence]
   );
   const autoheightProps = useAutoheight<WebshellProps>({
     webshellProps: {
@@ -156,14 +149,7 @@ export default function App() {
               paddingTop: statsSpacingTop
             }
           ]}>
-          {hasTextAround ? (
-            <Surface style={styles.textContainer}>
-              <Text style={[styles.textElement, { height: TOP_TEXT_HEIGHT }]}>
-                This is a React Native Text element inside of the containing
-                ScrollView, above the WebView component.
-              </Text>
-            </Surface>
-          ) : null}
+          {showEvidence ? <Evidence webshellPosition="below" /> : null}
           <View style={webshellContainerStyle}>
             <Webshell
               onDOMLinkPress={onDOMLinkPress}
@@ -172,14 +158,7 @@ export default function App() {
               {...autoheightProps}
             />
           </View>
-          {hasTextAround ? (
-            <Surface style={styles.textContainer}>
-              <Text style={[styles.textElement, { height: TOP_TEXT_HEIGHT }]}>
-                This is a React Native Text element inside of the containing
-                ScrollView, below the WebView component.
-              </Text>
-            </Surface>
-          ) : null}
+          {showEvidence ? <Evidence webshellPosition="above" /> : null}
         </ScrollView>
         <Stats
           display={showStats}
@@ -194,22 +173,8 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  textElement: {
-    textAlign: 'center',
-    padding: 10,
-    fontStyle: 'italic',
-    textAlignVertical: 'center'
-  },
-  textContainer: {
-    alignSelf: 'stretch',
-    opacity: 0.92
-  },
-  textInScrollView: { color: 'black' },
   autoheight: {
     backgroundColor: 'transparent'
-  },
-  controlsContainer: {
-    maxWidth: 400
   },
   container: {
     padding: 0,
