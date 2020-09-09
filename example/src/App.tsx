@@ -40,7 +40,13 @@ const sourceMap: Record<string, WebViewSource> = {
   },
   expo: { uri: 'https://docs.expo.io/' },
   washington: { uri: 'https://www.washingtonpost.com/' },
-  fox: { uri: 'https://www.foxnews.com/' }
+  fox: { uri: 'https://www.foxnews.com/' },
+  nonresponsive: {
+    uri: 'https://dequeuniversity.com/library/responsive/1-non-responsive#'
+  },
+  motherfucking: {
+    uri: 'https://motherfuckingwebsite.com/'
+  }
 };
 
 const theme: Theme = {
@@ -116,8 +122,9 @@ export default function App() {
     webshellProps: {
       source,
       style: styles.autoheight,
-      webshellDebug: false
+      webshellDebug: true
     },
+    initialHeight: 200,
     onContentSizeChange: setContentSize,
     animated
   });
@@ -141,6 +148,7 @@ export default function App() {
           pinchGestureEnabled={false} //
           disableScrollViewPanResponder
           pointerEvents="box-none"
+          horizontal={false}
           contentContainerStyle={[
             styles.container,
             {

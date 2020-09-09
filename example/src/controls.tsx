@@ -115,6 +115,11 @@ export function useControls({ scrollViewRef }: Props) {
                   <Picker.Item label="Washington Post" value="washington" />
                   <Picker.Item label="Fox News" value="fox" />
                   <Picker.Item label="Expo (Get Started)" value="expo" />
+                  <Picker.Item
+                    label="A non-responsive website"
+                    value="nonresponsive"
+                  />
+                  <Picker.Item label="NSFW" value="motherfucking" />
                 </Picker>
               </View>
             </List.Section>

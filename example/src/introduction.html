@@ -1,200 +1,258 @@
 <!DOCTYPE html>
-<head>
-  <meta charset="UTF-8">
-  <style>
-    body {
-      background-color: #2b2b2b;
-      color: #c9c9c9;
-      box-sizing: border-box;
-      font-size: 14px;
-    }
-    h2, h3 {
-      color: white;
-      font-family: serif;
-    }
-    h2 {
-      text-align: center;
-    }
-    * {
-      box-sizing: border-box;
-    }
-    li {
-      margin-bottom: 10px;
-    }
-    .container {
-      padding-bottom: 10px;
-      display: flex;
-      justify-content: center;
-    }
-    footer {
-      width: 100%;
-      background-color: #1a1a1a;
-      padding: 10px;
-      display: flex;
-      justify-content: center;
-      flex-direction: column;
-      align-items: center;
-      min-height: 80px;
-      text-align: center;
-      transition: height 20ms ease;
-    }
-    article {
-      padding: 10px;
-    }
-    strong {
-      color: white;
-      font-weight: normal;
-    }
-    button {
-      font-size: 18px;
-      margin: 6px;
-      font-family: monospace;
-    }
-    .brand {
-      padding: 10px;
-      text-align: center;
-      font-family: monospace;
-    }
-    .brand > a {
-      font-size: 10px;
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    .image-container {
-      display: flex;
-      flex-direction: columns;
-      justify-content: center;
-    }
-    .workaround {
-      position: relative;
-      padding: 10px;
-      border: 1px solid #d4aa00;
-      border-radius: 10px;
-      background-color: #303030;
-    }
-    .workaround::before {
-      content: "💡";
-      line-height: 1em;
-      left: -20px;
-      top: calc(50% - 0.5em);
-      position: absolute;
-      font-weight: bold;
-    }
-    code {
-      color: white;
-      font-size: 13px;
-    }
-    a {
-      color: #8396e9;
-    }
-    a[href ^="#"] {
-      color: white;
-      font-style: normal;
-      border: 1px solid white;
-      padding: 1px;
-      text-decoration: none;
-    }
-  </style>
-</head>
-<html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      body {
+        background-color: #2b2b2b;
+        color: #c9c9c9;
+        box-sizing: border-box;
+        font-size: 14px;
+      }
+      h2,
+      h3 {
+        color: white;
+        font-family: serif;
+      }
+      h2 {
+        text-align: center;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      li {
+        margin-bottom: 10px;
+      }
+      .container {
+        padding-bottom: 10px;
+        display: flex;
+        justify-content: center;
+      }
+      footer {
+        width: 100%;
+        background-color: #1a1a1a;
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        min-height: 80px;
+        text-align: center;
+        transition: height 20ms ease;
+      }
+      article {
+        padding: 10px;
+      }
+      strong {
+        color: white;
+        font-weight: normal;
+      }
+      button {
+        font-size: 18px;
+        margin: 6px;
+        font-family: monospace;
+      }
+      .brand {
+        padding: 10px;
+        text-align: center;
+        font-family: monospace;
+      }
+      .brand > a {
+        font-size: 10px;
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+      }
+      .image-container {
+        display: flex;
+        flex-direction: columns;
+        justify-content: center;
+      }
+      .workaround {
+        position: relative;
+        padding: 10px;
+        border: 1px solid #d4aa00;
+        border-radius: 10px;
+        background-color: #303030;
+      }
+      .workaround::before {
+        content: '💡';
+        line-height: 1em;
+        left: -20px;
+        top: calc(50% - 0.5em);
+        position: absolute;
+        font-weight: bold;
+      }
+      code {
+        color: white;
+        font-size: 13px;
+      }
+      a {
+        color: #8396e9;
+      }
+      a[href^='#'] {
+        color: white;
+        font-style: normal;
+        border: 1px solid white;
+        padding: 1px;
+        text-decoration: none;
+      }
+    </style>
+  </head>
   <body>
     <div id="container">
-    <article>
-      <div class="image-container">
-        <a href="https://github.com/formidable-webview/webshell#readme">
-          <img src="https://avatars3.githubusercontent.com/u/69217828?s=400&u=f3c683287f866a197e49df2c7308fed60df79589&v=4" width="40" height="40" />
-        </a>
-      </div>
-      <div class="brand">
-         <a href="https://github.com/formidable-webview/webshell#readme">@formidable-webview/webshell</a>
-      </div>
-      <h2>Craft a Full-Featured, Dynamic Autoheight WebView-based component with Webshell</h2>
-      This solution uses <code>useAutoheight</code> hook exported by <a href="https://github.com/formidable-webview/webshell#readme">@formidable-webview/webshell</a>.
-      <h3>Pros</h3>
-      <ul>
-        <li>
-        The <strong>width</strong> of the viewport will grow to the available horizontal space and won't need to be specified.
-        You can override this behavior by setting explicit <code>width</code> as a named argument of <code>useAutoheight</code> hook.
-        </li>
-        <li>
-        The <strong>height</strong> of the viewport, also called layout height, will dynamically adapts to the content height, which has been constrained by the layout width as we have just mentioned!
-        It means that anytime the content changes or the layout width changes, such as in screen rotations, the layout height will get updated.
-        See the <a href="#play">&darr;&nbsp;Play</a> section below.
-        </li>
-        <li>
-          This hook will rely on webshell's <code>handleHTMLDimensionsFeature</code> to use the best API available in the browser <strong>
-          and dynamically adapt layout to content size</strong>.
-          In order of preference, <a href="https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver">ResizeObserver</a>, <a href="https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver">MutationObserver</a> and finally, simple polling.
+      <article>
+        <div class="image-container">
+          <a href="https://github.com/formidable-webview/webshell#readme">
+            <img
+              src="https://avatars3.githubusercontent.com/u/69217828?s=400&u=f3c683287f866a197e49df2c7308fed60df79589&v=4"
+              width="40"
+              height="40"
+            />
+          </a>
+        </div>
+        <div class="brand">
+          <a href="https://github.com/formidable-webview/webshell#readme"
+            >@formidable-webview/webshell</a
+          >
+        </div>
+        <h2>
+          Craft a Full-Featured, Dynamic Autoheight WebView-based component with
+          Webshell
+        </h2>
+        This solution uses <code>useAutoheight</code> hook exported by
+        <a href="https://github.com/formidable-webview/webshell#readme"
+          >@formidable-webview/webshell</a
+        >.
+        <h3>Pros</h3>
+        <ul>
+          <li>
+            The <strong>width</strong> of the viewport will grow to the
+            available horizontal space and won't need to be specified. You can
+            override this behavior by setting explicit <code>width</code> as a
+            named argument of <code>useAutoheight</code> hook.
           </li>
-        <li>
-        When the content overflows the layout on the horizontal axis, you can still scroll horizontally.
-        The scroll is happening inside the <code>WebView</code>.
-        </li>
-      </ul>
-      <h3>Caveats and Workarounds</h3>
-      <ul>
-        <li>
-        Because the <strong>viewport height</strong> is now <strong>bound</strong> to the <strong>content heigh</strong>, you
-        must not have a <strong>body</strong> element height depending on viewport height, such as
-        when using <code>height: 100vh;</code> or <code>height: 100%;</code>. That is an evil cyclic dependency ready to cast an infinite loop!
-        <p class="workaround">
-          This can be enforced by setting body
-          height to <strong>auto</strong> with webshell's <code>forceElementSizeFeature</code>.
-        </p>
-        </li>
-        <li>
-        In some circumstances, the mobile browser might use a virtual viewport much larger then the available width in the WebView, often around 980px for websites
-        which have been built for desktop. For this autoheight component to be reliable, you must ensure that the content has a
-        <a href="https://www.w3schools.com/css/css_rwd_viewport.asp">meta viewport element</a> in the header.
-        <p class="workaround">
-        This can be enforced by setting responsive layout with webshell's <code>forceResponsiveViewportFeature</code>.
-        </p>
-        </li>
-        <li>
-        Scroll to hash on link press (#) will not work out of the box, because the <code>WebView</code> is not scrollable anymore.
-        <p class="workaround">
-        However, you can react to <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/hashchange_event">hash changes</a> and scroll imperatively with <code>handleHashChangeFeature</code>.
-        This is exactly how it is implemented here, <a href="#container">&uarr;&nbsp;try&nbsp;this</a>.
-        </p>
-        </li>
-      </ul>
-      <h3 id="play">Play</h3>
-      <ul>
-        <li>
-          <strong>Shrink</strong> and <strong>increase footer</strong> by pressing buttons and notice how the <code>WebView</code> height adapts dynamically.
-          <div class="container">
-            <button onclick="shrinkDiv()">-20</button>
-            <button onclick="increaseDiv()">+20</button>
-          </div>
-        </li>
-        <li>
-        <strong>Rotate</strong> the <strong>screen</strong> and observe how the <code>WebView</code> height and width will adjust.
-        </li>
-        <li>
-          Change configuration by pressing the app bar button below and observe how this <code>WebView</code> react.
-        </li>
-      </ul>
-    </article>
-    <footer id="footer">
-      <em>Change this footer height with the controls above.</em>
-      <div class="container">
-        <a style="margin-top:10px;" href="#container">&uarr;&nbsp;back&nbsp;to&nbsp;top</a>
-      </div>
-    </footer>
+          <li>
+            The <strong>height</strong> of the viewport, also called layout
+            height, will dynamically adapts to the content height, which has
+            been constrained by the layout width as we have just mentioned! It
+            means that anytime the content changes or the layout width changes,
+            such as in screen rotations, the layout height will get updated. See
+            the <a href="#play">&darr;&nbsp;Play</a> section below.
+          </li>
+          <li>
+            This hook will rely on webshell's
+            <code>handleHTMLDimensionsFeature</code> to use the best API
+            available in the browser
+            <strong> and dynamically adapt layout to content size</strong>. In
+            order of preference,
+            <a
+              href="https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver"
+              >ResizeObserver</a
+            >,
+            <a
+              href="https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver"
+              >MutationObserver</a
+            >
+            and finally, simple polling.
+          </li>
+          <li>
+            When the content overflows the layout on the horizontal axis, you
+            can still scroll horizontally. The scroll is happening inside the
+            <code>WebView</code>.
+          </li>
+        </ul>
+        <h3>Caveats and Workarounds</h3>
+        <ul>
+          <li>
+            Because the <strong>viewport height</strong> is now
+            <strong>bound</strong> to the <strong>content heigh</strong>, you
+            must not have a <strong>body</strong> element height depending on
+            viewport height, such as when using <code>height: 100vh;</code> or
+            <code>height: 100%;</code>. That is an evil cyclic dependency ready
+            to cast an infinite loop!
+            <p class="workaround">
+              This can be enforced by setting body height to
+              <strong>auto</strong> with webshell's
+              <code>forceElementSizeFeature</code>.
+            </p>
+          </li>
+          <li>
+            In some circumstances, the mobile browser might use a virtual
+            viewport much larger then the available width in the WebView, often
+            around 980px for websites which have been built for desktop. For
+            this autoheight component to be reliable, you must ensure that the
+            content has a
+            <a href="https://www.w3schools.com/css/css_rwd_viewport.asp"
+              >meta viewport element</a
+            >
+            in the header.
+            <p class="workaround">
+              This can be enforced by setting responsive layout with webshell's
+              <code>forceResponsiveViewportFeature</code>.
+            </p>
+          </li>
+          <li>
+            Scroll to hash on link press (#) will not work out of the box,
+            because the <code>WebView</code> is not scrollable anymore.
+            <p class="workaround">
+              However, you can react to
+              <a
+                href="https://developer.mozilla.org/en-US/docs/Web/API/Window/hashchange_event"
+                >hash changes</a
+              >
+              and scroll imperatively with <code>handleHashChangeFeature</code>.
+              This is exactly how it is implemented here,
+              <a href="#container">&uarr;&nbsp;try&nbsp;this</a>.
+            </p>
+          </li>
+        </ul>
+        <h3 id="play">Play</h3>
+        <ul>
+          <li>
+            <strong>Shrink</strong> and <strong>increase footer</strong> by
+            pressing buttons and notice how the <code>WebView</code> height
+            adapts dynamically.
+            <div class="container">
+              <button onclick="shrinkDiv()">-20</button>
+              <button onclick="increaseDiv()">+20</button>
+            </div>
+          </li>
+          <li>
+            <strong>Rotate</strong> the <strong>screen</strong> and observe how
+            the <code>WebView</code> height and width will adjust.
+          </li>
+          <li>
+            Change configuration by pressing the app bar button below and
+            observe how this <code>WebView</code> react.
+          </li>
+        </ul>
+      </article>
+      <footer id="footer">
+        <em>Change this footer height with the controls above.</em>
+        <div class="container">
+          <a style="margin-top: 10px" href="#container"
+            >&uarr;&nbsp;back&nbsp;to&nbsp;top</a
+          >
+        </div>
+      </footer>
 
-    <script>
-    function shrinkDiv() {
-      var div = document.getElementById('footer');
-      var currentHeight = Number(getComputedStyle(div).height.match(/[\d.]+/)[0]);
-      div.style.height = currentHeight - 20 + "px";
-    }
-    function increaseDiv() {
-      var div = document.getElementById('footer');
-      var currentHeight = Number(getComputedStyle(div).height.match(/[\d.]+/)[0]);
-      div.style.height = currentHeight + 20 + "px";
-    }
-    </script>
+      <script>
+        function shrinkDiv() {
+          var div = document.getElementById('footer');
+          var currentHeight = Number(
+            getComputedStyle(div).height.match(/[\d.]+/)[0]
+          );
+          div.style.height = currentHeight - 20 + 'px';
+        }
+        function increaseDiv() {
+          var div = document.getElementById('footer');
+          var currentHeight = Number(
+            getComputedStyle(div).height.match(/[\d.]+/)[0]
+          );
+          div.style.height = currentHeight + 20 + 'px';
+        }
+      </script>
     </div>
   </body>
 </html>
