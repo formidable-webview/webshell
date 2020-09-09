@@ -65,6 +65,9 @@ export default function App() {
     showStats,
     sourceName
   } = useControls({ scrollViewRef });
+  // We are using a memo to change dynamically the build of the Webshell
+  // component with different features and options. Normally, we would rather
+  // create this component statically.
   const Webshell = React.useMemo(
     () =>
       makeWebshell(
@@ -91,7 +94,10 @@ export default function App() {
         if (!allowWebViewNavigation) {
           WebBrowser.openBrowserAsync(target.uri);
         } else {
-          scrollViewRef.current?.scrollTo({ y: textSpacingTop });
+          scrollViewRef.current?.scrollTo({
+            y: textSpacingTop,
+            animated: true
+          });
         }
       }
     },
@@ -104,12 +110,10 @@ export default function App() {
   const onDOMHashChange = React.useCallback(
     (e: HashChangeEvent) =>
       scrollViewRef.current?.scrollTo({
-        y:
-          e.targetElementBoundingRect.top +
-          (showEvidence ? TOP_TEXT_HEIGHT : 0),
+        y: e.targetElementBoundingRect.top + textSpacingTop,
         animated: true
       }),
-    [showEvidence]
+    [textSpacingTop]
   );
   const autoheightProps = useAutoheight<WebshellProps>({
     webshellProps: {
