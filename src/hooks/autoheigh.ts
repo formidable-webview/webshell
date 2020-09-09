@@ -9,7 +9,7 @@ import type {
   handleHTMLDimensionsFeature
 } from '../features/handle-html-dimensions';
 import { useAnimation } from './animated';
-import { StyleProp, ViewStyle, Dimensions } from 'react-native';
+import { StyleProp, ViewStyle } from 'react-native';
 
 const initialDimensions = { width: undefined, height: undefined };
 
@@ -18,22 +18,28 @@ let numberOfEvents = 0;
 /**
  * A hook which resets dimensions on certain events.
  */
-function useAutoheightDimensions<W extends MinimalWebViewProps>(
-  webshellProps: W
-) {
-  const { scalesPageToFit } = webshellProps;
+function useAutoheightDimensions<
+  S extends WebshellProps<MinimalWebViewProps, any>
+>({ webshellProps, initialHeight }: AutoheightParams<S>) {
+  const { scalesPageToFit, source = {}, webshellDebug } = webshellProps;
   const [contentDimensions, setContentDimensions] = React.useState<{
     width: number | undefined;
     height: number | undefined;
   }>(initialDimensions);
-  __DEV__ &&
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    React.useEffect(() => {
+  React.useEffect(() => {
+    setContentDimensions((d) => ({ height: initialHeight, width: d.width }));
+    webshellDebug &&
+      console.info(
+        `${useAutoheight.name}: source change detected, resetting height to ${initialHeight}dp.`
+      );
+  }, [source.uri, source.html, webshellDebug, initialHeight]);
+  React.useEffect(() => {
+    webshellDebug &&
       scalesPageToFit === true &&
-        console.warn(
-          `${useAutoheight.name}: You cannot use scalesPageToFit with autoheight hook. The value will be overriden to false`
-        );
-    }, [scalesPageToFit]);
+      console.warn(
+        `${useAutoheight.name}: You cannot use scalesPageToFit with autoheight hook. The value will be overriden to false`
+      );
+  }, [scalesPageToFit, webshellDebug]);
   return { contentDimensions, setContentDimensions };
 }
 
@@ -77,6 +83,13 @@ export interface AutoheightParams<
    * If you need to set explicit width, do it here.
    */
   width?: number;
+  /**
+   * The height occupied by the `WebView` prior to knowing its content height.
+   * It will be reused each time the source changes.
+   *
+   * @defaultvalue 0
+   */
+  initialHeight?: number;
 }
 
 function useDiff(value: number) {
@@ -120,6 +133,7 @@ export function useAutoheight<
     webshellProps,
     animated,
     onContentSizeChange,
+    initialHeight = 0,
     width: userExplicitWidth
   } = params;
   const {
@@ -131,13 +145,13 @@ export function useAutoheight<
     ...passedProps
   } = webshellProps;
   const { contentDimensions, setContentDimensions } = useAutoheightDimensions(
-    webshellProps
+    params
   );
   const { height } = contentDimensions;
   const diffHeight = Math.abs(useDiff(height || 0));
   const animatedHeight = useAnimation({
     duration: Math.min(Math.max(diffHeight, 5), 500),
-    toValue: height || (Dimensions.get('window').height * 2) / 3,
+    toValue: height || initialHeight,
     type: 'timing',
     useNativeDriver: false
   });
@@ -170,11 +184,11 @@ export function useAutoheight<
       {
         width:
           typeof userExplicitWidth === 'number' ? userExplicitWidth : '100%',
-        height,
+        height: typeof height === 'number' ? height : initialHeight,
         alignSelf: 'stretch'
       }
     ],
-    [height, userExplicitWidth, style]
+    [height, userExplicitWidth, initialHeight, style]
   );
   return {
     ...passedProps,
