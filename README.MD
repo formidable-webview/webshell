@@ -86,22 +86,10 @@ export default function EnhancedWebView(webViewProps: WebViewProps) {
       console.info('Content has height of', height),
     []
   );
-  const onError = useCallback((featureIdentifier, errorMessage) => {
-    if (featureIdentifier === handleLinkPressFeature.featureIdentifier) {
-      // Handle linkPress error
-      console.error(errorMessage);
-    } else if (
-      featureIdentifier === handleHTMLDimensionsFeature.featureIdentifier
-    ) {
-      // Handle dimensions error
-      console.error(errorMessage);
-    }
-  }, []);
   return (
     <Webshell
       onDOMLinkPress={onLinkPress}
       onDOMHTMLDimensions={onBodyDimensions}
-      onDOMError={onError}
       {...webViewProps}
     />
   );
@@ -125,14 +113,14 @@ Layout Width → Content Width → Content Height → Layout height
 ```ts
 // integration/autoheight.tsx
 
-import React from 'react';
+import React, { ComponentProps } from 'react';
 import makeWebshell, {
   handleHTMLDimensionsFeature,
   forceResponsiveViewportFeature,
   forceElementSizeFeature,
   useAutoheight
 } from '@formidable-webview/webshell';
-import WebView, { WebViewProps } from 'react-native-webview';
+import WebView from 'react-native-webview';
 
 const Webshell = makeWebshell(
   WebView,
@@ -141,8 +129,10 @@ const Webshell = makeWebshell(
   forceElementSizeFeature.assemble({ target: 'body' })
 );
 
-export default function AutoheightWebView(webViewProps: WebViewProps) {
-  const autoheightProps = useAutoheight({ webshellProps: webViewProps });
+export type WebshellProps = ComponentProps<typeof Webshell>;
+
+export default function AutoheightWebView(webshellProps: WebshellProps) {
+  const autoheightProps = useAutoheight({ webshellProps });
   return <Webshell {...autoheightProps} />;
 }
 

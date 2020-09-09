@@ -17,6 +17,8 @@ export interface AutoheightParams<S extends WebshellProps<MinimalWebViewProps, [
 |  Property | Type | Description |
 |  --- | --- | --- |
 |  [animated](./webshell.autoheightparams.animated.md) | boolean | Animate height transitions. \*\*Warning\*\*: this feature is experimental. |
+|  [initialHeight](./webshell.autoheightparams.initialheight.md) | number | The height occupied by the <code>WebView</code> prior to knowing its content height. It will be reused each time the source changes. |
 |  [onContentSizeChange](./webshell.autoheightparams.oncontentsizechange.md) | (contentSize: [ContentSize](./webshell.contentsize.md)<!-- -->) =&gt; void | Triggered when content size changes. Also triggered when reset to undefined. |
 |  [webshellProps](./webshell.autoheightparams.webshellprops.md) | S | You should pass all the props directed to <code>Webshell</code> here. This is important because this hook might react to specific props and warn you of some incompatibilities. |
+|  [width](./webshell.autoheightparams.width.md) | number | By default, the width of <code>Webshell</code> will grow to the horizontal space available. This is realized with <code>width: '100%'</code> and <code>alignSelf: 'stretch'</code>. If you need to set explicit width, do it here. |
 

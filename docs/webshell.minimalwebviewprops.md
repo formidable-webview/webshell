@@ -22,6 +22,6 @@ export interface MinimalWebViewProps
 |  [onMessage](./webshell.minimalwebviewprops.onmessage.md) | unknown |  |
 |  [onNavigationStateChange](./webshell.minimalwebviewprops.onnavigationstatechange.md) | unknown |  |
 |  [scalesPageToFit](./webshell.minimalwebviewprops.scalespagetofit.md) | unknown |  |
-|  [source](./webshell.minimalwebviewprops.source.md) | unknown |  |
+|  [source](./webshell.minimalwebviewprops.source.md) | Record&lt;string, any&gt; |  |
 |  [style](./webshell.minimalwebviewprops.style.md) | unknown |  |
 

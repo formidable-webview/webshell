@@ -10,6 +10,7 @@ import {
   BOTTOM_SHEET_CONTENT_HEIGHT,
   APPBAR_HEIGHT
 } from './styles';
+import { HTMLDimensionsImplementation } from '@formidable-webview/webshell';
 
 interface Props {
   scrollViewRef: RefObject<ScrollView>;
@@ -40,6 +41,8 @@ const ControlsHeader = memo(
   }
 );
 
+export type ForceMethodOption = 'auto' | HTMLDimensionsImplementation;
+
 export function useControls({ scrollViewRef }: Props) {
   const sheetRef = React.useRef<BottomSheet>(null);
   const [paddingHz, setPaddingHz] = React.useState(0);
@@ -48,6 +51,9 @@ export function useControls({ scrollViewRef }: Props) {
   const [instance, setInstance] = React.useState(0);
   const [showStats, setShowStats] = React.useState(true);
   const [sourceName, setSourceName] = React.useState<string>('welcome');
+  const [resizeMethod, setResizeMethod] = React.useState<ForceMethodOption>(
+    'auto'
+  );
   const [allowPinchToZoom, setAllowPinchToZoom] = React.useState(false);
   const windowDimensions = useWindowDimensions();
   const [allowWebViewNavigation, setAllowWebViewNavigation] = React.useState(
@@ -122,6 +128,19 @@ export function useControls({ scrollViewRef }: Props) {
                 </Picker>
               </View>
             </List.Section>
+            <List.Section title="Resize implementation">
+              <View>
+                <Picker
+                  style={styles.pagePicker}
+                  selectedValue={resizeMethod}
+                  onValueChange={setResizeMethod as any}>
+                  <Picker.Item label="Automatic" value="auto" />
+                  <Picker.Item label="ResizeObserver" value="resize" />
+                  <Picker.Item label="MutationObserver" value="mutation" />
+                  <Picker.Item label="Polling" value="polling" />
+                </Picker>
+              </View>
+            </List.Section>
             <List.Section title="Customize">
               <View style={styles.controlContainer}>
                 <Text style={styles.controlText}>Show stats?</Text>
@@ -172,6 +191,7 @@ export function useControls({ scrollViewRef }: Props) {
       paddingHz,
       allowWebViewNavigation,
       allowPinchToZoom,
+      resizeMethod,
       toggleTextAbove,
       toggleAnimated,
       toggleShowStats,
@@ -222,7 +242,8 @@ export function useControls({ scrollViewRef }: Props) {
     animated,
     instance,
     showStats,
-    sourceName
+    sourceName,
+    resizeMethod
   };
 }
 

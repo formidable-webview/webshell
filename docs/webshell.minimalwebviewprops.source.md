@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-readonly source?: unknown;
+readonly source?: Record<string, any>;
 ```

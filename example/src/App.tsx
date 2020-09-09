@@ -63,7 +63,8 @@ export default function App() {
     instance,
     paddingHz,
     showStats,
-    sourceName
+    sourceName,
+    resizeMethod
   } = useControls({ scrollViewRef });
   // We are using a memo to change dynamically the build of the Webshell
   // component with different features and options. Normally, we would rather
@@ -75,14 +76,16 @@ export default function App() {
         handleLinkPressFeature.assemble({
           preventDefault: !allowWebViewNavigation
         }),
-        handleHTMLDimensionsFeature.assemble({ forceImplementation: false }),
+        handleHTMLDimensionsFeature.assemble({
+          forceImplementation: resizeMethod === 'auto' ? false : resizeMethod
+        }),
         handleHashChangeFeature.assemble({ shouldResetHashOnEvent: true }),
         forceResponsiveViewportFeature.assemble({
           maxScale: allowPinchToZoom ? 1.5 : 1
         }),
         forceElementSizeFeature.assemble({ target: 'body' })
       ),
-    [allowWebViewNavigation, allowPinchToZoom]
+    [allowWebViewNavigation, allowPinchToZoom, resizeMethod]
   );
   type WebshellProps = React.ComponentProps<typeof Webshell>;
   const source = sourceMap[sourceName];
@@ -115,7 +118,9 @@ export default function App() {
       }),
     [textSpacingTop]
   );
-  const autoheightProps = useAutoheight<WebshellProps>({
+  const { autoheightWebshellProps, resizeImplementation } = useAutoheight<
+    WebshellProps
+  >({
     webshellProps: {
       source,
       style: styles.autoheight,
@@ -159,7 +164,7 @@ export default function App() {
               onDOMLinkPress={onDOMLinkPress}
               onDOMHashChange={onDOMHashChange}
               onLayout={onLayout}
-              {...autoheightProps}
+              {...autoheightWebshellProps}
             />
           </View>
           {showEvidence ? <Evidence webshellPosition="above" /> : null}
@@ -169,6 +174,7 @@ export default function App() {
           contentSize={contentSize}
           layout={layout}
           source={source}
+          resizeImplementation={resizeImplementation}
         />
       </View>
       {bottomSheet}

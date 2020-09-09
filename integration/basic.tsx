@@ -23,22 +23,10 @@ export default function EnhancedWebView(webViewProps: WebViewProps) {
       console.info('Content has height of', height),
     []
   );
-  const onError = useCallback((featureIdentifier, errorMessage) => {
-    if (featureIdentifier === handleLinkPressFeature.featureIdentifier) {
-      // Handle linkPress error
-      console.error(errorMessage);
-    } else if (
-      featureIdentifier === handleHTMLDimensionsFeature.featureIdentifier
-    ) {
-      // Handle dimensions error
-      console.error(errorMessage);
-    }
-  }, []);
   return (
     <Webshell
       onDOMLinkPress={onLinkPress}
       onDOMHTMLDimensions={onBodyDimensions}
-      onDOMError={onError}
       {...webViewProps}
     />
   );

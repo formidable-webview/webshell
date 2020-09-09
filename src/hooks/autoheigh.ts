@@ -6,7 +6,8 @@ import {
 } from '../types';
 import type {
   HTMLDimensions,
-  handleHTMLDimensionsFeature
+  handleHTMLDimensionsFeature,
+  HTMLDimensionsImplementation
 } from '../features/handle-html-dimensions';
 import { useAnimation } from './animated';
 import { StyleProp, ViewStyle } from 'react-native';
@@ -147,6 +148,10 @@ export function useAutoheight<
   const { contentDimensions, setContentDimensions } = useAutoheightDimensions(
     params
   );
+  const [
+    implementation,
+    setImplementation
+  ] = React.useState<HTMLDimensionsImplementation | null>(null);
   const { height } = contentDimensions;
   const diffHeight = Math.abs(useDiff(height || 0));
   const animatedHeight = useAnimation({
@@ -169,6 +174,7 @@ export function useAutoheight<
           })`
         );
       setContentDimensions(nextDimensions);
+      setImplementation(htmlDimensions.implementation);
       typeof onDOMHTMLDimensions === 'function' &&
         onDOMHTMLDimensions(htmlDimensions);
     },
@@ -191,13 +197,16 @@ export function useAutoheight<
     [height, userExplicitWidth, initialHeight, style]
   );
   return {
-    ...passedProps,
-    webshellDebug,
-    onDOMHTMLDimensions: handleDOMHTMLDimensions,
-    style: autoHeightStyle,
-    scalesPageToFit: false,
-    showsVerticalScrollIndicator: false,
-    disableScrollViewPanResponder: true,
-    webshellAnimatedHeight: animated ? (animatedHeight as any) : undefined
+    autoheightWebshellProps: {
+      ...passedProps,
+      webshellDebug,
+      onDOMHTMLDimensions: handleDOMHTMLDimensions,
+      style: autoHeightStyle,
+      scalesPageToFit: false,
+      showsVerticalScrollIndicator: false,
+      disableScrollViewPanResponder: true,
+      webshellAnimatedHeight: animated ? (animatedHeight as any) : undefined
+    },
+    resizeImplementation: implementation
   };
 }
