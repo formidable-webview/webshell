@@ -118,7 +118,7 @@ export function useControls({ scrollViewRef }: Props) {
                     label="A non-responsive website"
                     value="nonresponsive"
                   />
-                  <Picker.Item label="NSFW" value="motherfucking" />
+                  <Picker.Item label="NSFW" value="nsfw" />
                 </Picker>
               </View>
             </List.Section>
@@ -130,9 +130,7 @@ export function useControls({ scrollViewRef }: Props) {
                 <Switch value={!!paddingHz} onValueChange={togglePadding} />
               </View>
               <View style={styles.controlContainer}>
-                <Text style={styles.controlText}>
-                  Add React Native elements around WebView?
-                </Text>
+                <Text style={styles.controlText}>Show evidence?</Text>
                 <Switch value={showEvidence} onValueChange={toggleTextAbove} />
               </View>
               <View style={styles.controlContainer}>
@@ -154,7 +152,7 @@ export function useControls({ scrollViewRef }: Props) {
               </View>
               <View style={styles.controlContainer}>
                 <Text style={styles.controlText}>
-                  Open links with system web browser?
+                  Open links in system browser?
                 </Text>
                 <Switch
                   value={!allowWebViewNavigation}

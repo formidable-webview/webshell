@@ -40,7 +40,7 @@ const sourceMap: Record<string, WebViewSource> = {
   nonresponsive: {
     uri: 'https://dequeuniversity.com/library/responsive/1-non-responsive#'
   },
-  motherfucking: {
+  nsfw: {
     uri: 'https://motherfuckingwebsite.com/'
   }
 };
