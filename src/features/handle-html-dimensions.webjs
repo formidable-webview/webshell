@@ -21,41 +21,28 @@ function handleHTMLDimensionsFeature(context) {
       d1.content.height === d2.content.height
     );
   }
-  function getBodyMargins() {
-    var bodyStyle = getComputedStyle(document.body);
-    return {
-      marginBottom: extractNumericValue(bodyStyle.marginBottom),
-      marginTop: extractNumericValue(bodyStyle.marginTop),
-      marginLeft: extractNumericValue(bodyStyle.marginLeft),
-      marginRight: extractNumericValue(bodyStyle.marginRight)
-    };
-  }
-  function postDimensionsObject(content, implementation) {
-    var layoutViewport = {
-      width: document.documentElement.clientWidth,
-      height: document.documentElement.clientHeight
-    };
-    var dimensions = {
-      implementation: implementation,
-      layoutViewport: layoutViewport,
-      content: content
-    };
-    if (!dimensionsAreEqual(oldDimensions, dimensions)) {
-      postMessage(dimensions);
-      oldDimensions = dimensions;
-    }
-  }
   function createPostDimensions(implementation) {
     return context.makeCallbackSafe(function postSize() {
-      var spacing = getBodyMargins();
+      var bodyStyle = getComputedStyle(document.body);
       var bodySize = document.body.getBoundingClientRect();
-      postDimensionsObject(
-        {
-          width: bodySize.width + spacing.marginLeft + spacing.marginRight,
-          height: bodySize.height + spacing.marginTop + spacing.marginBottom
-        },
-        implementation
-      );
+      var marginRight = extractNumericValue(bodyStyle.marginRight);
+      var marginBottom = extractNumericValue(bodyStyle.marginBottom);
+      var layoutViewport = {
+        width: document.documentElement.clientWidth,
+        height: document.documentElement.clientHeight
+      };
+      var dimensions = {
+        implementation: implementation,
+        layoutViewport: layoutViewport,
+        content: {
+          width: bodySize.right + marginRight,
+          height: bodySize.bottom + marginBottom
+        }
+      };
+      if (!dimensionsAreEqual(oldDimensions, dimensions)) {
+        postMessage(dimensions);
+        oldDimensions = dimensions;
+      }
     });
   }
   if (
