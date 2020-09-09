@@ -124,26 +124,26 @@ export function useControls({ scrollViewRef }: Props) {
             </List.Section>
             <List.Section title="Customize">
               <View style={styles.controlContainer}>
-                <Text style={styles.controlText}>
-                  Add space left and right of WebView?
-                </Text>
-                <Switch value={!!paddingHz} onValueChange={togglePadding} />
+                <Text style={styles.controlText}>Show stats?</Text>
+                <Switch value={showStats} onValueChange={toggleShowStats} />
               </View>
               <View style={styles.controlContainer}>
                 <Text style={styles.controlText}>Show evidence?</Text>
                 <Switch value={showEvidence} onValueChange={toggleTextAbove} />
               </View>
               <View style={styles.controlContainer}>
+                <Text style={styles.controlText}>
+                  Add horizontal space around WebView?
+                </Text>
+                <Switch value={!!paddingHz} onValueChange={togglePadding} />
+              </View>
+              <View style={styles.controlContainer}>
                 <Text style={styles.controlText}>Use height animations?</Text>
                 <Switch value={animated} onValueChange={toggleAnimated} />
               </View>
               <View style={styles.controlContainer}>
-                <Text style={styles.controlText}>Show stats?</Text>
-                <Switch value={showStats} onValueChange={toggleShowStats} />
-              </View>
-              <View style={styles.controlContainer}>
                 <Text style={styles.controlText}>
-                  Allow pinch-to-zoom (x1.5)?
+                  Enable pinch-to-zoom (x1.5)?
                 </Text>
                 <Switch
                   value={allowPinchToZoom}
