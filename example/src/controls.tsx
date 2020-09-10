@@ -1,7 +1,14 @@
 import { default as React, RefObject, useCallback, memo } from 'react';
 import { StyleSheet, ScrollView, View } from 'react-native';
 import { useWindowDimensions } from 'react-native';
-import { Switch, Text, Surface, List, Appbar } from 'react-native-paper';
+import {
+  Switch,
+  Text,
+  Surface,
+  List,
+  Appbar,
+  useTheme
+} from 'react-native-paper';
 import { Picker } from '@react-native-community/picker';
 import BottomSheet from 'reanimated-bottom-sheet';
 import Constants from 'expo-constants';
@@ -45,6 +52,7 @@ export type ForceMethodOption = 'auto' | HTMLDimensionsImplementation;
 
 export function useControls({ scrollViewRef }: Props) {
   const sheetRef = React.useRef<BottomSheet>(null);
+  const theme = useTheme();
   const [paddingHz, setPaddingHz] = React.useState(0);
   const [showEvidence, setShowEvidence] = React.useState(false);
   const [animated, setAnimated] = React.useState(false);
@@ -97,6 +105,7 @@ export function useControls({ scrollViewRef }: Props) {
     BOTTOM_SHEET_CONTENT_HEIGHT + BOTTOM_SHEET_COLLAPSED_OFFSET,
     windowDimensions.height - Constants.statusBarHeight
   );
+  const pickerStyle = [styles.pagePicker, { color: theme.colors.accent }];
   const renderControls = React.useCallback(
     () => (
       <Surface style={{ height: BOTTOM_SHEET_CONTENT_HEIGHT }}>
@@ -105,7 +114,7 @@ export function useControls({ scrollViewRef }: Props) {
             <List.Section title="Page">
               <View>
                 <Picker
-                  style={styles.pagePicker}
+                  style={pickerStyle}
                   selectedValue={sourceName}
                   onValueChange={setSourceName as any}>
                   <Picker.Item label="Introduction" value="welcome" />
@@ -131,7 +140,7 @@ export function useControls({ scrollViewRef }: Props) {
             <List.Section title="Resize implementation">
               <View>
                 <Picker
-                  style={styles.pagePicker}
+                  style={pickerStyle}
                   selectedValue={resizeMethod}
                   onValueChange={setResizeMethod as any}>
                   <Picker.Item label="Automatic" value="auto" />
@@ -249,7 +258,7 @@ export function useControls({ scrollViewRef }: Props) {
 
 const styles = StyleSheet.create({
   pagePicker: {
-    borderRadius: 20
+    backgroundColor: 'rgba(0,0,0,0.035)'
   },
   bottomSheet: {
     alignItems: 'center',

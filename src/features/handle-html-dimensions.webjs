@@ -4,6 +4,7 @@ function handleHTMLDimensionsFeature(context) {
   var forceImplementation = options.forceImplementation || false;
   var pollingInterval =
     typeof options.pollingInterval === 'number' ? options.pollingInterval : 200;
+  var deltaMin = options.deltaMin || 0;
   var oldDimensions = {
     layoutViewport: { width: 0, height: 0 },
     content: { width: 0, height: 0 }
@@ -15,10 +16,12 @@ function handleHTMLDimensionsFeature(context) {
   }
   function dimensionsAreEqual(d1, d2) {
     return (
-      d1.layoutViewport.width === d2.layoutViewport.width &&
-      d1.layoutViewport.height === d2.layoutViewport.height &&
-      d1.content.width === d2.content.width &&
-      d1.content.height === d2.content.height
+      Math.abs(d1.layoutViewport.width - d2.layoutViewport.width) < deltaMin &&
+      Math.abs(d1.layoutViewport.height - d2.layoutViewport.height) <
+        deltaMin &&
+      Math.abs(d1.content.width - d2.content.width) < deltaMin &&
+      Math.abs(d1.content.height - d2.content.height) < deltaMin &&
+      d1.implementation === d2.implementation
     );
   }
   function createPostDimensions(implementation) {

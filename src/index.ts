@@ -18,6 +18,7 @@ export type {
   WebshellInvariantProps,
   WebshellProps
 } from './types';
+export * from './features/types';
 export * from './make-feature';
 export * from './features';
 export * from './hooks/autoheigh';

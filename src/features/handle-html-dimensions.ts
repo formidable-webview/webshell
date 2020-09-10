@@ -1,7 +1,7 @@
 import script from './handle-html-dimensions.webjs';
 import { makeFeature } from '../make-feature';
 import type { EventFeatureOf } from '../types';
-import { Dimensions } from './types';
+import { RectSize } from './types';
 
 /**
  * The script will check for different APIs in order to
@@ -38,6 +38,14 @@ export interface HandleHTMLDimensionsOptions {
    * @defaultValue 200
    */
   pollingInterval?: number;
+  /**
+   * The minimum difference between two updates' dimensions to trigger a change
+   * event.
+   *
+   *
+   * @defaultValue 0
+   */
+  deltaMin?: number;
 }
 
 /**
@@ -53,12 +61,12 @@ export interface HTMLDimensions {
   /**
    * The layout viewport dimensions, e.g. the size of the WebView in device pixels.
    */
-  layoutViewport: Dimensions;
+  layoutViewport: RectSize;
 
   /**
    * The content dimensions, e.g. the size of the body element in CSS pixels.
    */
-  content: Dimensions;
+  content: RectSize;
 
   /**
    * Which implementation has been used to generate this event?

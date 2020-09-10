@@ -10,8 +10,7 @@ import makeWebshell, {
   handleLinkPressFeature,
   useAutoheight,
   LinkPressTarget,
-  HashChangeEvent,
-  ContentSize
+  HashChangeEvent
 } from '@formidable-webview/webshell';
 import WebView from 'react-native-webview';
 import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
@@ -48,10 +47,6 @@ const sourceMap: Record<string, WebViewSource> = {
 const theme: Theme = DefaultTheme;
 
 export default function App() {
-  const [contentSize, setContentSize] = React.useState<ContentSize>({
-    height: undefined,
-    width: undefined
-  });
   const [layout, setLayout] = React.useState<LayoutRectangle | null>(null);
   const scrollViewRef = React.useRef<ScrollView>(null);
   const {
@@ -77,7 +72,8 @@ export default function App() {
           preventDefault: !allowWebViewNavigation
         }),
         handleHTMLDimensionsFeature.assemble({
-          forceImplementation: resizeMethod === 'auto' ? false : resizeMethod
+          forceImplementation: resizeMethod === 'auto' ? false : resizeMethod,
+          deltaMin: 0
         }),
         handleHashChangeFeature.assemble({ shouldResetHashOnEvent: true }),
         forceResponsiveViewportFeature.assemble({
@@ -118,16 +114,18 @@ export default function App() {
       }),
     [textSpacingTop]
   );
-  const { autoheightWebshellProps, resizeImplementation } = useAutoheight<
-    WebshellProps
-  >({
+  const {
+    autoheightWebshellProps,
+    resizeImplementation,
+    contentSize,
+    computingState
+  } = useAutoheight<WebshellProps>({
     webshellProps: {
       source,
       style: styles.autoheight,
       webshellDebug: true
     },
     initialHeight: 200,
-    onContentSizeChange: setContentSize,
     animated
   });
   const webshellContainerStyle = {
@@ -135,7 +133,7 @@ export default function App() {
     alignSelf: 'stretch' as 'stretch'
   };
   React.useEffect(() => {
-    setContentSize({ width: undefined, height: undefined });
+    // setContentSize({ width: undefined, height: undefined });
     setLayout(null);
   }, [instance]);
   React.useEffect(() => {
@@ -147,7 +145,7 @@ export default function App() {
         <ScrollView
           key={instance}
           ref={scrollViewRef}
-          pinchGestureEnabled={false} //
+          pinchGestureEnabled={false}
           disableScrollViewPanResponder
           pointerEvents="box-none"
           horizontal={false}
@@ -175,6 +173,7 @@ export default function App() {
           layout={layout}
           source={source}
           resizeImplementation={resizeImplementation}
+          computingState={computingState}
         />
       </View>
       {bottomSheet}

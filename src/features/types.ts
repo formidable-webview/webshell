@@ -1,7 +1,7 @@
 /**
  * @public
  */
-export interface Dimensions {
+export interface RectSize {
   width: number;
   height: number;
 }

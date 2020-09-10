@@ -3,18 +3,19 @@ import { LayoutRectangle, StyleSheet, Platform, Text } from 'react-native';
 import { STAT_HEIGHT } from './styles';
 import { WebViewSource } from 'react-native-webview/lib/WebViewTypes';
 import {
-  ContentSize,
-  HTMLDimensionsImplementation
+  HTMLDimensionsImplementation,
+  RectSize
 } from '@formidable-webview/webshell';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Surface, useTheme } from 'react-native-paper';
 
 interface Props {
   source: WebViewSource;
-  contentSize: ContentSize;
+  contentSize: Partial<RectSize>;
   layout: LayoutRectangle | null;
   display: boolean;
   resizeImplementation: null | HTMLDimensionsImplementation;
+  computingState: string;
 }
 
 function getResizeName(
@@ -26,11 +27,18 @@ function getResizeName(
     ? 'Polling (200ms)'
     : resizeImplementation === 'resize'
     ? 'ResizeObserver'
-    : 'NA';
+    : 'undetermined';
 }
 
 export const Stats = memo(
-  ({ display, source, contentSize, layout, resizeImplementation }: Props) => {
+  ({
+    display,
+    source,
+    contentSize,
+    layout,
+    resizeImplementation,
+    computingState
+  }: Props) => {
     const { colors } = useTheme();
     const textStyle = [styles.text, { color: 'white' }];
     return display ? (
@@ -60,6 +68,8 @@ export const Stats = memo(
             <Text style={styles.entryName}>impl.</Text>
             {'    '}
             {getResizeName(resizeImplementation)}
+            {'\n'}
+            <Text style={styles.entryName}>state</Text> {computingState}
           </Text>
         </ScrollView>
       </Surface>

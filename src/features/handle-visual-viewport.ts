@@ -1,7 +1,7 @@
 import script from './handle-visual-viewport.webjs';
 import { makeFeature } from '../make-feature';
 import type { EventFeatureOf } from '../types';
-import { Dimensions } from './types';
+import { RectSize } from './types';
 
 /**
  * An object describing the visual viewport of the `WebView`.
@@ -20,7 +20,7 @@ export interface VisualViewportDimensions {
   /**
    * window.visualViewport.width and window.visualViewport.height
    */
-  visualViewport: Dimensions;
+  visualViewport: RectSize;
   /**
    * `false` when these values are coming from the VisualViewport API and
    * `true` when they are "best guess". In legacy mode, be warned that you will
