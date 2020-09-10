@@ -53,14 +53,29 @@ export default function App() {
     allowWebViewNavigation,
     allowPinchToZoom,
     animated,
-    bottomSheet,
+    renderSheet,
     showEvidence,
+    showConsole,
     instance,
     paddingHz,
-    showStats,
     sourceName,
     resizeMethod
   } = useControls({ scrollViewRef });
+  const source = sourceMap[sourceName];
+  const {
+    autoheightWebshellProps,
+    resizeImplementation,
+    contentSize,
+    computingState
+  } = useAutoheight<WebshellProps>({
+    webshellProps: {
+      source,
+      style: styles.autoheight,
+      webshellDebug: true
+    },
+    initialHeight: 200,
+    animated
+  });
   // We are using a memo to change dynamically the build of the Webshell
   // component with different features and options. Normally, we would rather
   // create this component statically.
@@ -84,8 +99,6 @@ export default function App() {
     [allowWebViewNavigation, allowPinchToZoom, resizeMethod]
   );
   type WebshellProps = React.ComponentProps<typeof Webshell>;
-  const source = sourceMap[sourceName];
-  const statsSpacingTop = showStats ? STAT_HEIGHT : 0;
   const textSpacingTop = showEvidence ? TOP_TEXT_HEIGHT : 0;
   const onDOMLinkPress = React.useCallback(
     (target: LinkPressTarget) => {
@@ -114,31 +127,20 @@ export default function App() {
       }),
     [textSpacingTop]
   );
-  const {
-    autoheightWebshellProps,
-    resizeImplementation,
-    contentSize,
-    computingState
-  } = useAutoheight<WebshellProps>({
-    webshellProps: {
-      source,
-      style: styles.autoheight,
-      webshellDebug: true
-    },
-    initialHeight: 200,
-    animated
-  });
   const webshellContainerStyle = {
     paddingHorizontal: paddingHz,
     alignSelf: 'stretch' as 'stretch'
   };
   React.useEffect(() => {
-    // setContentSize({ width: undefined, height: undefined });
     setLayout(null);
   }, [instance]);
   React.useEffect(() => {
     scrollViewRef.current?.scrollTo({ y: textSpacingTop, animated: true });
   }, [source, textSpacingTop]);
+  const dynamicContainerStyle = {
+    paddingBottom: BOTTOM_SHEET_COLLAPSED_OFFSET,
+    paddingTop: showConsole ? STAT_HEIGHT : 0
+  };
   return (
     <PaperProvider theme={theme}>
       <View style={styles.root}>
@@ -149,13 +151,7 @@ export default function App() {
           disableScrollViewPanResponder
           pointerEvents="box-none"
           horizontal={false}
-          contentContainerStyle={[
-            styles.container,
-            {
-              paddingBottom: BOTTOM_SHEET_COLLAPSED_OFFSET,
-              paddingTop: statsSpacingTop
-            }
-          ]}>
+          contentContainerStyle={[styles.container, dynamicContainerStyle]}>
           {showEvidence ? <Evidence webshellPosition="below" /> : null}
           <View style={webshellContainerStyle}>
             <Webshell
@@ -167,16 +163,16 @@ export default function App() {
           </View>
           {showEvidence ? <Evidence webshellPosition="above" /> : null}
         </ScrollView>
-        <Stats
-          display={showStats}
-          contentSize={contentSize}
-          layout={layout}
-          source={source}
-          resizeImplementation={resizeImplementation}
-          computingState={computingState}
-        />
       </View>
-      {bottomSheet}
+      {renderSheet()}
+      <Stats
+        display={showConsole}
+        contentSize={contentSize}
+        layout={layout}
+        source={source}
+        resizeImplementation={resizeImplementation}
+        computingState={computingState}
+      />
     </PaperProvider>
   );
 }

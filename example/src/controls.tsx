@@ -1,4 +1,4 @@
-import { default as React, RefObject, useCallback, memo } from 'react';
+import { default as React, RefObject, useCallback, memo, useMemo } from 'react';
 import { StyleSheet, ScrollView, View } from 'react-native';
 import { useWindowDimensions } from 'react-native';
 import {
@@ -29,15 +29,25 @@ const ControlsHeader = memo(
     scrollToStart,
     scrollToEnd,
     isSheetOpen,
-    toggleSettings
+    showConsole,
+    toggleSettings,
+    toggleConsole
   }: any) => {
+    const {
+      colors: { accent }
+    } = useTheme();
     return (
       <Appbar style={styles.bottomSheetHeader}>
         <Appbar.Action size={20} icon="refresh" onPress={forceRerender} />
-        <Appbar.Content title="" />
         <Appbar.Action size={20} icon="chevron-up" onPress={scrollToStart} />
         <Appbar.Action size={20} icon="chevron-down" onPress={scrollToEnd} />
         <Appbar.Content title="" />
+        <Appbar.Action
+          color={showConsole ? accent : undefined}
+          size={20}
+          icon="console-line"
+          onPress={toggleConsole}
+        />
         <Appbar.Action
           size={20}
           icon={isSheetOpen ? 'arrow-expand-down' : 'settings'}
@@ -55,9 +65,9 @@ export function useControls({ scrollViewRef }: Props) {
   const theme = useTheme();
   const [paddingHz, setPaddingHz] = React.useState(0);
   const [showEvidence, setShowEvidence] = React.useState(false);
+  const [showConsole, setShowConsole] = React.useState(false);
   const [animated, setAnimated] = React.useState(false);
   const [instance, setInstance] = React.useState(0);
-  const [showStats, setShowStats] = React.useState(true);
   const [sourceName, setSourceName] = React.useState<string>('welcome');
   const [resizeMethod, setResizeMethod] = React.useState<ForceMethodOption>(
     'auto'
@@ -77,7 +87,6 @@ export function useControls({ scrollViewRef }: Props) {
     []
   );
   const toggleAnimated = React.useCallback(() => setAnimated((a) => !a), []);
-  const toggleShowStats = React.useCallback(() => setShowStats((s) => !s), []);
   const toggleAllowPinchToZoom = React.useCallback(
     () => setAllowPinchToZoom((p) => !p),
     []
@@ -101,13 +110,17 @@ export function useControls({ scrollViewRef }: Props) {
     () => sheetRef.current?.snapTo(isSheetOpen ? 0 : 1),
     [isSheetOpen]
   );
+  const toggleConsole = React.useCallback(() => setShowConsole((s) => !s), []);
   const snapPointExpended = Math.min(
     BOTTOM_SHEET_CONTENT_HEIGHT + BOTTOM_SHEET_COLLAPSED_OFFSET,
     windowDimensions.height - Constants.statusBarHeight
   );
-  const pickerStyle = [styles.pagePicker, { color: theme.colors.accent }];
-  const renderControls = React.useCallback(
-    () => (
+  const pickerStyle = useMemo(
+    () => [styles.pagePicker, { color: theme.colors.accent }],
+    [theme.colors.accent]
+  );
+  const makeRenderControls = React.useCallback(
+    () => () => (
       <Surface style={{ height: BOTTOM_SHEET_CONTENT_HEIGHT }}>
         <View style={styles.bottomSheet}>
           <View style={styles.controlsContainer}>
@@ -152,10 +165,6 @@ export function useControls({ scrollViewRef }: Props) {
             </List.Section>
             <List.Section title="Customize">
               <View style={styles.controlContainer}>
-                <Text style={styles.controlText}>Show stats?</Text>
-                <Switch value={showStats} onValueChange={toggleShowStats} />
-              </View>
-              <View style={styles.controlContainer}>
                 <Text style={styles.controlText}>Show evidence?</Text>
                 <Switch value={showEvidence} onValueChange={toggleTextAbove} />
               </View>
@@ -194,7 +203,6 @@ export function useControls({ scrollViewRef }: Props) {
     ),
     [
       sourceName,
-      showStats,
       animated,
       showEvidence,
       paddingHz,
@@ -203,10 +211,10 @@ export function useControls({ scrollViewRef }: Props) {
       resizeMethod,
       toggleTextAbove,
       toggleAnimated,
-      toggleShowStats,
       togglePadding,
       toggleAllowWebViewNavigation,
-      toggleAllowPinchToZoom
+      toggleAllowPinchToZoom,
+      pickerStyle
     ]
   );
   const renderHeader = useCallback(() => {
@@ -217,10 +225,20 @@ export function useControls({ scrollViewRef }: Props) {
         scrollToStart={scrollToStart}
         toggleSettings={toggleSettings}
         isSheetOpen={isSheetOpen}
+        showConsole={showConsole}
+        toggleConsole={toggleConsole}
       />
     );
-  }, [isSheetOpen, scrollToStart, scrollToEnd, toggleSettings, forceRerender]);
-  const bottomSheet = (
+  }, [
+    isSheetOpen,
+    showConsole,
+    scrollToStart,
+    scrollToEnd,
+    toggleSettings,
+    forceRerender,
+    toggleConsole
+  ]);
+  const renderSheet = () => (
     <BottomSheet
       enabledInnerScrolling={true}
       enabledContentTapInteraction={false}
@@ -231,7 +249,7 @@ export function useControls({ scrollViewRef }: Props) {
         snapPointExpended,
         BOTTOM_SHEET_COLLAPSED_OFFSET
       ]}
-      renderContent={renderControls}
+      renderContent={makeRenderControls()}
       renderHeader={renderHeader}
       onOpenStart={setSheetOpenTrue}
       onOpenEnd={setSheetOpenTrue}
@@ -243,14 +261,14 @@ export function useControls({ scrollViewRef }: Props) {
     sheetRef.current?.snapTo(0);
   }, [windowDimensions.height]);
   return {
-    bottomSheet,
+    renderSheet,
     allowPinchToZoom,
     allowWebViewNavigation,
     paddingHz,
     showEvidence,
+    showConsole,
     animated,
     instance,
-    showStats,
     sourceName,
     resizeMethod
   };

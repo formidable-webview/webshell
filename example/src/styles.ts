@@ -1,5 +1,5 @@
 export const BOTTOM_SHEET_CONTENT_HEIGHT = 530;
-export const STAT_HEIGHT = 80;
+export const STAT_HEIGHT = 90;
 export const TOP_TEXT_HEIGHT = 180;
 export const APPBAR_HEIGHT = 45;
 export const BOTTOM_SHEET_COLLAPSED_OFFSET = APPBAR_HEIGHT;

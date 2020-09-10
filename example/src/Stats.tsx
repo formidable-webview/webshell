@@ -7,13 +7,13 @@ import {
   RectSize
 } from '@formidable-webview/webshell';
 import { ScrollView } from 'react-native-gesture-handler';
-import { Surface, useTheme } from 'react-native-paper';
+import { Surface, useTheme, Colors } from 'react-native-paper';
 
-interface Props {
+export interface StatsProps {
   source: WebViewSource;
   contentSize: Partial<RectSize>;
   layout: LayoutRectangle | null;
-  display: boolean;
+  display?: boolean;
   resizeImplementation: null | HTMLDimensionsImplementation;
   computingState: string;
 }
@@ -32,17 +32,17 @@ function getResizeName(
 
 export const Stats = memo(
   ({
-    display,
+    display = true,
     source,
     contentSize,
     layout,
     resizeImplementation,
     computingState
-  }: Props) => {
+  }: StatsProps) => {
     const { colors } = useTheme();
-    const textStyle = [styles.text, { color: 'white' }];
+    const textStyle = [styles.text, { color: colors.accent }];
     return display ? (
-      <Surface style={[styles.stats, { backgroundColor: colors.primary }]}>
+      <Surface style={styles.stats}>
         <ScrollView horizontal>
           <Text selectable style={textStyle}>
             <Text style={styles.entryName}>
@@ -69,28 +69,34 @@ export const Stats = memo(
             {'    '}
             {getResizeName(resizeImplementation)}
             {'\n'}
-            <Text style={styles.entryName}>state</Text> {computingState}
+            <Text style={styles.entryName}>state</Text>
+            {'    '}
+            {computingState}
           </Text>
         </ScrollView>
       </Surface>
     ) : null;
   }
 );
+import Constants from 'expo-constants';
 
 const styles = StyleSheet.create({
   stats: {
     position: 'absolute',
-    top: 0,
+    top: Constants.statusBarHeight,
     left: 0,
     right: 0,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    padding: 3,
+    padding: 8,
     height: STAT_HEIGHT,
-    elevation: 0
+    elevation: 0,
+    backgroundColor: '#2b2a2a',
+    opacity: 0.9
   },
   text: {
     fontFamily: Platform.select({ default: 'monospace', ios: 'Menlo' }),
-    fontSize: 12
+    fontSize: 12,
+    color: Colors.green300
   },
   entryName: {
     fontWeight: 'bold'
