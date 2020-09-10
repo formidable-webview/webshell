@@ -1,5 +1,6 @@
 import { default as React, memo } from 'react';
 import { LayoutRectangle, StyleSheet, Platform, Text } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 import { STAT_HEIGHT } from './styles';
 import { WebViewSource } from 'react-native-webview/lib/WebViewTypes';
 import {
@@ -17,6 +18,8 @@ export interface StatsProps {
   resizeImplementation: null | HTMLDimensionsImplementation;
   computingState: string;
 }
+
+const BACKGROUND = '#2b2a2a';
 
 function getResizeName(
   resizeImplementation: null | HTMLDimensionsImplementation
@@ -41,41 +44,46 @@ export const Stats = memo(
   }: StatsProps) => {
     const { colors } = useTheme();
     const textStyle = [styles.text, { color: colors.accent }];
-    return display ? (
-      <Surface style={styles.stats}>
-        <ScrollView horizontal>
-          <Text selectable style={textStyle}>
-            <Text style={styles.entryName}>
-              {source['uri'] || 'about:blank'}
-            </Text>
-            {'\n'}
-            <Text style={styles.entryName}>content</Text>
-            {'  '}W:{' '}
-            {contentSize.width === undefined
-              ? 'unset'
-              : Math.round(contentSize.width)}
-            {', '}
-            H:{' '}
-            {contentSize.height === undefined
-              ? 'unset'
-              : Math.round(contentSize.height)}
-            {'\n'}
-            <Text style={styles.entryName}>viewport</Text> W:{' '}
-            {layout == null ? 'unset' : Math.round(layout.width)}
-            {', '}
-            H: {layout == null ? 'unset' : Math.round(layout.height)}
-            {'\n'}
-            <Text style={styles.entryName}>impl.</Text>
-            {'    '}
-            {getResizeName(resizeImplementation)}
-            {'\n'}
-            <Text style={styles.entryName}>state</Text>
-            {'    '}
-            {computingState}
-          </Text>
-        </ScrollView>
-      </Surface>
-    ) : null;
+    return (
+      <>
+        {display ? (
+          <Surface style={styles.stats}>
+            <ScrollView horizontal>
+              <Text selectable style={textStyle}>
+                <Text style={styles.entryName}>
+                  {source['uri'] || 'about:blank'}
+                </Text>
+                {'\n'}
+                <Text style={styles.entryName}>content</Text>
+                {'  '}W:{' '}
+                {contentSize.width === undefined
+                  ? 'unset'
+                  : Math.round(contentSize.width)}
+                {', '}
+                H:{' '}
+                {contentSize.height === undefined
+                  ? 'unset'
+                  : Math.round(contentSize.height)}
+                {'\n'}
+                <Text style={styles.entryName}>viewport</Text> W:{' '}
+                {layout == null ? 'unset' : Math.round(layout.width)}
+                {', '}
+                H: {layout == null ? 'unset' : Math.round(layout.height)}
+                {'\n'}
+                <Text style={styles.entryName}>impl.</Text>
+                {'    '}
+                {getResizeName(resizeImplementation)}
+                {'\n'}
+                <Text style={styles.entryName}>state</Text>
+                {'    '}
+                {computingState}
+              </Text>
+            </ScrollView>
+          </Surface>
+        ) : null}
+        <StatusBar style="light" backgroundColor={BACKGROUND} />
+      </>
+    );
   }
 );
 import Constants from 'expo-constants';
@@ -90,7 +98,7 @@ const styles = StyleSheet.create({
     padding: 8,
     height: STAT_HEIGHT,
     elevation: 0,
-    backgroundColor: '#2b2a2a',
+    backgroundColor: BACKGROUND,
     opacity: 0.9
   },
   text: {

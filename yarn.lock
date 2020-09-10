@@ -10055,7 +10055,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-status-bar@npm:^1.0.2":
+"expo-status-bar@npm:^1.0.0":
   version: 1.0.2
   resolution: "expo-status-bar@npm:1.0.2"
   checksum: bdcfce813700aebfde6f376b96b0c520c8514cc7319c159c06c17318a9328231f93d3b8c3c0eeaa3dd4cfb0ddf9710cb43bdf9478f7098d2bcc2e695b3ed4292
@@ -22777,7 +22777,7 @@ resolve@~1.12.0:
     expo: ~38.0.10
     expo-cli: ^3.25.1
     expo-splash-screen: ^0.5.0
-    expo-status-bar: ^1.0.2
+    expo-status-bar: ^1.0.0
     expo-web-browser: ~8.3.1
     react: ~16.11.0
     react-native: "https://github.com/expo/react-native/archive/sdk-38.0.2.tar.gz"
