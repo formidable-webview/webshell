@@ -13,7 +13,8 @@ export const Evidence = ({
     <Card.Title title="Evidence" left={LeftContent} />
     <Card.Content>
       <Paragraph>
-        An evidence that the {webshellPosition} WebView height is automatic.
+        This is a React Native element acting as evidence that the{' '}
+        {webshellPosition} WebView height is automatic.
       </Paragraph>
     </Card.Content>
   </Card>

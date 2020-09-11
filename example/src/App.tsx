@@ -46,13 +46,20 @@ const sourceMap: Record<string, WebViewSource> = {
 
 const theme: Theme = DefaultTheme;
 
+function useLastProp<T>(prop: T) {
+  const ref = React.useRef(prop);
+  React.useEffect(() => {
+    ref.current = prop;
+  }, [prop]);
+  return ref.current;
+}
+
 export default function App() {
   const [layout, setLayout] = React.useState<LayoutRectangle | null>(null);
   const scrollViewRef = React.useRef<ScrollView>(null);
   const {
     allowWebViewNavigation,
     allowPinchToZoom,
-    animated,
     renderSheet,
     showEvidence,
     showConsole,
@@ -73,12 +80,13 @@ export default function App() {
       style: styles.autoheight,
       webshellDebug: true
     },
-    initialHeight: 200,
-    animated
+    initialHeight: 200
   });
-  // We are using a memo to change dynamically the build of the Webshell
-  // component with different features and options. Normally, we would rather
-  // create this component statically.
+  const textSpacingTop = showEvidence ? TOP_TEXT_HEIGHT : 0;
+  const lastSource = useLastProp(source);
+  // We are using a memo to change dynamically the Webshell component with
+  // different features and options. Normally, we would rather create this
+  // component statically.
   const Webshell = React.useMemo(
     () =>
       makeWebshell(
@@ -99,7 +107,6 @@ export default function App() {
     [allowWebViewNavigation, allowPinchToZoom, resizeMethod]
   );
   type WebshellProps = React.ComponentProps<typeof Webshell>;
-  const textSpacingTop = showEvidence ? TOP_TEXT_HEIGHT : 0;
   const onDOMLinkPress = React.useCallback(
     (target: LinkPressTarget) => {
       if (target.scheme.match(/^https?$/)) {
@@ -135,12 +142,13 @@ export default function App() {
     setLayout(null);
   }, [instance]);
   React.useEffect(() => {
-    scrollViewRef.current?.scrollTo({ y: textSpacingTop, animated: true });
-  }, [source, textSpacingTop]);
-  const dynamicContainerStyle = {
-    paddingBottom: BOTTOM_SHEET_COLLAPSED_OFFSET,
-    paddingTop: showConsole ? STAT_HEIGHT : 0
-  };
+    if (lastSource !== source) {
+      scrollViewRef.current?.scrollTo({ y: textSpacingTop, animated: true });
+    }
+  }, [textSpacingTop, source, lastSource]);
+  React.useEffect(() => {
+    scrollViewRef.current?.scrollTo({ y: 0, animated: true });
+  }, [showEvidence]);
   return (
     <PaperProvider theme={theme}>
       <View style={styles.root}>
@@ -151,7 +159,8 @@ export default function App() {
           disableScrollViewPanResponder
           pointerEvents="box-none"
           horizontal={false}
-          contentContainerStyle={[styles.container, dynamicContainerStyle]}>
+          contentContainerStyle={styles.container}>
+          {showConsole ? <View style={styles.statsPlaceholder} /> : null}
           {showEvidence ? <Evidence webshellPosition="below" /> : null}
           <View style={webshellContainerStyle}>
             <Webshell
@@ -165,14 +174,15 @@ export default function App() {
         </ScrollView>
       </View>
       {renderSheet()}
-      <Stats
-        display={showConsole}
-        contentSize={contentSize}
-        layout={layout}
-        source={source}
-        resizeImplementation={resizeImplementation}
-        computingState={computingState}
-      />
+      {showConsole && (
+        <Stats
+          contentSize={contentSize}
+          layout={layout}
+          source={source}
+          resizeImplementation={resizeImplementation}
+          computingState={computingState}
+        />
+      )}
     </PaperProvider>
   );
 }
@@ -181,6 +191,14 @@ const styles = StyleSheet.create({
   autoheight: {
     backgroundColor: 'transparent'
   },
+  statsPlaceholder: {
+    marginTop: Constants.statusBarHeight,
+    height: STAT_HEIGHT,
+    alignSelf: 'stretch',
+    backgroundColor: 'black',
+    borderColor: 'white',
+    borderWidth: 3
+  },
   container: {
     padding: 0,
     margin: 0,
@@ -188,7 +206,6 @@ const styles = StyleSheet.create({
     paddingBottom: BOTTOM_SHEET_COLLAPSED_OFFSET
   },
   root: {
-    flexGrow: 1,
-    marginTop: Constants.statusBarHeight
+    flexGrow: 1
   }
 });

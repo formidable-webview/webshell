@@ -8,7 +8,7 @@ import {
   RectSize
 } from '@formidable-webview/webshell';
 import { ScrollView } from 'react-native-gesture-handler';
-import { Surface, useTheme, Colors } from 'react-native-paper';
+import { Surface, useTheme } from 'react-native-paper';
 
 export interface StatsProps {
   source: WebViewSource;
@@ -19,7 +19,7 @@ export interface StatsProps {
   computingState: string;
 }
 
-const BACKGROUND = '#2b2a2a';
+const BACKGROUND = '#0f0f0f';
 
 function getResizeName(
   resizeImplementation: null | HTMLDimensionsImplementation
@@ -43,18 +43,20 @@ export const Stats = memo(
     computingState
   }: StatsProps) => {
     const { colors } = useTheme();
-    const textStyle = [styles.text, { color: colors.accent }];
+    const textStyle = [styles.text, { color: '#aaaaaa' }];
+    const entryStyle = [styles.entryName, { color: colors.accent }];
     return (
       <>
         {display ? (
           <Surface style={styles.stats}>
-            <ScrollView horizontal>
+            <ScrollView
+              horizontal
+              contentContainerStyle={{ flexDirection: 'column' }}>
               <Text selectable style={textStyle}>
-                <Text style={styles.entryName}>
-                  {source['uri'] || 'about:blank'}
-                </Text>
-                {'\n'}
-                <Text style={styles.entryName}>content</Text>
+                {source['uri'] || 'about:blank'}
+              </Text>
+              <Text selectable={false} style={textStyle}>
+                <Text style={entryStyle}>content</Text>
                 {'  '}W:{' '}
                 {contentSize.width === undefined
                   ? 'unset'
@@ -65,16 +67,16 @@ export const Stats = memo(
                   ? 'unset'
                   : Math.round(contentSize.height)}
                 {'\n'}
-                <Text style={styles.entryName}>viewport</Text> W:{' '}
+                <Text style={entryStyle}>viewport</Text> W:{' '}
                 {layout == null ? 'unset' : Math.round(layout.width)}
                 {', '}
                 H: {layout == null ? 'unset' : Math.round(layout.height)}
                 {'\n'}
-                <Text style={styles.entryName}>impl.</Text>
+                <Text style={entryStyle}>impl.</Text>
                 {'    '}
                 {getResizeName(resizeImplementation)}
                 {'\n'}
-                <Text style={styles.entryName}>state</Text>
+                <Text style={entryStyle}>state</Text>
                 {'    '}
                 {computingState}
               </Text>
@@ -91,20 +93,18 @@ import Constants from 'expo-constants';
 const styles = StyleSheet.create({
   stats: {
     position: 'absolute',
-    top: Constants.statusBarHeight,
-    left: 0,
-    right: 0,
-    borderBottomWidth: StyleSheet.hairlineWidth,
+    top: Constants.statusBarHeight + 3,
+    left: 3,
+    right: 3,
     padding: 8,
-    height: STAT_HEIGHT,
+    height: STAT_HEIGHT - 6,
     elevation: 0,
     backgroundColor: BACKGROUND,
-    opacity: 0.9
+    opacity: 0.92
   },
   text: {
     fontFamily: Platform.select({ default: 'monospace', ios: 'Menlo' }),
-    fontSize: 12,
-    color: Colors.green300
+    fontSize: 12
   },
   entryName: {
     fontWeight: 'bold'

@@ -15,7 +15,8 @@ import Constants from 'expo-constants';
 import {
   BOTTOM_SHEET_COLLAPSED_OFFSET,
   BOTTOM_SHEET_CONTENT_HEIGHT,
-  APPBAR_HEIGHT
+  APPBAR_HEIGHT,
+  animateNextFrame
 } from './styles';
 import { HTMLDimensionsImplementation } from '@formidable-webview/webshell';
 
@@ -30,8 +31,10 @@ const ControlsHeader = memo(
     scrollToEnd,
     isSheetOpen,
     showConsole,
+    showEvidence,
     toggleSettings,
-    toggleConsole
+    toggleConsole,
+    toggleEvidence
   }: any) => {
     const {
       colors: { accent }
@@ -47,6 +50,12 @@ const ControlsHeader = memo(
           size={20}
           icon="console-line"
           onPress={toggleConsole}
+        />
+        <Appbar.Action
+          color={showEvidence ? accent : undefined}
+          size={20}
+          icon="foot-print"
+          onPress={toggleEvidence}
         />
         <Appbar.Action
           size={20}
@@ -78,14 +87,13 @@ export function useControls({ scrollViewRef }: Props) {
     false
   );
   const [isSheetOpen, setIsSheetOpen] = React.useState(false);
-  const togglePadding = React.useCallback(
-    () => setPaddingHz((p) => (p ? 0 : 20)),
-    []
-  );
-  const toggleTextAbove = React.useCallback(
-    () => setShowEvidence((b) => !b),
-    []
-  );
+  const togglePadding = React.useCallback(() => {
+    setPaddingHz((p) => (p ? 0 : 20));
+  }, []);
+  const toggleEvidence = React.useCallback(() => {
+    animateNextFrame();
+    setShowEvidence((b) => !b);
+  }, []);
   const toggleAnimated = React.useCallback(() => setAnimated((a) => !a), []);
   const toggleAllowPinchToZoom = React.useCallback(
     () => setAllowPinchToZoom((p) => !p),
@@ -110,7 +118,10 @@ export function useControls({ scrollViewRef }: Props) {
     () => sheetRef.current?.snapTo(isSheetOpen ? 0 : 1),
     [isSheetOpen]
   );
-  const toggleConsole = React.useCallback(() => setShowConsole((s) => !s), []);
+  const toggleConsole = React.useCallback(() => {
+    animateNextFrame();
+    setShowConsole((s) => !s);
+  }, []);
   const snapPointExpended = Math.min(
     BOTTOM_SHEET_CONTENT_HEIGHT + BOTTOM_SHEET_COLLAPSED_OFFSET,
     windowDimensions.height - Constants.statusBarHeight
@@ -166,7 +177,7 @@ export function useControls({ scrollViewRef }: Props) {
             <List.Section title="Customize">
               <View style={styles.controlContainer}>
                 <Text style={styles.controlText}>Show evidence?</Text>
-                <Switch value={showEvidence} onValueChange={toggleTextAbove} />
+                <Switch value={showEvidence} onValueChange={toggleEvidence} />
               </View>
               <View style={styles.controlContainer}>
                 <Text style={styles.controlText}>
@@ -209,7 +220,7 @@ export function useControls({ scrollViewRef }: Props) {
       allowWebViewNavigation,
       allowPinchToZoom,
       resizeMethod,
-      toggleTextAbove,
+      toggleEvidence,
       toggleAnimated,
       togglePadding,
       toggleAllowWebViewNavigation,
@@ -226,17 +237,21 @@ export function useControls({ scrollViewRef }: Props) {
         toggleSettings={toggleSettings}
         isSheetOpen={isSheetOpen}
         showConsole={showConsole}
+        showEvidence={showEvidence}
         toggleConsole={toggleConsole}
+        toggleEvidence={toggleEvidence}
       />
     );
   }, [
     isSheetOpen,
     showConsole,
+    showEvidence,
     scrollToStart,
     scrollToEnd,
     toggleSettings,
     forceRerender,
-    toggleConsole
+    toggleConsole,
+    toggleEvidence
   ]);
   const renderSheet = () => (
     <BottomSheet

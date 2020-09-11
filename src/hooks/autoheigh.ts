@@ -9,7 +9,6 @@ import type {
   handleHTMLDimensionsFeature,
   HTMLDimensionsImplementation
 } from '../features/handle-html-dimensions';
-import { useAnimation } from './animated';
 import { StyleProp, ViewStyle } from 'react-native';
 import { RectSize } from 'src/features/types';
 
@@ -21,6 +20,8 @@ interface AutoheightState {
   implementation: HTMLDimensionsImplementation | null;
   contentDimensions: Partial<RectSize>;
   computingState: 'init' | 'processing' | 'computed';
+  lastFrameChangedWidth: boolean;
+  viewportWidth: number;
 }
 
 /**
@@ -34,20 +35,24 @@ function useAutoheightState<S extends WebshellProps<MinimalWebViewProps, any>>({
   const [state, setState] = React.useState<AutoheightState>({
     implementation: null,
     contentDimensions: initialDimensions,
-    computingState: 'init'
+    computingState: 'init',
+    lastFrameChangedWidth: false,
+    viewportWidth: 0
   });
   const {
     implementation,
     contentDimensions: { width, height }
   } = state;
   React.useEffect(() => {
-    setState(({ contentDimensions }) => ({
+    setState(({ contentDimensions, viewportWidth }) => ({
+      viewportWidth,
       contentDimensions: {
-        height: initialHeight,
+        height: undefined,
         width: contentDimensions.width
       },
       implementation: null,
-      computingState: 'processing'
+      computingState: 'processing',
+      lastFrameChangedWidth: false
     }));
     webshellDebug &&
       console.info(
@@ -87,13 +92,6 @@ export interface AutoheightParams<
    */
   webshellProps: S;
   /**
-   * Animate height transitions.
-   * **Warning**: this feature is experimental.
-   *
-   * @defaultValue false
-   */
-  animated?: boolean;
-  /**
    * By default, the width of `Webshell` will grow to the horizontal space available.
    * This is realized with `width: '100%'` and `alignSelf: 'stretch'`.
    * If you need to set explicit width, do it here.
@@ -106,14 +104,15 @@ export interface AutoheightParams<
    * @defaultValue 0
    */
   initialHeight?: number;
-}
-
-function useDiff(value: number) {
-  const ref = React.useRef<number>(0);
-  React.useEffect(() => {
-    ref.current = value;
-  }, [value]);
-  return value - ref.current;
+  /**
+   * When a width change is detected on viewport, the height of the `WebView`
+   * will be set to `undefined` for a few milliseconds. This will allow the
+   * best handling of height constraint in edge-cases with, for example,
+   * content expanding vertically (display: flex), at the cost of a small flash.
+   *
+   * @defaultValue true
+   */
+  reinitHeightOnViewportWidthChange?: boolean;
 }
 
 /**
@@ -147,9 +146,9 @@ export function useAutoheight<
 >(params: AutoheightParams<S>) {
   const {
     webshellProps,
-    animated,
     initialHeight = 0,
-    width: userExplicitWidth
+    width: userExplicitWidth,
+    reinitHeightOnViewportWidthChange = true
   } = params;
   const {
     style,
@@ -162,21 +161,24 @@ export function useAutoheight<
   const { state, setState } = useAutoheightState(params);
   const {
     contentDimensions: { height },
-    implementation
+    implementation,
+    lastFrameChangedWidth
   } = state;
-  const diffHeight = Math.abs(useDiff(height || 0));
-  const animatedHeight = useAnimation({
-    duration: Math.min(Math.max(diffHeight, 5), 500),
-    toValue: height || initialHeight,
-    type: 'timing',
-    useNativeDriver: false
-  });
+  const shouldReinitNextFrameHeight =
+    typeof userExplicitWidth !== 'number' &&
+    lastFrameChangedWidth &&
+    reinitHeightOnViewportWidthChange;
   const handleDOMHTMLDimensions = React.useCallback(
     (htmlDimensions: HTMLDimensions) => {
-      setState({
-        implementation: htmlDimensions.implementation,
-        contentDimensions: htmlDimensions.content,
-        computingState: 'computed'
+      setState((prevState) => {
+        return {
+          viewportWidth: htmlDimensions.layoutViewport.width,
+          implementation: htmlDimensions.implementation,
+          contentDimensions: htmlDimensions.content,
+          computingState: 'computed',
+          lastFrameChangedWidth:
+            prevState.viewportWidth !== htmlDimensions.layoutViewport.width
+        };
       });
       typeof onDOMHTMLDimensions === 'function' &&
         onDOMHTMLDimensions(htmlDimensions);
@@ -189,12 +191,33 @@ export function useAutoheight<
       {
         width:
           typeof userExplicitWidth === 'number' ? userExplicitWidth : '100%',
-        height: typeof height === 'number' ? height : initialHeight,
+        height: shouldReinitNextFrameHeight
+          ? undefined
+          : typeof height === 'number'
+          ? height
+          : initialHeight,
         alignSelf: 'stretch'
       }
     ],
-    [height, userExplicitWidth, initialHeight, style]
+    [
+      height,
+      userExplicitWidth,
+      initialHeight,
+      style,
+      shouldReinitNextFrameHeight
+    ]
   );
+  React.useEffect(() => {
+    const timeout = setTimeout(
+      () =>
+        setState((prevState) => ({
+          ...prevState,
+          lastFrameChangedWidth: false
+        })),
+      50
+    );
+    return clearTimeout.bind(null, timeout);
+  }, [shouldReinitNextFrameHeight, setState]);
   return {
     autoheightWebshellProps: {
       ...passedProps,
@@ -204,7 +227,7 @@ export function useAutoheight<
       scalesPageToFit: false,
       showsVerticalScrollIndicator: false,
       disableScrollViewPanResponder: true,
-      webshellAnimatedHeight: animated ? (animatedHeight as any) : undefined
+      webshellAnimatedHeight: undefined
     },
     resizeImplementation: implementation,
     contentSize: state.contentDimensions,
