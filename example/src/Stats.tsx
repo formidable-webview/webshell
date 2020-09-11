@@ -83,7 +83,11 @@ export const Stats = memo(
             </ScrollView>
           </Surface>
         ) : null}
-        <StatusBar style="light" backgroundColor={BACKGROUND} />
+        <StatusBar
+          translucent={true}
+          style="light"
+          backgroundColor={BACKGROUND}
+        />
       </>
     );
   }

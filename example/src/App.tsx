@@ -174,15 +174,14 @@ export default function App() {
         </ScrollView>
       </View>
       {renderSheet()}
-      {showConsole && (
-        <Stats
-          contentSize={contentSize}
-          layout={layout}
-          source={source}
-          resizeImplementation={resizeImplementation}
-          computingState={computingState}
-        />
-      )}
+      <Stats
+        display={showConsole}
+        contentSize={contentSize}
+        layout={layout}
+        source={source}
+        resizeImplementation={resizeImplementation}
+        computingState={computingState}
+      />
     </PaperProvider>
   );
 }
@@ -192,7 +191,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent'
   },
   statsPlaceholder: {
-    marginTop: Constants.statusBarHeight,
     height: STAT_HEIGHT,
     alignSelf: 'stretch',
     backgroundColor: 'black',
@@ -206,6 +204,7 @@ const styles = StyleSheet.create({
     paddingBottom: BOTTOM_SHEET_COLLAPSED_OFFSET
   },
   root: {
+    marginTop: Constants.statusBarHeight,
     flexGrow: 1
   }
 });
