@@ -46,17 +46,10 @@ const sourceMap: Record<string, WebViewSource> = {
 
 const theme: Theme = DefaultTheme;
 
-function useLastProp<T>(prop: T) {
-  const ref = React.useRef(prop);
-  React.useEffect(() => {
-    ref.current = prop;
-  }, [prop]);
-  return ref.current;
-}
-
 export default function App() {
   const [layout, setLayout] = React.useState<LayoutRectangle | null>(null);
   const scrollViewRef = React.useRef<ScrollView>(null);
+  const containerPaddingTopRef = React.useRef<number>(0);
   const {
     allowWebViewNavigation,
     allowPinchToZoom,
@@ -82,8 +75,8 @@ export default function App() {
     },
     initialHeight: 200
   });
-  const textSpacingTop = showEvidence ? TOP_TEXT_HEIGHT : 0;
-  const lastSource = useLastProp(source);
+  const containerPaddingTop = showEvidence ? TOP_TEXT_HEIGHT : 0;
+  containerPaddingTopRef.current = containerPaddingTop;
   // We are using a memo to change dynamically the Webshell component with
   // different features and options. Normally, we would rather create this
   // component statically.
@@ -114,13 +107,13 @@ export default function App() {
           WebBrowser.openBrowserAsync(target.uri);
         } else {
           scrollViewRef.current?.scrollTo({
-            y: textSpacingTop,
+            y: containerPaddingTop,
             animated: true
           });
         }
       }
     },
-    [allowWebViewNavigation, textSpacingTop]
+    [allowWebViewNavigation, containerPaddingTop]
   );
   const onLayout = React.useCallback(
     (e) => setLayout(e.nativeEvent.layout),
@@ -129,10 +122,10 @@ export default function App() {
   const onDOMHashChange = React.useCallback(
     (e: HashChangeEvent) =>
       scrollViewRef.current?.scrollTo({
-        y: e.targetElementBoundingRect.top + textSpacingTop,
+        y: e.targetElementBoundingRect.top + containerPaddingTop,
         animated: true
       }),
-    [textSpacingTop]
+    [containerPaddingTop]
   );
   const webshellContainerStyle = {
     paddingHorizontal: paddingHz,
@@ -142,10 +135,11 @@ export default function App() {
     setLayout(null);
   }, [instance]);
   React.useEffect(() => {
-    if (lastSource !== source) {
-      scrollViewRef.current?.scrollTo({ y: textSpacingTop, animated: true });
-    }
-  }, [textSpacingTop, source, lastSource]);
+    scrollViewRef.current?.scrollTo({
+      y: containerPaddingTopRef.current,
+      animated: true
+    });
+  }, [source]);
   React.useEffect(() => {
     scrollViewRef.current?.scrollTo({ y: 0, animated: true });
   }, [showEvidence]);
