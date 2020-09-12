@@ -170,7 +170,7 @@ export function useControls({ scrollViewRef }: Props) {
     () => () => (
       <Surface style={{ height: BOTTOM_SHEET_CONTENT_HEIGHT }}>
         <View style={styles.bottomSheet}>
-          <View style={styles.controlsContainer}>
+          <View style={{ width: Math.min(500, windowDimensions.width) }}>
             <List.Section title="Page">
               <View>
                 <PickerSelect
@@ -256,7 +256,8 @@ export function useControls({ scrollViewRef }: Props) {
       toggleAllowPinchToZoom,
       pickerStyle,
       changeResizeMethod,
-      changeSourcename
+      changeSourcename,
+      windowDimensions.width
     ]
   );
   const renderHeader = useCallback(() => {
@@ -341,9 +342,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: 5
-  },
-  controlsContainer: {
-    maxWidth: 400,
-    alignSelf: 'stretch'
   }
 });

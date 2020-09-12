@@ -16,26 +16,112 @@ const initialDimensions = { width: undefined, height: undefined };
 
 let numberOfEvents = 0;
 
-interface AutoheightState {
-  implementation: HTMLDimensionsImplementation | null;
+/**
+ * The state of synchronization between viewport and content size:
+ *
+ * - init: the initial, "onMount" state;
+ * - syncing: the content size is being determined;
+ * - synced: the viewport size has been adjusted to content size.
+ *
+ * @public
+ */
+export type AutoheightSyncState = 'init' | 'syncing' | 'synced';
+
+/**
+ * The state returned by {@link useAutoheight} hook.
+ *
+ * @public
+ */
+export interface AutoheightState<
+  S extends WebshellProps<
+    MinimalWebViewProps,
+    [AssembledFeatureOf<typeof handleHTMLDimensionsFeature>]
+  >
+> {
+  /**
+   * The props to inject into webshell in order to support "autoheight"
+   * behavior.
+   */
+  autoheightWebshellProps: Pick<
+    S,
+    | 'onDOMHTMLDimensions'
+    | 'style'
+    | 'scalesPageToFit'
+    | 'showsVerticalScrollIndicator'
+    | 'disableScrollViewPanResponder'
+  > &
+    Partial<S>;
+  /**
+   * The implementation used to generate resize events.
+   */
+  resizeImplementation: HTMLDimensionsImplementation | null;
+  /**
+   * An object describing the content size. When the size is not yet known,
+   * this object fields will be undefined.
+   */
   contentSize: Partial<RectSize>;
   /**
-   * When state is synced, the viewport height matches content height.
+   * The state of synchronization between viewport and content size:
+   *
+   * - init: the initial, "onMount" state;
+   * - syncing: the content size is being determined;
+   * - synced: the viewport size has been adjusted to content size.
+   *
    */
-  syncState: 'init' | 'syncing' | 'synced';
+  syncState: AutoheightSyncState;
+}
+
+/**
+ * Named parameters for autoheight hook.
+ *
+ * @public
+ */
+export interface AutoheightParams<
+  S extends WebshellProps<MinimalWebViewProps, []>
+> {
+  /**
+   * It's best to pass all props directed to `Webshell` here. This is
+   * advised because the hook might react to specific props and warn you of
+   * some incompatibilities.
+   */
+  webshellProps: S;
+  /**
+   * By default, the width of `Webshell` will grow to the horizontal space available.
+   * This is realized with `width: '100%'` and `alignSelf: 'stretch'`.
+   * If you need to set explicit width, do it here.
+   */
+  width?: number;
+  /**
+   * The height occupied by the `WebView` prior to knowing its content height.
+   * It will be reused each time the source changes.
+   *
+   * @defaultValue 0
+   */
+  initialHeight?: number;
+  /**
+   * When a width change is detected on viewport, the height of the `WebView`
+   * will be set to `undefined` for a few milliseconds. This will allow the
+   * best handling of height constraint in edge-cases with, for example,
+   * content expanding vertically (display: flex), at the cost of a small flash.
+   *
+   * @defaultValue true
+   */
+  reinitHeightOnViewportWidthChange?: boolean;
+}
+interface AutoheightInternalState {
+  implementation: HTMLDimensionsImplementation | null;
+  contentSize: Partial<RectSize>;
+  syncState: AutoheightSyncState;
   lastFrameChangedWidth: boolean;
   viewportWidth: number;
 }
 
-/**
- * A hook which resets dimensions on certain events.
- */
 function useAutoheightState<S extends WebshellProps<MinimalWebViewProps, any>>({
   webshellProps,
   initialHeight
 }: AutoheightParams<S>) {
   const { scalesPageToFit, source = {}, webshellDebug } = webshellProps;
-  const [state, setState] = React.useState<AutoheightState>({
+  const [state, setState] = React.useState<AutoheightInternalState>({
     implementation: null,
     contentSize: initialDimensions,
     syncState: 'init',
@@ -81,44 +167,6 @@ function useAutoheightState<S extends WebshellProps<MinimalWebViewProps, any>>({
 }
 
 /**
- * Named parameters for autoheight hook.
- *
- * @public
- */
-export interface AutoheightParams<
-  S extends WebshellProps<MinimalWebViewProps, []>
-> {
-  /**
-   * You should pass all the props directed to `Webshell` here. This is
-   * important because this hook might react to specific props and warn you of
-   * some incompatibilities.
-   */
-  webshellProps: S;
-  /**
-   * By default, the width of `Webshell` will grow to the horizontal space available.
-   * This is realized with `width: '100%'` and `alignSelf: 'stretch'`.
-   * If you need to set explicit width, do it here.
-   */
-  width?: number;
-  /**
-   * The height occupied by the `WebView` prior to knowing its content height.
-   * It will be reused each time the source changes.
-   *
-   * @defaultValue 0
-   */
-  initialHeight?: number;
-  /**
-   * When a width change is detected on viewport, the height of the `WebView`
-   * will be set to `undefined` for a few milliseconds. This will allow the
-   * best handling of height constraint in edge-cases with, for example,
-   * content expanding vertically (display: flex), at the cost of a small flash.
-   *
-   * @defaultValue true
-   */
-  reinitHeightOnViewportWidthChange?: boolean;
-}
-
-/**
  * Requires {@link handleHTMLDimensionsFeature} and recommends
  * {@link forceResponsiveViewportFeature}.
  *
@@ -137,7 +185,7 @@ export interface AutoheightParams<
  *   on overflow, and there is no such overflow when in autoheight mode.
  *
  * @param params - The parameters to specify autoheight behavior.
- * @returns - The `Webshell` props implementing autoheight behavior.
+ * @returns - An object to implement autoheight behavior.
  *
  * @beta
  */
@@ -146,7 +194,7 @@ export function useAutoheight<
     MinimalWebViewProps,
     [AssembledFeatureOf<typeof handleHTMLDimensionsFeature>]
   >
->(params: AutoheightParams<S>) {
+>(params: AutoheightParams<S>): AutoheightState<S> {
   const {
     webshellProps,
     initialHeight = 0,
@@ -229,8 +277,7 @@ export function useAutoheight<
       style: autoHeightStyle,
       scalesPageToFit: false,
       showsVerticalScrollIndicator: false,
-      disableScrollViewPanResponder: true,
-      webshellAnimatedHeight: undefined
+      disableScrollViewPanResponder: true
     },
     resizeImplementation: implementation,
     contentSize: state.contentSize,
