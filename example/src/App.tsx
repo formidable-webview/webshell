@@ -66,7 +66,7 @@ export default function App() {
     autoheightWebshellProps,
     resizeImplementation,
     contentSize,
-    computingState
+    syncState
   } = useAutoheight<WebshellProps>({
     webshellProps: {
       source,
@@ -174,7 +174,7 @@ export default function App() {
         layout={layout}
         source={source}
         resizeImplementation={resizeImplementation}
-        computingState={computingState}
+        syncState={syncState}
       />
     </PaperProvider>
   );

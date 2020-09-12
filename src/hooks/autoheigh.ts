@@ -19,7 +19,10 @@ let numberOfEvents = 0;
 interface AutoheightState {
   implementation: HTMLDimensionsImplementation | null;
   contentDimensions: Partial<RectSize>;
-  computingState: 'init' | 'processing' | 'computed';
+  /**
+   * When state is synched, the viewport height matches content height.
+   */
+  syncState: 'init' | 'synching' | 'synched';
   lastFrameChangedWidth: boolean;
   viewportWidth: number;
 }
@@ -35,7 +38,7 @@ function useAutoheightState<S extends WebshellProps<MinimalWebViewProps, any>>({
   const [state, setState] = React.useState<AutoheightState>({
     implementation: null,
     contentDimensions: initialDimensions,
-    computingState: 'init',
+    syncState: 'init',
     lastFrameChangedWidth: false,
     viewportWidth: 0
   });
@@ -51,7 +54,7 @@ function useAutoheightState<S extends WebshellProps<MinimalWebViewProps, any>>({
         width: contentDimensions.width
       },
       implementation: null,
-      computingState: 'processing',
+      syncState: 'synching',
       lastFrameChangedWidth: false
     }));
     webshellDebug &&
@@ -175,7 +178,7 @@ export function useAutoheight<
           viewportWidth: htmlDimensions.layoutViewport.width,
           implementation: htmlDimensions.implementation,
           contentDimensions: htmlDimensions.content,
-          computingState: 'computed',
+          syncState: 'synched',
           lastFrameChangedWidth:
             prevState.viewportWidth !== htmlDimensions.layoutViewport.width
         };
@@ -231,6 +234,6 @@ export function useAutoheight<
     },
     resizeImplementation: implementation,
     contentSize: state.contentDimensions,
-    computingState: state.computingState
+    syncState: state.syncState
   };
 }

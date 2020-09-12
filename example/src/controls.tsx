@@ -148,6 +148,20 @@ export function useControls({ scrollViewRef }: Props) {
     setShowConsole((s) => !s);
     closeBottomSheet();
   }, [closeBottomSheet]);
+  const changeSourcename = React.useCallback(
+    (source: any) => {
+      setSourceName(source);
+      closeBottomSheet();
+    },
+    [closeBottomSheet]
+  );
+  const changeResizeMethod = React.useCallback(
+    (method: any) => {
+      setResizeMethod(method);
+      closeBottomSheet();
+    },
+    [closeBottomSheet]
+  );
   const snapPointExpended = Math.min(
     BOTTOM_SHEET_CONTENT_HEIGHT + BOTTOM_SHEET_COLLAPSED_OFFSET,
     windowDimensions.height - Constants.statusBarHeight
@@ -164,7 +178,7 @@ export function useControls({ scrollViewRef }: Props) {
                   useNativeAndroidPickerStyle={true}
                   style={pickerStyle}
                   items={sourceItems}
-                  onValueChange={setSourceName}
+                  onValueChange={changeSourcename}
                 />
               </View>
             </List.Section>
@@ -175,7 +189,7 @@ export function useControls({ scrollViewRef }: Props) {
                   useNativeAndroidPickerStyle={true}
                   style={pickerStyle}
                   items={resizeMethodItems}
-                  onValueChange={setResizeMethod}
+                  onValueChange={changeResizeMethod}
                 />
               </View>
             </List.Section>
@@ -240,7 +254,9 @@ export function useControls({ scrollViewRef }: Props) {
       togglePadding,
       toggleAllowWebViewNavigation,
       toggleAllowPinchToZoom,
-      pickerStyle
+      pickerStyle,
+      changeResizeMethod,
+      changeSourcename
     ]
   );
   const renderHeader = useCallback(() => {

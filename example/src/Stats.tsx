@@ -16,7 +16,7 @@ export interface StatsProps {
   layout: LayoutRectangle | null;
   display?: boolean;
   resizeImplementation: null | HTMLDimensionsImplementation;
-  computingState: string;
+  syncState: string;
 }
 
 const BACKGROUND = '#0f0f0f';
@@ -40,7 +40,7 @@ export const Stats = memo(
     contentSize,
     layout,
     resizeImplementation,
-    computingState
+    syncState
   }: StatsProps) => {
     const { colors } = useTheme();
     const textStyle = [styles.text, { color: '#aaaaaa' }];
@@ -78,7 +78,7 @@ export const Stats = memo(
                 {'\n'}
                 <Text style={entryStyle}>state</Text>
                 {'    '}
-                {computingState}
+                {syncState}
               </Text>
             </ScrollView>
           </Surface>
