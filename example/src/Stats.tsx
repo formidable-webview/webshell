@@ -1,5 +1,11 @@
 import { default as React, memo } from 'react';
-import { LayoutRectangle, StyleSheet, Platform, Text } from 'react-native';
+import {
+  LayoutRectangle,
+  StyleSheet,
+  Platform,
+  Text,
+  View
+} from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { STAT_HEIGHT } from './styles';
 import { WebViewSource } from 'react-native-webview/lib/WebViewTypes';
@@ -55,31 +61,35 @@ export const Stats = memo(
               <Text selectable style={textStyle}>
                 {source['uri'] || 'about:blank'}
               </Text>
-              <Text selectable={false} style={textStyle}>
-                <Text style={entryStyle}>content</Text>
-                {'  '}W:{' '}
-                {contentSize.width === undefined
-                  ? 'unset'
-                  : Math.round(contentSize.width)}
-                {', '}
-                H:{' '}
-                {contentSize.height === undefined
-                  ? 'unset'
-                  : Math.round(contentSize.height)}
-                {'\n'}
-                <Text style={entryStyle}>viewport</Text> W:{' '}
-                {layout == null ? 'unset' : Math.round(layout.width)}
-                {', '}
-                H: {layout == null ? 'unset' : Math.round(layout.height)}
-                {'\n'}
-                <Text style={entryStyle}>impl.</Text>
-                {'    '}
-                {getResizeName(resizeImplementation)}
-                {'\n'}
-                <Text style={entryStyle}>state</Text>
-                {'    '}
-                {syncState}
-              </Text>
+              <View style={{ flexDirection: 'row' }}>
+                <View>
+                  <Text selectable={false} style={textStyle}>
+                    <Text style={entryStyle}>content</Text>
+                    {'  '}W:{' '}
+                    {contentSize.width === undefined
+                      ? 'unset'
+                      : Math.round(contentSize.width)}
+                    {', '}
+                    H:{' '}
+                    {contentSize.height === undefined
+                      ? 'unset'
+                      : Math.round(contentSize.height)}
+                    {'\n'}
+                    <Text style={entryStyle}>viewport</Text> W:{' '}
+                    {layout == null ? 'unset' : Math.round(layout.width)}
+                    {', '}
+                    H: {layout == null ? 'unset' : Math.round(layout.height)}
+                  </Text>
+                </View>
+                <View style={{ marginLeft: 20 }}>
+                  <Text selectable={false} style={textStyle}>
+                    <Text style={entryStyle}>impl. </Text>
+                    {getResizeName(resizeImplementation)}
+                    {'\n'}
+                    <Text style={entryStyle}>state</Text> {syncState}
+                  </Text>
+                </View>
+              </View>
             </ScrollView>
           </Surface>
         ) : null}
@@ -108,7 +118,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: Platform.select({ default: 'monospace', ios: 'Menlo' }),
-    fontSize: 12
+    fontSize: 11
   },
   entryName: {
     fontWeight: 'bold'
