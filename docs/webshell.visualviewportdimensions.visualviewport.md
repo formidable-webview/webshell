@@ -9,5 +9,5 @@ window.visualViewport.width and window.visualViewport.height
 <b>Signature:</b>
 
 ```typescript
-visualViewport: Dimensions;
+visualViewport: RectSize;
 ```

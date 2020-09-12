@@ -9,5 +9,5 @@ The layout viewport dimensions, e.g. the size of the WebView in device pixels.
 <b>Signature:</b>
 
 ```typescript
-layoutViewport: Dimensions;
+layoutViewport: RectSize;
 ```

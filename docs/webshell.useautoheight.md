@@ -12,14 +12,19 @@ Requires [handleHTMLDimensionsFeature](./webshell.handlehtmldimensionsfeature.md
 <b>Signature:</b>
 
 ```typescript
-export declare function useAutoheight<S extends WebshellProps<MinimalWebViewProps, [AssembledFeatureOf<typeof handleHTMLDimensionsFeature>]>>(params: AutoheightParams<S>): Pick<S, Exclude<keyof S, "style" | "webshellDebug" | "onNavigationStateChange" | "scalesPageToFit" | "onDOMHTMLDimensions">> & {
-    webshellDebug: boolean | undefined;
-    onDOMHTMLDimensions: (htmlDimensions: HTMLDimensions) => void;
-    style: StyleProp<ViewStyle>;
-    scalesPageToFit: boolean;
-    showsVerticalScrollIndicator: boolean;
-    disableScrollViewPanResponder: boolean;
-    webshellAnimatedHeight: any;
+export declare function useAutoheight<S extends WebshellProps<MinimalWebViewProps, [AssembledFeatureOf<typeof handleHTMLDimensionsFeature>]>>(params: AutoheightParams<S>): {
+    autoheightWebshellProps: Pick<S, Exclude<keyof S, "style" | "webshellDebug" | "onNavigationStateChange" | "scalesPageToFit" | "onDOMHTMLDimensions">> & {
+        webshellDebug: boolean | undefined;
+        onDOMHTMLDimensions: (htmlDimensions: HTMLDimensions) => void;
+        style: StyleProp<ViewStyle>;
+        scalesPageToFit: boolean;
+        showsVerticalScrollIndicator: boolean;
+        disableScrollViewPanResponder: boolean;
+        webshellAnimatedHeight: undefined;
+    };
+    resizeImplementation: "resize" | "mutation" | "polling" | null;
+    contentSize: Partial<RectSize>;
+    computingState: "init" | "processing" | "computed";
 };
 ```
 
@@ -31,7 +36,7 @@ export declare function useAutoheight<S extends WebshellProps<MinimalWebViewProp
 
 <b>Returns:</b>
 
-Pick&lt;S, Exclude&lt;keyof S, "style" \| "webshellDebug" \| "onNavigationStateChange" \| "scalesPageToFit" \| "onDOMHTMLDimensions"&gt;&gt; &amp; { webshellDebug: boolean \| undefined; onDOMHTMLDimensions: (htmlDimensions: [HTMLDimensions](./webshell.htmldimensions.md)<!-- -->) =&gt; void; style: StyleProp&lt;ViewStyle&gt;; scalesPageToFit: boolean; showsVerticalScrollIndicator: boolean; disableScrollViewPanResponder: boolean; webshellAnimatedHeight: any; }
+{ autoheightWebshellProps: Pick&lt;S, Exclude&lt;keyof S, "style" \| "webshellDebug" \| "onNavigationStateChange" \| "scalesPageToFit" \| "onDOMHTMLDimensions"&gt;&gt; &amp; { webshellDebug: boolean \| undefined; onDOMHTMLDimensions: (htmlDimensions: [HTMLDimensions](./webshell.htmldimensions.md)<!-- -->) =&gt; void; style: StyleProp&lt;ViewStyle&gt;; scalesPageToFit: boolean; showsVerticalScrollIndicator: boolean; disableScrollViewPanResponder: boolean; webshellAnimatedHeight: undefined; }; resizeImplementation: "resize" \| "mutation" \| "polling" \| null; contentSize: Partial&lt;[RectSize](./webshell.rectsize.md)<!-- -->&gt;; computingState: "init" \| "processing" \| "computed"; }
 
 - The `Webshell` props implementing autoheight behavior.
 

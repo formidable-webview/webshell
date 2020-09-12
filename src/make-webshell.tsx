@@ -1,4 +1,3 @@
-/* eslint-disable dot-notation */
 import * as React from 'react';
 import {
   ComponentType,
@@ -71,7 +70,7 @@ function extractDOMHandlers(props: WebshellProps<any, any>): any {
 
 function filterWebViewProps<W>(props: WebshellProps<any, any>): W {
   return Object.keys(props).reduce((obj, key) => {
-    if (key.startsWith('onDOM') || key.startsWith('webshell')) {
+    if (key.startsWith('onDOM') || key.startsWith('webshell')) {
       return obj;
     }
     return {

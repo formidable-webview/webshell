@@ -12,6 +12,7 @@ import { ElementRef } from 'react';
 import { Feature as Feature_2 } from 'src/types';
 import { ForwardRefExoticComponent } from 'react';
 import * as React_2 from 'react';
+import { RectSize as RectSize_2 } from 'src/features/types';
 import { RefAttributes } from 'react';
 import { StyleProp } from 'react-native';
 import { ViewStyle } from 'react-native';
@@ -32,19 +33,10 @@ export type AssembledFeatureOf<F> = F extends Feature<infer O, infer S, infer P>
 
 // @public
 export interface AutoheightParams<S extends WebshellProps<MinimalWebViewProps, []>> {
-    animated?: boolean;
     initialHeight?: number;
-    onContentSizeChange?: (contentSize: ContentSize) => void;
+    reinitHeightOnViewportWidthChange?: boolean;
     webshellProps: S;
     width?: number;
-}
-
-// @public (undocumented)
-export interface ContentSize {
-    // (undocumented)
-    height: number | undefined;
-    // (undocumented)
-    width: number | undefined;
 }
 
 // @public (undocumented)
@@ -172,6 +164,7 @@ export const handleHTMLDimensionsFeature: EventFeatureOf<HandleHTMLDimensionsOpt
 
 // @public (undocumented)
 export interface HandleHTMLDimensionsOptions {
+    deltaMin?: number;
     forceImplementation?: HTMLDimensionsImplementation | false;
     pollingInterval?: number;
 }
@@ -191,10 +184,9 @@ export interface HashChangeEvent {
 
 // @public
 export interface HTMLDimensions {
-    content: Dimensions;
+    content: RectSize;
     implementation: HTMLDimensionsImplementation;
-    // Warning: (ae-forgotten-export) The symbol "Dimensions" needs to be exported by the entry point index.d.ts
-    layoutViewport: Dimensions;
+    layoutViewport: RectSize;
 }
 
 // @public
@@ -254,22 +246,35 @@ export type OptionalUnlessRequiredField<O> = O extends Partial<O> ? O | undefine
 // @public
 export type PayloadOf<T> = T extends AssembledEventFeature<{}, string, infer P> ? P : never;
 
+// @public (undocumented)
+export interface RectSize {
+    // (undocumented)
+    height: number;
+    // (undocumented)
+    width: number;
+}
+
 // @beta
-export function useAutoheight<S extends WebshellProps<MinimalWebViewProps, [AssembledFeatureOf<typeof handleHTMLDimensionsFeature>]>>(params: AutoheightParams<S>): Pick<S, Exclude<keyof S, "style" | "webshellDebug" | "onNavigationStateChange" | "scalesPageToFit" | "onDOMHTMLDimensions">> & {
-    webshellDebug: boolean | undefined;
-    onDOMHTMLDimensions: (htmlDimensions: HTMLDimensions) => void;
-    style: StyleProp<ViewStyle>;
-    scalesPageToFit: boolean;
-    showsVerticalScrollIndicator: boolean;
-    disableScrollViewPanResponder: boolean;
-    webshellAnimatedHeight: any;
+export function useAutoheight<S extends WebshellProps<MinimalWebViewProps, [AssembledFeatureOf<typeof handleHTMLDimensionsFeature>]>>(params: AutoheightParams<S>): {
+    autoheightWebshellProps: Pick<S, Exclude<keyof S, "style" | "webshellDebug" | "onNavigationStateChange" | "scalesPageToFit" | "onDOMHTMLDimensions">> & {
+        webshellDebug: boolean | undefined;
+        onDOMHTMLDimensions: (htmlDimensions: HTMLDimensions) => void;
+        style: StyleProp<ViewStyle>;
+        scalesPageToFit: boolean;
+        showsVerticalScrollIndicator: boolean;
+        disableScrollViewPanResponder: boolean;
+        webshellAnimatedHeight: undefined;
+    };
+    resizeImplementation: "resize" | "mutation" | "polling" | null;
+    contentSize: Partial<RectSize_2>;
+    computingState: "init" | "processing" | "computed";
 };
 
 // @public
 export interface VisualViewportDimensions {
     isLegacy: boolean;
     scale: number;
-    visualViewport: Dimensions;
+    visualViewport: RectSize;
 }
 
 // @public

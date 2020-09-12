@@ -9,5 +9,5 @@ The content dimensions, e.g. the size of the body element in CSS pixels.
 <b>Signature:</b>
 
 ```typescript
-content: Dimensions;
+content: RectSize;
 ```

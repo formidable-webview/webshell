@@ -18,5 +18,5 @@ export interface VisualViewportDimensions
 |  --- | --- | --- |
 |  [isLegacy](./webshell.visualviewportdimensions.islegacy.md) | boolean | <code>false</code> when these values are coming from the VisualViewport API and <code>true</code> when they are "best guess". In legacy mode, be warned that you will not receive frequent updates when the user pinch-zoom. |
 |  [scale](./webshell.visualviewportdimensions.scale.md) | number | The visual viewport scale. Because this API is quite recent, we have a fallback strategy to compute scale. |
-|  [visualViewport](./webshell.visualviewportdimensions.visualviewport.md) | Dimensions | window.visualViewport.width and window.visualViewport.height |
+|  [visualViewport](./webshell.visualviewportdimensions.visualviewport.md) | [RectSize](./webshell.rectsize.md) | window.visualViewport.width and window.visualViewport.height |
 

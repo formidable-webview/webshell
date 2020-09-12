@@ -17,7 +17,6 @@
 |  Interface | Description |
 |  --- | --- |
 |  [AutoheightParams](./webshell.autoheightparams.md) | Named parameters for autoheight hook. |
-|  [ContentSize](./webshell.contentsize.md) |  |
 |  [CSSBox](./webshell.cssbox.md) |  |
 |  [CSSBoxDimensionsComputedStyle](./webshell.cssboxdimensionscomputedstyle.md) | Computed styles which affect the CSS Box dimensions. See [window.getComputedStyle()](https://developer.mozilla.org/docs/Web/API/Window/getComputedStyle)<!-- -->. |
 |  [ElementCSSBoxDimensions](./webshell.elementcssboxdimensions.md) | An object describing an element CSS Box dimensions, see [CSS 2 (Box model)](https://drafts.csswg.org/css2/#box-model)<!-- -->. |
@@ -32,6 +31,7 @@
 |  [LinkPressOptions](./webshell.linkpressoptions.md) | An object describing customization for the linkPress feature. |
 |  [LinkPressTarget](./webshell.linkpresstarget.md) | The target of a link press event. |
 |  [MinimalWebViewProps](./webshell.minimalwebviewprops.md) | A high-compatibility type expressing minimal requirements for the WebView Component's props. |
+|  [RectSize](./webshell.rectsize.md) |  |
 |  [VisualViewportDimensions](./webshell.visualviewportdimensions.md) | An object describing the visual viewport of the <code>WebView</code>. |
 |  [WebjsContext](./webshell.webjscontext.md) | This type specifies the shape of the object passed to DOM features scripts. |
 |  [WebshellInvariantProps](./webshell.webshellinvariantprops.md) | Props any Webshell component will support. |

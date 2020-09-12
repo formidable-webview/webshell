@@ -15,6 +15,7 @@ export interface HandleHTMLDimensionsOptions
 
 |  Property | Type | Description |
 |  --- | --- | --- |
+|  [deltaMin](./webshell.handlehtmldimensionsoptions.deltamin.md) | number | The minimum difference between two updates' dimensions to trigger a change event. |
 |  [forceImplementation](./webshell.handlehtmldimensionsoptions.forceimplementation.md) | [HTMLDimensionsImplementation](./webshell.htmldimensionsimplementation.md) \| false | Force a specific implementation, if the underlying API is available. |
 |  [pollingInterval](./webshell.handlehtmldimensionsoptions.pollinginterval.md) | number | In polling mode, at which interval should the dimensions be retrieved? |
 
