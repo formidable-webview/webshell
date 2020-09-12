@@ -187,9 +187,7 @@ const styles = StyleSheet.create({
   statsPlaceholder: {
     height: STAT_HEIGHT,
     alignSelf: 'stretch',
-    backgroundColor: 'black',
-    borderColor: 'white',
-    borderWidth: 3
+    backgroundColor: 'black'
   },
   container: {
     padding: 0,

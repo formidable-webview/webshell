@@ -3841,7 +3841,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-community/picker@1.6.0":
+"@react-native-community/picker@1.6.0, @react-native-community/picker@npm:^1.6.0":
   version: 1.6.0
   resolution: "@react-native-community/picker@npm:1.6.0"
   peerDependencies:
@@ -14543,7 +14543,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"lodash.isequal@npm:^4.0.0":
+"lodash.isequal@npm:^4.0.0, lodash.isequal@npm:^4.5.0":
   version: 4.5.0
   resolution: "lodash.isequal@npm:4.5.0"
   checksum: 5b47e094641c18a915497343894c66f7da6aebb9aaa2a3fcc5643455aaf29d19df60ebbed664c8374fb959c8b4ce96810ee6becd8a71ac58c6c2ca8d29762947
@@ -18696,6 +18696,16 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"react-native-picker-select@npm:^8.0.0":
+  version: 8.0.0
+  resolution: "react-native-picker-select@npm:8.0.0"
+  dependencies:
+    "@react-native-community/picker": ^1.6.0
+    lodash.isequal: ^4.5.0
+  checksum: b08ed307b4777c6eb79b9abb556ba8c6ae75e702ed279752123959648a3ca0a5d8107c2b6830044fdc8318c016631a0b5b5377ae8f1aba74929db05e15c90952
+  languageName: node
+  linkType: hard
+
 "react-native-reanimated@npm:~1.9.0":
   version: 1.9.0
   resolution: "react-native-reanimated@npm:1.9.0"
@@ -22783,6 +22793,7 @@ resolve@~1.12.0:
     react-native: "https://github.com/expo/react-native/archive/sdk-38.0.2.tar.gz"
     react-native-gesture-handler: ~1.6.0
     react-native-paper: ^4.1.0
+    react-native-picker-select: ^8.0.0
     react-native-reanimated: ~1.9.0
     react-native-webview: 9.4.0
     reanimated-bottom-sheet: ^1.0.0-alpha.22

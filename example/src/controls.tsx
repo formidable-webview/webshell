@@ -1,17 +1,10 @@
 import { default as React, RefObject, useCallback, memo, useMemo } from 'react';
 import { StyleSheet, ScrollView, View } from 'react-native';
 import { useWindowDimensions } from 'react-native';
-import {
-  Switch,
-  Text,
-  Surface,
-  List,
-  Appbar,
-  useTheme
-} from 'react-native-paper';
-import { Picker } from '@react-native-community/picker';
+import { Switch, Surface, List, Appbar, useTheme } from 'react-native-paper';
 import BottomSheet from 'reanimated-bottom-sheet';
 import Constants from 'expo-constants';
+import PickerSelect, { PickerStyle } from 'react-native-picker-select';
 import {
   BOTTOM_SHEET_COLLAPSED_OFFSET,
   BOTTOM_SHEET_CONTENT_HEIGHT,
@@ -67,6 +60,23 @@ const ControlsHeader = memo(
   }
 );
 
+const sourceItems = [
+  { label: 'Showcase', value: 'welcome' },
+  { label: 'Wikipedia', value: 'wikipedia' },
+  { label: 'Firefox', value: 'firefox' },
+  { label: 'Expo', value: 'expo' },
+  { label: 'Washington Post', value: 'washington' },
+  { label: 'Fake News', value: 'fox' },
+  { label: 'NSFW', value: 'nsfw' }
+];
+
+const resizeMethodItems = [
+  { label: 'Automatic', value: 'auto' },
+  { label: 'ResizeObserver', value: 'resize' },
+  { label: 'MutationObserver', value: 'mutation' },
+  { label: 'Polling', value: 'polling' }
+];
+
 export type ForceMethodOption = 'auto' | HTMLDimensionsImplementation;
 
 export function useControls({ scrollViewRef }: Props) {
@@ -75,11 +85,18 @@ export function useControls({ scrollViewRef }: Props) {
   const [paddingHz, setPaddingHz] = React.useState(0);
   const [showEvidence, setShowEvidence] = React.useState(false);
   const [showConsole, setShowConsole] = React.useState(false);
-  const [animated, setAnimated] = React.useState(false);
   const [instance, setInstance] = React.useState(0);
   const [sourceName, setSourceName] = React.useState<string>('welcome');
   const [resizeMethod, setResizeMethod] = React.useState<ForceMethodOption>(
     'auto'
+  );
+  const pickerStyle: PickerStyle = useMemo(
+    () => ({
+      viewContainer: { marginHorizontal: 8 },
+      inputAndroid: { color: theme.colors.onSurface },
+      inputIOS: { color: theme.colors.onSurface }
+    }),
+    [theme.colors]
   );
   const [allowPinchToZoom, setAllowPinchToZoom] = React.useState(false);
   const windowDimensions = useWindowDimensions();
@@ -87,25 +104,33 @@ export function useControls({ scrollViewRef }: Props) {
     false
   );
   const [isSheetOpen, setIsSheetOpen] = React.useState(false);
+  const closeBottomSheet = React.useCallback(
+    () => sheetRef.current?.snapTo(0),
+    []
+  );
   const togglePadding = React.useCallback(() => {
     setPaddingHz((p) => (p ? 0 : 20));
-  }, []);
+    closeBottomSheet();
+  }, [closeBottomSheet]);
   const toggleEvidence = React.useCallback(() => {
     animateNextFrame();
     setShowEvidence((b) => !b);
-  }, []);
-  const toggleAnimated = React.useCallback(() => setAnimated((a) => !a), []);
-  const toggleAllowPinchToZoom = React.useCallback(
-    () => setAllowPinchToZoom((p) => !p),
-    []
-  );
-  const toggleAllowWebViewNavigation = React.useCallback(
-    () => setAllowWebViewNavigation((s) => !s),
-    []
-  );
+    closeBottomSheet();
+  }, [closeBottomSheet]);
+  const toggleAllowPinchToZoom = React.useCallback(() => {
+    setAllowPinchToZoom((p) => !p);
+    closeBottomSheet();
+  }, [closeBottomSheet]);
+  const toggleAllowWebViewNavigation = React.useCallback(() => {
+    closeBottomSheet();
+    setAllowWebViewNavigation((s) => !s);
+  }, [closeBottomSheet]);
   const setSheetOpenTrue = React.useCallback(() => setIsSheetOpen(true), []);
   const setSheetOpenFalse = React.useCallback(() => setIsSheetOpen(false), []);
-  const forceRerender = React.useCallback(() => setInstance((i) => i + 1), []);
+  const forceRerender = React.useCallback(() => {
+    setInstance((i) => i + 1);
+    closeBottomSheet();
+  }, [closeBottomSheet]);
   const scrollToStart = React.useCallback(
     () => scrollViewRef.current?.scrollTo({ y: 0, animated: true }),
     [scrollViewRef]
@@ -121,14 +146,11 @@ export function useControls({ scrollViewRef }: Props) {
   const toggleConsole = React.useCallback(() => {
     animateNextFrame();
     setShowConsole((s) => !s);
-  }, []);
+    closeBottomSheet();
+  }, [closeBottomSheet]);
   const snapPointExpended = Math.min(
     BOTTOM_SHEET_CONTENT_HEIGHT + BOTTOM_SHEET_COLLAPSED_OFFSET,
     windowDimensions.height - Constants.statusBarHeight
-  );
-  const pickerStyle = useMemo(
-    () => [styles.pagePicker, { color: theme.colors.accent }],
-    [theme.colors.accent]
   );
   const makeRenderControls = React.useCallback(
     () => () => (
@@ -137,76 +159,69 @@ export function useControls({ scrollViewRef }: Props) {
           <View style={styles.controlsContainer}>
             <List.Section title="Page">
               <View>
-                <Picker
+                <PickerSelect
+                  value={sourceName}
+                  useNativeAndroidPickerStyle={true}
                   style={pickerStyle}
-                  selectedValue={sourceName}
-                  onValueChange={setSourceName as any}>
-                  <Picker.Item label="Introduction" value="welcome" />
-                  <Picker.Item
-                    label="Wikipedia (React Native)"
-                    value="wikipedia"
-                  />
-                  <Picker.Item
-                    label="Firefox (getting started)"
-                    value="firefox"
-                  />
-                  <Picker.Item label="Washington Post" value="washington" />
-                  <Picker.Item label="Fox News" value="fox" />
-                  <Picker.Item label="Expo (Get Started)" value="expo" />
-                  <Picker.Item
-                    label="A non-responsive website"
-                    value="nonresponsive"
-                  />
-                  <Picker.Item label="NSFW" value="nsfw" />
-                </Picker>
+                  items={sourceItems}
+                  onValueChange={setSourceName}
+                />
               </View>
             </List.Section>
             <List.Section title="Resize implementation">
               <View>
-                <Picker
+                <PickerSelect
+                  value={resizeMethod}
+                  useNativeAndroidPickerStyle={true}
                   style={pickerStyle}
-                  selectedValue={resizeMethod}
-                  onValueChange={setResizeMethod as any}>
-                  <Picker.Item label="Automatic" value="auto" />
-                  <Picker.Item label="ResizeObserver" value="resize" />
-                  <Picker.Item label="MutationObserver" value="mutation" />
-                  <Picker.Item label="Polling" value="polling" />
-                </Picker>
+                  items={resizeMethodItems}
+                  onValueChange={setResizeMethod}
+                />
               </View>
             </List.Section>
             <List.Section title="Customize">
-              <View style={styles.controlContainer}>
-                <Text style={styles.controlText}>Show evidence?</Text>
-                <Switch value={showEvidence} onValueChange={toggleEvidence} />
-              </View>
-              <View style={styles.controlContainer}>
-                <Text style={styles.controlText}>
-                  Add horizontal space around WebView?
-                </Text>
-                <Switch value={!!paddingHz} onValueChange={togglePadding} />
-              </View>
-              <View style={styles.controlContainer}>
-                <Text style={styles.controlText}>Use height animations?</Text>
-                <Switch value={animated} onValueChange={toggleAnimated} />
-              </View>
-              <View style={styles.controlContainer}>
-                <Text style={styles.controlText}>
-                  Enable pinch-to-zoom (x1.5)?
-                </Text>
-                <Switch
-                  value={allowPinchToZoom}
-                  onValueChange={toggleAllowPinchToZoom}
-                />
-              </View>
-              <View style={styles.controlContainer}>
-                <Text style={styles.controlText}>
-                  Open links in system browser?
-                </Text>
-                <Switch
-                  value={!allowWebViewNavigation}
-                  onValueChange={toggleAllowWebViewNavigation}
-                />
-              </View>
+              <List.Item
+                title="Show evidence"
+                description="Add React Native elements above and below WebView."
+                right={() => (
+                  <Switch value={showEvidence} onValueChange={toggleEvidence} />
+                )}
+              />
+
+              <List.Item
+                title="Display horizontal padding"
+                description="You will notice the width of the content adjust."
+                right={() => (
+                  <Switch value={!!paddingHz} onValueChange={togglePadding} />
+                )}
+              />
+              <List.Item
+                title="Show console"
+                description="Display a sticky frame with autoheight metrics"
+                right={() => (
+                  <Switch value={showConsole} onValueChange={toggleConsole} />
+                )}
+              />
+              <List.Item
+                title="Enable pinch-to-zoom (x1.5)"
+                description="Allow the WebView to be zoomed"
+                right={() => (
+                  <Switch
+                    value={allowPinchToZoom}
+                    onValueChange={toggleAllowPinchToZoom}
+                  />
+                )}
+              />
+              <List.Item
+                title="Open external links in system browser"
+                description="When off, external links will cause the WebView to change location."
+                right={() => (
+                  <Switch
+                    value={!allowWebViewNavigation}
+                    onValueChange={toggleAllowWebViewNavigation}
+                  />
+                )}
+              />
             </List.Section>
           </View>
         </View>
@@ -214,14 +229,14 @@ export function useControls({ scrollViewRef }: Props) {
     ),
     [
       sourceName,
-      animated,
       showEvidence,
+      showConsole,
       paddingHz,
       allowWebViewNavigation,
       allowPinchToZoom,
       resizeMethod,
       toggleEvidence,
-      toggleAnimated,
+      toggleConsole,
       togglePadding,
       toggleAllowWebViewNavigation,
       toggleAllowPinchToZoom,
@@ -259,11 +274,7 @@ export function useControls({ scrollViewRef }: Props) {
       enabledContentTapInteraction={false}
       enabledHeaderGestureInteraction={true}
       ref={sheetRef}
-      snapPoints={[
-        BOTTOM_SHEET_COLLAPSED_OFFSET,
-        snapPointExpended,
-        BOTTOM_SHEET_COLLAPSED_OFFSET
-      ]}
+      snapPoints={[BOTTOM_SHEET_COLLAPSED_OFFSET, snapPointExpended]}
       renderContent={makeRenderControls()}
       renderHeader={renderHeader}
       onOpenStart={setSheetOpenTrue}
@@ -282,7 +293,6 @@ export function useControls({ scrollViewRef }: Props) {
     paddingHz,
     showEvidence,
     showConsole,
-    animated,
     instance,
     sourceName,
     resizeMethod
@@ -317,6 +327,7 @@ const styles = StyleSheet.create({
     padding: 5
   },
   controlsContainer: {
-    maxWidth: 400
+    maxWidth: 400,
+    alignSelf: 'stretch'
   }
 });

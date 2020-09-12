@@ -97,11 +97,11 @@ import Constants from 'expo-constants';
 const styles = StyleSheet.create({
   stats: {
     position: 'absolute',
-    top: Constants.statusBarHeight + 3,
-    left: 3,
-    right: 3,
+    top: Constants.statusBarHeight,
+    left: 0,
+    right: 0,
     padding: 8,
-    height: STAT_HEIGHT - 6,
+    height: STAT_HEIGHT - 3,
     elevation: 0,
     backgroundColor: BACKGROUND,
     opacity: 0.92
