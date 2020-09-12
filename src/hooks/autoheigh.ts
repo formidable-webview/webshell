@@ -18,11 +18,11 @@ let numberOfEvents = 0;
 
 interface AutoheightState {
   implementation: HTMLDimensionsImplementation | null;
-  contentDimensions: Partial<RectSize>;
+  contentSize: Partial<RectSize>;
   /**
-   * When state is synched, the viewport height matches content height.
+   * When state is synced, the viewport height matches content height.
    */
-  syncState: 'init' | 'synching' | 'synched';
+  syncState: 'init' | 'syncing' | 'synced';
   lastFrameChangedWidth: boolean;
   viewportWidth: number;
 }
@@ -37,24 +37,24 @@ function useAutoheightState<S extends WebshellProps<MinimalWebViewProps, any>>({
   const { scalesPageToFit, source = {}, webshellDebug } = webshellProps;
   const [state, setState] = React.useState<AutoheightState>({
     implementation: null,
-    contentDimensions: initialDimensions,
+    contentSize: initialDimensions,
     syncState: 'init',
     lastFrameChangedWidth: false,
     viewportWidth: 0
   });
   const {
     implementation,
-    contentDimensions: { width, height }
+    contentSize: { width, height }
   } = state;
   React.useEffect(() => {
-    setState(({ contentDimensions, viewportWidth }) => ({
+    setState(({ contentSize, viewportWidth }) => ({
       viewportWidth,
-      contentDimensions: {
+      contentSize: {
         height: undefined,
-        width: contentDimensions.width
+        width: contentSize.width
       },
       implementation: null,
-      syncState: 'synching',
+      syncState: 'syncing',
       lastFrameChangedWidth: false
     }));
     webshellDebug &&
@@ -163,7 +163,7 @@ export function useAutoheight<
   } = webshellProps;
   const { state, setState } = useAutoheightState(params);
   const {
-    contentDimensions: { height },
+    contentSize: { height },
     implementation,
     lastFrameChangedWidth
   } = state;
@@ -177,8 +177,8 @@ export function useAutoheight<
         return {
           viewportWidth: htmlDimensions.layoutViewport.width,
           implementation: htmlDimensions.implementation,
-          contentDimensions: htmlDimensions.content,
-          syncState: 'synched',
+          contentSize: htmlDimensions.content,
+          syncState: 'synced',
           lastFrameChangedWidth:
             prevState.viewportWidth !== htmlDimensions.layoutViewport.width
         };
@@ -233,7 +233,7 @@ export function useAutoheight<
       webshellAnimatedHeight: undefined
     },
     resizeImplementation: implementation,
-    contentSize: state.contentDimensions,
+    contentSize: state.contentSize,
     syncState: state.syncState
   };
 }

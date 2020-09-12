@@ -5,7 +5,7 @@ import {
   ComponentProps,
   ComponentPropsWithRef
 } from 'react';
-import { NativeSyntheticEvent, Animated } from 'react-native';
+import { NativeSyntheticEvent } from 'react-native';
 import featuresLoaderScript from './features-loader.webjs';
 import {
   AssembledFeature,
@@ -134,7 +134,6 @@ export function makeWebshell<
       onMessage,
       onDOMError,
       webshellDebug,
-      webshellAnimatedHeight,
       ...otherProps
     } = props as WebshellInvariantProps & MinimalWebViewProps;
     const domHandlers = extractDOMHandlers(otherProps);
@@ -182,31 +181,15 @@ export function makeWebshell<
       // eslint-disable-next-line react-hooks/exhaustive-deps
       [...Object.values(domHandlers), onDOMError, onMessage]
     );
-    const { webViewRef, injectedJavaScript, style, ...webViewProps } = props;
+    const { webViewRef, injectedJavaScript, ...webViewProps } = props;
     const resultingJavascript = React.useMemo(() => {
       const safeUserscript =
         typeof injectedJavaScript === 'string' ? injectedJavaScript : '';
       return `(function(){${safeUserscript};${injectableScript};})();true;`;
     }, [injectedJavaScript]);
-    const renderInContainer = React.useCallback(
-      (children: any) => {
-        const animatedStyle = {
-          height: webshellAnimatedHeight || undefined,
-          flexGrow: 1,
-          alignSelf: 'stretch' as 'stretch'
-        };
-        return webshellAnimatedHeight ? (
-          <Animated.View style={animatedStyle} children={children} />
-        ) : (
-          children
-        );
-      },
-      [webshellAnimatedHeight]
-    );
-    return renderInContainer(
+    return (
       <WebView
         {...filterWebViewProps(webViewProps)}
-        style={style}
         ref={webViewRef}
         injectedJavaScript={resultingJavascript}
         javaScriptEnabled={true}

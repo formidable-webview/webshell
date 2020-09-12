@@ -59,12 +59,12 @@ export interface HandleHTMLDimensionsOptions {
  */
 export interface HTMLDimensions {
   /**
-   * The layout viewport dimensions, e.g. the size of the WebView in device pixels.
+   * The layout viewport size, e.g. the size of the WebView in device pixels.
    */
   layoutViewport: RectSize;
 
   /**
-   * The content dimensions, e.g. the size of the body element in CSS pixels.
+   * The content size, e.g. the size of the body element in CSS pixels.
    */
   content: RectSize;
 
