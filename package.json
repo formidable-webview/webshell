@@ -33,6 +33,7 @@
     "@babel/runtime": "^7.11.2",
     "@commitlint/cli": "^9.1.2",
     "@commitlint/config-conventional": "^9.1.2",
+    "@docusaurus/init": "next",
     "@formidable-webview/ersatz": "^1.0.0",
     "@formidable-webview/ersatz-testing": "^1.0.1",
     "@formidable-webview/eslint-config-webjs": "^1.0.0",
@@ -82,7 +83,8 @@
     "access": "public"
   },
   "workspaces": [
-    "example"
+    "example",
+    "website"
   ],
   "source": "src/index.ts",
   "release-it": {
