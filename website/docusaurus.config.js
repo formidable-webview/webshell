@@ -99,5 +99,35 @@ module.exports = {
         }
       }
     ]
+  ],
+  plugins: [
+    [
+      'docusaurus-plugin-typedoc',
+      {
+        // list of input files relative to project (required).
+        inputFiles: ['../types'],
+
+        // docs directory relative to the site directory (defaults to docs).
+        docsRoot: 'docs',
+
+        // output directory relative to docs directory - use '' for docs root (defaults to 'api').
+        out: 'api',
+
+        // Skip updating of sidebars.json (defaults to false).
+        skipSidebar: false,
+
+        // Pass in any additional Typescript/TypeDoc options (see typedoc --help).
+        mode: 'file',
+        target: 'ES5',
+        includeDeclarations: true,
+        excludeExternals: true,
+        tsconfig: '../tsconfig.json',
+        ignoreCompilerErrors: true,
+        readme: 'none',
+        disableSources: true,
+        includeVersion: true,
+        categoryOrder: ['Functions', 'Variables', '*']
+      }
+    ]
   ]
 };

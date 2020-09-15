@@ -61,13 +61,14 @@ happen while still being notified by setting `preventDefault` option to
 ```ts
 // integration/basic.tsx
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Linking } from 'react-native';
 import makeWebshell, {
   handleLinkPressFeature,
   handleHTMLDimensionsFeature,
   HTMLDimensions,
-  LinkPressTarget
+  LinkPressTarget,
+  RectSize
 } from '@formidable-webview/webshell';
 import WebView, { WebViewProps } from 'react-native-webview';
 
@@ -77,20 +78,22 @@ const Webshell = makeWebshell(
   handleHTMLDimensionsFeature.assemble()
 );
 
-export default function EnhancedWebView(webViewProps: WebViewProps) {
+export default function NaiveAutoheightWebView(webViewProps: WebViewProps) {
+  const [size, setSize] = useState<RectSize | null>(null);
   const onLinkPress = useCallback((target: LinkPressTarget) => {
     Linking.canOpenURL(target.uri) && Linking.openURL(target.uri);
   }, []);
-  const onBodyDimensions = useCallback(
-    ({ content: { height } }: HTMLDimensions) =>
-      console.info('Content has height of', height),
+  const onHTMLDimensions = useCallback(
+    ({ content: { height, width } }: HTMLDimensions) =>
+      setSize({ width, height }),
     []
   );
   return (
     <Webshell
       onDOMLinkPress={onLinkPress}
-      onDOMHTMLDimensions={onBodyDimensions}
+      onDOMHTMLDimensions={onHTMLDimensions}
       {...webViewProps}
+      style={[webViewProps.style, size]}
     />
   );
 }
@@ -126,7 +129,11 @@ const Webshell = makeWebshell(
   WebView,
   handleHTMLDimensionsFeature.assemble(),
   forceResponsiveViewportFeature.assemble({ maxScale: 2 }),
-  forceElementSizeFeature.assemble({ target: 'body' })
+  forceElementSizeFeature.assemble({
+    target: 'body',
+    heightValue: 'auto',
+    widthValue: 'auto'
+  })
 );
 
 export type WebshellProps = ComponentProps<typeof Webshell>;
