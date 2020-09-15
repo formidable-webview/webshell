@@ -21,9 +21,8 @@ Note that you will need to replace relative imports with direct imports from the
 `import {...} from "@formidable-webview/webshell";`
 :::
 
-```tsx
-// src/features/handle-link-press.ts
-
+<!-- embedme ../../src/features/handle-link-press.ts -->
+```ts
 import linkPressScript from './handle-link-press.webjs';
 import { makeFeature } from '../make-feature';
 import type { EventFeatureOf, DOMRect } from '../types';
@@ -115,9 +114,8 @@ export const handleLinkPressFeature: EventFeatureOf<
 The behavior in the DOM is implemented in the following file (please note that
 the extension is arbitrary, see the [tooling section](#tooling)):
 
-```js
-// src/features/handle-link-press.webjs
-
+<!-- embedme ../../src/features/handle-link-press.webjs -->
+```js title="src/features/handle-link-press.webjs"
 function handleLinkPressFeature(context) {
   var postMessage = context.postMessage;
   var options = context.options || {};

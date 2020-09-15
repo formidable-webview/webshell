@@ -11,7 +11,11 @@ const Webshell = makeWebshell(
   WebView,
   handleHTMLDimensionsFeature.assemble(),
   forceResponsiveViewportFeature.assemble({ maxScale: 2 }),
-  forceElementSizeFeature.assemble({ target: 'body' })
+  forceElementSizeFeature.assemble({
+    target: 'body',
+    heightValue: 'auto',
+    widthValue: 'auto'
+  })
 );
 
 export type WebshellProps = ComponentProps<typeof Webshell>;

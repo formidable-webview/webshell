@@ -1,6 +1,11 @@
 module.exports = {
   someSidebar: {
-    Guides: ['introduction', 'autoheight', 'implementing-features'],
+    Guides: [
+      'introduction',
+      'basic-concepts',
+      'autoheight',
+      'implementing-features'
+    ],
     Features: [],
     Docusaurus: ['mdx', 'markdown']
   }

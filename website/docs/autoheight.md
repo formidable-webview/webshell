@@ -1,12 +1,12 @@
 ---
 id: autoheight
-sidebar_label: Autoheight WebView
-title: Autoheight WebView
+sidebar_label: useAutoheight
+title: useAutoheight
 ---
 import { Subtitle } from './Subtitle.jsx';
 
 <Subtitle>
-Craft a Full-Featured, Dynamic Autoheight WebView-based component with <em>webshell</em>
+Craft a Full-Featured, Dynamic Autoheight WebView-based component.
 </Subtitle>
 
 :::tip
@@ -16,27 +16,15 @@ Challenge](/blog/2020/09/15/overcoming-the-autoheight-webview-challenge) to demy
 
 :::
 
-
-<!-- <div data-snack-id="@jsamr/rnrhtml-font" data-snack-platform="web" data-snack-preview="true" data-snack-theme="light" style="overflow:hidden;background:#fafafa;border:1px solid rgba(0,0,0,.08);border-radius:4px;height:505px;width:100%"></div><script async src="https://snack.expo.io/embed.js"></script> -->
-
-### Understanding the chain of constraints
-
 This component height automatically and dynamically adapts to the page height,
 even after DOM is mounted.
 
-// TODO develop
 
-Layout Width → Content Width → Content Height → Layout height
+## Basic Usage
 
-### Example
+<!-- embedme ../../integration/autoheight.tsx -->
 
-```ts file="../../integration/autoheight.tsx" title="integration/autoheight.tsx"
-const tata = 1;
-```
-
-```ts
-// integration/autoheight.tsx
-
+```ts title="autoheight.tsx"
 import React, { ComponentProps } from 'react';
 import makeWebshell, {
   handleHTMLDimensionsFeature,
@@ -50,7 +38,11 @@ const Webshell = makeWebshell(
   WebView,
   handleHTMLDimensionsFeature.assemble(),
   forceResponsiveViewportFeature.assemble({ maxScale: 2 }),
-  forceElementSizeFeature.assemble({ target: 'body' })
+  forceElementSizeFeature.assemble({
+    target: 'body',
+    heightValue: 'auto',
+    widthValue: 'auto'
+  })
 );
 
 export type WebshellProps = ComponentProps<typeof Webshell>;
@@ -62,5 +54,11 @@ export default function AutoheightWebView(webshellProps: WebshellProps) {
 
 ```
 
-<a name="implementing-features"></a>
+## Recommended Features
+
+## Understanding the chain of constraints
+
+// TODO develop
+
+Layout Width → Content Width → Content Height → Layout height
 

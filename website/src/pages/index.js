@@ -8,32 +8,32 @@ import styles from './styles.module.css';
 
 const features = [
   {
-    title: 'Easy to Use',
-    imageUrl: 'img/undraw_docusaurus_mountain.svg',
+    title: "Don't Repeat Ourselves",
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        The ultimate goal of <strong>webshell</strong> is to{' '}
+        <strong>modularize</strong> scattered features reimplemented in so many{' '}
+        <code>WebView</code>-based components and reuse these at will.
       </>
     )
   },
   {
-    title: 'Focus on What Matters',
-    imageUrl: 'img/undraw_docusaurus_tree.svg',
+    title: 'Leveraging WebView Potential',
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        <strong>Implement</strong>, <strong>test</strong> and{' '}
+        <strong>compose</strong> rich behaviors embedded in injected scripts to
+        craft amazing, <strong>reliable</strong> <code>WebView</code>-based
+        components.
       </>
     )
   },
   {
-    title: 'Powered by React',
-    imageUrl: 'img/undraw_docusaurus_react.svg',
+    title: 'Autoheight Done Right',
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        Discorver the landmark use-case: the <code>useAutoheight</code> hook.
+        Its underlying complexity finally demystified!
       </>
     )
   }

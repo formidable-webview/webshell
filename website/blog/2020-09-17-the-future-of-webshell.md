@@ -1,0 +1,44 @@
+---
+title: The Future of Webshell
+author: Jules Sam. Randolph
+author_title: Freelance React developer
+author_url: https://github.com/jsamr
+author_image_url: https://avatars1.githubusercontent.com/u/3646758?s=460&u=f699d25514156aa9b975837a52daf135449e43d8&v=4
+tags: [webshell, react native, future]
+---
+
+This post will be regularly updated to track the main features scheduled for Webshell.
+
+## Passing props to Features
+
+Features are already customizable with options, which are once-and-for-all
+delivered as an argument of the feature function. But what about providing
+dynamic attributes which sync with shell props?
+
+## Two-way Communication
+
+Currently, features can inject scripts which will create events, and offer props to handle those events.
+What we'd like to provide is a way to communicate imperatively *from* the shell to the DOM. Something like this:
+
+```jsx
+import * as React from 'react';
+const Webshell = makeWebshell(WebView, feature1);
+
+const MyComponent = (props) => {
+  const bridge = React.useRef();
+  React.useEffect(() => {
+    bridge.postMessage(feature1.featureIdentifier, props.user);
+  }, [props.user])
+  return <Webshell bridge={bridge} />
+}
+```
+
+And on the Web side:
+
+```js
+function feature1(context) {
+  context.onMessage(function(user){
+    console.info(user); // Prints user!
+  });
+}
+```
