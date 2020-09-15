@@ -5,6 +5,8 @@ title: Basic Concepts
 
 import {Webshell} from './Webshell';
 import {Term} from './Term';
+import { APIReference } from './APIReference.jsx';
+import { APIBox } from './APIBox.jsx';
 
 ## What is a Feature?
 
@@ -18,7 +20,9 @@ following things:
 
 ## What is a Shell?
 
-This library exposes one landmark function, `makeWebshell`, a <Term id="HOC"/>
+<APIBox reference="makeWebshell" type="function" />
+
+This library exposes one landmark function, <APIReference reference="makeWebshell" type="function" />, a <Term id="HOC"/>
 which **augments** a `WebView` passed as first argument with features passed
 as remaining arguments.
 
@@ -38,7 +42,7 @@ const Webshell = makeWebshell(
 
 :::note
 We will use the word *shell* as an alias to the `Webshell` component produced
-by `makeWebshell` function.
+by <APIReference reference="makeWebshell" type="function" /> function.
 :::
 
 The injected features will add two props to the shell, which already supports all `WebView` props:

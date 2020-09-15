@@ -4,21 +4,19 @@ sidebar_label: useAutoheight
 title: useAutoheight
 ---
 import { Subtitle } from './Subtitle.jsx';
+import { APIReference } from './APIReference.jsx';
+import { APIBox } from './APIBox.jsx';
 
 <Subtitle>
 Craft a Full-Featured, Dynamic Autoheight WebView-based component.
 </Subtitle>
 
-:::tip
-
-Read [Overcoming the Autoheight WebView
-Challenge](/blog/2020/09/15/overcoming-the-autoheight-webview-challenge) to demystify all the magic behind this hook.
-
-:::
-
 This component height automatically and dynamically adapts to the page height,
 even after DOM is mounted.
 
+<APIBox reference="useAutoheight" type="function" />
+
+Blahblahblah
 
 ## Basic Usage
 
@@ -53,6 +51,13 @@ export default function AutoheightWebView(webshellProps: WebshellProps) {
 }
 
 ```
+
+:::tip
+
+Read [Overcoming the Autoheight WebView
+Challenge](/blog/2020/09/15/overcoming-the-autoheight-webview-challenge) to demystify all the magic behind this hook.
+
+:::
 
 ## Recommended Features
 

@@ -10002,13 +10002,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"docusaurus-plugin-typedoc@npm:^0.0.3":
+docusaurus-plugin-typedoc@0.0.3:
   version: 0.0.3
   resolution: "docusaurus-plugin-typedoc@npm:0.0.3"
   peerDependencies:
     typedoc: ">=0.17.0"
     typedoc-plugin-markdown: ">=2.4.2"
   checksum: d2cb4b15660d5cc1c24bdb9c5806f7367a1eaaa3ef4a53911c0e78560b353d4030103d550b47a96391ab663a37dffe61559a284f5c6e44bb407deaab88ec29dd
+  languageName: node
+  linkType: hard
+
+"docusaurus-plugin-typedoc@patch:docusaurus-plugin-typedoc@0.0.3#patches/docusaurus-plugin-typedoc.patch::locator=%40formidable-webview%2Fwebshell%40workspace%3A.":
+  version: 0.0.3
+  resolution: "docusaurus-plugin-typedoc@patch:docusaurus-plugin-typedoc@npm%3A0.0.3#patches/docusaurus-plugin-typedoc.patch::version=0.0.3&hash=efcc7d&locator=%40formidable-webview%2Fwebshell%40workspace%3A."
+  peerDependencies:
+    typedoc: ">=0.17.0"
+    typedoc-plugin-markdown: ">=2.4.2"
+  checksum: ee16de185d6214d5038d63bd0fdac4ecbd142a43f9b626afa00cefb5d33e425f92356594e89a32f9f2619f7178ecac131bfb47d304d745aae80738803537193b
   languageName: node
   linkType: hard
 

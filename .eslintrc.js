@@ -3,7 +3,7 @@ module.exports = {
   extends: ['@react-native-community', 'plugin:compat/recommended'],
   parser: '@typescript-eslint/parser',
   plugins: ['@typescript-eslint', 'eslint-plugin-tsdoc'],
-  ignorePatterns: ['lib/', 'types/'],
+  ignorePatterns: ['lib/', 'types/', 'website/typedoc-sidebars.js'],
   overrides: [
     {
       files: ['*.webjs'],

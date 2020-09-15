@@ -9,6 +9,9 @@ module.exports = {
   organizationName: '@formidable-webview', // Usually your GitHub org/user name.
   projectName: 'webshell', // Usually your repo name.
   themeConfig: {
+    colorMode: {
+      respectPrefersColorScheme: true
+    },
     navbar: {
       title: 'webshell',
       logo: {
@@ -115,6 +118,7 @@ module.exports = {
 
         // Skip updating of sidebars.json (defaults to false).
         skipSidebar: false,
+        sidebarFile: 'typedoc-sidebars.js',
 
         // Pass in any additional Typescript/TypeDoc options (see typedoc --help).
         mode: 'file',
@@ -125,7 +129,7 @@ module.exports = {
         ignoreCompilerErrors: true,
         readme: 'none',
         disableSources: true,
-        includeVersion: true,
+        includeVersion: false,
         categoryOrder: ['Functions', 'Variables', '*']
       }
     ]

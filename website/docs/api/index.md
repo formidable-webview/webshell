@@ -1,11 +1,11 @@
 ---
 id: "index"
-title: "@formidable-webview/webshell - v1.0.2"
+title: "@formidable-webview/webshell"
 sidebar_label: "Globals"
 hide_title: "true"
 ---
 
-# @formidable-webview/webshell - v1.0.2
+# @formidable-webview/webshell
 
 ## Index
 

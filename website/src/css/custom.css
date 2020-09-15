@@ -10,11 +10,19 @@
   --ifm-color-primary: #d0a602;
   --ifm-color-primary-dark: #bb9502;
   --ifm-color-primary-darker: #b18d02;
-  --ifm-color-primary-darkest: #927401;
+  --ifm-color-primary-darkest: #997b04;
   --ifm-color-primary-light: #e5b702;
   --ifm-color-primary-lighter: #efbf02;
   --ifm-color-primary-lightest: #fdcd14;
   --ifm-code-font-size: 95%;
+
+  --ifm-color-secondary: #ebedf0;
+  --ifm-color-secondary-dark: rgb(212, 213, 216);
+  --ifm-color-secondary-darker: rgb(200, 201, 204);
+  --ifm-color-secondary-darkest: rgb(164, 166, 168);
+  --ifm-color-secondary-light: rgb(238, 240, 242);
+  --ifm-color-secondary-lighter: rgb(241, 242, 245);
+  --ifm-color-secondary-lightest: rgb(245, 246, 248);
 }
 
 .docusaurus-highlight-code-line {
@@ -22,4 +30,36 @@
   display: block;
   margin: 0 calc(-1 * var(--ifm-pre-padding));
   padding: 0 var(--ifm-pre-padding);
+}
+
+a.api-ref {
+  color: var(--ifm-color-primary);
+  font-style: italic;
+  font-family: 'IBM Plex Mono';
+}
+
+a.api-ref.dark  {
+  color: var(--ifm-color-primary-lighter);
+}
+
+.api-box {
+  margin: auto;
+  margin-top: var(--ifm-global-spacing);
+  margin-bottom: var(--ifm-global-spacing);
+  padding-bottom: var(--ifm-global-spacing);
+  max-width: 25rem;
+}
+
+.api-box .api-ref {
+  font-weight: var(--ifm-font-weight-bold);
+}
+
+.api-box__title {
+  text-transform: uppercase;
+  font-size: 0.6rem;
+  letter-spacing: 2px;
+}
+
+.api-ref.function::after {
+  content: "()";
 }
