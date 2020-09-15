@@ -4,18 +4,12 @@
 
 ```ts
 
-import { Animated } from 'react-native';
 import { ComponentPropsWithoutRef } from 'react';
 import { ComponentType } from 'react';
-import { DOMElementRequest as DOMElementRequest_2 } from 'src/types';
 import { ElementRef } from 'react';
-import { Feature as Feature_2 } from 'src/types';
 import { ForwardRefExoticComponent } from 'react';
 import * as React_2 from 'react';
-import { RectSize as RectSize_2 } from 'src/features/types';
 import { RefAttributes } from 'react';
-import { StyleProp } from 'react-native';
-import { ViewStyle } from 'react-native';
 
 // @public
 export type AssembledEventFeature<O = {}, S = EventHandlerDefinition<string, any>, P = {}> = S extends EventHandlerDefinition<infer H, infer Payload> ? AssembledFeature<O, S, EventHandlerProps<H, Payload> & P> : never;
@@ -38,6 +32,17 @@ export interface AutoheightParams<S extends WebshellProps<MinimalWebViewProps, [
     webshellProps: S;
     width?: number;
 }
+
+// @public
+export interface AutoheightState<S extends WebshellProps<MinimalWebViewProps, [AssembledFeatureOf<typeof handleHTMLDimensionsFeature>]>> {
+    autoheightWebshellProps: Pick<S, 'onDOMHTMLDimensions' | 'style' | 'scalesPageToFit' | 'showsVerticalScrollIndicator' | 'disableScrollViewPanResponder'> & Partial<S>;
+    contentSize: Partial<RectSize>;
+    resizeImplementation: HTMLDimensionsImplementation | null;
+    syncState: AutoheightSyncState;
+}
+
+// @public
+export type AutoheightSyncState = 'init' | 'syncing' | 'synced';
 
 // @public (undocumented)
 export interface CSSBox {
@@ -129,12 +134,13 @@ export interface ForceElementSizeOptions {
     forceWidth?: boolean;
     heightValue?: number | string;
     shouldThrowWhenNotFound?: boolean;
-    target: DOMElementRequest_2;
+    // Warning: (ae-forgotten-export) The symbol "DOMElementRequest" needs to be exported by the entry point index.d.ts
+    target: DOMElementRequest;
     widthValue?: number | string;
 }
 
 // @public
-export const forceResponsiveViewportFeature: Feature_2<ForceResponsiveViewportOptions>;
+export const forceResponsiveViewportFeature: Feature<ForceResponsiveViewportOptions>;
 
 // @public
 export interface ForceResponsiveViewportOptions {
@@ -144,7 +150,6 @@ export interface ForceResponsiveViewportOptions {
 // @public
 export interface HandleElementCSSBoxDimensionsOptions {
     shouldThrowWhenNotFound?: boolean;
-    // Warning: (ae-forgotten-export) The symbol "DOMElementRequest" needs to be exported by the entry point index.d.ts
     target: DOMElementRequest;
 }
 
@@ -223,6 +228,8 @@ export { makeWebshell }
 // @public
 export interface MinimalWebViewProps {
     // (undocumented)
+    readonly disableScrollViewPanResponder?: unknown;
+    // (undocumented)
     readonly injectedJavaScript?: unknown;
     // (undocumented)
     readonly javaScriptEnabled?: unknown;
@@ -234,6 +241,8 @@ export interface MinimalWebViewProps {
     readonly onNavigationStateChange?: unknown;
     // (undocumented)
     readonly scalesPageToFit?: unknown;
+    // (undocumented)
+    readonly showsVerticalScrollIndicator?: unknown;
     // (undocumented)
     readonly source?: Record<string, any>;
     // (undocumented)
@@ -255,20 +264,7 @@ export interface RectSize {
 }
 
 // @beta
-export function useAutoheight<S extends WebshellProps<MinimalWebViewProps, [AssembledFeatureOf<typeof handleHTMLDimensionsFeature>]>>(params: AutoheightParams<S>): {
-    autoheightWebshellProps: Pick<S, Exclude<keyof S, "style" | "webshellDebug" | "onNavigationStateChange" | "scalesPageToFit" | "onDOMHTMLDimensions">> & {
-        webshellDebug: boolean | undefined;
-        onDOMHTMLDimensions: (htmlDimensions: HTMLDimensions) => void;
-        style: StyleProp<ViewStyle>;
-        scalesPageToFit: boolean;
-        showsVerticalScrollIndicator: boolean;
-        disableScrollViewPanResponder: boolean;
-        webshellAnimatedHeight: undefined;
-    };
-    resizeImplementation: "resize" | "mutation" | "polling" | null;
-    contentSize: Partial<RectSize_2>;
-    computingState: "init" | "processing" | "computed";
-};
+export function useAutoheight<S extends WebshellProps<MinimalWebViewProps, [AssembledFeatureOf<typeof handleHTMLDimensionsFeature>]>>(params: AutoheightParams<S>): AutoheightState<S>;
 
 // @public
 export interface VisualViewportDimensions {
@@ -305,7 +301,6 @@ export type WebshellComponentOf<C extends ComponentType<any>, F extends Feature<
 // @public
 export interface WebshellInvariantProps {
     onDOMError?: (featureIdentifier: string, error: string) => void;
-    webshellAnimatedHeight?: Animated.Value | null;
     webshellDebug?: boolean;
 }
 
