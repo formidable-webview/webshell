@@ -14,7 +14,7 @@ import {
   MinimalWebViewProps,
   AssembledEventFeature,
   EventHandlerDefinition
-} from './types.js';
+} from './types';
 
 interface WebViewMessage {
   data: string;

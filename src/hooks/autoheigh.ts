@@ -10,7 +10,7 @@ import type {
   HTMLDimensionsImplementation
 } from '../features/handle-html-dimensions';
 import { StyleProp, ViewStyle } from 'react-native';
-import { RectSize } from 'src/features/types';
+import { RectSize } from '../features/types';
 
 const initialDimensions = { width: undefined, height: undefined };
 

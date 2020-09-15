@@ -1,6 +1,6 @@
 import script from './force-element-size.webjs';
 import { makeFeature } from '../make-feature';
-import { DOMElementRequest } from 'src/types';
+import { DOMElementRequest } from '../types';
 
 /**
  * An object describing customization for the force body feature.

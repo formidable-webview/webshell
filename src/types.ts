@@ -66,7 +66,7 @@ export type WebshellAssembledProps<F> = F extends AssembledFeature<
  * A lookup type to find Webshell Component type from a list of features.
  *
  * @example
- * ```
+ * ```ts
  * const Webshell: WebshellComponentOf<
  *  WebViewProps,
  *  [typeof featureA, typeof featureB]

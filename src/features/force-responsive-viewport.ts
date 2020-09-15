@@ -1,6 +1,6 @@
 import script from './force-responsive-viewport.webjs';
 import { makeFeature } from '../make-feature';
-import { Feature } from 'src/types';
+import { Feature } from '../types';
 
 /**
  * An object describing customization for the fix viewport feature.
