@@ -27,8 +27,6 @@ jobs:
       name: Linting Tests
     - run: yarn run test:jest --coverage
       name: Behavior Tests
-    - run: yarn run test:doc
-      name: Documentation Tests
     - run: yarn run build
       name: Build
     - uses: codecov/codecov-action@v1

@@ -242,7 +242,7 @@ ___
 A lookup type to find Webshell Component type from a list of features.
 
 **`example`** 
-```
+```ts
 const Webshell: WebshellComponentOf&lt;
  WebViewProps,
  [typeof featureA, typeof featureB]
