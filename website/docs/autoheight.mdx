@@ -1,11 +1,12 @@
 ---
 id: autoheight
-sidebar_label: useAutoheight
-title: useAutoheight
+sidebar_label: Autoheight WebView
+title: Autoheight WebView
 ---
-import { Subtitle } from './Subtitle.jsx';
-import { APIReference } from './APIReference.jsx';
-import { APIBox } from './APIBox.jsx';
+import { Subtitle } from './Subtitle';
+import { APIReference } from './APIReference';
+import { APIBox } from './APIBox';
+import { DualCodeSource } from './CodeSource';
 
 <Subtitle>
 Craft a Full-Featured, Dynamic Autoheight WebView-based component.
@@ -20,7 +21,7 @@ Blahblahblah
 
 ## Basic Usage
 
-<!-- embedme ../../integration/autoheight.tsx -->
+<DualCodeSource jsx title="AutoheightWebView" sourceBase={"autoheight"} />
 
 ```ts title="autoheight.tsx"
 import React, { ComponentProps } from 'react';
@@ -42,7 +43,9 @@ const Webshell = makeWebshell(
     widthValue: 'auto'
   })
 );
+```
 
+<!--
 export type WebshellProps = ComponentProps<typeof Webshell>;
 
 export default function AutoheightWebView(webshellProps: WebshellProps) {
@@ -50,7 +53,7 @@ export default function AutoheightWebView(webshellProps: WebshellProps) {
   return <Webshell {...autoheightWebshellProps} />;
 }
 
-```
+``` -->
 
 :::tip
 

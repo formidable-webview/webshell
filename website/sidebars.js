@@ -2,13 +2,9 @@ const { typedocSidebar } = require('./typedoc-sidebars');
 
 module.exports = {
   someSidebar: {
-    Guides: [
-      'introduction',
-      'basic-concepts',
-      'autoheight',
-      'implementing-features',
-      'features'
-    ],
+    Webshell: ['introduction', 'basic-concepts', 'minimal-example'],
+    Guides: ['autoheight', 'features'],
+    'Advanced Guides': ['implementing-features', 'tooling'],
     API: typedocSidebar,
     Docusaurus: ['mdx', 'markdown']
   }

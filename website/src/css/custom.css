@@ -23,6 +23,40 @@
   --ifm-color-secondary-light: rgb(238, 240, 242);
   --ifm-color-secondary-lighter: rgb(241, 242, 245);
   --ifm-color-secondary-lightest: rgb(245, 246, 248);
+
+  --ifm-font-family-base: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu,
+    Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica,
+    Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  --ifm-font-family-monospace: 'IBM Plex Mono', SFMono-Regular, Menlo, Monaco,
+    Consolas, 'Liberation Mono', 'Courier New', monospace;
+}
+
+/* Derived from infa*/
+:root {
+  --ra-admonition-background-color: var(--ifm-alert-background-color);
+  --ra-admonition-border-width: var(--ifm-alert-border-width);
+  --ra-admonition-border-color: var(--ifm-alert-border-color);
+  --ra-admonition-border-radius: var(--ifm-alert-border-radius);
+  --ra-admonition-color: var(--ifm-alert-color);
+  --ra-admonition-padding-vertical: var(--ifm-alert-padding-vertical);
+  --ra-admonition-padding-horizontal: var(--ifm-alert-padding-horizontal);
+  --ra-color-note: var(--ifm-color-secondary);
+  --ra-color-important: var(--ifm-color-info);
+  --ra-color-tip: var(--ifm-color-success);
+  --ra-color-caution: var(--ifm-color-warning);
+  --ra-color-warning: var(--ifm-color-danger);
+  --ra-color-text-dark: var(--ifm-color-gray-900);
+}
+
+html[data-theme='dark'] {
+  --ifm-font-color-base: var(--ifm-color-gray-500);
+}
+
+html[data-theme='dark'] main h1,
+html[data-theme='dark'] main h2,
+html[data-theme='dark'] main h3,
+html[data-theme='dark'] main h4 {
+  color: white;
 }
 
 .docusaurus-highlight-code-line {
@@ -32,14 +66,44 @@
   padding: 0 var(--ifm-pre-padding);
 }
 
-a.api-ref {
-  color: var(--ifm-color-primary);
-  font-style: italic;
-  font-family: 'IBM Plex Mono';
+html[data-theme='light'] main a {
+  color: var(--ifm-color-gray-600);
 }
 
-a.api-ref.dark  {
+html[data-theme='dark'] main a {
+  color: var(--ifm-color-gray-100);
+}
+
+html[data-theme='dark'] main .admonition a {
+  color: unset;
+}
+
+main abbr a.term {
+  text-decoration: underline dotted;
+}
+
+a.api-ref {
+  color: var(--ifm-color-primary);
+}
+
+a.api-ref,
+a.external-component {
+  font-family: var(--ifm-font-family-monospace);
+  font-style: italic;
+  text-decoration: none;
+}
+
+a.api-ref:hover,
+a.external-component:hover {
+  text-decoration: underline;
+}
+
+html[data-theme='dark'] a.api-ref {
   color: var(--ifm-color-primary-lighter);
+}
+
+html[data-theme='dark'] .admonition.admonition-note a.api-ref {
+  color: var(--ifm-color-primary-darkest);
 }
 
 .api-box {
@@ -61,5 +125,5 @@ a.api-ref.dark  {
 }
 
 .api-ref.function::after {
-  content: "()";
+  content: '()';
 }

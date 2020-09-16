@@ -78,9 +78,7 @@ module.exports = {
       ],
       copyright: `Copyright © ${new Date().getFullYear()} Jules Sam. Randolph`
     },
-    prism: {
-      theme: require('prism-react-renderer/themes/dracula')
-    }
+    prism: {}
   },
   presets: [
     [

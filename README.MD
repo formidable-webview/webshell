@@ -17,7 +17,7 @@ the underlying [`WebView`](https://github.com/react-native-community/react-nativ
 
 The DOM features form an abstraction layer over [`WebView`'s messaging
 system](https://github.com/react-native-community/react-native-webview/blob/master/docs/Guide.md#communicating-between-js-and-native),
-hence the “shell” in `Webshell`. Each DOM feature augments the `WebView` with a
+hence the “shell” in <Webshell />. Each DOM feature augments the `WebView` with a
 DOM message handler prop, for example `omDOMLinkPress`. Here are examples of
 features you can assemble in the shell:
 

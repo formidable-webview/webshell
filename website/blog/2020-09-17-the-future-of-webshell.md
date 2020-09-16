@@ -9,6 +9,17 @@ tags: [webshell, react native, future]
 
 This post will be regularly updated to track the main features scheduled for Webshell.
 
+## Feature dependencies
+
+Provide the following capabilities:
+
+- express dependency relationships between features;
+- compose features together;
+- communicate between features with an event-based system;
+- specify the cardinality of a feature (how many instances can co-exist). We
+  are planning to get inspiration from [multi-instance plugins in
+  docusaurus](https://v2.docusaurus.io/docs/using-plugins#multi-instance-plugins-and-plugin-ids).
+
 ## Passing props to Features
 
 Features are already customizable with options, which are once-and-for-all

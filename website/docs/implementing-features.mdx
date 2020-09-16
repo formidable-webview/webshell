@@ -3,17 +3,25 @@ id: implementing-features
 title: Implementing Features
 ---
 
+import {Webshell} from './Webshell';
+import {Term} from './Term';
+import {APIReference} from './APIReference.jsx';
+import {APIBox} from './APIBox.jsx';
 
-To have a good sense on how to make new features, we will take a look at the
-`linkPressFeature` implementation. The implementation is in typescript, which
-is convenient to communicate the different types implied in a DOM feature. There
-are four important areas to specify in such feature:
+<APIBox reference="makeFeature" type="function" />
 
-1. How does it behave in the DOM? → See the content of `linkPressScript`.
-2. What options can it be assembled with? → `LinkPressOptions`
-3. What is the name of the DOM message handler prop which will be available in the
-   `Webshell`? → `onDOMLinkPress`
-4. What type of payload does it ship with events? → `string`
+To have a good sense on how to make new features, we will take a look at
+the <APIReference reference="handleLinkPressFeature" type="variable" /> implementation.
+The implementation is in typescript, which is convenient to communicate the
+different types implied in a <Term id="DOM" /> feature. There are four
+important areas to specify in such feature:
+
+| Requirement                                                                            | Implementation     |
+| :------------------------------------------------------------------------------------- | :----------------- |
+| How does it behave in the <Term id="DOM" />?                                           | `linkPressScript`  |
+| What options can it be assembled with?                                                 | `LinkPressOptions` |
+| What is the name of the DOM message handler prop which will be available in the shell? | `onDOMLinkPress`   |
+| What type of payload does it ship with events?                                         | `string`           |
 
 :::caution
 Note that you will need to replace relative imports with direct imports from the library:
@@ -22,7 +30,8 @@ Note that you will need to replace relative imports with direct imports from the
 :::
 
 <!-- embedme ../../src/features/handle-link-press.ts -->
-```ts
+
+```ts title="src/features/handle-link-press.ts"
 import linkPressScript from './handle-link-press.webjs';
 import { makeFeature } from '../make-feature';
 import type { EventFeatureOf, DOMRect } from '../types';
@@ -112,9 +121,10 @@ export const handleLinkPressFeature: EventFeatureOf<
 ```
 
 The behavior in the DOM is implemented in the following file (please note that
-the extension is arbitrary, see the [tooling section](#tooling)):
+the extension is arbitrary, see the [tooling section](./tooling)):
 
 <!-- embedme ../../src/features/handle-link-press.webjs -->
+
 ```js title="src/features/handle-link-press.webjs"
 function handleLinkPressFeature(context) {
   var postMessage = context.postMessage;
@@ -176,18 +186,16 @@ function handleLinkPressFeature(context) {
   });
   document.addEventListener('click', interceptClickEvent);
 }
-
 ```
 
 **Every DOM script top declaration must be a function** taking one argument.
-The shape of this argument is depicted in
-[WebjsContext](docs/webshell.webjscontext.md) definition. For wide
+The shape of this argument is depicted in <APIReference reference="WebjsContext" type="interface" /> definition. For wide
 compatibility purposes, it is recommended to
 
 - enforce ECMAScript 5 syntax with ESlint;
 - lint the script with the
   [eslint-plugin-compat](https://www.npmjs.com/package/eslint-plugin-compat) to
   enforce backward compatibility with old engines;
-- unit-test with jest jsdom environment;
+- unit-test with jest jsdom environment (easily achievable with [@formidable-webview/ersatz](https://github.com/formidable-webview/ersatz));
 
-See the [tooling section](#tooling) for more details on how to achieve this.
+See the [tooling section](./tooling) for more details on how to achieve this.
