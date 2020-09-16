@@ -1,11 +1,11 @@
 ---
 id: "webjscontext"
-title: "Interface: WebjsContext ‹**O, P**›"
+title: "Interface: WebjsContext <O, P>"
 sidebar_label: "WebjsContext"
 hide_title: "true"
 ---
 
-# Interface: WebjsContext ‹**O, P**›
+# Interface: WebjsContext &lt;O, P&gt;
 
 This type specifies the shape of the object passed to DOM features scripts.
 
@@ -110,7 +110,7 @@ ___
 
 ###  makeCallbackSafe
 
-▸ **makeCallbackSafe**‹**T**›(`callback`: T): *T*
+▸ **makeCallbackSafe**&lt;**T**&gt;(`callback`: T): *T*
 
 Create a function which execute a callback in a try-catch block that will
 grab errors en send them to the `Webshell` component.

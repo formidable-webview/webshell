@@ -32,8 +32,8 @@ const features = [
     title: 'Autoheight Done Right',
     description: (
       <>
-        Discorver the landmark use-case: the <code>useAutoheight</code> hook.
-        Its underlying complexity finally demystified!
+        Discorver a landmark use-case: the <code>useAutoheight</code> hook. Its
+        underlying complexity finally demystified!
       </>
     )
   }

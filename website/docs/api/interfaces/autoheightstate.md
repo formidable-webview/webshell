@@ -1,17 +1,17 @@
 ---
 id: "autoheightstate"
-title: "Interface: AutoheightState ‹**S**›"
+title: "Interface: AutoheightState <S>"
 sidebar_label: "AutoheightState"
 hide_title: "true"
 ---
 
-# Interface: AutoheightState ‹**S**›
+# Interface: AutoheightState &lt;S&gt;
 
 The state returned by [useAutoheight](../index.md#useautoheight) hook.
 
 ## Type parameters
 
-▪ **S**: *[WebshellProps](../index.md#webshellprops)‹[MinimalWebViewProps](minimalwebviewprops.md), [[AssembledFeatureOf](../index.md#assembledfeatureof)‹typeof handleHTMLDimensionsFeature›]›*
+▪ **S**: *[WebshellProps](../index.md#webshellprops)&lt;[MinimalWebViewProps](minimalwebviewprops.md), [[AssembledFeatureOf](../index.md#assembledfeatureof)&lt;typeof handleHTMLDimensionsFeature&gt;]&gt;*
 
 ## Hierarchy
 
@@ -30,7 +30,7 @@ The state returned by [useAutoheight](../index.md#useautoheight) hook.
 
 ###  autoheightWebshellProps
 
-• **autoheightWebshellProps**: *Pick‹S, "onDOMHTMLDimensions" | "style" | "scalesPageToFit" | "showsVerticalScrollIndicator" | "disableScrollViewPanResponder"› & Partial‹S›*
+• **autoheightWebshellProps**: *Pick&lt;S, "onDOMHTMLDimensions" | "style" | "scalesPageToFit" | "showsVerticalScrollIndicator" | "disableScrollViewPanResponder"&gt; & Partial&lt;S&gt;*
 
 The props to inject into webshell in order to support "autoheight"
 behavior.
@@ -39,7 +39,7 @@ ___
 
 ###  contentSize
 
-• **contentSize**: *Partial‹[RectSize](rectsize.md)›*
+• **contentSize**: *Partial&lt;[RectSize](rectsize.md)&gt;*
 
 An object describing the content size. When the size is not yet known,
 this object fields will be undefined.

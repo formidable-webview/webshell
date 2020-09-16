@@ -26,3 +26,16 @@ index 2e3531802ec6e30ff4310fbf4e127231b72b0b16..eefd55a2e246f9b2de91f446ab6c8c42
                      const theme = app.renderer.theme;
                      const navigation = theme.getNavigationV3(project);
                      const sidebarContent = getSidebarJson(navigation, outFolder);
+diff --git a/dist/theme/theme.js b/dist/theme/theme.js
+index 288c863530b2d4c94d4e50ec3980d2ff6c26cbde..b373d358b4bccb9a9f049df15d8555fc75eb0873 100644
+--- a/dist/theme/theme.js
++++ b/dist/theme/theme.js
+@@ -11,7 +11,7 @@ class DocusaurusTheme extends theme_1.default {
+         renderer.addComponent('docusaurus-frontmatter', new front_matter_component_1.DocsaurusFrontMatterComponent(renderer));
+     }
+     onDocusaurusPageEnd(page) {
+-        page.contents = page.contents.replace(/</g, '‹').replace(/>/g, '›');
++        page.contents = page.contents.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+     }
+ }
+ exports.default = DocusaurusTheme;

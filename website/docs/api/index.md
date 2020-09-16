@@ -79,7 +79,7 @@ hide_title: "true"
 
 ###  AssembledEventFeature
 
-Ƭ **AssembledEventFeature**: *S extends EventHandlerDefinition‹infer H, infer Payload› ? AssembledFeature‹O, S, EventHandlerProps‹H, Payload› & P› : never*
+Ƭ **AssembledEventFeature**: *S extends EventHandlerDefinition&lt;infer H, infer Payload&gt; ? AssembledFeature&lt;O, S, EventHandlerProps&lt;H, Payload&gt; & P&gt; : never*
 
 A specific assembled feature which provides an event handler prop.
 
@@ -95,7 +95,7 @@ ___
 
 ###  AssembledFeatureOf
 
-Ƭ **AssembledFeatureOf**: *F extends Feature‹infer O, infer S, infer P› ? AssembledFeature‹O, S, P› : never*
+Ƭ **AssembledFeatureOf**: *F extends Feature&lt;infer O, infer S, infer P&gt; ? AssembledFeature&lt;O, S, P&gt; : never*
 
 A lookup type to infer the assembled feature from a feature.
 
@@ -139,7 +139,7 @@ ___
 
 ###  EventFeature
 
-Ƭ **EventFeature**: *S extends EventHandlerDefinition‹infer Event, infer Payload› ? Feature‹O, S, EventHandlerProps‹Event, Payload› & P› : never*
+Ƭ **EventFeature**: *S extends EventHandlerDefinition&lt;infer Event, infer Payload&gt; ? Feature&lt;O, S, EventHandlerProps&lt;Event, Payload&gt; & P&gt; : never*
 
 A special feature which adds an event handler property.
 
@@ -147,7 +147,7 @@ ___
 
 ###  EventFeatureOf
 
-Ƭ **EventFeatureOf**: *[EventFeature](index.md#eventfeature)‹O, [EventHandlerDefinition](interfaces/eventhandlerdefinition.md)‹H, Payload›, [EventHandlerProps](index.md#eventhandlerprops)‹H, Payload› & OtherProps›*
+Ƭ **EventFeatureOf**: *[EventFeature](index.md#eventfeature)&lt;O, [EventHandlerDefinition](interfaces/eventhandlerdefinition.md)&lt;H, Payload&gt;, [EventHandlerProps](index.md#eventhandlerprops)&lt;H, Payload&gt; & OtherProps&gt;*
 
 A lookup type to infer an [EventFeature](index.md#eventfeature) from options, handler and
 payload types.
@@ -167,7 +167,7 @@ ___
 
 ###  EventNameOf
 
-Ƭ **EventNameOf**: *T extends AssembledEventFeature‹object, infer S, object› ? S extends EventHandlerDefinition‹infer H, unknown› ? H : never : never*
+Ƭ **EventNameOf**: *T extends AssembledEventFeature&lt;object, infer S, object&gt; ? S extends EventHandlerDefinition&lt;infer H, unknown&gt; ? H : never : never*
 
 A lookup type to find the event name from an assembled feature.
 
@@ -204,7 +204,7 @@ ___
 
 ###  OptionalUnlessRequiredField
 
-Ƭ **OptionalUnlessRequiredField**: *O extends Partial‹O› ? O | undefined : O*
+Ƭ **OptionalUnlessRequiredField**: *O extends Partial&lt;O&gt; ? O | undefined : O*
 
 Utility type which returns a partial optional of parameter type unless at
 least one field is required.
@@ -213,7 +213,7 @@ ___
 
 ###  PayloadOf
 
-Ƭ **PayloadOf**: *T extends AssembledEventFeature‹object, string, infer P› ? P : never*
+Ƭ **PayloadOf**: *T extends AssembledEventFeature&lt;object, string, infer P&gt; ? P : never*
 
 A lookup type to find the payload type from an assembled event feature.
 
@@ -221,7 +221,7 @@ ___
 
 ###  WebshellAssembledProps
 
-Ƭ **WebshellAssembledProps**: *F extends AssembledFeature‹object, object, infer P› ? P : never*
+Ƭ **WebshellAssembledProps**: *F extends AssembledFeature&lt;object, object, infer P&gt; ? P : never*
 
 A lookup type to find the prop assembled with a feature.
 
@@ -229,7 +229,7 @@ ___
 
 ###  WebshellComponent
 
-Ƭ **WebshellComponent**: *ForwardRefExoticComponent‹[WebshellProps](index.md#webshellprops)‹ComponentPropsWithoutRef‹C›, F› & RefAttributes‹ElementRef‹C›››*
+Ƭ **WebshellComponent**: *ForwardRefExoticComponent&lt;[WebshellProps](index.md#webshellprops)&lt;ComponentPropsWithoutRef&lt;C&gt;, F&gt; & RefAttributes&lt;ElementRef&lt;C&gt;&gt;&gt;*
 
 A `Webshell` component type derived from its features.
 
@@ -237,23 +237,23 @@ ___
 
 ###  WebshellComponentOf
 
-Ƭ **WebshellComponentOf**: *[WebshellComponent](index.md#webshellcomponent)‹C, [AssembledFeatureOf](index.md#assembledfeatureof)‹F[number]›[]›*
+Ƭ **WebshellComponentOf**: *[WebshellComponent](index.md#webshellcomponent)&lt;C, [AssembledFeatureOf](index.md#assembledfeatureof)&lt;F[number]&gt;[]&gt;*
 
 A lookup type to find Webshell Component type from a list of features.
 
 **`example`** 
 ```
-const Webshell: WebshellComponentOf‹
+const Webshell: WebshellComponentOf&lt;
  WebViewProps,
  [typeof featureA, typeof featureB]
-›;
+&gt;;
 ```
 
 ___
 
 ###  WebshellProps
 
-Ƭ **WebshellProps**: *[WebshellInvariantProps](interfaces/webshellinvariantprops.md) & W & F[number] extends never ? object : WebshellAssembledProps‹F[number]›*
+Ƭ **WebshellProps**: *[WebshellInvariantProps](interfaces/webshellinvariantprops.md) & W & F[number] extends never ? object : WebshellAssembledProps&lt;F[number]&gt;*
 
 Props of the Webshell produced by [makeWebshell](index.md#makewebshell).
 
@@ -289,9 +289,9 @@ ___
 
 ### `Const` forceResponsiveViewportFeature
 
-• **forceResponsiveViewportFeature**: *[Feature](index.md#feature)‹[ForceResponsiveViewportOptions](interfaces/forceresponsiveviewportoptions.md)›*
+• **forceResponsiveViewportFeature**: *[Feature](index.md#feature)&lt;[ForceResponsiveViewportOptions](interfaces/forceresponsiveviewportoptions.md)&gt;*
 
-This feature inserts or replace a `‹meta name="viewport" content="width=device-width" /›`
+This feature inserts or replace a `&lt;meta name="viewport" content="width=device-width" /&gt;`
 tag in the head to guarantee that the layout viewport will match
 device-width (hence, “responsive”). Minimum scale is locked to 1, but you
 can customize maximum scale to allow pinch-zoom gestures.
@@ -301,7 +301,7 @@ ___
 
 ### `Const` handleElementCSSBoxFeature
 
-• **handleElementCSSBoxFeature**: *[EventFeatureOf](index.md#eventfeatureof)‹[HandleElementCSSBoxDimensionsOptions](interfaces/handleelementcssboxdimensionsoptions.md), "onDOMElementCSSBoxDimensions", [ElementCSSBoxDimensions](interfaces/elementcssboxdimensions.md)›*
+• **handleElementCSSBoxFeature**: *[EventFeatureOf](index.md#eventfeatureof)&lt;[HandleElementCSSBoxDimensionsOptions](interfaces/handleelementcssboxdimensionsoptions.md), "onDOMElementCSSBoxDimensions", [ElementCSSBoxDimensions](interfaces/elementcssboxdimensions.md)&gt;*
 
 This feature enables receiving the CSS Box dimensions of an element
 identified by `tagName` in the `WebView` pixels unit. The first element
@@ -312,7 +312,7 @@ ___
 
 ### `Const` handleHTMLDimensionsFeature
 
-• **handleHTMLDimensionsFeature**: *[EventFeatureOf](index.md#eventfeatureof)‹[HandleHTMLDimensionsOptions](interfaces/handlehtmldimensionsoptions.md), "onDOMHTMLDimensions", [HTMLDimensions](interfaces/htmldimensions.md)›*
+• **handleHTMLDimensionsFeature**: *[EventFeatureOf](index.md#eventfeatureof)&lt;[HandleHTMLDimensionsOptions](interfaces/handlehtmldimensionsoptions.md), "onDOMHTMLDimensions", [HTMLDimensions](interfaces/htmldimensions.md)&gt;*
 
 This feature enables receiving various dimensions relative to the layout. The events
 will only be fired when a change is observed to either the layout or the content size.
@@ -326,25 +326,25 @@ ___
 
 ### `Const` handleHashChangeFeature
 
-• **handleHashChangeFeature**: *[EventFeatureOf](index.md#eventfeatureof)‹[HandleHashChangeOptions](interfaces/handlehashchangeoptions.md), "onDOMHashChange", [HashChangeEvent](interfaces/hashchangeevent.md)›*
+• **handleHashChangeFeature**: *[EventFeatureOf](index.md#eventfeatureof)&lt;[HandleHashChangeOptions](interfaces/handlehashchangeoptions.md), "onDOMHashChange", [HashChangeEvent](interfaces/hashchangeevent.md)&gt;*
 
-This feature allows to intercept clicks on anchors (`‹a›`). By default, it
+This feature allows to intercept clicks on anchors (`&lt;a&gt;`). By default, it
 will prevent the click from propagating. But you can disable this option.
 
 ___
 
 ### `Const` handleLinkPressFeature
 
-• **handleLinkPressFeature**: *[EventFeatureOf](index.md#eventfeatureof)‹[LinkPressOptions](interfaces/linkpressoptions.md), "onDOMLinkPress", [LinkPressTarget](interfaces/linkpresstarget.md)›*
+• **handleLinkPressFeature**: *[EventFeatureOf](index.md#eventfeatureof)&lt;[LinkPressOptions](interfaces/linkpressoptions.md), "onDOMLinkPress", [LinkPressTarget](interfaces/linkpresstarget.md)&gt;*
 
-This feature allows to intercept clicks on anchors (`‹a›`). By default, it
+This feature allows to intercept clicks on anchors (`&lt;a&gt;`). By default, it
 will prevent the click from propagating. But you can disable this option.
 
 ___
 
 ### `Const` handleVisualViewportFeature
 
-• **handleVisualViewportFeature**: *[EventFeatureOf](index.md#eventfeatureof)‹object, "onDOMVisualViewport", [VisualViewportDimensions](interfaces/visualviewportdimensions.md)›*
+• **handleVisualViewportFeature**: *[EventFeatureOf](index.md#eventfeatureof)&lt;object, "onDOMVisualViewport", [VisualViewportDimensions](interfaces/visualviewportdimensions.md)&gt;*
 
 This feature adds a handler triggered when the visual viewport changes. It
 requires VisualViewport API support on browsers (iOS Safari 13 and Android
@@ -357,7 +357,7 @@ See [VisualViewport API](https://developer.mozilla.org/en-US/docs/Web/API/Visual
 
 ###  makeFeature
 
-▸ **makeFeature**‹**O**, **S**, **P**›(`params`: Pick‹[Feature](index.md#feature)‹O, S, P›, keyof S | "script" | "featureIdentifier"›): *[Feature](index.md#feature)‹O, S, P›*
+▸ **makeFeature**&lt;**O**, **S**, **P**&gt;(`params`: Pick&lt;[Feature](index.md#feature)&lt;O, S, P&gt;, keyof S | "script" | "featureIdentifier"&gt;): *[Feature](index.md#feature)&lt;O, S, P&gt;*
 
 Create a feature.
 
@@ -379,22 +379,22 @@ The type of the new properties added to webshell.
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`params` | Pick‹[Feature](index.md#feature)‹O, S, P›, keyof S &#124; "script" &#124; "featureIdentifier"› | An object to specify attributes of the feature.  |
+`params` | Pick&lt;[Feature](index.md#feature)&lt;O, S, P&gt;, keyof S &#124; "script" &#124; "featureIdentifier"&gt; | An object to specify attributes of the feature.  |
 
-**Returns:** *[Feature](index.md#feature)‹O, S, P›*
+**Returns:** *[Feature](index.md#feature)&lt;O, S, P&gt;*
 
 ___
 
 ###  makeWebshell
 
-▸ **makeWebshell**‹**C**, **F**›(`WebView`: C, ...`assembledFeatures`: F): *React_2.ForwardRefExoticComponent‹[WebshellProps](index.md#webshellprops)‹React_2.ComponentPropsWithoutRef‹C›, F› & React_2.RefAttributes‹ElementRef‹C›››*
+▸ **makeWebshell**&lt;**C**, **F**&gt;(`WebView`: C, ...`assembledFeatures`: F): *React_2.ForwardRefExoticComponent&lt;[WebshellProps](index.md#webshellprops)&lt;React_2.ComponentPropsWithoutRef&lt;C&gt;, F&gt; & React_2.RefAttributes&lt;ElementRef&lt;C&gt;&gt;&gt;*
 
 Creates a React component which decorates WebView component with additional
 props to handle events from the DOM.
 
 **Type parameters:**
 
-▪ **C**: *ComponentType‹any›*
+▪ **C**: *ComponentType&lt;any&gt;*
 
 ▪ **F**: *[AssembledFeature](index.md#assembledfeature)[]*
 
@@ -405,13 +405,13 @@ Name | Type | Description |
 `WebView` | C | A WebView component, typically exported from `react-native-webview`. |
 `...assembledFeatures` | F | Assembled features ready to be loaded in the WebView DOM.  |
 
-**Returns:** *React_2.ForwardRefExoticComponent‹[WebshellProps](index.md#webshellprops)‹React_2.ComponentPropsWithoutRef‹C›, F› & React_2.RefAttributes‹ElementRef‹C›››*
+**Returns:** *React_2.ForwardRefExoticComponent&lt;[WebshellProps](index.md#webshellprops)&lt;React_2.ComponentPropsWithoutRef&lt;C&gt;, F&gt; & React_2.RefAttributes&lt;ElementRef&lt;C&gt;&gt;&gt;*
 
 ___
 
 ###  useAutoheight
 
-▸ **useAutoheight**‹**S**›(`params`: [AutoheightParams](interfaces/autoheightparams.md)‹S›): *[AutoheightState](interfaces/autoheightstate.md)‹S›*
+▸ **useAutoheight**&lt;**S**&gt;(`params`: [AutoheightParams](interfaces/autoheightparams.md)&lt;S&gt;): *[AutoheightState](interfaces/autoheightstate.md)&lt;S&gt;*
 
 Requires [handleHTMLDimensionsFeature](index.md#const-handlehtmldimensionsfeature) and recommends
 [forceResponsiveViewportFeature](index.md#const-forceresponsiveviewportfeature).
@@ -434,14 +434,14 @@ This hook has caveats you must understand:
 
 **Type parameters:**
 
-▪ **S**: *[WebshellProps](index.md#webshellprops)‹[MinimalWebViewProps](interfaces/minimalwebviewprops.md), [[AssembledFeatureOf](index.md#assembledfeatureof)‹typeof handleHTMLDimensionsFeature›]›*
+▪ **S**: *[WebshellProps](index.md#webshellprops)&lt;[MinimalWebViewProps](interfaces/minimalwebviewprops.md), [[AssembledFeatureOf](index.md#assembledfeatureof)&lt;typeof handleHTMLDimensionsFeature&gt;]&gt;*
 
 **Parameters:**
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`params` | [AutoheightParams](interfaces/autoheightparams.md)‹S› | The parameters to specify autoheight behavior. |
+`params` | [AutoheightParams](interfaces/autoheightparams.md)&lt;S&gt; | The parameters to specify autoheight behavior. |
 
-**Returns:** *[AutoheightState](interfaces/autoheightstate.md)‹S›*
+**Returns:** *[AutoheightState](interfaces/autoheightstate.md)&lt;S&gt;*
 
 - An object to implement autoheight behavior.

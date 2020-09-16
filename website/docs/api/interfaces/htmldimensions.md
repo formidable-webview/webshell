@@ -11,7 +11,7 @@ An object describing various dimensions of the HTML layout.
 
 **`remarks`** 
 This object units are in CSS pixels. CSS pixels match device pixels when the
-web page has a `‹meta name="viewport" content="width=device-width" /›` tag.
+web page has a `&lt;meta name="viewport" content="width=device-width" /&gt;` tag.
 
 ## Hierarchy
 

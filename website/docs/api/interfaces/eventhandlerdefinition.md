@@ -1,11 +1,11 @@
 ---
 id: "eventhandlerdefinition"
-title: "Interface: EventHandlerDefinition ‹**H, P**›"
+title: "Interface: EventHandlerDefinition <H, P>"
 sidebar_label: "EventHandlerDefinition"
 hide_title: "true"
 ---
 
-# Interface: EventHandlerDefinition ‹**H, P**›
+# Interface: EventHandlerDefinition &lt;H, P&gt;
 
 Definitions for event handlers.
 

@@ -1,17 +1,17 @@
 ---
 id: "autoheightparams"
-title: "Interface: AutoheightParams ‹**S**›"
+title: "Interface: AutoheightParams <S>"
 sidebar_label: "AutoheightParams"
 hide_title: "true"
 ---
 
-# Interface: AutoheightParams ‹**S**›
+# Interface: AutoheightParams &lt;S&gt;
 
 Named parameters for autoheight hook.
 
 ## Type parameters
 
-▪ **S**: *[WebshellProps](../index.md#webshellprops)‹[MinimalWebViewProps](minimalwebviewprops.md), []›*
+▪ **S**: *[WebshellProps](../index.md#webshellprops)&lt;[MinimalWebViewProps](minimalwebviewprops.md), []&gt;*
 
 ## Hierarchy
 

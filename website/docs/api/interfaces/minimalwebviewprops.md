@@ -81,7 +81,7 @@ ___
 
 ### `Optional` `Readonly` source
 
-• **source**? : *Record‹string, any›*
+• **source**? : *Record&lt;string, any&gt;*
 
 ___
 

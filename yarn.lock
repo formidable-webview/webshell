@@ -10014,11 +10014,11 @@ docusaurus-plugin-typedoc@0.0.3:
 
 "docusaurus-plugin-typedoc@patch:docusaurus-plugin-typedoc@0.0.3#patches/docusaurus-plugin-typedoc.patch::locator=%40formidable-webview%2Fwebshell%40workspace%3A.":
   version: 0.0.3
-  resolution: "docusaurus-plugin-typedoc@patch:docusaurus-plugin-typedoc@npm%3A0.0.3#patches/docusaurus-plugin-typedoc.patch::version=0.0.3&hash=efcc7d&locator=%40formidable-webview%2Fwebshell%40workspace%3A."
+  resolution: "docusaurus-plugin-typedoc@patch:docusaurus-plugin-typedoc@npm%3A0.0.3#patches/docusaurus-plugin-typedoc.patch::version=0.0.3&hash=44c2ec&locator=%40formidable-webview%2Fwebshell%40workspace%3A."
   peerDependencies:
     typedoc: ">=0.17.0"
     typedoc-plugin-markdown: ">=2.4.2"
-  checksum: ee16de185d6214d5038d63bd0fdac4ecbd142a43f9b626afa00cefb5d33e425f92356594e89a32f9f2619f7178ecac131bfb47d304d745aae80738803537193b
+  checksum: e9a4e610f83e53371ebae48f8b84e590633512d4f80115ed28d7ac7b29e77fdeb207db54ec94a26c0c47dfd1fe17b4531f7270f258702398e3d2d8a5522a050d
   languageName: node
   linkType: hard
 
@@ -24881,7 +24881,7 @@ resolve@~1.12.0:
   languageName: node
   linkType: hard
 
-"typedoc-plugin-markdown@npm:^2.4.2":
+typedoc-plugin-markdown@2.4.2:
   version: 2.4.2
   resolution: "typedoc-plugin-markdown@npm:2.4.2"
   dependencies:
@@ -24890,6 +24890,18 @@ resolve@~1.12.0:
   peerDependencies:
     typedoc: ">=0.17.0"
   checksum: a072a6d77d0b4f340f86a7a08d08f45d739644c5a0a6f8b1f9668b2e08773e873e31c7345ab5b64bcfbbe185d40b925f4f7847ca43ecf98cc5a321038c46d3cd
+  languageName: node
+  linkType: hard
+
+"typedoc-plugin-markdown@patch:typedoc-plugin-markdown@2.4.2#patches/typedoc-plugin-markdown.patch::locator=%40formidable-webview%2Fwebshell%40workspace%3A.":
+  version: 2.4.2
+  resolution: "typedoc-plugin-markdown@patch:typedoc-plugin-markdown@npm%3A2.4.2#patches/typedoc-plugin-markdown.patch::version=2.4.2&hash=368f6a&locator=%40formidable-webview%2Fwebshell%40workspace%3A."
+  dependencies:
+    fs-extra: ^9.0.1
+    handlebars: ^4.7.6
+  peerDependencies:
+    typedoc: ">=0.17.0"
+  checksum: 993bda2157764dabf649e34281b87b830450f735c6b37f3b37afc39e2c9a403fb4a973bed31a8b94b8d4f4c9ed00726bdc8b08937cd47272c66c944379663953
   languageName: node
   linkType: hard
 
