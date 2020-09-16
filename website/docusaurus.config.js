@@ -1,3 +1,7 @@
+const path = require('path');
+
+const prettierOptions = require('../.prettierrc.js');
+
 module.exports = {
   title: 'webshell',
   tagline:
@@ -129,6 +133,14 @@ module.exports = {
         disableSources: true,
         includeVersion: false,
         categoryOrder: ['Functions', 'Variables', '*']
+      }
+    ],
+    [
+      path.resolve(__dirname, 'inject-snippets-plugin.js'),
+      {
+        snippetsPath: './static/snippets',
+        includes: ['../integration/*.ts?(x)', '!../integration/*.test.ts?(x)'],
+        prettierOptions: prettierOptions
       }
     ]
   ]
