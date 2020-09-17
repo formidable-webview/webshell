@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export const APIReference = ({ reference, type }) => {
+export const APIReference = ({ reference, type, overrideUrl }) => {
   const href =
     type === 'interface'
       ? `/docs/api/interfaces/${reference.toLowerCase()}`
@@ -12,7 +12,7 @@ export const APIReference = ({ reference, type }) => {
       ? `/docs/api/index#const-${reference.toLowerCase()}`
       : `/docs/api/index#${reference.toLowerCase()}`;
   return (
-    <a className={`api-ref ${type}`} href={href}>
+    <a className={`api-ref ${type}`} href={overrideUrl || href}>
       {reference}
     </a>
   );

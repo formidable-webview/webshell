@@ -5,39 +5,8 @@ import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import styles from './styles.module.css';
-
-const features = [
-  {
-    title: "Don't Repeat Ourselves",
-    description: (
-      <>
-        The ultimate goal of <strong>webshell</strong> is to{' '}
-        <strong>modularize</strong> scattered features reimplemented in so many{' '}
-        <code>WebView</code>-based components and reuse these at will.
-      </>
-    )
-  },
-  {
-    title: 'Leveraging WebView Potential',
-    description: (
-      <>
-        <strong>Implement</strong>, <strong>test</strong> and{' '}
-        <strong>compose</strong> rich behaviors embedded in injected scripts to
-        craft amazing, <strong>reliable</strong> <code>WebView</code>-based
-        components.
-      </>
-    )
-  },
-  {
-    title: 'Autoheight Done Right',
-    description: (
-      <>
-        Discorver a landmark use-case: the <code>useAutoheight</code> hook. Its
-        underlying complexity finally demystified!
-      </>
-    )
-  }
-];
+import { ReactReference } from '../../components/ReactReference';
+import { APIReference } from '../../components/APIReference';
 
 function Feature({ imageUrl, title, description }) {
   const imgUrl = useBaseUrl(imageUrl);
@@ -57,6 +26,46 @@ function Feature({ imageUrl, title, description }) {
 function Home() {
   const context = useDocusaurusContext();
   const { siteConfig = {} } = context;
+  const autoheightURL = useBaseUrl('docs/autoheight');
+  const features = [
+    {
+      title: "Don't Repeat Ourselves",
+      description: (
+        <>
+          The ultimate goal of <strong>webshell</strong> is to{' '}
+          <strong>modularize</strong> scattered features reimplemented in so
+          many <ReactReference name="WebView" type="class" />
+          -based components and reuse these at will.
+        </>
+      )
+    },
+    {
+      title: 'Leveraging WebView Potential',
+      description: (
+        <>
+          <strong>Implement</strong>, <strong>test</strong> and{' '}
+          <strong>compose</strong> rich behaviors embedded in injected scripts
+          to craft amazing, <strong>reliable</strong>{' '}
+          <ReactReference name="WebView" type="class" />
+          -based components.
+        </>
+      )
+    },
+    {
+      title: 'Autoheight Done Right',
+      description: (
+        <>
+          Discorver a landmark use-case: the{' '}
+          <APIReference
+            overrideUrl={autoheightURL}
+            reference="useAutoheight"
+            type="function"
+          />{' '}
+          hook. Its underlying complexity finally demystified!
+        </>
+      )
+    }
+  ];
   return (
     <Layout
       title={`Hello from ${siteConfig.title}`}
