@@ -69,13 +69,13 @@
     "typedoc-plugin-markdown": "^2.4.2",
     "typescript": "3.9.7"
   },
-  "resolutions": {
-    "docusaurus-plugin-typedoc": "patch:docusaurus-plugin-typedoc@0.0.3#patches/docusaurus-plugin-typedoc.patch",
-    "typedoc-plugin-markdown": "patch:typedoc-plugin-markdown@2.4.2#patches/typedoc-plugin-markdown.patch"
-  },
   "peerDependencies": {
     "react": "*",
     "react-native": "*"
+  },
+  "resolutions": {
+    "docusaurus-plugin-typedoc": "patch:docusaurus-plugin-typedoc@0.0.3#patches/docusaurus-plugin-typedoc.patch",
+    "typedoc-plugin-markdown": "patch:typedoc-plugin-markdown@2.4.2#patches/typedoc-plugin-markdown.patch"
   },
   "keywords": [
     "react-native",

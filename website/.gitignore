@@ -7,7 +7,12 @@
 # Generated files
 .docusaurus
 .cache-loader
+
+# inject-snippets-plugin
 /static/snippets
+
+# docusaurus-plugin-typedoc
+/docs/api
 
 # Misc
 .DS_Store

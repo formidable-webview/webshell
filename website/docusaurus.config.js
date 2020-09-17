@@ -1,5 +1,4 @@
 const path = require('path');
-
 const prettierOptions = require('../.prettierrc.js');
 
 module.exports = {
@@ -44,12 +43,8 @@ module.exports = {
           title: 'Docs',
           items: [
             {
-              label: 'Style Guide',
+              label: 'These are Docs',
               to: 'docs/'
-            },
-            {
-              label: 'Second Doc',
-              to: 'docs/doc2/'
             }
           ]
         },

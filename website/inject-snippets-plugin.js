@@ -56,7 +56,6 @@ module.exports = function (context, options) {
         snippetsPath
       );
       await prettifyTranspiledSources(transpiledFiles, options.prettierOptions);
-      // await transpileWithBabel(tsxSources, snippetsPath);
       await copySourcesFiles(tsxSources, snippetsPath);
       console.info(
         'inject-snippets-plugin:',
