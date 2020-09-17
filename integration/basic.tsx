@@ -2,12 +2,15 @@ import React, { useCallback, useState } from 'react';
 import { Linking } from 'react-native';
 import makeWebshell, {
   handleLinkPressFeature,
-  handleHTMLDimensionsFeature,
+  handleHTMLDimensionsFeature
+} from '@formidable-webview/webshell';
+import type {
   HTMLDimensions,
   LinkPressTarget,
   RectSize
 } from '@formidable-webview/webshell';
-import WebView, { WebViewProps } from 'react-native-webview';
+import WebView from 'react-native-webview';
+import type { WebViewProps } from 'react-native-webview';
 
 const Webshell = makeWebshell(
   WebView,

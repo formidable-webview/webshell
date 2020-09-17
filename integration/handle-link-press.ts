@@ -1,6 +1,7 @@
 // This file is imported as a string thanks to babel-plugin-inline-import
 import linkPressScript from './handle-link-press.webjs';
-import { makeFeature, EventFeatureOf } from '@formidable-webview/webshell';
+import { makeFeature } from '@formidable-webview/webshell';
+import type { EventFeatureOf } from '@formidable-webview/webshell';
 
 export interface LinkPressOptions {
   preventDefault?: boolean;
