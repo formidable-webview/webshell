@@ -28,6 +28,38 @@
     Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica,
     Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
   --ifm-font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+
+  --ifm-color-success: #00a400;
+  --ifm-color-success-dark: rgb(0, 148, 0);
+  --ifm-color-success-darker: rgb(0, 139, 0);
+  --ifm-color-success-darkest: rgb(0, 115, 0);
+  --ifm-color-success-light: rgb(38, 178, 38);
+  --ifm-color-success-lighter: rgb(77, 191, 77);
+  --ifm-color-success-lightest: rgb(128, 210, 128);
+
+  --ifm-color-info: #54c7ec;
+  --ifm-color-info-dark: rgb(76, 179, 212);
+  --ifm-color-info-darker: rgb(71, 169, 201);
+  --ifm-color-info-darkest: rgb(59, 139, 165);
+  --ifm-color-info-light: rgb(110, 207, 239);
+  --ifm-color-info-lighter: rgb(135, 216, 242);
+  --ifm-color-info-lightest: rgb(170, 227, 246);
+
+  --ifm-color-warning: #ffba00;
+  --ifm-color-warning-dark: rgb(230, 167, 0);
+  --ifm-color-warning-darker: rgb(217, 158, 0);
+  --ifm-color-warning-darkest: rgb(179, 130, 0);
+  --ifm-color-warning-light: rgb(255, 196, 38);
+  --ifm-color-warning-lighter: rgb(255, 207, 77);
+  --ifm-color-warning-lightest: rgb(255, 221, 128);
+
+  --ifm-color-danger: #fa383e;
+  --ifm-color-danger-dark: rgb(225, 50, 56);
+  --ifm-color-danger-darker: rgb(213, 48, 53);
+  --ifm-color-danger-darkest: rgb(175, 39, 43);
+  --ifm-color-danger-light: rgb(251, 86, 91);
+  --ifm-color-danger-lighter: rgb(251, 116, 120);
+  --ifm-color-danger-lightest: rgb(253, 156, 159);
 }
 
 /* Derived from infa*/
@@ -45,6 +77,31 @@
   --ra-color-caution: var(--ifm-color-warning);
   --ra-color-warning: var(--ifm-color-danger);
   --ra-color-text-dark: var(--ifm-color-gray-900);
+}
+
+.alert--success {
+  --ifm-alert-background-color: var(--ifm-color-success-lightest);
+  --ifm-alert-border-color: var(--ifm-color-success-lightest);
+  --ifm-alert-color: var(--ifm-color-gray-900);
+}
+.alert--info {
+  --ifm-alert-background-color: var(--ifm-color-info-lightest);
+  --ifm-alert-border-color: var(--ifm-color-info-lightest);
+  --ifm-alert-color: var(--ifm-color-gray-900);
+}
+.alert--warning {
+  --ifm-alert-background-color: var(--ifm-color-warning-light);
+  --ifm-alert-border-color: var(--ifm-color-warning-light);
+  --ifm-alert-color: var(--ifm-color-gray-900);
+}
+.alert--danger {
+  --ifm-alert-background-color: var(--ifm-color-danger-light);
+  --ifm-alert-border-color: var(--ifm-color-danger-light);
+  --ifm-alert-color: var(--ifm-color-gray-900);
+}
+
+.alert svg {
+  fill: var(--ifm-alert-color);
 }
 
 /* custom variables */
@@ -70,16 +127,13 @@ html[data-theme='dark'] main h4 {
   padding: 0 var(--ifm-pre-padding);
 }
 
-html[data-theme='light'] article a {
-  color: var(--ifm-color-gray-600);
+html[data-theme='light'] article a,
+html[data-theme='dark'] article .admonition a {
+  color: var(--ifm-color-gray-800);
 }
 
 html[data-theme='dark'] article a {
   color: var(--ifm-color-gray-100);
-}
-
-html[data-theme='dark'] article .admonition a {
-  color: unset;
 }
 
 article abbr a.term {
@@ -113,7 +167,7 @@ html[data-theme='dark'] article .admonition.admonition-note a.api-ref {
   color: var(--ifm-color-primary-darkest);
 }
 
-article .api-box {
+.api-box {
   margin: auto;
   margin-top: var(--ifm-global-spacing);
   margin-bottom: var(--ifm-global-spacing);
@@ -123,6 +177,10 @@ article .api-box {
 
 .api-box .api-ref {
   font-weight: var(--ifm-font-weight-bold);
+}
+
+html[data-theme='light'] .api-box {
+  background-color: var(--ifm-color-gray-100);
 }
 
 .api-box__title {
