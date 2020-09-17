@@ -192,3 +192,13 @@ html[data-theme='light'] .api-box {
 .api-ref.function::after {
   content: '()';
 }
+
+html[data-theme="light"] .hero--primary {
+  --ifm-font-color-base-inverse: var(--ifm-color-primary);
+  --ifm-hero-background-color: #1c1b1b;
+  --ifm-hero-text-color: var(--ifm-color-primary);
+}
+
+.hero--primary .button {
+  --ifm-font-color-base:  var(--ifm-font-color-base);
+}
