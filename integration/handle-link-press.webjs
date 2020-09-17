@@ -1,0 +1,16 @@
+// A feature source file must expose a single function with a context argument.
+function handleLinkPressFeature(context) {
+  var postMessage = context.postMessage;
+  var options = context.options || {};
+  var preventDefault = options.preventDefault !== false;
+  var interceptClickEvent = context.makeCallbackSafe(function (e) {
+    var element = e.target || e.srcElement;
+    if (element && element.tagName.toLowerCase() === 'a') {
+      preventDefault && e.preventDefault();
+      postMessage({
+        uri: element.href
+      });
+    }
+  });
+  document.addEventListener('click', interceptClickEvent);
+}

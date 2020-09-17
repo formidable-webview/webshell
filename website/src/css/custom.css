@@ -27,8 +27,7 @@
   --ifm-font-family-base: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu,
     Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica,
     Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-  --ifm-font-family-monospace: 'IBM Plex Mono', SFMono-Regular, Menlo, Monaco,
-    Consolas, 'Liberation Mono', 'Courier New', monospace;
+  --ifm-font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
 }
 
 /* Derived from infa*/
@@ -46,6 +45,11 @@
   --ra-color-caution: var(--ifm-color-warning);
   --ra-color-warning: var(--ifm-color-danger);
   --ra-color-text-dark: var(--ifm-color-gray-900);
+}
+
+/* custom variables */
+:root {
+  --formidable-reference-font: 'IBM Plex Mono', monospace;
 }
 
 html[data-theme='dark'] {
@@ -66,19 +70,19 @@ html[data-theme='dark'] main h4 {
   padding: 0 var(--ifm-pre-padding);
 }
 
-html[data-theme='light'] main a {
+html[data-theme='light'] article a {
   color: var(--ifm-color-gray-600);
 }
 
-html[data-theme='dark'] main a {
+html[data-theme='dark'] article a {
   color: var(--ifm-color-gray-100);
 }
 
-html[data-theme='dark'] main .admonition a {
+html[data-theme='dark'] article .admonition a {
   color: unset;
 }
 
-main abbr a.term {
+article abbr a.term {
   text-decoration: underline dotted;
 }
 
@@ -88,7 +92,7 @@ a.api-ref {
 
 a.api-ref,
 a.external-component {
-  font-family: var(--ifm-font-family-monospace);
+  font-family: var(--formidable-reference-font);
   font-style: italic;
   text-decoration: none;
 }
@@ -98,15 +102,18 @@ a.external-component:hover {
   text-decoration: underline;
 }
 
+html[data-theme="light"] a.api-ref {
+  color: var(--ifm-color-primary-darkest);
+}
 html[data-theme='dark'] a.api-ref {
   color: var(--ifm-color-primary-lighter);
 }
 
-html[data-theme='dark'] .admonition.admonition-note a.api-ref {
+html[data-theme='dark'] article .admonition.admonition-note a.api-ref {
   color: var(--ifm-color-primary-darkest);
 }
 
-.api-box {
+article .api-box {
   margin: auto;
   margin-top: var(--ifm-global-spacing);
   margin-bottom: var(--ifm-global-spacing);

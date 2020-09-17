@@ -13,42 +13,20 @@ function handleElementCssBoxDimensionsFeature(context) {
     if (element != null) {
       var clientRect = element.getBoundingClientRect(),
         styles = getComputedStyle(element),
-        paddingLeft = context.extractNumericValueFromPixelString(
-          styles.paddingLeft
-        ),
-        paddingRight = context.extractNumericValueFromPixelString(
-          styles.paddingRight
-        ),
-        paddingTop = context.extractNumericValueFromPixelString(
-          styles.paddingTop
-        ),
-        paddingBottom = context.extractNumericValueFromPixelString(
-          styles.paddingBottom
-        ),
-        borderLeftWidth = context.extractNumericValueFromPixelString(
-          styles.borderLeftWidth
-        ),
-        borderRightWidth = context.extractNumericValueFromPixelString(
-          styles.borderRightWidth
-        ),
-        borderTopWidth = context.extractNumericValueFromPixelString(
-          styles.borderTopWidth
-        ),
-        borderBottomWidth = context.extractNumericValueFromPixelString(
+        paddingLeft = context.numericFromPxString(styles.paddingLeft),
+        paddingRight = context.numericFromPxString(styles.paddingRight),
+        paddingTop = context.numericFromPxString(styles.paddingTop),
+        paddingBottom = context.numericFromPxString(styles.paddingBottom),
+        borderLeftWidth = context.numericFromPxString(styles.borderLeftWidth),
+        borderRightWidth = context.numericFromPxString(styles.borderRightWidth),
+        borderTopWidth = context.numericFromPxString(styles.borderTopWidth),
+        borderBottomWidth = context.numericFromPxString(
           styles.borderBottomWidth
         ),
-        marginLeft = context.extractNumericValueFromPixelString(
-          styles.marginLeft
-        ),
-        marginRight = context.extractNumericValueFromPixelString(
-          styles.marginRight
-        ),
-        marginTop = context.extractNumericValueFromPixelString(
-          styles.marginTop
-        ),
-        marginBottom = context.extractNumericValueFromPixelString(
-          styles.marginBottom
-        ),
+        marginLeft = context.numericFromPxString(styles.marginLeft),
+        marginRight = context.numericFromPxString(styles.marginRight),
+        marginTop = context.numericFromPxString(styles.marginTop),
+        marginBottom = context.numericFromPxString(styles.marginBottom),
         borderBoxWidth = clientRect.width,
         borderBoxHeight = clientRect.height,
         horizontalScrollbarWidth = element.offsetHeight - element.clientHeight,
@@ -89,7 +67,7 @@ function handleElementCssBoxDimensionsFeature(context) {
     }
   });
   postSize();
-  window.onresize = postSize;
+  window.addEventListener('resize', postSize);
   // trigger when DOM changes
   var MutationObserver =
     window['MutationObserver'] || window['WebKitMutationObserver'];

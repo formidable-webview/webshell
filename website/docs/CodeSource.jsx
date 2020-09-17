@@ -37,25 +37,28 @@ const CodeSourceBlockWrapper = ({ children }) => (
   </div>
 );
 
-const CodeSourceBlock = ({ lang, lines, title, content }) => (
-  <DocusaurusCodeBlock
-    className={`language-${lang}`}
-    metastring={`${lines ? `{${lines}}` : ''} title="${title}"`}
-    title={title}>
-    {content}
-  </DocusaurusCodeBlock>
-);
+const CodeSourceBlock = ({ lang, lines, title, content }) => {
+  return (
+    <DocusaurusCodeBlock
+      className={`language-${lang}`}
+      metastring={`${lines ? `{${lines}}` : ''} title="${title}"`}
+      title={title}>
+      {content}
+    </DocusaurusCodeBlock>
+  );
+};
 
 export const SingleCodeSource = ({ source, lang, lines, title }) => {
   const fetchURL = useBaseUrl(`snippets/${source}`);
   const tsxState = useSource(fetchURL);
+  const realTitle = title || source;
   return (
     <CodeSourceBlockWrapper>
       <CodeSourceBlock
         lang={lang}
         content={tsxState.content}
         lines={lines}
-        title={title}
+        title={realTitle}
       />
     </CodeSourceBlockWrapper>
   );
@@ -63,14 +66,15 @@ export const SingleCodeSource = ({ source, lang, lines, title }) => {
 
 export const DualCodeSource = ({
   sourceBase,
-  title,
-  jsx = true,
+  titleBase,
+  jsx = false,
   lines = null
 }) => {
   const tsFetchURL = useBaseUrl(`snippets/${sourceBase}.${jsx ? 'tsx' : 'ts'}`);
   const jsFetchURL = useBaseUrl(`snippets/${sourceBase}.${jsx ? 'jsx' : 'js'}`);
   const tsState = useSource(tsFetchURL);
   const jsState = useSource(jsFetchURL);
+  const realTitleBase = titleBase || sourceBase;
   return tsState.error ? (
     <div className="alert alert--error">
       {sourceBase} snippet could not be loaded
@@ -88,7 +92,7 @@ export const DualCodeSource = ({
             lang={jsx ? 'tsx' : 'ts'}
             content={tsState.content}
             lines={lines}
-            title={`${title}.${jsx ? 'tsx' : 'ts'}`}
+            title={`${realTitleBase}.${jsx ? 'tsx' : 'ts'}`}
           />
         </TabItem>
         <TabItem value="js">
@@ -96,7 +100,7 @@ export const DualCodeSource = ({
             lang={jsx ? 'jsx' : 'js'}
             content={jsState.content}
             lines={lines}
-            title={`${title}.${jsx ? 'jsx' : 'js'}`}
+            title={`${realTitleBase}.${jsx ? 'jsx' : 'js'}`}
           />
         </TabItem>
       </Tabs>

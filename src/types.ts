@@ -301,8 +301,6 @@ export interface MinimalWebViewProps {
 
 // DOM TYPES
 
-declare type HTMLCollection = {};
-
 /**
  * This type specifies the shape of the object passed to DOM features scripts.
  *
@@ -337,21 +335,40 @@ export interface WebjsContext<O extends {}, P> {
    */
   error(message: string): void;
   /**
-   * A utility to select one or many elements in the DOM.
+   * Get one element in the DOM from a request.
+   *
+   * @returns An {@link https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement | HTMLElement} or `null`.
    */
   getDOMSelection(
     selector: DOMElementRequest,
-    isCollection: false
-  ): HTMLElement;
+    multiple: false
+  ): HTMLElement | null;
+  /**
+   * Get a collection of live elements in the DOM from a query request.
+   *
+   * @param selector - Which elements should be returned?
+   * @returns A live {@link https://developer.mozilla.org/en-US/docs/Web/API/HTMLCollection | HTMLCollection}.
+   */
   getDOMSelection(
-    selector: DOMCollectionRequest,
-    isCollection: true
-  ): HTMLCollection;
+    selector: DOMElementQueryRequest | string,
+    multiple: true
+  ): any;
+  /**
+   * Get a collection of static elements in the DOM from a class or tag-name request.
+   *
+   * @param selector - Which elements should be returned?
+   * @returns A static {@link https://developer.mozilla.org/en-US/docs/Web/API/NodeList | NodeList}.
+   */
+  getDOMSelection(
+    selector: DOMElementClassNameRequest | DOMElementTagNameRequest,
+    multiple: true
+  ): any;
   /**
    * @param style - The style to parse, e.g. `'18px'`
+   *
    * @returns Numeric value in CSS pixels.
    */
-  extractNumericValueFromPixelString(style: string): number;
+  numericFromPxString(style: string): number;
 }
 
 /**
@@ -372,75 +389,73 @@ export interface DOMRect {
  * A request to select one element in the DOM.
  *
  * @remarks
- * A string will be interpreted as a query.
- * See {@link https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector | Document.querySelector() }
+ * A string will be interpreted as a “query” request.
+ * See {@link https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector | Document.querySelector() } and {@link DOMElementQueryRequest}.
  *
  * @public
  */
 export type DOMElementRequest =
-  | ElementQueryRequest
-  | ElementClassNameRequest
-  | ElementTagNameRequest
+  | DOMElementQueryRequest
+  | DOMElementClassNameRequest
+  | DOMElementIdRequest
+  | DOMElementTagNameRequest
   | string;
 
 /**
  * A request to select a collection of elements in the DOM.
  *
  * @remarks
- * A string will be interpreted as a query.
- * See {@link https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll | Document.querySelectorAll() }
+ * A string will be interpreted as a “query” request.
+ * See {@link https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll | Document.querySelectorAll() } and {@link DOMElementQueryRequest}.
+ *
  * @public
  */
 export type DOMCollectionRequest =
-  | ElementQueryRequest
-  | ElementClassNameRequest
-  | ElementIdRequest
-  | ElementTagNameRequest
+  | DOMElementQueryRequest
+  | DOMElementClassNameRequest
+  | DOMElementTagNameRequest
   | string;
 
 /**
+ * A request by query string.
+ * See {@link https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll | Document.querySelectorAll() }
+ * and {@link https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector | Document.querySelector() }
+ *
  * @public
  */
-export interface ElementQueryRequest {
-  /**
-   * A query string.
-   * See {@link https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll | Document.querySelectorAll() }
-   */
+export type DOMElementQueryRequest = {
   query: string;
-}
+};
 
 /**
+ * A request by id (case-insensitive);
+ * See {@link https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById | Document.getElementById() }
+ *
  * @public
  */
-export interface ElementIdRequest {
-  /**
-   * An id (case-insensitive);
-   * See {@link https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById | Document.getElementById() }
-   */
+export type DOMElementIdRequest = {
   id: string;
-}
+};
 
 /**
+ * A request by one or many case-sensitive class names, separated by spaces.
+ * See {@link https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementsByClassName | Document.getElementsByClassName() }
+ *
  * @public
  */
-export interface ElementClassNameRequest {
-  /**
-   * One or many case-sensitive class names, separated by spaces.
-   * See {@link https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementsByClassName | Document.getElementsByClassName() }
-   */
+export type DOMElementClassNameRequest = {
   className: string;
-}
+};
 
 /**
+ * A query by tag name.
+ * See {@link https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementsByClassName | Document.getElementsByTagName() }
+ *
+ * @remarks
+ * `'html'` will select `document.documentElement`.
+ *
  * @public
  */
-export interface ElementTagNameRequest {
-  /**
-   * A tag name.
-   * See {@link https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementsByClassName | Document.getElementsByTagName() }
-   *
-   * @remarks
-   * `'html'` will select `document.documentElement`.
-   */
+export interface DOMElementTagNameRequest {
   tagName: string;
 }

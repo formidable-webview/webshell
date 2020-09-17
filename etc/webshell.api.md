@@ -276,15 +276,15 @@ export interface VisualViewportDimensions {
 // @public
 export interface WebjsContext<O extends {}, P> {
     error(message: string): void;
-    // (undocumented)
-    extractNumericValueFromPixelString(style: string): number;
-    getDOMSelection(selector: DOMElementRequest, isCollection: false): HTMLElement;
-    // Warning: (ae-forgotten-export) The symbol "DOMCollectionRequest" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "HTMLCollection" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    getDOMSelection(selector: DOMCollectionRequest, isCollection: true): HTMLCollection;
+    getDOMSelection(selector: DOMElementRequest, multiple: false): HTMLElement | null;
+    // Warning: (ae-forgotten-export) The symbol "DOMElementQueryRequest" needs to be exported by the entry point index.d.ts
+    getDOMSelection(selector: DOMElementQueryRequest | string, multiple: true): any;
+    // Warning: (ae-forgotten-export) The symbol "DOMElementClassNameRequest" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "DOMElementTagNameRequest" needs to be exported by the entry point index.d.ts
+    getDOMSelection(selector: DOMElementClassNameRequest | DOMElementTagNameRequest, multiple: true): any;
     makeCallbackSafe<T extends Function>(callback: T): T;
+    // (undocumented)
+    numericFromPxString(style: string): number;
     readonly options: O;
     postMessage(payload: P): void;
     warn(message: string): void;

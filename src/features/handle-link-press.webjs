@@ -7,7 +7,7 @@ function handleLinkPressFeature(context) {
       ? options.ignoreHashChange
       : true;
 
-  function findParent(tagname, el) {
+  function findParentByTagName(tagname, el) {
     while (el) {
       if ((el.nodeName || el.tagName).toLowerCase() === tagname.toLowerCase()) {
         return el;
@@ -24,7 +24,7 @@ function handleLinkPressFeature(context) {
 
   var interceptClickEvent = context.makeCallbackSafe(function (e) {
     var target = e.target || e.srcElement;
-    var anchor = findParent('a', target);
+    var anchor = findParentByTagName('a', target);
     if (anchor) {
       var href = anchor.href;
       if (
@@ -56,5 +56,5 @@ function handleLinkPressFeature(context) {
       });
     }
   });
-  document.addEventListener('click', interceptClickEvent);
+  document.addEventListener('click', interceptClickEvent, false);
 }

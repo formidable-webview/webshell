@@ -17,43 +17,9 @@ even after DOM is mounted.
 
 <APIBox reference="useAutoheight" type="function" />
 
-Blahblahblah
-
 ## Basic Usage
 
-<DualCodeSource jsx title="AutoheightWebView" sourceBase={"autoheight"} />
-
-```ts title="autoheight.tsx"
-import React, { ComponentProps } from 'react';
-import makeWebshell, {
-  handleHTMLDimensionsFeature,
-  forceResponsiveViewportFeature,
-  forceElementSizeFeature,
-  useAutoheight
-} from '@formidable-webview/webshell';
-import WebView from 'react-native-webview';
-
-const Webshell = makeWebshell(
-  WebView,
-  handleHTMLDimensionsFeature.assemble(),
-  forceResponsiveViewportFeature.assemble({ maxScale: 2 }),
-  forceElementSizeFeature.assemble({
-    target: 'body',
-    heightValue: 'auto',
-    widthValue: 'auto'
-  })
-);
-```
-
-<!--
-export type WebshellProps = ComponentProps<typeof Webshell>;
-
-export default function AutoheightWebView(webshellProps: WebshellProps) {
-  const { autoheightWebshellProps } = useAutoheight({ webshellProps });
-  return <Webshell {...autoheightWebshellProps} />;
-}
-
-``` -->
+<DualCodeSource jsx titleBase="AutoheightWebView" sourceBase={"autoheight"} />
 
 :::tip
 

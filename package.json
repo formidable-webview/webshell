@@ -10,15 +10,16 @@
     "types"
   ],
   "scripts": {
-    "test": "yarn run test:ts && yarn run test:lint && yarn run test:jest && yarn run build",
+    "test": "yarn test:ts && yarn test:lint && yarn test:jest && yarn build:base",
     "test:jest": "jest src/",
     "test:ts": "tsc --noEmit --project tsconfig.json",
     "test:lint": "eslint --ext webjs,ts,tsx src/",
-    "build": "yarn run build:source && yarn run build:defs && yarn build:doc",
+    "build": "yarn build:base && yarn build:doc",
+    "build:base": "yarn build:source && yarn build:defs",
     "build:source": "bob build",
     "build:defs": "api-extractor run --local --verbose",
     "build:doc": "cd website && yarn build",
-    "prepublish": "yarn run build"
+    "prepublish": "yarn build"
   },
   "repository": {
     "type": "git",

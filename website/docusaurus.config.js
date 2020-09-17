@@ -12,6 +12,10 @@ module.exports = {
   organizationName: '@formidable-webview', // Usually your GitHub org/user name.
   projectName: 'webshell', // Usually your repo name.
   themeConfig: {
+    prism: {
+      theme: require('prism-react-renderer/themes/vsDark'),
+      darkTheme: require('prism-react-renderer/themes/vsDark')
+    },
     colorMode: {
       respectPrefersColorScheme: true
     },
@@ -76,8 +80,7 @@ module.exports = {
         }
       ],
       copyright: `Copyright © ${new Date().getFullYear()} Jules Sam. Randolph`
-    },
-    prism: {}
+    }
   },
   presets: [
     [
@@ -134,7 +137,11 @@ module.exports = {
       path.resolve(__dirname, 'inject-snippets-plugin.js'),
       {
         snippetsPath: './static/snippets',
-        includes: ['../integration/*.ts?(x)', '!../integration/*.test.ts?(x)'],
+        includes: [
+          '../integration/*.ts?(x)',
+          '../integration/*.webjs',
+          '!../integration/*.test.ts?(x)'
+        ],
         prettierOptions: prettierOptions
       }
     ]
