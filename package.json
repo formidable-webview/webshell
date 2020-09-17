@@ -14,7 +14,7 @@
     "test:jest": "jest src/",
     "test:ts": "tsc --noEmit --project tsconfig.json",
     "test:lint": "eslint --ext webjs,ts,tsx src/",
-    "build": "yarn run build:source && yarn run build:defs",
+    "build": "yarn run build:source && yarn run build:defs && yarn build:doc",
     "build:source": "bob build",
     "build:defs": "api-extractor run --local --verbose",
     "build:doc": "cd website && yarn build",
