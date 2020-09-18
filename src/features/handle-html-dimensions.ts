@@ -1,7 +1,8 @@
 import script from './handle-html-dimensions.webjs';
-import { makeFeature } from '../make-feature';
-import type { EventFeatureOf } from '../types';
-import { RectSize } from './types';
+import { FeatureBuilder } from '../FeatureBuilder';
+import type { RectSize } from './types';
+import type { FeatureConstructor } from '../Feature';
+import type { PropDefinition } from '../types';
 
 /**
  * The script will check for different APIs in order to
@@ -75,6 +76,12 @@ export interface HTMLDimensions {
   implementation: HTMLDimensionsImplementation;
 }
 
+const defaultOptions: HandleHTMLDimensionsOptions = {
+  deltaMin: 0,
+  forceImplementation: false,
+  pollingInterval: 200
+};
+
 /**
  * This feature enables receiving various dimensions relative to the layout. The events
  * will only be fired when a change is observed to either the layout or the content size.
@@ -86,12 +93,21 @@ export interface HTMLDimensions {
  *
  * @public
  */
-export const handleHTMLDimensionsFeature: EventFeatureOf<
+
+export const HandleHTMLDimensionsFeature: FeatureConstructor<
   HandleHTMLDimensionsOptions,
-  'onDOMHTMLDimensions',
-  HTMLDimensions
-> = makeFeature({
+  [
+    PropDefinition<{
+      onDOMHTMLDimensions?: (d: HTMLDimensions) => void;
+    }>
+  ]
+> = new FeatureBuilder({
   script,
-  eventHandlerName: 'onDOMHTMLDimensions',
+  defaultOptions,
+  className: 'HandleHTMLDimensionsFeature',
   featureIdentifier: 'org.formidable-webview/webshell.handle-html-dimensions'
-});
+})
+  .withEventHandlerProp<HTMLDimensions, 'onDOMHTMLDimensions'>(
+    'onDOMHTMLDimensions'
+  )
+  .build();

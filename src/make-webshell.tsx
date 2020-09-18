@@ -1,19 +1,20 @@
+/* eslint-disable dot-notation */
 import * as React from 'react';
-import {
+import type {
   ComponentType,
   ElementRef,
   ComponentProps,
   ComponentPropsWithRef
 } from 'react';
-import { NativeSyntheticEvent } from 'react-native';
+import type { NativeSyntheticEvent } from 'react-native';
+import { Feature } from './Feature';
 import featuresLoaderScript from './features-loader.webjs';
-import {
-  AssembledFeature,
+import type {
   WebshellProps,
   WebshellInvariantProps,
   MinimalWebViewProps,
-  AssembledEventFeature,
-  EventHandlerDefinition
+  PropsSpecs,
+  PropDefinition
 } from './types';
 
 interface WebViewMessage {
@@ -22,7 +23,9 @@ interface WebViewMessage {
 
 interface PostMessage {
   identifier: string;
-  type: 'feature' | 'error';
+  handlerName: string;
+  type: 'feature' | 'error' | 'log';
+  severity: 'warn' | 'info';
   body: any;
 }
 
@@ -39,12 +42,13 @@ function isPostMessageObject(o: unknown): o is PostMessage {
     typeof o === 'object' &&
     o !== null &&
     typeof o['identifier'] === 'string' &&
+    typeof o['handlerName'] === 'string' &&
     typeof o['type'] === 'string' &&
     o['__isWebshellPostMessage'] === true
   );
 }
 
-function serializeFeature(feature: AssembledFeature) {
+function serializeFeature(feature: Feature<any, any>) {
   return `{
     source:${feature.script},
     identifier:${JSON.stringify(feature.featureIdentifier)},
@@ -52,13 +56,17 @@ function serializeFeature(feature: AssembledFeature) {
   }`;
 }
 
-function serializeFeatureList(specs: AssembledFeature[]) {
-  return `[${specs.map(serializeFeature).join(',')}]`;
+function serializeFeatureList(feats: Feature<any, any>[]) {
+  return `[${feats.map(serializeFeature).join(',')}]`;
 }
 
-function extractDOMHandlers(props: WebshellProps<any, any>): any {
+function extractFeatureProps(
+  props: WebshellProps<any, any>,
+  propsMap: Record<string, PropDefinition<any>>,
+  type: 'handler' | 'inert' | null = null
+): any {
   return Object.keys(props).reduce((obj, key) => {
-    if (key.startsWith('onDOM')) {
+    if (propsMap[key] && (type == null || propsMap[key].type === type)) {
       return {
         ...obj,
         [key]: props[key]
@@ -68,9 +76,12 @@ function extractDOMHandlers(props: WebshellProps<any, any>): any {
   }, {});
 }
 
-function filterWebViewProps<W>(props: WebshellProps<any, any>): W {
+function filterWebViewProps<W>(
+  props: WebshellProps<any, any>,
+  propsMap: Record<string, PropDefinition<any>>
+): W {
   return Object.keys(props).reduce((obj, key) => {
-    if (key.startsWith('onDOM') || key.startsWith('webshell')) {
+    if (propsMap[key] || key.startsWith('webshell')) {
       return obj;
     }
     return {
@@ -80,17 +91,14 @@ function filterWebViewProps<W>(props: WebshellProps<any, any>): W {
   }, {} as W);
 }
 
-function isEventFeature(
-  assembledFeature: AssembledFeature
-): assembledFeature is AssembledEventFeature {
-  return Object.prototype.hasOwnProperty.call(
-    assembledFeature,
-    'eventHandlerName' as keyof EventHandlerDefinition<any, any>
-  );
-}
-
-function isInvalidFeature<F extends AssembledFeature>(feat: F): boolean {
-  return isEventFeature(feat) && !feat.eventHandlerName.startsWith('onDOM');
+function extractPropsSpecsMap(features: Feature<any, PropsSpecs<any>>[]) {
+  return features
+    .map((f: Feature<any, PropsSpecs<any>>) => f.propSpecs)
+    .reduce((p, c) => [...p, ...c], [])
+    .reduce(
+      (map, spec: PropDefinition<any>) => ({ ...map, [spec.name]: spec }),
+      {}
+    ) as Record<string, PropDefinition<any>>;
 }
 
 /**
@@ -98,35 +106,25 @@ function isInvalidFeature<F extends AssembledFeature>(feat: F): boolean {
  * props to handle events from the DOM.
  *
  * @param WebView - A WebView component, typically exported from `react-native-webview`.
- * @param assembledFeatures - Assembled features ready to be loaded in the WebView DOM.
+ * @param features - Features ready to be loaded in the WebView.
  *
  * @public
  */
 export function makeWebshell<
   C extends ComponentType<any>,
-  F extends AssembledFeature[]
+  F extends Feature<any, any>[]
 >(
   WebView: C,
-  ...assembledFeatures: F
+  ...features: F
 ): React.ForwardRefExoticComponent<
   WebshellProps<React.ComponentPropsWithoutRef<C>, F> &
     React.RefAttributes<ElementRef<C>>
 > {
-  const serializedFeatures = serializeFeatureList(assembledFeatures);
-  const injectableScript = featuresLoaderScript.replace(
-    '$$___FEATURES___$$',
-    serializedFeatures
-  );
-  if (__DEV__) {
-    const failingFeature = assembledFeatures.find(isInvalidFeature) as
-      | AssembledEventFeature<any, any>
-      | undefined;
-    if (failingFeature) {
-      throw new TypeError(
-        `[makeWebshell]: Feature "${failingFeature.featureIdentifier}" event handler name, "${failingFeature.eventHandlerName}" doesn't comply with handler name requirement: name must start with "onDOM".`
-      );
-    }
-  }
+  const propsMap = extractPropsSpecsMap(features);
+  const serializedFeatureScripts = serializeFeatureList(features);
+  const injectableScript = featuresLoaderScript
+    .replace('$$___FEATURES___$$', serializedFeatureScripts)
+    .replace('$$__DEBUG__$$', __DEV__ + '');
   const Webshell = (
     props: WebshellProps<ComponentProps<C>, F> & { webViewRef: ElementRef<C> }
   ) => {
@@ -136,43 +134,44 @@ export function makeWebshell<
       webshellDebug,
       ...otherProps
     } = props as WebshellInvariantProps & MinimalWebViewProps;
-    const domHandlers = extractDOMHandlers(otherProps);
+    const domHandlers = extractFeatureProps(otherProps, propsMap, 'handler');
     const handleOnMessage = React.useCallback(
       ({ nativeEvent }: NativeSyntheticEvent<WebViewMessage>) => {
         const parsedJSON = parseJSONSafe(nativeEvent.data);
         if (isPostMessageObject(parsedJSON)) {
-          const { type, identifier, body } = parsedJSON;
-          if (typeof type === 'string' && typeof identifier === 'string') {
-            if (type === 'feature') {
-              // Handle as a feature message
-              const source = assembledFeatures.find(
-                (s) => s.featureIdentifier === identifier
-              );
-              if (source && isEventFeature(source)) {
-                const handlerName = source.eventHandlerName;
-                const handler =
-                  typeof handlerName === 'string'
-                    ? domHandlers[handlerName]
-                    : null;
-                if (typeof handler === 'function') {
-                  handler(body);
-                } else {
-                  webshellDebug &&
-                    console.info(
-                      `[Webshell]: script from feature "${identifier}" sent an event, but there is no handler prop attached to it (${handlerName}).`
-                    );
-                }
-                return;
+          const { type, identifier, body, handlerName, severity } = parsedJSON;
+          if (type === 'feature') {
+            const handler =
+              typeof handlerName === 'string' ? domHandlers[handlerName] : null;
+            if (propsMap[handlerName]) {
+              if (typeof handler === 'function') {
+                handler(body);
+              } else {
+                webshellDebug &&
+                  console.info(
+                    `[Webshell]: script from feature "${identifier}" sent an event, but there ` +
+                      `is no handler prop named "${handlerName}" attached to the shell.`
+                  );
               }
-            } else if (type === 'error') {
-              // Handle as an error message
-              typeof onDOMError === 'function' && onDOMError(identifier, body);
-              webshellDebug &&
-                console.warn(
-                  `[Webshell]: script from feature "${identifier}" raised an error: ${body}`
-                );
-              return;
+            } else {
+              console.warn(
+                `[Webshell]: script from feature "${identifier}" sent an event, but there is ` +
+                  `no handler named "${handlerName}" defined for this feature. ` +
+                  'Use FeatureBuilder.withEventHandlerProp to register that handler, or make ' +
+                  'sure its name is not misspell in the DOM script.'
+              );
             }
+          } else if (type === 'error') {
+            // Handle as an error message
+            typeof onDOMError === 'function' && onDOMError(identifier, body);
+            webshellDebug &&
+              console.warn(
+                `[Webshell]: script from feature "${identifier}" raised an error: ${body}`
+              );
+            return;
+          } else if (type === 'log') {
+            webshellDebug && severity === 'warn' && console.warn(body);
+            webshellDebug && severity === 'info' && console.info(body);
           }
         } else {
           typeof onMessage === 'function' && onMessage(nativeEvent);
@@ -189,7 +188,7 @@ export function makeWebshell<
     }, [injectedJavaScript]);
     return (
       <WebView
-        {...filterWebViewProps(webViewProps)}
+        {...filterWebViewProps(webViewProps, propsMap)}
         ref={webViewRef}
         injectedJavaScript={resultingJavascript}
         javaScriptEnabled={true}

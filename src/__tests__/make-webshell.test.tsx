@@ -7,61 +7,59 @@ import dummyHelloScript from './feat/dummy-hello.webjs';
 import dummyFailingScript from './feat/dummy-failing.webjs';
 import dummyOptionScript from './feat/dummy-option.webjs';
 import { makeWebshell } from '../make-webshell';
-import { makeFeature } from '../make-feature';
-import { MinimalWebViewProps, EventFeatureOf } from '../types';
+import { FeatureBuilder } from '../FeatureBuilder';
+import { MinimalWebViewProps } from '../types';
 
 const { waitForErsatz } = makeErsatzTesting(Ersatz);
 
 const DummyWebView = ({}: MinimalWebViewProps) => <View />;
 
-const helloFeature: EventFeatureOf<{}, 'onDOMDummyHello', {}> = makeFeature({
+const HelloFeature = new FeatureBuilder({
   script: dummyHelloScript,
-  eventHandlerName: 'onDOMDummyHello',
   featureIdentifier: 'test.hello',
-  payloadType: ''
-});
+  defaultOptions: {},
+  className: 'HelloFeature'
+})
+  .withEventHandlerProp('onDOMDummyHello')
+  .build();
 
-const failingFeature: EventFeatureOf<{}, 'onDOMDummyFailure', {}> = makeFeature(
-  {
-    script: dummyFailingScript,
-    eventHandlerName: 'onDOMDummyFailure',
-    featureIdentifier: 'test.fail',
-    payloadType: undefined
-  }
-);
-
-const optionFeature: EventFeatureOf<
-  { foo: string },
-  'onDOMDummyOption',
-  { foo: string }
-> = makeFeature({
-  script: dummyOptionScript,
-  eventHandlerName: 'onDOMDummyOption',
+const FailingFeature = new FeatureBuilder({
+  script: dummyFailingScript,
   featureIdentifier: 'test.fail',
-  payloadType: { foo: '' }
-});
+  defaultOptions: {},
+  className: 'FailingFeature'
+})
+  .withEventHandlerProp('onDOMDummyFailure')
+  .build();
 
-const faultyFeature: EventFeatureOf<
-  { foo: string },
-  'onFaultyFeature',
-  { foo: string }
-> = makeFeature({
+const OptionFeature = new FeatureBuilder({
   script: dummyOptionScript,
-  eventHandlerName: 'onFaultyFeature',
+  featureIdentifier: 'test.option',
+  defaultOptions: {},
+  className: 'FailingFeature'
+})
+  .withEventHandlerProp<{ foo: string }, 'onDOMDummyOption'>('onDOMDummyOption')
+  .build();
+
+const FaultyFeature = new FeatureBuilder({
+  script: dummyOptionScript,
   featureIdentifier: 'test.never',
-  payloadType: { foo: '' }
-});
+  defaultOptions: {},
+  className: 'FailingFeature'
+})
+  .withEventHandlerProp('onFaultyFeature')
+  .build();
 
 describe('Webshell component', () => {
   it('sould mount without error', () => {
-    const Webshell = makeWebshell(DummyWebView, helloFeature.assemble({}));
+    const Webshell = makeWebshell(DummyWebView, new HelloFeature());
     const { UNSAFE_getByType } = render(<Webshell />);
     const webshell = UNSAFE_getByType(Webshell);
     expect(webshell).toBeTruthy();
   });
   it('should handle feature messages', async () => {
     const onDOMDummyHello = jest.fn();
-    const Webshell = makeWebshell(Ersatz, helloFeature.assemble({}));
+    const Webshell = makeWebshell(Ersatz, new HelloFeature());
     await waitForErsatz(
       render(
         <Webshell webshellDebug={false} onDOMDummyHello={onDOMDummyHello} />
@@ -72,7 +70,7 @@ describe('Webshell component', () => {
   it('should handle feature failures', async () => {
     const onDOMDummyFailure = jest.fn();
     const onFailure = jest.fn();
-    const Webshell = makeWebshell(Ersatz, failingFeature.assemble({}));
+    const Webshell = makeWebshell(Ersatz, new FailingFeature());
     await waitForErsatz(
       render(
         <Webshell
@@ -83,16 +81,13 @@ describe('Webshell component', () => {
       )
     );
     expect(onFailure).toHaveBeenCalledWith(
-      failingFeature.featureIdentifier,
+      FailingFeature.identifier,
       'I am a dummy feature failing consistently!'
     );
   });
   it('should pass options to feature scripts', async () => {
     const onDOMDummyOption = jest.fn();
-    const Webshell = makeWebshell(
-      Ersatz,
-      optionFeature.assemble({ foo: 'bar' })
-    );
+    const Webshell = makeWebshell(Ersatz, new OptionFeature({ foo: 'bar' }));
     await waitForErsatz(
       render(
         <Webshell webshellDebug={false} onDOMDummyOption={onDOMDummyOption} />
@@ -104,10 +99,7 @@ describe('Webshell component', () => {
     const onDOMDummyOption = jest.fn();
     const onMessage = jest.fn();
     const injectedJavaScript = "window.ReactNativeWebView.postMessage('test');";
-    const Webshell = makeWebshell(
-      Ersatz,
-      optionFeature.assemble({ foo: 'bar' })
-    );
+    const Webshell = makeWebshell(Ersatz, new OptionFeature({ foo: 'bar' }));
     await waitForErsatz(
       render(
         <Webshell
@@ -129,6 +121,6 @@ describe('Webshell component', () => {
     expect(ersatzRef.current).toBeInstanceOf(Ersatz);
   });
   it("it should throw when provided with an event handler feature which doesn't comply with name requirement: starts with 'onDOM'", async () => {
-    expect(() => makeWebshell(Ersatz, faultyFeature.assemble())).toThrow();
+    expect(() => makeWebshell(Ersatz, new FaultyFeature())).toThrow();
   });
 });

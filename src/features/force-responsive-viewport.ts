@@ -1,6 +1,6 @@
 import script from './force-responsive-viewport.webjs';
-import { makeFeature } from '../make-feature';
-import { Feature } from '../types';
+import { FeatureBuilder } from '../FeatureBuilder';
+import type { FeatureConstructor } from '../Feature';
 
 /**
  * An object describing customization for the fix viewport feature.
@@ -16,6 +16,10 @@ export interface ForceResponsiveViewportOptions {
   maxScale?: number;
 }
 
+const defaultOptions: ForceResponsiveViewportOptions = {
+  maxScale: 1
+};
+
 /**
  * This feature inserts or replace a `<meta name="viewport" content="width=device-width" />`
  * tag in the head to guarantee that the layout viewport will match
@@ -25,10 +29,12 @@ export interface ForceResponsiveViewportOptions {
  *
  * @public
  */
-export const forceResponsiveViewportFeature: Feature<ForceResponsiveViewportOptions> = makeFeature(
+export const ForceResponsiveViewportFeature: FeatureConstructor<ForceResponsiveViewportOptions> = new FeatureBuilder(
   {
     script,
+    defaultOptions,
+    className: 'ForceResponsiveViewportFeature',
     featureIdentifier:
       'org.formidable-webview/webshell.force-responsive-viewport'
   }
-);
+).build();

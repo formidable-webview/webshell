@@ -1,42 +1,42 @@
 import React from 'react';
 import makeWebshell, {
   WebshellComponentOf,
-  handleElementCSSBoxFeature,
-  handleLinkPressFeature,
+  HandleElementCSSBoxFeature,
+  HandleLinkPressFeature,
   MinimalWebViewProps
 } from '@formidable-webview/webshell';
 import WebView, { WebViewProps } from 'react-native-webview';
-import { ComponentType } from 'react';
+import type { ComponentType } from 'react';
 
 let Webshell1: WebshellComponentOf<typeof WebView, []>;
 let Webshell2: WebshellComponentOf<
   typeof WebView,
-  [typeof handleElementCSSBoxFeature]
+  [typeof HandleElementCSSBoxFeature]
 >;
 let Webshell3: WebshellComponentOf<
   typeof WebView,
-  [typeof handleElementCSSBoxFeature, typeof handleLinkPressFeature]
+  [typeof HandleElementCSSBoxFeature, typeof HandleLinkPressFeature]
 >;
 // Testing for generic type
 export type WebshellWithElementDimensionsFeatureType = WebshellComponentOf<
   ComponentType<MinimalWebViewProps>,
-  [typeof handleElementCSSBoxFeature]
+  [typeof HandleElementCSSBoxFeature]
 >;
 
 Webshell1 = makeWebshell(WebView);
 Webshell2 = makeWebshell(
   WebView,
-  handleElementCSSBoxFeature.assemble({ target: 'body' })
-) as WebshellComponentOf<typeof WebView, [typeof handleElementCSSBoxFeature]>;
+  new HandleElementCSSBoxFeature({ target: 'body' })
+) as WebshellComponentOf<typeof WebView, [typeof HandleElementCSSBoxFeature]>;
 Webshell3 = makeWebshell(
   WebView,
-  handleElementCSSBoxFeature.assemble({ target: 'body' }),
-  handleLinkPressFeature.assemble({})
+  new HandleElementCSSBoxFeature({ target: 'body' }),
+  new HandleLinkPressFeature({})
 );
 const Webshell4 = makeWebshell(
   WebView,
-  handleElementCSSBoxFeature.assemble({ target: 'body' }),
-  handleLinkPressFeature.assemble({})
+  new HandleElementCSSBoxFeature({ target: 'body' }),
+  new HandleLinkPressFeature({})
 );
 
 const props: WebViewProps = {};

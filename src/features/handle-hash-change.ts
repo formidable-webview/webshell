@@ -1,6 +1,7 @@
 import linkPressScript from './handle-hash-change.webjs';
-import { makeFeature } from '../make-feature';
-import type { EventFeatureOf, DOMRect } from '../types';
+import { FeatureBuilder } from '../FeatureBuilder';
+import type { DOMRect, PropDefinition } from '../types';
+import type { FeatureConstructor } from '../Feature';
 
 /**
  * An object describing customization for the hash change feature.
@@ -35,18 +36,24 @@ export interface HashChangeEvent {
   targetElementBoundingRect: DOMRect;
 }
 
+const defaultOptions: HandleHashChangeOptions = {
+  shouldResetHashOnEvent: false
+};
+
 /**
  * This feature allows to intercept clicks on anchors (`<a>`). By default, it
  * will prevent the click from propagating. But you can disable this option.
  *
  * @public
  */
-export const handleHashChangeFeature: EventFeatureOf<
+export const HandleHashChangeFeature: FeatureConstructor<
   HandleHashChangeOptions,
-  'onDOMHashChange',
-  HashChangeEvent
-> = makeFeature({
+  [PropDefinition<{ onDOMHashChange?: (e: HashChangeEvent) => void }>]
+> = new FeatureBuilder({
   script: linkPressScript,
-  eventHandlerName: 'onDOMHashChange',
+  defaultOptions,
+  className: 'HandleHashChangeFeature',
   featureIdentifier: 'org.formidable-webview/webshell.handle-hash-change'
-});
+})
+  .withEventHandlerProp<HashChangeEvent, 'onDOMHashChange'>('onDOMHashChange')
+  .build();

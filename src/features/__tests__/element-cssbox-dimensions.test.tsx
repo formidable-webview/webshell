@@ -4,7 +4,7 @@ import makeErsatzTesting from '@formidable-webview/ersatz-testing';
 import { render } from '@testing-library/react-native';
 import { makeWebshell } from '../../make-webshell';
 import {
-  handleElementCSSBoxFeature,
+  HandleElementCSSBoxFeature,
   ElementCSSBoxDimensions,
   CSSBox
 } from '../handle-element-cssbox-dimensions';
@@ -37,7 +37,7 @@ describe('Webshell with elementCSSBoxFeature', () => {
     `;
     const Webshell = makeWebshell(
       Ersatz,
-      handleElementCSSBoxFeature.assemble({ target: { tagName: 'table' } })
+      new HandleElementCSSBoxFeature({ target: { tagName: 'table' } })
     );
     await waitForErsatz(
       render(

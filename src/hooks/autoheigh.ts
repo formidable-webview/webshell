@@ -1,16 +1,13 @@
 import * as React from 'react';
-import {
-  MinimalWebViewProps,
-  WebshellProps,
-  AssembledFeatureOf
-} from '../types';
+import type { MinimalWebViewProps, WebshellProps } from '../types';
 import type {
   HTMLDimensions,
-  handleHTMLDimensionsFeature,
+  HandleHTMLDimensionsFeature,
   HTMLDimensionsImplementation
 } from '../features/handle-html-dimensions';
 import { StyleProp, ViewStyle } from 'react-native';
 import { RectSize } from '../features/types';
+import { Feature, FeatureInstanceOf } from '../Feature';
 
 const initialDimensions = { width: undefined, height: undefined };
 
@@ -35,7 +32,7 @@ export type AutoheightSyncState = 'init' | 'syncing' | 'synced';
 export interface AutoheightState<
   S extends WebshellProps<
     MinimalWebViewProps,
-    [AssembledFeatureOf<typeof handleHTMLDimensionsFeature>]
+    [FeatureInstanceOf<typeof HandleHTMLDimensionsFeature>]
   >
 > {
   /**
@@ -44,6 +41,7 @@ export interface AutoheightState<
    */
   autoheightWebshellProps: Pick<
     S,
+    | 'webshellDebug'
     | 'onDOMHTMLDimensions'
     | 'style'
     | 'scalesPageToFit'
@@ -77,7 +75,7 @@ export interface AutoheightState<
  * @public
  */
 export interface AutoheightParams<
-  S extends WebshellProps<MinimalWebViewProps, []>
+  S extends WebshellProps<MinimalWebViewProps, Feature<any, any>[]>
 > {
   /**
    * It's best to pass all props directed to `Webshell` here. This is
@@ -116,10 +114,12 @@ interface AutoheightInternalState {
   viewportWidth: number;
 }
 
-function useAutoheightState<S extends WebshellProps<MinimalWebViewProps, any>>({
-  webshellProps,
-  initialHeight
-}: AutoheightParams<S>) {
+function useAutoheightState<
+  S extends WebshellProps<
+    MinimalWebViewProps,
+    [FeatureInstanceOf<typeof HandleHTMLDimensionsFeature>]
+  >
+>({ webshellProps, initialHeight }: AutoheightParams<S>) {
   const { scalesPageToFit, source = {}, webshellDebug } = webshellProps;
   const [state, setState] = React.useState<AutoheightInternalState>({
     implementation: null,
@@ -192,7 +192,7 @@ function useAutoheightState<S extends WebshellProps<MinimalWebViewProps, any>>({
 export function useAutoheight<
   S extends WebshellProps<
     MinimalWebViewProps,
-    [AssembledFeatureOf<typeof handleHTMLDimensionsFeature>]
+    [FeatureInstanceOf<typeof HandleHTMLDimensionsFeature>]
   >
 >(params: AutoheightParams<S>): AutoheightState<S> {
   const {
@@ -278,7 +278,7 @@ export function useAutoheight<
       scalesPageToFit: false,
       showsVerticalScrollIndicator: false,
       disableScrollViewPanResponder: true
-    },
+    } as AutoheightState<S>['autoheightWebshellProps'],
     resizeImplementation: implementation,
     contentSize: state.contentSize,
     syncState: state.syncState

@@ -1,25 +1,27 @@
 import { makeWebshell } from './make-webshell';
 export type {
-  AssembledEventFeature,
-  AssembledFeature,
-  AssembledFeatureOf,
-  EventFeature,
-  EventFeatureOf,
-  EventHandlerDefinition,
+  DOMCollectionRequest,
+  DOMElementClassNameRequest,
+  DOMElementIdRequest,
+  DOMElementQueryRequest,
+  DOMElementRequest,
+  DOMElementTagNameRequest,
+  DOMRect,
   EventHandlerProps,
-  EventNameOf,
-  Feature,
+  FeatureBase,
   MinimalWebViewProps,
-  RequiredIfObjectHasRequiredField as OptionalUnlessRequiredField,
-  PayloadOf,
+  PropDefinition,
+  PropsFromSpecs,
+  PropsSpecs,
   WebjsContext,
-  WebshellAssembledProps,
+  WebshellComponent,
   WebshellComponentOf,
   WebshellInvariantProps,
   WebshellProps
 } from './types';
 export * from './features/types';
-export * from './make-feature';
+export * from './FeatureBuilder';
+export * from './Feature';
 export * from './features';
 export * from './hooks/autoheigh';
 export { makeWebshell };

@@ -1,6 +1,7 @@
 import script from './handle-element-cssbox-dimensions.webjs';
-import { makeFeature } from '../make-feature';
-import type { EventFeatureOf, DOMElementRequest } from '../types';
+import { FeatureBuilder } from '../FeatureBuilder';
+import type { DOMElementRequest, PropDefinition } from '../types';
+import type { FeatureConstructor } from '../Feature';
 
 /**
  * An object describing customization for the dimensions feature.
@@ -107,6 +108,10 @@ export interface ElementCSSBoxDimensions {
   verticalScrollbarWidth: number;
 }
 
+const defaultOptions: HandleElementCSSBoxDimensionsOptions = {
+  shouldThrowWhenNotFound: false
+} as HandleElementCSSBoxDimensionsOptions;
+
 /**
  * This feature enables receiving the CSS Box dimensions of an element
  * identified by `tagName` in the `WebView` pixels unit. The first element
@@ -115,13 +120,22 @@ export interface ElementCSSBoxDimensions {
  *
  * @public
  */
-export const handleElementCSSBoxFeature: EventFeatureOf<
+export const HandleElementCSSBoxFeature: FeatureConstructor<
   HandleElementCSSBoxDimensionsOptions,
-  'onDOMElementCSSBoxDimensions',
-  ElementCSSBoxDimensions
-> = makeFeature({
+  [
+    PropDefinition<{
+      onDOMElementCSSBoxDimensions?: (e: ElementCSSBoxDimensions) => void;
+    }>
+  ]
+> = new FeatureBuilder({
   script,
-  eventHandlerName: 'onDOMElementCSSBoxDimensions',
+  defaultOptions,
+  className: 'HandleElementCSSBoxFeature',
   featureIdentifier:
     'org.formidable-webview/webshell.handle-element-cssbox-dimensions'
-});
+})
+  .withEventHandlerProp<
+    ElementCSSBoxDimensions,
+    'onDOMElementCSSBoxDimensions'
+  >('onDOMElementCSSBoxDimensions')
+  .build();

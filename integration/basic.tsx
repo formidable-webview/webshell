@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from 'react';
 import { Linking } from 'react-native';
 import makeWebshell, {
-  handleLinkPressFeature,
-  handleHTMLDimensionsFeature
+  HandleLinkPressFeature,
+  HandleHTMLDimensionsFeature
 } from '@formidable-webview/webshell';
 import type {
   HTMLDimensions,
@@ -14,8 +14,8 @@ import type { WebViewProps } from 'react-native-webview';
 
 const Webshell = makeWebshell(
   WebView,
-  handleLinkPressFeature.assemble({ preventDefault: true }),
-  handleHTMLDimensionsFeature.assemble()
+  new HandleLinkPressFeature({ preventDefault: true }),
+  new HandleHTMLDimensionsFeature()
 );
 
 export default function NaiveAutoheightWebView(webViewProps: WebViewProps) {

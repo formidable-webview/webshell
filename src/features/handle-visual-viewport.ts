@@ -1,7 +1,8 @@
 import script from './handle-visual-viewport.webjs';
-import { makeFeature } from '../make-feature';
-import type { EventFeatureOf } from '../types';
-import { RectSize } from './types';
+import { FeatureBuilder } from '../FeatureBuilder';
+import type { RectSize } from './types';
+import { FeatureConstructor } from '../Feature';
+import { PropDefinition } from '../types';
 
 /**
  * An object describing the visual viewport of the `WebView`.
@@ -37,12 +38,20 @@ export interface VisualViewportDimensions {
  *
  * @beta
  */
-export const handleVisualViewportFeature: EventFeatureOf<
+export const HandleVisualViewportFeature: FeatureConstructor<
   {},
-  'onDOMVisualViewport',
-  VisualViewportDimensions
-> = makeFeature({
+  [
+    PropDefinition<{
+      onDOMVisualViewport?: (d: VisualViewportDimensions) => void;
+    }>
+  ]
+> = new FeatureBuilder({
   script,
-  eventHandlerName: 'onDOMVisualViewport',
+  defaultOptions: {},
+  className: 'HandleVisualViewportFeature',
   featureIdentifier: 'org.formidable-webview/webshell.handle-visual-viewport'
-});
+})
+  .withEventHandlerProp<VisualViewportDimensions, 'onDOMVisualViewport'>(
+    'onDOMVisualViewport'
+  )
+  .build();

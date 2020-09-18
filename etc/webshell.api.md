@@ -4,29 +4,15 @@
 
 ```ts
 
-import { ComponentPropsWithoutRef } from 'react';
-import { ComponentType } from 'react';
-import { ElementRef } from 'react';
-import { ForwardRefExoticComponent } from 'react';
+import type { ComponentPropsWithoutRef } from 'react';
+import type { ComponentType } from 'react';
+import type { ElementRef } from 'react';
+import type { ForwardRefExoticComponent } from 'react';
 import * as React_2 from 'react';
-import { RefAttributes } from 'react';
+import type { RefAttributes } from 'react';
 
 // @public
-export type AssembledEventFeature<O = {}, S = EventHandlerDefinition<string, any>, P = {}> = S extends EventHandlerDefinition<infer H, infer Payload> ? AssembledFeature<O, S, EventHandlerProps<H, Payload> & P> : never;
-
-// @public
-export type AssembledFeature<O extends {} = {}, S extends {} = {}, P extends {} = {}> = {
-    readonly featureIdentifier: string;
-    readonly script: string;
-    readonly options: OptionalUnlessRequiredField<O>;
-    readonly props?: P;
-} & S;
-
-// @public
-export type AssembledFeatureOf<F> = F extends Feature<infer O, infer S, infer P> ? AssembledFeature<O, S, P> : never;
-
-// @public
-export interface AutoheightParams<S extends WebshellProps<MinimalWebViewProps, []>> {
+export interface AutoheightParams<S extends WebshellProps<MinimalWebViewProps, Feature<any, any>[]>> {
     initialHeight?: number;
     reinitHeightOnViewportWidthChange?: boolean;
     webshellProps: S;
@@ -34,8 +20,8 @@ export interface AutoheightParams<S extends WebshellProps<MinimalWebViewProps, [
 }
 
 // @public
-export interface AutoheightState<S extends WebshellProps<MinimalWebViewProps, [AssembledFeatureOf<typeof handleHTMLDimensionsFeature>]>> {
-    autoheightWebshellProps: Pick<S, 'onDOMHTMLDimensions' | 'style' | 'scalesPageToFit' | 'showsVerticalScrollIndicator' | 'disableScrollViewPanResponder'> & Partial<S>;
+export interface AutoheightState<S extends WebshellProps<MinimalWebViewProps, [FeatureInstanceOf<typeof HandleHTMLDimensionsFeature>]>> {
+    autoheightWebshellProps: Pick<S, 'webshellDebug' | 'onDOMHTMLDimensions' | 'style' | 'scalesPageToFit' | 'showsVerticalScrollIndicator' | 'disableScrollViewPanResponder'> & Partial<S>;
     contentSize: Partial<RectSize>;
     resizeImplementation: HTMLDimensionsImplementation | null;
     syncState: AutoheightSyncState;
@@ -81,6 +67,48 @@ export interface CSSBoxDimensionsComputedStyle {
 }
 
 // @public
+export type DOMCollectionRequest = DOMElementQueryRequest | DOMElementClassNameRequest | DOMElementTagNameRequest | string;
+
+// @public
+export type DOMElementClassNameRequest = {
+    className: string;
+};
+
+// @public
+export type DOMElementIdRequest = {
+    id: string;
+};
+
+// @public
+export type DOMElementQueryRequest = {
+    query: string;
+};
+
+// @public
+export type DOMElementRequest = DOMElementQueryRequest | DOMElementClassNameRequest | DOMElementIdRequest | DOMElementTagNameRequest | string;
+
+// @public
+export type DOMElementTagNameRequest = {
+    tagName: string;
+};
+
+// @public
+export interface DOMRect {
+    // (undocumented)
+    bottom: number;
+    // (undocumented)
+    height: number;
+    // (undocumented)
+    left: number;
+    // (undocumented)
+    right: number;
+    // (undocumented)
+    top: number;
+    // (undocumented)
+    width: number;
+}
+
+// @public
 export interface ElementCSSBoxDimensions {
     borderBox: CSSBox;
     computedStyle: CSSBoxDimensionsComputedStyle;
@@ -90,43 +118,60 @@ export interface ElementCSSBoxDimensions {
 }
 
 // @public
-export type EventFeature<O extends {}, S, P = {}> = S extends EventHandlerDefinition<infer Event, infer Payload> ? Feature<O, S, EventHandlerProps<Event, Payload> & P> : never;
-
-// @public
-export type EventFeatureOf<O extends {}, H extends string, Payload, OtherProps = {}> = EventFeature<O, EventHandlerDefinition<H, Payload>, EventHandlerProps<H, Payload> & OtherProps>;
-
-// @public
-export interface EventHandlerDefinition<H extends string, P> {
-    readonly eventHandlerName: H;
-    readonly payloadType?: P;
-}
-
-// @public
 export type EventHandlerProps<H extends string, P> = {
     [k in H]?: (e: P) => void;
 };
 
 // @public
-export type EventNameOf<T> = T extends AssembledEventFeature<{}, infer S, {}> ? S extends EventHandlerDefinition<infer H, unknown> ? H : never : never;
+export class Feature<O extends {}, S extends PropsSpecs<any> = []> implements FeatureBase<O> {
+    constructor(params: FeatureBase<O> & {
+        propSpecs: S;
+    }, options: O);
+    // (undocumented)
+    readonly defaultOptions: O;
+    // (undocumented)
+    readonly featureIdentifier: string;
+    // (undocumented)
+    readonly options: O;
+    // (undocumented)
+    readonly propSpecs: S;
+    // (undocumented)
+    readonly script: string;
+}
 
-// @public
-export type Feature<O extends {}, S extends {} = {}, P extends {} = {}> = {
+// @public (undocumented)
+export type FeatureBase<O extends {}> = {
     readonly script: string;
     readonly featureIdentifier: string;
-    readonly assemble: (...args: O extends Partial<O> ? [] | [O] : [O]) => AssembledFeature<O, S, P>;
-} & S;
-
-// @public
-export const forceElementSizeFeature: {
-    readonly script: string;
-    readonly featureIdentifier: string;
-    readonly assemble: (...args: [] | [ForceElementSizeOptions]) => {
-        readonly featureIdentifier: string;
-        readonly script: string;
-        readonly options: ForceElementSizeOptions | undefined;
-        readonly props?: {} | undefined;
-    };
+    readonly defaultOptions: O;
 };
+
+// @public
+export class FeatureBuilder<O extends {}, S extends PropsSpecs<any> = []> {
+    constructor(config: FeatureBase<O> & {
+        propSpecs?: S;
+    } & {
+        className: string;
+    });
+    build(): FeatureConstructor<O, S>;
+    withEventHandlerProp<P, H extends string>(eventHandlerName: H): FeatureBuilder<O, S[number] extends never ? [PropDefinition<{ [k in H]?: ((p: P) => void) | undefined; }>] : [PropDefinition<{ [k_1 in H]?: ((p: P) => void) | undefined; }>, ...S[number][]]>;
+}
+
+// @public
+export interface FeatureConstructor<O extends {}, S extends PropsSpecs<any> = []> {
+    // (undocumented)
+    new (...args: O extends Partial<O> ? [] | [O] : [O]): Feature<O, S>;
+    // (undocumented)
+    identifier: string;
+    // (undocumented)
+    name: string;
+}
+
+// @public
+export type FeatureInstanceOf<F> = F extends FeatureConstructor<infer O, infer S> ? Feature<O, S> : never;
+
+// @public
+export const ForceElementSizeFeature: FeatureConstructor<ForceElementSizeOptions>;
 
 // @public
 export interface ForceElementSizeOptions {
@@ -134,13 +179,12 @@ export interface ForceElementSizeOptions {
     forceWidth?: boolean;
     heightValue?: number | string;
     shouldThrowWhenNotFound?: boolean;
-    // Warning: (ae-forgotten-export) The symbol "DOMElementRequest" needs to be exported by the entry point index.d.ts
     target: DOMElementRequest;
     widthValue?: number | string;
 }
 
 // @public
-export const forceResponsiveViewportFeature: Feature<ForceResponsiveViewportOptions>;
+export const ForceResponsiveViewportFeature: FeatureConstructor<ForceResponsiveViewportOptions>;
 
 // @public
 export interface ForceResponsiveViewportOptions {
@@ -154,10 +198,14 @@ export interface HandleElementCSSBoxDimensionsOptions {
 }
 
 // @public
-export const handleElementCSSBoxFeature: EventFeatureOf<HandleElementCSSBoxDimensionsOptions, 'onDOMElementCSSBoxDimensions', ElementCSSBoxDimensions>;
+export const HandleElementCSSBoxFeature: FeatureConstructor<HandleElementCSSBoxDimensionsOptions, [PropDefinition<{
+    onDOMElementCSSBoxDimensions?: (e: ElementCSSBoxDimensions) => void;
+}>]>;
 
 // @public
-export const handleHashChangeFeature: EventFeatureOf<HandleHashChangeOptions, 'onDOMHashChange', HashChangeEvent>;
+export const HandleHashChangeFeature: FeatureConstructor<HandleHashChangeOptions, [PropDefinition<{
+    onDOMHashChange?: (e: HashChangeEvent) => void;
+}>]>;
 
 // @public
 export interface HandleHashChangeOptions {
@@ -165,7 +213,9 @@ export interface HandleHashChangeOptions {
 }
 
 // @public
-export const handleHTMLDimensionsFeature: EventFeatureOf<HandleHTMLDimensionsOptions, 'onDOMHTMLDimensions', HTMLDimensions>;
+export const HandleHTMLDimensionsFeature: FeatureConstructor<HandleHTMLDimensionsOptions, [PropDefinition<{
+    onDOMHTMLDimensions?: (d: HTMLDimensions) => void;
+}>]>;
 
 // @public (undocumented)
 export interface HandleHTMLDimensionsOptions {
@@ -175,15 +225,18 @@ export interface HandleHTMLDimensionsOptions {
 }
 
 // @public
-export const handleLinkPressFeature: EventFeatureOf<LinkPressOptions, 'onDOMLinkPress', LinkPressTarget>;
+export const HandleLinkPressFeature: FeatureConstructor<LinkPressOptions, [PropDefinition<{
+    onDOMLinkPress?: (t: LinkPressTarget) => void;
+}>]>;
 
 // @beta
-export const handleVisualViewportFeature: EventFeatureOf<{}, 'onDOMVisualViewport', VisualViewportDimensions>;
+export const HandleVisualViewportFeature: FeatureConstructor<{}, [PropDefinition<{
+    onDOMVisualViewport?: (d: VisualViewportDimensions) => void;
+}>]>;
 
 // @public
 export interface HashChangeEvent {
     hash: string;
-    // Warning: (ae-forgotten-export) The symbol "DOMRect" needs to be exported by the entry point index.d.ts
     targetElementBoundingRect: DOMRect;
 }
 
@@ -216,10 +269,7 @@ export interface LinkPressTarget {
 }
 
 // @public
-export function makeFeature<O extends {}, S extends {} = {}, P extends {} = {}>(params: Pick<Feature<O, S, P>, keyof S | 'script' | 'featureIdentifier'>): Feature<O, S, P>;
-
-// @public
-function makeWebshell<C extends ComponentType<any>, F extends AssembledFeature[]>(WebView: C, ...assembledFeatures: F): React_2.ForwardRefExoticComponent<WebshellProps<React_2.ComponentPropsWithoutRef<C>, F> & React_2.RefAttributes<ElementRef<C>>>;
+function makeWebshell<C extends ComponentType<any>, F extends Feature<any, any>[]>(WebView: C, ...features: F): React_2.ForwardRefExoticComponent<WebshellProps<React_2.ComponentPropsWithoutRef<C>, F> & React_2.RefAttributes<ElementRef<C>>>;
 
 export default makeWebshell;
 
@@ -249,11 +299,22 @@ export interface MinimalWebViewProps {
     readonly style?: unknown;
 }
 
-// @public
-export type OptionalUnlessRequiredField<O> = O extends Partial<O> ? O | undefined : O;
+// @public (undocumented)
+export type PropDefinition<P extends Partial<Record<string, any>>> = {
+    type: 'handler' | 'inert';
+    featureIdentifier: string;
+    name: string;
+    signature?: P;
+};
 
 // @public
-export type PayloadOf<T> = T extends AssembledEventFeature<{}, string, infer P> ? P : never;
+export type PropsFromFeature<F> = F extends Feature<any, infer S> ? PropsFromSpecs<S> : never;
+
+// @public (undocumented)
+export type PropsFromSpecs<S> = S extends PropsSpecs<any> ? S[number]['signature'] : never;
+
+// @public (undocumented)
+export type PropsSpecs<P = {}> = PropDefinition<P>[];
 
 // @public (undocumented)
 export interface RectSize {
@@ -264,7 +325,7 @@ export interface RectSize {
 }
 
 // @beta
-export function useAutoheight<S extends WebshellProps<MinimalWebViewProps, [AssembledFeatureOf<typeof handleHTMLDimensionsFeature>]>>(params: AutoheightParams<S>): AutoheightState<S>;
+export function useAutoheight<S extends WebshellProps<MinimalWebViewProps, [FeatureInstanceOf<typeof HandleHTMLDimensionsFeature>]>>(params: AutoheightParams<S>): AutoheightState<S>;
 
 // @public
 export interface VisualViewportDimensions {
@@ -277,10 +338,7 @@ export interface VisualViewportDimensions {
 export interface WebjsContext<O extends {}, P> {
     error(message: string): void;
     getDOMSelection(selector: DOMElementRequest, multiple: false): HTMLElement | null;
-    // Warning: (ae-forgotten-export) The symbol "DOMElementQueryRequest" needs to be exported by the entry point index.d.ts
     getDOMSelection(selector: DOMElementQueryRequest | string, multiple: true): any;
-    // Warning: (ae-forgotten-export) The symbol "DOMElementClassNameRequest" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "DOMElementTagNameRequest" needs to be exported by the entry point index.d.ts
     getDOMSelection(selector: DOMElementClassNameRequest | DOMElementTagNameRequest, multiple: true): any;
     makeCallbackSafe<T extends Function>(callback: T): T;
     // (undocumented)
@@ -291,12 +349,10 @@ export interface WebjsContext<O extends {}, P> {
 }
 
 // @public
-export type WebshellAssembledProps<F> = F extends AssembledFeature<{}, {}, infer P> ? P : never;
+export type WebshellComponent<C extends ComponentType<any>, F extends Feature<any, any>[]> = ForwardRefExoticComponent<WebshellProps<ComponentPropsWithoutRef<C>, F> & RefAttributes<ElementRef<C>>>;
 
-// Warning: (ae-forgotten-export) The symbol "WebshellComponent" needs to be exported by the entry point index.d.ts
-//
 // @public
-export type WebshellComponentOf<C extends ComponentType<any>, F extends Feature<any, any, any>[]> = WebshellComponent<C, AssembledFeatureOf<F[number]>[]>;
+export type WebshellComponentOf<C extends ComponentType<any>, F extends FeatureConstructor<any, any>[]> = WebshellComponent<C, FeatureInstanceOf<F[]>[]>;
 
 // @public
 export interface WebshellInvariantProps {
@@ -305,7 +361,7 @@ export interface WebshellInvariantProps {
 }
 
 // @public
-export type WebshellProps<W extends MinimalWebViewProps, F extends AssembledFeature<{}, {}, {}>[]> = WebshellInvariantProps & W & (F[number] extends never ? {} : WebshellAssembledProps<F[number]>);
+export type WebshellProps<W extends MinimalWebViewProps, F extends Feature<any, any>[]> = WebshellInvariantProps & W & (F[number] extends never ? {} : PropsFromFeature<F[number]>);
 
 
 // (No @packageDocumentation comment for this package)

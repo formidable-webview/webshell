@@ -1,6 +1,7 @@
 import linkPressScript from './handle-link-press.webjs';
-import { makeFeature } from '../make-feature';
-import type { EventFeatureOf, DOMRect } from '../types';
+import { FeatureBuilder } from '../FeatureBuilder';
+import type { DOMRect, PropDefinition } from '../types';
+import type { FeatureConstructor } from '../Feature';
 
 /**
  * An object describing customization for the linkPress feature.
@@ -68,18 +69,29 @@ export interface LinkPressTarget {
   };
 }
 
+const defaultOptions: LinkPressOptions = {
+  preventDefault: true,
+  ignoreHashChange: true
+};
+
 /**
  * This feature allows to intercept clicks on anchors (`<a>`). By default, it
  * will prevent the click from propagating. But you can disable this option.
  *
  * @public
  */
-export const handleLinkPressFeature: EventFeatureOf<
+export const HandleLinkPressFeature: FeatureConstructor<
   LinkPressOptions,
-  'onDOMLinkPress',
-  LinkPressTarget
-> = makeFeature({
+  [
+    PropDefinition<{
+      onDOMLinkPress?: (t: LinkPressTarget) => void;
+    }>
+  ]
+> = new FeatureBuilder({
   script: linkPressScript,
-  eventHandlerName: 'onDOMLinkPress',
+  defaultOptions,
+  className: 'HandleLinkPressFeature',
   featureIdentifier: 'org.formidable-webview/webshell.link-press'
-});
+})
+  .withEventHandlerProp<LinkPressTarget, 'onDOMLinkPress'>('onDOMLinkPress')
+  .build();

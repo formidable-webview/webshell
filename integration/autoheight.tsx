@@ -1,17 +1,17 @@
 import React, { ComponentProps } from 'react';
 import makeWebshell, {
-  handleHTMLDimensionsFeature,
-  forceResponsiveViewportFeature,
-  forceElementSizeFeature,
+  HandleHTMLDimensionsFeature,
+  ForceResponsiveViewportFeature,
+  ForceElementSizeFeature,
   useAutoheight
 } from '@formidable-webview/webshell';
 import WebView from 'react-native-webview';
 
 const Webshell = makeWebshell(
   WebView,
-  handleHTMLDimensionsFeature.assemble(),
-  forceResponsiveViewportFeature.assemble({ maxScale: 2 }),
-  forceElementSizeFeature.assemble({
+  new HandleHTMLDimensionsFeature(),
+  new ForceResponsiveViewportFeature({ maxScale: 2 }),
+  new ForceElementSizeFeature({
     target: 'body',
     heightValue: 'auto',
     widthValue: 'auto'

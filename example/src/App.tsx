@@ -3,11 +3,11 @@ import Constants from 'expo-constants';
 import * as WebBrowser from 'expo-web-browser';
 import { StyleSheet, ScrollView, View, LayoutRectangle } from 'react-native';
 import makeWebshell, {
-  forceResponsiveViewportFeature,
-  handleHTMLDimensionsFeature,
-  forceElementSizeFeature,
-  handleHashChangeFeature,
-  handleLinkPressFeature,
+  ForceResponsiveViewportFeature,
+  HandleHTMLDimensionsFeature,
+  ForceElementSizeFeature,
+  HandleHashChangeFeature,
+  HandleLinkPressFeature,
   useAutoheight,
   LinkPressTarget,
   HashChangeEvent
@@ -84,18 +84,18 @@ export default function App() {
     () =>
       makeWebshell(
         WebView,
-        handleLinkPressFeature.assemble({
+        new HandleLinkPressFeature({
           preventDefault: !allowWebViewNavigation
         }),
-        handleHTMLDimensionsFeature.assemble({
+        new HandleHTMLDimensionsFeature({
           forceImplementation: resizeMethod === 'auto' ? false : resizeMethod,
           deltaMin: 0
         }),
-        handleHashChangeFeature.assemble({ shouldResetHashOnEvent: true }),
-        forceResponsiveViewportFeature.assemble({
+        new HandleHashChangeFeature({ shouldResetHashOnEvent: true }),
+        new ForceResponsiveViewportFeature({
           maxScale: allowPinchToZoom ? 1.5 : 1
         }),
-        forceElementSizeFeature.assemble({ target: 'body' })
+        new ForceElementSizeFeature({ target: 'body' })
       ),
     [allowWebViewNavigation, allowPinchToZoom, resizeMethod]
   );
