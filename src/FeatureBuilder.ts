@@ -13,11 +13,17 @@ import type { FeatureDefinition, PropDefinition, PropsSpecs } from './types';
  * @public
  */
 export class FeatureBuilder<O extends {}, S extends PropsSpecs<any> = []> {
+  private config: FeatureDefinition<O> & {
+    propSpecs?: S;
+  } & { className: string };
+
   constructor(
-    private config: FeatureDefinition<O> & {
+    config: FeatureDefinition<O> & {
       propSpecs?: S;
     } & { className: string }
-  ) {}
+  ) {
+    this.config = config;
+  }
   /**
    * Signal that the feature will receive events from the DOM, and the shell
    * will provide a new handler prop.

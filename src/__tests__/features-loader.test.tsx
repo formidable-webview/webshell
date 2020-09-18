@@ -4,7 +4,7 @@ import Ersatz from '@formidable-webview/ersatz';
 import makeErsatzTesting from '@formidable-webview/ersatz-testing';
 import { render } from '@testing-library/react-native';
 import dummyHelloScript from './feat/dummy-hello.webjs';
-import featuresLoaderScript from '../features-loader.webjs';
+import { assembleScript } from '../make-webshell';
 
 const { waitForErsatz } = makeErsatzTesting<typeof Ersatz, Document, Window>(
   Ersatz
@@ -20,7 +20,7 @@ describe('Feature loader script', () => {
         identifier: "com.test"
       }
     ]`;
-    const script = featuresLoaderScript.replace('$$___FEATURES___$$', features);
+    const script = assembleScript(features);
     await waitForErsatz(
       render(<Ersatz onMessage={onHello} injectedJavaScript={script} />)
     );

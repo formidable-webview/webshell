@@ -23,7 +23,7 @@ const dimensionsMatcher: Record<keyof ElementCSSBoxDimensions, any> = {
   verticalScrollbarWidth: expect.any(Number)
 };
 
-describe('Webshell with elementCSSBoxFeature', () => {
+describe('Webshell with HandleElementCSSBoxFeature', () => {
   it('should invoke onDOMDimensions prop when the DOM is mounted', async () => {
     const onDOMElementDimensions = jest.fn();
     const html = `

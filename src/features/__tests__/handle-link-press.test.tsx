@@ -7,7 +7,7 @@ import { HandleLinkPressFeature, LinkPressTarget } from '../handle-link-press';
 
 const { waitForDocument } = makeErsatzTesting(Ersatz);
 
-describe('Webshell with handleLinkPressFeature', () => {
+describe('Webshell with HandleLinkPressFeature', () => {
   it('should invoke onDOMLinkPress prop when a link is pressed', async () => {
     const onDOMLinkPress = jest.fn();
     const Webshell = makeWebshell(Ersatz, new HandleLinkPressFeature());

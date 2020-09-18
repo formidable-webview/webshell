@@ -82,17 +82,19 @@ function registerFeature(specs) {
     );
   }
   function sendErrorMessage(e) {
+    var message =
+      typeof e === 'string'
+        ? e
+        : typeof e === 'object' && typeof e.message === 'string'
+        ? e.message
+        : 'unknown error';
+    console.error(message);
     safePostMessage(
       JSON.stringify({
         type: 'error',
         identifier: snippetIdentifier,
         __isWebshellPostMessage: true,
-        body:
-          typeof e === 'string'
-            ? e
-            : typeof e === 'object' && typeof e.message === 'string'
-            ? e.message
-            : 'unknown error'
+        body: message
       })
     );
   }
@@ -104,7 +106,9 @@ function registerFeature(specs) {
       if (handlerName == null) {
         sendErrorMessage(
           new TypeError(
-            'context.postMessage was invoked while no handlerName was provided for this feature. ' +
+            snippetIdentifier +
+              ': ' +
+              'context.postMessage was invoked while no handlerName was passed to this feature. ' +
               'Register a handlerName and try again.'
           )
         );
@@ -115,6 +119,7 @@ function registerFeature(specs) {
           type: 'feature',
           identifier: snippetIdentifier,
           body: message,
+          handlerName: handlerName,
           __isWebshellPostMessage: true
         })
       );

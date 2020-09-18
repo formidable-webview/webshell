@@ -21,6 +21,8 @@ interface WebViewMessage {
   data: string;
 }
 
+const test = 3;
+
 interface PostMessage {
   identifier: string;
   handlerName: string;
@@ -42,17 +44,18 @@ function isPostMessageObject(o: unknown): o is PostMessage {
     typeof o === 'object' &&
     o !== null &&
     typeof o['identifier'] === 'string' &&
-    typeof o['handlerName'] === 'string' &&
     typeof o['type'] === 'string' &&
     o['__isWebshellPostMessage'] === true
   );
 }
 
-function serializeFeature(feature: Feature<any, any>) {
+function serializeFeature(feature: Feature<any, PropsSpecs<any>>) {
+  const propDef = feature.propSpecs.find((f) => f.type === 'handler');
   return `{
     source:${feature.script},
     identifier:${JSON.stringify(feature.featureIdentifier)},
-    options:${JSON.stringify(feature.options || {})}
+    options:${JSON.stringify(feature.options || {})},
+    handlerName: ${JSON.stringify((propDef && propDef.name) || '')}
   }`;
 }
 
@@ -101,6 +104,12 @@ function extractPropsSpecsMap(features: Feature<any, PropsSpecs<any>>[]) {
     ) as Record<string, PropDefinition<any>>;
 }
 
+export function assembleScript(serializedFeatureList: string) {
+  return featuresLoaderScript
+    .replace('$$___FEATURES___$$', serializedFeatureList)
+    .replace('$$__DEBUG__$$', `${__DEV__}`);
+}
+
 /**
  * Creates a React component which decorates WebView component with additional
  * props to handle events from the DOM.
@@ -122,9 +131,7 @@ export function makeWebshell<
 > {
   const propsMap = extractPropsSpecsMap(features);
   const serializedFeatureScripts = serializeFeatureList(features);
-  const injectableScript = featuresLoaderScript
-    .replace('$$___FEATURES___$$', serializedFeatureScripts)
-    .replace('$$__DEBUG__$$', __DEV__ + '');
+  const injectableScript = assembleScript(serializedFeatureScripts);
   const Webshell = (
     props: WebshellProps<ComponentProps<C>, F> & { webViewRef: ElementRef<C> }
   ) => {

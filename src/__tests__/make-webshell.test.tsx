@@ -41,15 +41,6 @@ const OptionFeature = new FeatureBuilder({
   .withEventHandlerProp<{ foo: string }, 'onDOMDummyOption'>('onDOMDummyOption')
   .build();
 
-const FaultyFeature = new FeatureBuilder({
-  script: dummyOptionScript,
-  featureIdentifier: 'test.never',
-  defaultOptions: {},
-  className: 'FailingFeature'
-})
-  .withEventHandlerProp('onFaultyFeature')
-  .build();
-
 describe('Webshell component', () => {
   it('sould mount without error', () => {
     const Webshell = makeWebshell(DummyWebView, new HelloFeature());
@@ -119,8 +110,5 @@ describe('Webshell component', () => {
       render(<Webshell webshellDebug={false} ref={ersatzRef} />)
     );
     expect(ersatzRef.current).toBeInstanceOf(Ersatz);
-  });
-  it("it should throw when provided with an event handler feature which doesn't comply with name requirement: starts with 'onDOM'", async () => {
-    expect(() => makeWebshell(Ersatz, new FaultyFeature())).toThrow();
   });
 });
