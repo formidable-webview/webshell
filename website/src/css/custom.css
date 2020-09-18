@@ -27,7 +27,7 @@
   --ifm-font-family-base: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu,
     Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica,
     Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-  --ifm-font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  --ifm-font-family-monospace: 'Fira Code', 'Hack', SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
 
   --ifm-color-success: #00a400;
   --ifm-color-success-dark: rgb(0, 148, 0);
