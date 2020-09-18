@@ -18,7 +18,7 @@ export interface LinkPressOptions {
 
   /**
    * Don't trigger an event when the target `href` is inside the page, e.g.
-   * `#top`. See also {@link handleHashChangeFeature}.
+   * `#top`. See also {@link HandleHashChangeFeature}.
    *
    * @defaultValue true
    */

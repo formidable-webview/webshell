@@ -36,7 +36,12 @@ export type WebshellComponentOf<
   F extends FeatureConstructor<any, any>[]
 > = WebshellComponent<C, FeatureInstanceOf<F[]>[]>;
 
-export type FeatureBase<O extends {}> = {
+/**
+ * A minimal set of attributes to define a feature.
+ *
+ * @public
+ */
+export type FeatureDefinition<O extends {}> = {
   /**
    * The string containing valid ECMAScript 5 to be run in the WebView.
    *
@@ -57,6 +62,9 @@ export type FeatureBase<O extends {}> = {
    * org.formidable-webview/webshell.link-press
    */
   readonly featureIdentifier: string;
+  /**
+   * These options will be shallow-merged with the options provided to the {@link FeatureConstructor}.
+   */
   readonly defaultOptions: O;
 };
 

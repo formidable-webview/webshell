@@ -167,8 +167,8 @@ function useAutoheightState<
 }
 
 /**
- * Requires {@link handleHTMLDimensionsFeature} and recommends
- * {@link forceResponsiveViewportFeature}.
+ * Requires {@link HandleHTMLDimensionsFeature} and recommends
+ * {@link ForceResponsiveViewportFeature}.
  *
  * @remarks
  * This hook has caveats you must understand:
@@ -179,7 +179,7 @@ function useAutoheightState<
  *   an infinite loop, or a zero-height page (this happens for Wikipedia).
  *   Hence, it is strongly advised that you use autoheight only with content
  *   you have been able to test. This can be worked around by forcing body
- *   height to 'auto', see {@link forceElementSizeFeature}.
+ *   height to 'auto', see {@link ForceElementSizeFeature}.
  * - When the user clicks to fragment links within the same page (e.g,
  *   “`#help`”), there will be no scrolling, because this is handled by WebView
  *   on overflow, and there is no such overflow when in autoheight mode.

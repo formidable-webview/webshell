@@ -1,4 +1,4 @@
-import type { FeatureBase, PropsFromSpecs, PropsSpecs } from './types';
+import type { FeatureDefinition, PropsFromSpecs, PropsSpecs } from './types';
 
 /**
  * A lookup type to infer the additional props from a feature.
@@ -45,13 +45,16 @@ export type FeatureInstanceOf<F> = F extends FeatureConstructor<
  * @public
  */
 export class Feature<O extends {}, S extends PropsSpecs<any> = []>
-  implements FeatureBase<O> {
+  implements FeatureDefinition<O> {
+  /**
+   * {@inheritdoc FeatureDefinition.script}
+   */
   readonly script: string;
   readonly featureIdentifier: string;
   readonly propSpecs: S;
   readonly defaultOptions: O;
   readonly options: O;
-  constructor(params: FeatureBase<O> & { propSpecs: S }, options: O) {
+  constructor(params: FeatureDefinition<O> & { propSpecs: S }, options: O) {
     this.script = params.script;
     this.featureIdentifier = params.featureIdentifier;
     this.propSpecs = params.propSpecs;

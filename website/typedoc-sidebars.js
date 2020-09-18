@@ -3,16 +3,23 @@ module.exports = {
     "api/index",
     {
       "type": "category",
+      "label": "Classes",
+      "items": [
+        "api/classes/feature",
+        "api/classes/featurebuilder"
+      ]
+    },
+    {
+      "type": "category",
       "label": "Interfaces",
       "items": [
         "api/interfaces/autoheightparams",
         "api/interfaces/autoheightstate",
         "api/interfaces/cssbox",
         "api/interfaces/cssboxdimensionscomputedstyle",
-        "api/interfaces/domelementtagnamerequest",
         "api/interfaces/domrect",
         "api/interfaces/elementcssboxdimensions",
-        "api/interfaces/eventhandlerdefinition",
+        "api/interfaces/featureconstructor",
         "api/interfaces/forceelementsizeoptions",
         "api/interfaces/forceresponsiveviewportoptions",
         "api/interfaces/htmldimensions",

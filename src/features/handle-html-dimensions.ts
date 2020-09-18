@@ -16,6 +16,8 @@ import type { PropDefinition } from '../types';
 export type HTMLDimensionsImplementation = 'resize' | 'mutation' | 'polling';
 
 /**
+ * Options for {@link HandleHTMLDimensionsFeature}.
+ *
  * @public
  */
 export interface HandleHTMLDimensionsOptions {
@@ -88,8 +90,8 @@ const defaultOptions: HandleHTMLDimensionsOptions = {
  *
  * @remarks
  * If you need to guarantee that 1 CSS pixel = 1 Device pixel, you should use this
- * feature with a meta tag viewport setting width to device width. See
- * {@link forceResponsiveViewportFeature}.
+ * feature with a meta tag viewport setting width to device width.
+ * {@link ForceResponsiveViewportFeature}
  *
  * @public
  */

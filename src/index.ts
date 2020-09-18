@@ -8,7 +8,7 @@ export type {
   DOMElementTagNameRequest,
   DOMRect,
   EventHandlerProps,
-  FeatureBase,
+  FeatureDefinition as FeatureBase,
   MinimalWebViewProps,
   PropDefinition,
   PropsFromSpecs,

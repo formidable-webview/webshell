@@ -135,11 +135,13 @@ export class Feature<O extends {}, S extends PropsSpecs<any> = []> implements Fe
     readonly options: O;
     // (undocumented)
     readonly propSpecs: S;
+    // Warning: (ae-unresolved-inheritdoc-reference) The @inheritDoc reference could not be resolved: The package "@formidable-webview/webshell" does not have an export "FeatureDefinition"
+    //
     // (undocumented)
     readonly script: string;
 }
 
-// @public (undocumented)
+// @public
 export type FeatureBase<O extends {}> = {
     readonly script: string;
     readonly featureIdentifier: string;
@@ -217,7 +219,7 @@ export const HandleHTMLDimensionsFeature: FeatureConstructor<HandleHTMLDimension
     onDOMHTMLDimensions?: (d: HTMLDimensions) => void;
 }>]>;
 
-// @public (undocumented)
+// @public
 export interface HandleHTMLDimensionsOptions {
     deltaMin?: number;
     forceImplementation?: HTMLDimensionsImplementation | false;
