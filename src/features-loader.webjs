@@ -2,15 +2,16 @@
 var debug = $$__DEBUG__$$;
 // eslint-disable-next-line no-undef
 var features = $$___FEATURES___$$;
-var safePostMessage =
-  window.ReactNativeWebView.postMessage ||
-  window.postMessage ||
-  function () {
-    throw new Error(
-      'Missing postMessage. You must run this script in a WebView or @formidable-webview/ersatz.'
-    );
-  };
-
+var safePostMessage = (function () {
+  return window.ReactNativeWebView &&
+    typeof window.ReactNativeWebView.postMessage === 'function'
+    ? window.ReactNativeWebView.postMessage.bind(window.ReactNativeWebView)
+    : typeof window.postMessage === 'function'
+    ? window.postMessage
+    : function throwPostMessage() {
+        throw 'Missing postMessage. You must run this script in a WebView or @formidable-webview/ersatz.';
+      };
+})();
 function numericFromPxString(pixelString) {
   return pixelString ? parseFloat(pixelString.match(/[\d.]+/)) : 0;
 }

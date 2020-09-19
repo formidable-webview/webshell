@@ -1,5 +1,5 @@
 {
-  "name": "webshell-autoheight-example",
+  "name": "example",
   "description": "Example app for @formidable-webview/webshell",
   "version": "0.0.1",
   "private": true,
@@ -12,6 +12,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@formidable-webview/webshell": "workspace:*",
     "@react-native-community/picker": "1.6.0",
     "@rnhooks/device-orientation": "^0.0.1",
     "expo": "~38.0.10",

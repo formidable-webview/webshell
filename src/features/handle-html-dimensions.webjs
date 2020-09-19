@@ -62,7 +62,7 @@ function handleHTMLDimensionsFeature(context) {
   ) {
     // mutation mode
     var observerPostDimensions = createPostDimensions('mutation');
-    window.onresize = observerPostDimensions;
+    window.addEventListener('resize', observerPostDimensions);
     var observer = new MutationObserver(observerPostDimensions);
     observer.observe(document, {
       subtree: true,
@@ -71,9 +71,9 @@ function handleHTMLDimensionsFeature(context) {
   } else {
     // polling mode
     var pollingPostDimensions = createPostDimensions('polling');
-    window.onresize = pollingPostDimensions;
+    window.addEventListener('resize', pollingPostDimensions);
     pollingPostDimensions();
-    setInterval(pollingPostDimensions, 200);
+    setInterval(pollingPostDimensions, pollingInterval);
     context.warn(
       "This browser doesn't support either MutationObserver or ResizeObserver." +
         'The dimensions will still be read every' +

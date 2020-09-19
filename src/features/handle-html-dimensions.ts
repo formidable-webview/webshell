@@ -95,7 +95,6 @@ const defaultOptions: HandleHTMLDimensionsOptions = {
  *
  * @public
  */
-
 export const HandleHTMLDimensionsFeature: FeatureConstructor<
   HandleHTMLDimensionsOptions,
   [

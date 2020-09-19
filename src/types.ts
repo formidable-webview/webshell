@@ -27,14 +27,14 @@ export type WebshellComponent<
 >;
 
 /**
- * A lookup type to get the webshell component from feature classes.
+ * A lookup type to get the webshell component from WebView and feature classes.
  *
  * @public
  */
 export type WebshellComponentOf<
   C extends ComponentType<any>,
   F extends FeatureConstructor<any, any>[]
-> = WebshellComponent<C, FeatureInstanceOf<F[]>[]>;
+> = WebshellComponent<C, FeatureInstanceOf<F[number]>[]>;
 
 /**
  * A minimal set of attributes to define a feature.

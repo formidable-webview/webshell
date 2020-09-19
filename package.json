@@ -76,7 +76,9 @@
   },
   "resolutions": {
     "docusaurus-plugin-typedoc": "patch:docusaurus-plugin-typedoc@0.0.3#patches/docusaurus-plugin-typedoc.patch",
-    "typedoc-plugin-markdown": "patch:typedoc-plugin-markdown@2.4.2#patches/typedoc-plugin-markdown.patch"
+    "typedoc-plugin-markdown": "patch:typedoc-plugin-markdown@2.4.2#patches/typedoc-plugin-markdown.patch",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-38.0.2.tar.gz",
+    "react": "16.11.0"
   },
   "keywords": [
     "react-native",

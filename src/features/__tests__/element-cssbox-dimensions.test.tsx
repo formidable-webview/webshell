@@ -24,7 +24,7 @@ const dimensionsMatcher: Record<keyof ElementCSSBoxDimensions, any> = {
 };
 
 describe('Webshell with HandleElementCSSBoxFeature', () => {
-  it('should invoke onDOMDimensions prop when the DOM is mounted', async () => {
+  it('should invoke onDOMElementCSSBoxDimensions prop when the DOM is mounted', async () => {
     const onDOMElementDimensions = jest.fn();
     const html = `
     <table>

@@ -21,8 +21,6 @@ interface WebViewMessage {
   data: string;
 }
 
-const test = 3;
-
 interface PostMessage {
   identifier: string;
   handlerName: string;
@@ -55,7 +53,7 @@ function serializeFeature(feature: Feature<any, PropsSpecs<any>>) {
     source:${feature.script},
     identifier:${JSON.stringify(feature.featureIdentifier)},
     options:${JSON.stringify(feature.options || {})},
-    handlerName: ${JSON.stringify((propDef && propDef.name) || '')}
+    handlerName: ${JSON.stringify(propDef?.name || '')}
   }`;
 }
 
