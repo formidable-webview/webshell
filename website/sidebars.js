@@ -6,6 +6,6 @@ module.exports = {
     Guides: ['autoheight', 'features'],
     'Advanced Guides': ['implementing-features', 'tooling'],
     API: typedocSidebar,
-    Docusaurus: ['mdx', 'markdown']
+    Docusaurus: ['mdx']
   }
 };

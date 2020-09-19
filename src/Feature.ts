@@ -38,13 +38,15 @@ export type FeatureInstanceOf<F> = F extends FeatureConstructor<
 /**
  * A feature encapsulates injectable behaviors in a WebView.
  *
- * @param params - An object to specify attributes of the feature.
+ * @remarks
+ * You should never instantiate that class directly. Use {@link FeatureBuilder} instead.
  *
+ * @param params - An object to specify attributes of the feature.
  * @typeparam O - The shape of the JSON-serializable object that will be passed to the DOM script.
  * @typeparam S - Specifications for the new properties added to webshell.
  * @public
  */
-export class Feature<O extends {}, S extends PropsSpecs<any> = []>
+export abstract class Feature<O extends {}, S extends PropsSpecs<any> = []>
   implements FeatureDefinition<O> {
   /**
    * {@inheritdoc FeatureDefinition.script}

@@ -27,7 +27,8 @@
   --ifm-font-family-base: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu,
     Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica,
     Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-  --ifm-font-family-monospace: 'Fira Code', 'Hack', SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  --ifm-font-family-monospace: 'Fira Code', 'Hack', SFMono-Regular, Menlo,
+    Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
 
   --ifm-color-success: #00a400;
   --ifm-color-success-dark: rgb(0, 148, 0);
@@ -155,8 +156,21 @@ a.api-ref:hover,
 a.external-component:hover {
   text-decoration: underline;
 }
+article .admonition.alert--info a.api-ref,
+article .admonition.alert--success a.api-ref,
+article .admonition.alert--warning a.api-ref,
+article .admonition.alert--danger a.api-ref,
+article .admonition a.api-ref {
+  color: var(--ifm-color-gray-800);
+  font-weight: bold;
+}
 
-html[data-theme="light"] a.api-ref {
+article .admonition a > code {
+  color: var(--ifm-code-color);
+  text-decoration: underline;
+}
+
+html[data-theme='light'] a.api-ref {
   color: var(--ifm-color-primary-darkest);
 }
 html[data-theme='dark'] a.api-ref {
@@ -193,12 +207,12 @@ html[data-theme='light'] .api-box {
   content: '()';
 }
 
-html[data-theme="light"] .hero--primary {
+html[data-theme='light'] .hero--primary {
   --ifm-font-color-base-inverse: var(--ifm-color-primary);
   --ifm-hero-background-color: #1c1b1b;
   --ifm-hero-text-color: var(--ifm-color-primary);
 }
 
 .hero--primary .button {
-  --ifm-font-color-base:  var(--ifm-font-color-base);
+  --ifm-font-color-base: var(--ifm-font-color-base);
 }

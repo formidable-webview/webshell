@@ -1,7 +1,8 @@
 import * as React from 'react';
 
 const hrefMap = {
-  webview: 'https://github.com/react-native-community/react-native-webview'
+  webview: 'https://github.com/react-native-community/react-native-webview',
+  scrollview: 'https://reactnative.dev/docs/scrollview.html'
 };
 
 export const ReactReference = ({ name, type }) => {

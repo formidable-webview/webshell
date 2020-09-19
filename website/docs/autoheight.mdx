@@ -3,36 +3,134 @@ id: autoheight
 sidebar_label: Autoheight WebView
 title: Autoheight WebView
 ---
+
 import { Subtitle } from '../components/Subtitle';
 import { APIReference } from '../components/APIReference';
+import { ReactReference } from '../components/ReactReference';
 import { APIBox } from '../components/APIBox';
 import { DualCodeSource } from '../components/CodeSource';
 
-<Subtitle>
-Craft a Full-Featured, Dynamic Autoheight WebView-based component.
-</Subtitle>
+> **Craft a Full-Featured, Dynamic Autoheight WebView-based component.**
 
 This component height automatically and dynamically adapts to the page height,
 even after DOM is mounted.
 
 <APIBox reference="useAutoheight" type="function" />
 
-## Basic Usage
+## Glossary
 
-<DualCodeSource jsx titleBase="AutoheightWebView" sourceBase={"autoheight"} />
+## Highlights
 
-:::tip
+An incredibly modular, state-of-the-art implementation which goes beyond many prexisting solutions.
 
+- The **width** of the viewport will grow to the
+  available horizontal space and won't need to be specified. You can
+  override this behavior by setting explicit `width` as a
+  parameter attribute of <APIReference reference="useAutoheight" type="function" /> hook.
+- The **height** of the viewport, also called layout
+  height, will dynamically adapts to the content height, which has
+  been constrained by the layout width as we have just mentioned! It
+  means that anytime the content changes or the layout width changes,
+  such as in screen rotations, the layout height will get updated.
+- This hook will rely on <APIReference reference="HandleHTMLDimensionsFeature" type="variable" /> to use the best API
+  available in the browser
+  **and dynamically adapt layout to content size**. In
+  order of preference,
+  [ResizeObserver](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver),
+  [MutationObserver](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver)
+  and finally, polling on a regular interval.
+
+:::note
 Read [Overcoming the Autoheight WebView
 Challenge](/blog/2020/09/15/overcoming-the-autoheight-webview-challenge) to demystify all the magic behind this hook.
+:::
+
+## Basic Example
+
+<DualCodeSource jsx titleBase="MinimalAutoheightWebView" sourceBase={'minimal-autoheight'} />
+
+## Caveats and their Workarounds
+
+### Mobile Virtual Viewport
+
+In some circumstances, the mobile browser might use a virtual
+viewport much larger then the available width in the WebView, often
+around 980px for websites which have been built for desktop. For
+this autoheight component to be reliable, you must ensure that the
+content has a [meta viewport element](https://www.w3schools.com/css/css_rwd_viewport.asp)
+in the header.
+
+:::tip workaround
+This can be enforced by setting responsive layout with <APIReference reference="ForceResponsiveViewportFeature" type="variable" />.
+
+```js {4}
+const Webshell = makeWebshell(
+  WebView,
+  new HandleHTMLDimensionsFeature(),
+  new ForceResponsiveViewportFeature({ maxScale: 1 })
+);
+```
 
 :::
 
-## Recommended Features
+### Cyclic Size Constraints &infin;
 
-## Understanding the chain of constraints
+Because the **viewport height** is now
+**bound** to the **content heigh**, you must never have a **body** element
+height depending on viewport height, such as when using `height: 100vh;` or
+`height: 100%;`. That is an evil cyclic dependency ready to cast an infinite
+loop!
 
-// TODO develop
+:::tip workaround
+This can be enforced by setting body width and height to
+**auto** with <APIReference reference="ForceElementSizeFeature" type="variable" />.
 
-Layout Width → Content Width → Content Height → Layout height
+```js {4,5,6,7}
+const Webshell = makeWebshell(
+  WebView,
+  new HandleHTMLDimensionsFeature(),
+  new ForceElementSizeFeature({
+    target: 'body',
+    heightValue: 'auto',
+    widthValue: 'auto'
+  })
+);
+```
 
+:::
+
+### Scroll to Hash
+
+Scroll to hash on link press (\#) will not work out of the box, because the
+underlying <ReactReference name="WebView" type="class" /> will not have
+vertical scroll.
+
+:::tip workaround
+You can register a prop to listen to [haschange](https://developer.mozilla.org/en-US/docs/Web/API/Window/hashchange_event) events with <APIReference reference="HandleHashChangeFeature" type="variable" />.
+
+```jsx {4}
+const Webshell = makeWebshell(
+  WebView,
+  new HandleHTMLDimensionsFeature(),
+  new HandleHashChangeFeature({ shouldResetHashOnEvent: true })
+);
+```
+:::
+
+After that, you must implement the desired behavior, that is to scroll to the
+desired DOM element when a hashchange event is fired, while accounting for the space
+occupied by components above the shell, inside the <ReactReference name="ScrollView" type="class" />. Below is a complete
+example:
+
+<DualCodeSource jsx sourceBase="scroll-to-hash" titleBase="MyScrollableAutoheightWebView"  />
+
+:::important
+You will need to adapt your code and replace `SCROLL_SPACE_TOP` to account for the space occupied by
+components above the shell. You can pass the shell [`onLayout` prop](https://reactnative.dev/docs/view.html#onlayout) and read `y`
+attribute to store the position of the shell relative to the <ReactReference name="ScrollView" type="class" /> content
+container.
+:::
+
+## Robust Example
+
+<DualCodeSource jsx titleBase="ResilientAutoheightWebView" sourceBase={'resilient-autoheight'} />
