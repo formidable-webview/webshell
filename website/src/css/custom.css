@@ -108,6 +108,19 @@
 /* custom variables */
 :root {
   --formidable-reference-font: 'IBM Plex Mono', monospace;
+  --formidable-external-link-admonition-color: var(--ifm-color-gray-900);
+  --formidable-external-link-admonition-color-hover: var(--ifm-color-gray-800);
+  --formidable-api-ref-color: var(--ifm-color-primary);
+}
+
+html[data-theme='dark'] {
+  --formidable-external-link-color: var(--ifm-color-gray-100);
+  --formidable-external-link-color-reverse: var(--ifm-color-gray-800);
+}
+
+html[data-theme='light'] {
+  --formidable-external-link-color: var(--ifm-color-gray-800);
+  --formidable-external-link-color-reverse: var(--ifm-color-gray-100);
 }
 
 html[data-theme='dark'] {
@@ -122,27 +135,34 @@ html[data-theme='dark'] main h4 {
 }
 
 .docusaurus-highlight-code-line {
-  background-color: rgb(72, 77, 91);
+  background-color: rgb(41, 44, 49);
   display: block;
   margin: 0 calc(-1 * var(--ifm-pre-padding));
   padding: 0 var(--ifm-pre-padding);
 }
 
-html[data-theme='light'] article a,
-html[data-theme='dark'] article .admonition a {
-  color: var(--ifm-color-gray-800);
+a {
+  color: var(--formidable-external-link-color);
 }
 
-html[data-theme='dark'] article a {
-  color: var(--ifm-color-gray-100);
+.admonition a {
+  color: var(--formidable-external-link-admonition-color);
+}
+
+.admonition a:hover {
+  color: var(--formidable-external-link-admonition-color-hover);
+}
+
+a.api-ref {
+  color: var(--formidable-api-ref-color);
+}
+
+a.api-ref:hover {
+  color: var(--ifm-font-color-base);
 }
 
 article abbr a.term {
   text-decoration: underline dotted;
-}
-
-a.api-ref {
-  color: var(--ifm-color-primary);
 }
 
 a.api-ref,
@@ -151,34 +171,21 @@ a.external-component {
   font-style: italic;
   text-decoration: none;
 }
-
 a.api-ref:hover,
 a.external-component:hover {
   text-decoration: underline;
 }
-article .admonition.alert--info a.api-ref,
-article .admonition.alert--success a.api-ref,
-article .admonition.alert--warning a.api-ref,
-article .admonition.alert--danger a.api-ref,
 article .admonition a.api-ref {
   color: var(--ifm-color-gray-800);
-  font-weight: bold;
+}
+
+article .admonition a.api-ref:hover {
+  color: var(--ifm-color-gray-900);
 }
 
 article .admonition a > code {
   color: var(--ifm-code-color);
   text-decoration: underline;
-}
-
-html[data-theme='light'] a.api-ref {
-  color: var(--ifm-color-primary-darkest);
-}
-html[data-theme='dark'] a.api-ref {
-  color: var(--ifm-color-primary-lighter);
-}
-
-html[data-theme='dark'] article .admonition.admonition-note a.api-ref {
-  color: var(--ifm-color-primary-darkest);
 }
 
 .api-box {

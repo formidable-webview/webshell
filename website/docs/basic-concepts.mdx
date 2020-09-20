@@ -47,13 +47,13 @@ of features could be passed!
 ```js
 const Webshell = makeWebshell(
   WebView,
-  handleLinkPressFeature.assemble({ preventDefault: true }),
-  handleHTMLDimensionsFeature.assemble()
+  new HandleLinkPressFeature({ preventDefault: true }),
+  new HandleHTMLDimensionsFeature()
 );
 ```
 
 :::note
-We will use the word *shell* as an alias to the <APIReference reference="WebshellComponent" type="alias" /> produced
+We will use the word *shell* as an alias to instances of <APIReference reference="WebshellComponent" type="alias" /> produced
 by <APIReference reference="makeWebshell" type="function" /> function.
 :::
 

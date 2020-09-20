@@ -150,8 +150,6 @@ export default function App() {
           key={instance}
           ref={scrollViewRef}
           pinchGestureEnabled={false}
-          disableScrollViewPanResponder
-          pointerEvents="box-none"
           horizontal={false}
           contentContainerStyle={styles.container}>
           {showConsole ? <View style={styles.statsPlaceholder} /> : null}

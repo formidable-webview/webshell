@@ -6,18 +6,16 @@ title: Autoheight WebView
 
 import { Subtitle } from '../components/Subtitle';
 import { APIReference } from '../components/APIReference';
-import { ReactReference } from '../components/ReactReference';
+import { ReactReference, WebView } from '../components/ReactReference';
 import { APIBox } from '../components/APIBox';
 import { DualCodeSource } from '../components/CodeSource';
 
 > **Craft a Full-Featured, Dynamic Autoheight WebView-based component.**
 
 This component height automatically and dynamically adapts to the page height,
-even after DOM is mounted.
+anytime the DOM changes.
 
 <APIBox reference="useAutoheight" type="function" />
-
-## Glossary
 
 ## Highlights
 
@@ -47,20 +45,27 @@ Challenge](/blog/2020/09/15/overcoming-the-autoheight-webview-challenge) to demy
 
 ## Basic Example
 
-<DualCodeSource jsx titleBase="MinimalAutoheightWebView" sourceBase={'minimal-autoheight'} />
+As previously stated, <APIReference reference="useAutoheight" type="function" />
+requires *a minima* injection of a <APIReference reference="HandleHTMLDimensionsFeature" type="variable" /> in the shell to fetch content dimensions:
+
+<DualCodeSource
+  jsx
+  titleBase="MinimalAutoheightWebView"
+  sourceBase={'minimal-autoheight'}
+/>
 
 ## Caveats and their Workarounds
 
 ### Mobile Virtual Viewport
 
 In some circumstances, the mobile browser might use a virtual
-viewport much larger then the available width in the WebView, often
+viewport much larger then the available width in the <WebView />, often
 around 980px for websites which have been built for desktop. For
 this autoheight component to be reliable, you must ensure that the
 content has a [meta viewport element](https://www.w3schools.com/css/css_rwd_viewport.asp)
 in the header.
 
-:::tip workaround
+:::tip solution
 This can be enforced by setting responsive layout with <APIReference reference="ForceResponsiveViewportFeature" type="variable" />.
 
 ```js {4}
@@ -75,14 +80,27 @@ const Webshell = makeWebshell(
 
 ### Cyclic Size Constraints &infin;
 
-Because the **viewport height** is now
-**bound** to the **content heigh**, you must never have a **body** element
-height depending on viewport height, such as when using `height: 100vh;` or
-`height: 100%;`. That is an evil cyclic dependency ready to cast an infinite
-loop!
+Because the **viewport height** now depends on **content heigh**, you must never have a **body** element
+height depending on viewport height, such as:
 
-:::tip workaround
-This can be enforced by setting body width and height to
+```css title="evil.css"
+body {
+  height: 100vh;
+}
+```
+
+or
+
+```css title="evil.css"
+body {
+  height: 100%;
+}
+```
+
+That is an evil cyclic dependency ready to cast an infinite loop!
+
+:::tip solution
+Body width and height can be forced to
 **auto** with <APIReference reference="ForceElementSizeFeature" type="variable" />.
 
 ```js {4,5,6,7}
@@ -99,13 +117,40 @@ const Webshell = makeWebshell(
 
 :::
 
-### Scroll to Hash
+## Robust Example
 
-Scroll to hash on link press (\#) will not work out of the box, because the
-underlying <ReactReference name="WebView" type="class" /> will not have
-vertical scroll.
+In this example, we use the two tips listed in above Caveats section to provide a much resilient implementation.
 
-:::tip workaround
+<DualCodeSource
+  jsx
+  titleBase="ResilientAutoheightWebView"
+  sourceBase={'resilient-autoheight'}
+/>
+
+## Integration with ScrollView
+
+More often than not, an autoheight feature is needed to embed the <WebView /> along with
+content of unpredictable length, and a <ReactReference name="ScrollView" type="class" /> works just fine.
+This section summarize best practices and tricks for a perfect integration.
+
+### Recommended ScrollView Props Values
+
+| Prop                  | Value   | Rationale                                                                                                                                                                                                                                                                                  |
+| :-------------------- | :------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `pinchGestureEnabled` | `false` | Enabling pinch (the default) will conflict with the pinch-to-zoom feature provided by <APIReference reference="ForceResponsiveViewportFeature" type="variable" /> `maxScale` option. When `maxScale` is above `1`, it will allow for pinch to zoom gestures up to the provided zoom level. |
+| `horizontal`          | `false` | When the web page is ill-designed (not-responsive), the content might overflows horizontally. We suggest to avoid nesting components providing scroll in the same direction, unless necessary.                                                                                             |
+
+### Handling `hashchange` Events
+
+However, scroll to hash on link press, for example:
+
+```html
+<a href="#head">go to top</a>
+```
+
+will not work, because the underlying <WebView /> will not have vertical scroll anymore.
+
+:::tip solution
 You can register a prop to listen to [haschange](https://developer.mozilla.org/en-US/docs/Web/API/Window/hashchange_event) events with <APIReference reference="HandleHashChangeFeature" type="variable" />.
 
 ```jsx {4}
@@ -115,6 +160,7 @@ const Webshell = makeWebshell(
   new HandleHashChangeFeature({ shouldResetHashOnEvent: true })
 );
 ```
+
 :::
 
 After that, you must implement the desired behavior, that is to scroll to the
@@ -122,15 +168,8 @@ desired DOM element when a hashchange event is fired, while accounting for the s
 occupied by components above the shell, inside the <ReactReference name="ScrollView" type="class" />. Below is a complete
 example:
 
-<DualCodeSource jsx sourceBase="scroll-to-hash" titleBase="MyScrollableAutoheightWebView"  />
-
-:::important
-You will need to adapt your code and replace `SCROLL_SPACE_TOP` to account for the space occupied by
-components above the shell. You can pass the shell [`onLayout` prop](https://reactnative.dev/docs/view.html#onlayout) and read `y`
-attribute to store the position of the shell relative to the <ReactReference name="ScrollView" type="class" /> content
-container.
-:::
-
-## Robust Example
-
-<DualCodeSource jsx titleBase="ResilientAutoheightWebView" sourceBase={'resilient-autoheight'} />
+<DualCodeSource
+  jsx
+  sourceBase="scrollview"
+  titleBase="AutoheightWebViewInScrollView"
+/>

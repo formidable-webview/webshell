@@ -4,6 +4,26 @@ import type { FeatureConstructor } from './Feature';
 import type { FeatureDefinition, PropDefinition, PropsSpecs } from './types';
 
 /**
+ * {@see FeatureBuilder}
+ *
+ * @public
+ */
+export interface FeatureBuilderConfig<
+  O extends {},
+  S extends PropsSpecs<any> = []
+> extends FeatureDefinition<O> {
+  /**
+   * @internal;
+   */
+  __propSpecs?: S;
+  /**
+   * When present, the returned constructor will be given this name.
+   * See {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/name | Function.name}
+   */
+  className?: string;
+}
+
+/**
  * A utility to create feature classes.
  *
  * @param config - An object to specify attributes of the feature.
@@ -13,15 +33,9 @@ import type { FeatureDefinition, PropDefinition, PropsSpecs } from './types';
  * @public
  */
 export class FeatureBuilder<O extends {}, S extends PropsSpecs<any> = []> {
-  private config: FeatureDefinition<O> & {
-    propSpecs?: S;
-  } & { className: string };
+  private config: FeatureBuilderConfig<O, S>;
 
-  constructor(
-    config: FeatureDefinition<O> & {
-      propSpecs?: S;
-    } & { className: string }
-  ) {
+  public constructor(config: FeatureBuilderConfig<O, S>) {
     this.config = config;
   }
   /**
@@ -45,7 +59,7 @@ export class FeatureBuilder<O extends {}, S extends PropsSpecs<any> = []> {
         : [PropDefinition<{ [k in H]?: (p: P) => void }>, ...S[number][]]
     >({
       ...this.config,
-      propSpecs: [...(this.config.propSpecs || []), propDefinition] as any
+      __propSpecs: [...(this.config.__propSpecs || []), propDefinition] as any
     });
   }
   /**
@@ -56,10 +70,10 @@ export class FeatureBuilder<O extends {}, S extends PropsSpecs<any> = []> {
       script,
       featureIdentifier,
       className,
-      propSpecs,
+      __propSpecs: propSpecs,
       defaultOptions
     } = this.config;
-    const BuiltFeature: FeatureConstructor<O, S> = class extends Feature<O, S> {
+    const ctor = class extends Feature<O, S> {
       static identifier = featureIdentifier;
       constructor(...args: O extends Partial<O> ? [] | [O] : [O]) {
         super(
@@ -73,7 +87,12 @@ export class FeatureBuilder<O extends {}, S extends PropsSpecs<any> = []> {
         );
       }
     };
-    // A little trick to bind the name of the returned function to className.
-    return { [className]: BuiltFeature }[className];
+    Object.defineProperty(ctor, 'name', {
+      configurable: true,
+      enumerable: false,
+      writable: false,
+      value: className || 'AnonymousFeature'
+    });
+    return ctor;
   }
 }
