@@ -140,7 +140,7 @@ html[data-theme='dark'] main h4 {
 }
 
 .docusaurus-highlight-code-line {
-  background-color: rgb(41, 44, 49);
+  background-color: rgb(87, 97, 114);
   display: block;
   margin: 0 calc(-1 * var(--ifm-pre-padding));
   padding: 0 var(--ifm-pre-padding);
@@ -252,7 +252,3 @@ html[data-theme='light'] .api-box {
 .footer.footer--dark {
   background-color: #080505;
 }
-
-/* .snippet .token-line:first-of-type {
-  display: none !important;
-} */

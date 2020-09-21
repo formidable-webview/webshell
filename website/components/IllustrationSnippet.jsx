@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { CodeSourceBlock } from './CodeSource';
 
-const snippetContent = `
-const Webshell = makeWebshell(
+const snippetContent = `const Webshell = makeWebshell(
   WebView,
   new HandleLinkPressFeature()
 );
