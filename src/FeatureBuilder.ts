@@ -4,7 +4,7 @@ import type { FeatureConstructor } from './Feature';
 import type { FeatureDefinition, PropDefinition, PropsSpecs } from './types';
 
 /**
- * {@see FeatureBuilder}
+ * See {@link FeatureBuilder}.
  *
  * @public
  */
@@ -13,7 +13,7 @@ export interface FeatureBuilderConfig<
   S extends PropsSpecs<any> = []
 > extends FeatureDefinition<O> {
   /**
-   * @internal;
+   * @internal
    */
   __propSpecs?: S;
   /**

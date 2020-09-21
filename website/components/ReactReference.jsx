@@ -10,7 +10,7 @@ export const ReactReference = ({ name, type }) => {
   const href = hrefMap[name && name.toLowerCase()];
   const content = href ? name : `MISSING REFERENCE FOR ${name}`;
   return (
-    <a className={`external-component ${type}`} href={href}>
+    <a className={`api-ref ${type}`} href={href}>
       {content}
     </a>
   );

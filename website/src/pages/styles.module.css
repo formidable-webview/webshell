@@ -12,16 +12,73 @@
   overflow: hidden;
 }
 
-@media screen and (max-width: 966px) {
+.buttons {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+
+@media screen and (max-width: 920px) {
   .heroBanner {
     padding: 2rem;
   }
 }
 
-.buttons {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+@media screen and (min-width: 920px) {
+  .heroBanner {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+  .titleContainer {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: right;
+    max-width: 600px;
+    margin-right: 40px;
+    padding-right: 60px;
+    align-self: stretch;
+    justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .snippet {
+    margin-right: auto;
+  }
+}
+
+@media screen and (max-width: 920px) {
+  .snippet {
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
+  .heroBanner {
+    flex-direction: column;
+  }
+  .buttons {
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.snippet {
+  max-width: 520px;
+  text-align: left;
+}
+
+@media screen and (max-width: 519px) {
+  .snippet {
+    max-width: unset;
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .snippet {
+    display: none;
+  }
 }
 
 .features {
@@ -38,5 +95,5 @@
 }
 
 .subtitle {
-  font-size: 40px;
+  max-width: 400px;
 }

@@ -37,11 +37,13 @@ const CodeSourceBlockWrapper = ({ children }) => (
   </div>
 );
 
-const CodeSourceBlock = ({ lang, lines, title, content }) => {
+export const CodeSourceBlock = ({ lang, lines, title, content }) => {
   return (
     <DocusaurusCodeBlock
       className={`language-${lang}`}
-      metastring={`${lines ? `{${lines}}` : ''} title="${title}"`}
+      metastring={`${lines ? `{${lines}}` : ''} ${
+        title ? `title="${title}"` : ''
+      }`}
       title={title}>
       {content}
     </DocusaurusCodeBlock>
@@ -61,6 +63,34 @@ export const SingleCodeSource = ({ source, lang, lines, title }) => {
         title={realTitle}
       />
     </CodeSourceBlockWrapper>
+  );
+};
+
+export const InstallPackageSnippet = ({ packages, dev = false }) => {
+  return (
+    <Tabs
+      defaultValue="yarn"
+      values={[
+        { label: 'yarn', value: 'yarn' },
+        { label: 'npm', value: 'npm' }
+      ]}>
+      <TabItem value="yarn">
+        <CodeSourceBlock
+          lang="sh"
+          content={`yarn add ${dev ? '--dev ' : ''}${packages
+            .split(/\s+/)
+            .join(' \\\n         ')}`}
+        />
+      </TabItem>
+      <TabItem value="npm">
+        <CodeSourceBlock
+          lang="sh"
+          content={`npm install --save ${
+            dev ? '--only=dev ' : ''
+          }${packages.split(/\s+/).join(' \\\n    ')}`}
+        />
+      </TabItem>
+    </Tabs>
   );
 };
 

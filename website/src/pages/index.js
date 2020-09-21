@@ -7,6 +7,8 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 import styles from './styles.module.css';
 import { ReactReference } from '../../components/ReactReference';
 import { APIReference } from '../../components/APIReference';
+import { Term } from '../../components/Term';
+import { IllustrationSnippet } from '../../components/IllustrationSnippet';
 
 function Feature({ imageUrl, title, description }) {
   const imgUrl = useBaseUrl(imageUrl);
@@ -64,16 +66,38 @@ function Home() {
           hook. Its underlying complexity finally demystified!
         </>
       )
+    },
+    {
+      title: 'Written in Typescript',
+      description: (
+        <>
+          We are using advanced typing techniques to augment components with
+          props in <Term id="HOC" />
+          s. 80% of this package codebase are types, resulting in a small bundle
+          and <strong>powerful intellisense</strong>.
+        </>
+      )
+    },
+    {
+      title: 'Declarative API',
+      description: (
+        <>
+          Create instances of features, pass them to{' '}
+          <APIReference reference="makeWebshell" type="function" />{' '}
+          <Term id="HOC" />, and enjoy! The API is terse, and yet can be
+          extended at will.
+        </>
+      )
     }
   ];
   return (
-    <Layout
-      title={`Hello from ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />">
+    <Layout title={siteConfig.title} description={siteConfig.tagline}>
       <header className={clsx('hero hero--primary', styles.heroBanner)}>
-        <div className="container">
-          <h1 className="hero__title">{siteConfig.title}</h1>
-          <p className="hero__subtitle">{siteConfig.tagline}</p>
+        <div className={clsx(styles.titleContainer)}>
+          <h1 className="hero__title">{`${siteConfig.title}`}</h1>
+          <p className={clsx('hero__subtitle', styles.subtitle)}>
+            {siteConfig.tagline}
+          </p>
           <div className={styles.buttons}>
             <Link
               className={clsx(
@@ -81,9 +105,13 @@ function Home() {
                 styles.getStarted
               )}
               to={useBaseUrl('docs/')}>
-              Get Started
+              Get Started{' '}
+              <span style={{ fontSize: 30, lineHeight: 1 }}>☕</span>
             </Link>
           </div>
+        </div>
+        <div className={clsx('snippet', styles.snippet)}>
+          <IllustrationSnippet />
         </div>
       </header>
       <main>

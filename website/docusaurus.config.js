@@ -1,10 +1,11 @@
 const path = require('path');
 const prettierOptions = require('../.prettierrc.js');
 
+const discordInvite = 'https://discord.gg/XV3zt3d';
+
 module.exports = {
   title: 'webshell',
-  tagline:
-    'Craft Pristine React Native WebView-based components with ease ☕☕☕',
+  tagline: 'Craft React Native WebView-based components with ease.',
   url: 'https://your-docusaurus-test-site.com',
   baseUrl: '/',
   onBrokenLinks: 'throw',
@@ -12,9 +13,17 @@ module.exports = {
   organizationName: '@formidable-webview', // Usually your GitHub org/user name.
   projectName: 'webshell', // Usually your repo name.
   themeConfig: {
+    announcementBar: {
+      id: '_disclaimer!',
+      content:
+        '&#9888; This documentation is for the yet unstable V2 of @formidable-webview/webshell. Disclaimer: it is a work in progress!',
+      backgroundColor: '#ffba00',
+      textColor: 'black',
+      isCloseable: true
+    },
     prism: {
-      theme: require('prism-react-renderer/themes/vsDark'),
-      darkTheme: require('prism-react-renderer/themes/vsDark')
+      theme: require('prism-react-renderer/themes/dracula'),
+      darkTheme: require('prism-react-renderer/themes/dracula')
     },
     colorMode: {
       respectPrefersColorScheme: true
@@ -61,7 +70,7 @@ module.exports = {
             },
             {
               label: 'Discord',
-              href: 'https://discordapp.com/invite/webshell'
+              href: discordInvite
             }
           ]
         },
@@ -137,11 +146,7 @@ module.exports = {
       path.resolve(__dirname, 'inject-snippets-plugin.js'),
       {
         snippetsPath: './static/snippets',
-        includes: [
-          '../integration/*.ts?(x)',
-          '../integration/*.webjs',
-          '!../integration/*.test.ts?(x)'
-        ],
+        includes: ['../integration/*.ts?(x)', '../integration/*.webjs'],
         prettierOptions: prettierOptions
       }
     ]

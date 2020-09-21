@@ -19,6 +19,7 @@ module.exports = {
         "api/interfaces/cssboxdimensionscomputedstyle",
         "api/interfaces/domrect",
         "api/interfaces/elementcssboxdimensions",
+        "api/interfaces/featurebuilderconfig",
         "api/interfaces/featureconstructor",
         "api/interfaces/forceelementsizeoptions",
         "api/interfaces/forceresponsiveviewportoptions",

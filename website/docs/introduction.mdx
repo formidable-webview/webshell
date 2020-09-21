@@ -4,10 +4,41 @@ title: Introduction
 slug: /
 ---
 
-import {Webshell} from '../components/Webshell';
-import {Term} from '../components/Term';
-import {WebView} from '../components/ReactReference';
-import {APIReference} from '../components/APIReference';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import { Webshell } from '../components/Webshell';
+import { Term } from '../components/Term';
+import { WebView } from '../components/ReactReference';
+import { APIReference } from '../components/APIReference';
+import { APIBox } from '../components/APIBox';
+import { InstallPackageSnippet } from '../components/CodeSource';
+import { IllustrationSnippet } from '../components/IllustrationSnippet';
+
+## Install
+
+<InstallPackageSnippet packages="@formidable-webview/webshell" />
+
+## Compatibility
+
+:::important
+**@formidable-webview/webshell** requires React Native 0.59+.
+:::
+
+:::note
+We officially support the most up to date version of
+[react-native-webview](https://github.com/react-native-community/react-native-webview).
+There is a compatibility layer for the deprecated WebView component exported by
+react-native, but we will not take action following reports implying its usage.
+:::
+
+## Prerequisites
+
+To have a good understanding of this library capabilities, you are highly encouraged, if not already, to familiarize with the following:
+
+- React <Term id="hoc" title="Higher Order Components"/> (HOC);
+- React <Term id="hooks"/>;
+- <Term id="dom" title="Document Object Model" /> (DOM).
+
 
 ## Motivations
 
@@ -22,18 +53,20 @@ The ultimate goal of <Webshell /> is to **reconcile** all those scattered featur
 by providing a universal tool to craft WebView-based components.
 :::
 
-## Prerequisites
+:::note Requirements
 
-To have a good understanding of this library capabilities, you are highly encouraged, if not already, to familiarize with the following:
+- Features must be **injectable**. This requirement is dictated by the need to
+  limit the size of bundled injected scripts and include exactly _what_ is needed.
+- Features must be **customizable** to convey reusability.
+- Features must be **well tested** to convey reliability. We use a [collection of
+  tools](./tooling) to test features and ensure compatibility with older browser engines.
 
-- React <Term id="hoc" title="Higher Order Components"/> (HOC);
-- React <Term id="hooks"/>;
-- <Term id="dom" title="Document Object Model"/> (DOM).
+:::
 
-## How does it look?
+## How does it work?
 
 @formidable-webview/<Webshell/> exports a simple builder-function (<Term id="HOC" />) which
-creates an augmented <WebView /> with additional <Term id="DOM" />-based features. The returned
+creates an augmented <WebView /> component with additional <Term id="DOM" />-based features. The returned
 component behaves exactly like a <WebView />, and given a `ref` prop, you'll get
 the underlying <WebView /> instance and be able to access its imperative methods.
 
@@ -46,31 +79,57 @@ like](./implementing-features). This library also presents a set of good
 practices to test features in isolation and, by extension, test any injected
 scripts. See [the tooling guide](./tooling).
 
-## Requirements
+## What is a Feature?
 
-:::note Requirement
-Features must be **injectable**. This requirement is dictated by the need to
-limit the size of bundled injected scripts and include exactly *what* is needed.
-:::
+In the context of <Webshell />, a feature is like a plugin. It encapsulates
+behaviors injectable into <WebView />s. More precisely, a feature can do the
+following things:
 
-:::note Requirement
-Features must be **customizable** to convey reusability.
-:::
+- Alter the content of the <Term id="DOM" />;
+- Inject behaviors through scripts in the <Term id="DOM" />;
+- Add handler props to the <WebView /> component in order to react to specific events. These features are called _event features_.
 
-:::note Requirement
-Features must be **well tested** to convey reliability. We use a [collection of
-tools](./tooling) to test features and ensure compatibility with older browser engines.
-:::
+<APIBox reference="Feature" type="class" />
 
-## Compatibility
+Event features will augment the <WebView/> with <Term id="DOM" /> message
+handler props, for example `onDOMLinkPress`. Here are examples of event features you
+can assemble in the shell:
 
-:::important
-@formidable-webview/<Webshell /> requires React Native 0.59+.
-:::
+- Intercept click events on anchors and prevent navigation (<APIReference reference="HandleLinkPressFeature" type="variable" />);
+- Get notified when an element size changes in the view (<APIReference reference="HandleLinkPressFeature" type="variable" />);
+
+See [the complete list of features here](./features).
+
+## What is a Shell?
+
+This library exposes one landmark function, <APIReference reference="makeWebshell" type="function" />, a <Term id="HOC"/>
+which **augments** a <WebView /> passed as first argument with features passed
+as remaining arguments.
+
+<APIBox reference="makeWebshell" type="function" />
+
+Because these features are customizable, the API requires you to assemble those
+features by invoking the `assemble` method for each of these features, passing
+optionally an object of options. In the bellow snippet, we are creating a
+component which augments <WebView /> with two features, but in reality any number
+of features could be passed!
+
+```js
+const Webshell = makeWebshell(
+  WebView,
+  new HandleLinkPressFeature(),
+  new HandleHTMLDimensionsFeature()
+);
+```
 
 :::note
-We officially support the most up to date version of
-[react-native-webview](https://github.com/react-native-community/react-native-webview).
-There is a compatibility layer for the deprecated WebView component exported by
-react-native, but we will not take action following reports implying its usage.
+We will use the word _shell_ as an alias to instances of <APIReference reference="WebshellComponent" type="alias" /> produced
+by <APIReference reference="makeWebshell" type="function" /> function.
 :::
+
+The injected features will add two props to the shell, which already supports all <WebView /> props:
+
+- `onDOMLinkPress`
+- `onDOMHTMLDimensions`
+
+We will discuss those two features in details in the [minimal example](./minimal-example) page.

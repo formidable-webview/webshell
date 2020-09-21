@@ -2,3 +2,113 @@
 id: tooling
 title: Tooling
 ---
+
+import { Term } from '../components/Term';
+import { DualCodeSource, InstallPackageSnippet } from '../components/CodeSource'
+
+The objectives of the setup are:
+
+- Import <Term id="DOM" /> scripts (`.webjs`) as strings without the need of an additional bundle;
+- Statically check <Term id="DOM" /> scripts for syntax errors;
+- Statically check <Term id="DOM" /> scripts compatibility given targeted WebViews versions;
+- Test the <Term id="DOM" /> scripts behaviors.
+
+## Babel
+
+To import `.webjs` files as strings, we will use
+[babel-plugin-inline-import](https://www.npmjs.com/package/babel-plugin-inline-import)
+with `webjs` or whichever extension you are using for your `WebView` scripts.
+This plugin will allow you to import scripts as strings instead of transpiling the module.
+
+### Install Plugin
+
+<InstallPackageSnippet dev packages="babel-plugin-inline-import" />
+
+### Configure Plugin
+
+```json title="babel.config.js"
+{
+  // ...
+  "plugins": [
+    [
+      "babel-plugin-inline-import",
+      {
+        "extensions": ["webjs"]
+      }
+    ],
+    // ...
+  ]
+}
+```
+
+## ESLint
+
+You can use
+[@formidable-webview/eslint-config-webjs](https://github.com/formidable-webview/eslint-config-webjs)
+to target `.webjs` files with specific config:
+
+- Enforce ECMAScript 5 to make sure it runs on reasonably old `WebView`
+  backends.
+- Enforce a list of supported web engines with the outstanding
+  [eslint-plugin-compat](https://www.npmjs.com/package/eslint-plugin-compat).
+  We make sure we don't use recent web APIs without a fallback or polyfill.
+
+### Install Plugin
+
+<InstallPackageSnippet dev packages="estlint-plugin-compat @formidable-webview/eslint-config-webjs" />
+
+### Configure Plugin
+
+```js title="eslint.js"
+module.exports = {
+  root: true,
+  overrides: [
+    {
+      files: ["*.webjs"],
+      extends: "@formidable-webview/eslint-config-webjs",
+    },
+  ],
+};
+```
+
+## Jest
+
+See [this guide](./implementing-features#testing-with-jest).
+
+## Syntax Highlight
+
+The last thing you need to do is associate JavaScript syntax with `webjs` or whichever
+extension you have chosen in your text editor.
+
+### VSCode
+
+Add this file association in your `settings.json`:
+
+```json title="settings.json"
+{
+  "files.associations": {
+    "*.webjs": "javascript"
+  }
+}
+```
+
+### Github
+
+Add this line to your `.gitattributes` file:
+
+```gitattributes title=".gitattributes"
+*.webjs linguist-language=Javascript
+```
+
+### Gitlab
+
+Add this line to your `.gitattributes` file:
+
+```gitattributes title=".gitattributes"
+*.webjs gitlab-language=Javascript
+```
+
+## Debugging WebViews
+
+See [this guide](https://blog.vuplex.com/debugging-webviews/).
+

@@ -123,7 +123,7 @@ export type EventHandlerProps<H extends string, P> = {
 };
 
 // @public
-export class Feature<O extends {}, S extends PropsSpecs<any> = []> implements FeatureBase<O> {
+export abstract class Feature<O extends {}, S extends PropsSpecs<any> = []> implements FeatureBase<O> {
     constructor(params: FeatureBase<O> & {
         propSpecs: S;
     }, options: O);
@@ -150,13 +150,16 @@ export type FeatureBase<O extends {}> = {
 
 // @public
 export class FeatureBuilder<O extends {}, S extends PropsSpecs<any> = []> {
-    constructor(config: FeatureBase<O> & {
-        propSpecs?: S;
-    } & {
-        className: string;
-    });
+    constructor(config: FeatureBuilderConfig<O, S>);
     build(): FeatureConstructor<O, S>;
     withEventHandlerProp<P, H extends string>(eventHandlerName: H): FeatureBuilder<O, S[number] extends never ? [PropDefinition<{ [k in H]?: ((p: P) => void) | undefined; }>] : [PropDefinition<{ [k_1 in H]?: ((p: P) => void) | undefined; }>, ...S[number][]]>;
+}
+
+// @public
+export interface FeatureBuilderConfig<O extends {}, S extends PropsSpecs<any> = []> extends FeatureBase<O> {
+    // @internal (undocumented)
+    __propSpecs?: S;
+    className?: string;
 }
 
 // @public
@@ -354,7 +357,7 @@ export interface WebjsContext<O extends {}, P> {
 export type WebshellComponent<C extends ComponentType<any>, F extends Feature<any, any>[]> = ForwardRefExoticComponent<WebshellProps<ComponentPropsWithoutRef<C>, F> & RefAttributes<ElementRef<C>>>;
 
 // @public
-export type WebshellComponentOf<C extends ComponentType<any>, F extends FeatureConstructor<any, any>[]> = WebshellComponent<C, FeatureInstanceOf<F[]>[]>;
+export type WebshellComponentOf<C extends ComponentType<any>, F extends FeatureConstructor<any, any>[]> = WebshellComponent<C, FeatureInstanceOf<F[number]>[]>;
 
 // @public
 export interface WebshellInvariantProps {
