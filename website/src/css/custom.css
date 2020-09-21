@@ -239,8 +239,13 @@ html[data-theme='light'] .api-box {
   content: ')'
 }
 
+.webshell {
+  font-weight: bold;
+}
+
 .hero__title,
-.navbar__title {
+.navbar__title,
+.webshell {
   font-family: var(--formidable-reference-font);
   font-style: italic;
 }

@@ -24,12 +24,15 @@ import { IllustrationSnippet } from '../components/IllustrationSnippet';
 **@formidable-webview/webshell** requires React Native 0.59+.
 :::
 
-:::note
+:::important
 We officially support the most up to date version of
 [react-native-webview](https://github.com/react-native-community/react-native-webview).
-There is a compatibility layer for the deprecated WebView component exported by
-react-native, but we will not take action following reports implying its usage.
+There is a compatibility layer for [the deprecated WebView component](https://reactnative.dev/docs/webview) exported by
+react-native, but we don't officially support it.
 :::
+
+Also note that Expo is fully supported.
+
 
 ## Prerequisites
 
@@ -45,27 +48,25 @@ To have a good understanding of this library capabilities, you are highly encour
 With React Native becoming an incredibly popular framework to build mobile
 applications, the <WebView /> component has become a central piece for many
 applications relying on web contents. This has lead a great deal of packages to
-be published built on the <WebView /> component; each being incompatible with one
-another.
+be published built on the <WebView /> component; each adding specific features
+incompatible with one another.
 
 :::note Design Goal
 The ultimate goal of <Webshell /> is to **reconcile** all those scattered features
-by providing a universal tool to craft WebView-based components.
+by providing a universal tool to craft WebView-based components and define new behaviors.
 :::
 
 :::note Requirements
 
-- Features must be **injectable**. This requirement is dictated by the need to
-  limit the size of bundled injected scripts and include exactly _what_ is needed.
+- Features must be **injectable** to comply with [composition over inheritance](https://en.wikipedia.org/wiki/Composition_over_inheritance) principle.
 - Features must be **customizable** to convey reusability.
-- Features must be **well tested** to convey reliability. We use a [collection of
-  tools](./tooling) to test features and ensure compatibility with older browser engines.
+- Features must be **well tested** to convey reliability.
 
 :::
 
 ## How does it work?
 
-@formidable-webview/<Webshell/> exports a simple builder-function (<Term id="HOC" />) which
+@formidable-webview/webshell exports a simple builder-function (<Term id="HOC" />) which
 creates an augmented <WebView /> component with additional <Term id="DOM" />-based features. The returned
 component behaves exactly like a <WebView />, and given a `ref` prop, you'll get
 the underlying <WebView /> instance and be able to access its imperative methods.

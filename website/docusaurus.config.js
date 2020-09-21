@@ -53,11 +53,19 @@ module.exports = {
       style: 'dark',
       links: [
         {
-          title: 'Docs',
+          title: 'Guides',
           items: [
             {
-              label: 'These are Docs',
-              to: 'docs/'
+              label: 'Autoheight WebView',
+              to: 'docs/autoheight'
+            },
+            {
+              label: 'Implementing Features',
+              to: 'docs/implementing-features'
+            },
+            {
+              label: 'Tooling',
+              to: 'docs/tooling'
             }
           ]
         },

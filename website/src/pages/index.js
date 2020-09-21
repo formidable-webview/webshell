@@ -88,6 +88,15 @@ function Home() {
           extended at will.
         </>
       )
+    },
+    {
+      title: 'React Native 0.59+',
+      description: (
+        <>
+          This library provides hooks and thus requires React Native 0.59 or
+          greater. Expo is also supported.
+        </>
+      )
     }
   ];
   return (
