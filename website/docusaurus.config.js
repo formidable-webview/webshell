@@ -133,8 +133,6 @@ module.exports = {
         // output directory relative to docs directory - use '' for docs root (defaults to 'api').
         out: 'api',
 
-        // Skip updating of sidebars.json (defaults to false).
-        skipSidebar: false,
         sidebarFile: 'typedoc-sidebars.js',
 
         // Pass in any additional Typescript/TypeDoc options (see typedoc --help).
