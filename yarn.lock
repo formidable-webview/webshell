@@ -3048,7 +3048,6 @@ __metadata:
     react-native-webview: ^10.8.3
     react-test-renderer: 16.13.1
     release-it: ^13.7.0
-    typedoc: ^0.19.1
     typescript: 3.9.7
   peerDependencies:
     react: "*"
@@ -26072,6 +26071,7 @@ resolve@~1.12.0:
     docusaurus-plugin-typedoc: ^0.1.1
     react: ^16.8.4
     react-dom: ^16.8.4
+    typedoc: ^0.19.1
     typedoc-plugin-markdown: ^3.0.2
   languageName: unknown
   linkType: soft

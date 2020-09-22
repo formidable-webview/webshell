@@ -44,7 +44,14 @@ const sourceMap: Record<string, WebViewSource> = {
   }
 };
 
-const theme: Theme = DefaultTheme;
+const theme: Theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    accent: '#0f9ec5',
+    primary: '#2f3745'
+  }
+};
 
 export default function App() {
   const [layout, setLayout] = React.useState<LayoutRectangle | null>(null);
