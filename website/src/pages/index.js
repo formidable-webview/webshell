@@ -9,17 +9,23 @@ import { ReactReference } from '../../components/ReactReference';
 import { APIReference } from '../../components/APIReference';
 import { Term } from '../../components/Term';
 import { IllustrationSnippet } from '../../components/IllustrationSnippet';
+import { ReactLogo } from './react';
+import { TypescriptLogo } from './typescript';
 
-function Feature({ imageUrl, title, description }) {
-  const imgUrl = useBaseUrl(imageUrl);
+function Feature({ iconName, SVGLogo, title, description }) {
   return (
     <div className={clsx('col col--4', styles.feature)}>
-      {imgUrl && (
-        <div className="text--center">
-          <img className={styles.featureImage} src={imgUrl} alt={title} />
+      <div className={clsx(styles.featureHeader)}>
+        <h3>{title}</h3>
+        <div className={clsx('text--center', styles.graphicContainer)}>
+          {SVGLogo && <SVGLogo />}
+          {iconName && (
+            <i className={clsx('material-icons', styles.featureIcon)}>
+              {iconName}
+            </i>
+          )}
         </div>
-      )}
-      <h3>{title}</h3>
+      </div>
       <p>{description}</p>
     </div>
   );
@@ -32,6 +38,7 @@ function Home() {
   const features = [
     {
       title: "Don't Repeat Ourselves",
+      iconName: 'scanner',
       description: (
         <>
           The ultimate goal of <strong>webshell</strong> is to{' '}
@@ -42,7 +49,8 @@ function Home() {
       )
     },
     {
-      title: 'Leveraging WebView Potential',
+      title: 'Leveraging WebViews',
+      iconName: 'important_devices',
       description: (
         <>
           <strong>Implement</strong>, <strong>test</strong> and{' '}
@@ -55,6 +63,7 @@ function Home() {
     },
     {
       title: 'Autoheight Done Right',
+      iconName: 'height',
       description: (
         <>
           Discorver a landmark use-case: the{' '}
@@ -69,6 +78,7 @@ function Home() {
     },
     {
       title: 'Written in Typescript',
+      SVGLogo: TypescriptLogo,
       description: (
         <>
           We are using advanced typing techniques to augment components with
@@ -80,21 +90,23 @@ function Home() {
     },
     {
       title: 'Declarative API',
+      iconName: 'integration_instructions',
       description: (
         <>
           Create instances of features, pass them to{' '}
           <APIReference reference="makeWebshell" type="function" />{' '}
-          <Term id="HOC" />, and enjoy! The API is terse, and yet can be
-          extended at will.
+          <Term id="HOC" />, and enjoy new props and behaviors! The API is
+          terse, and yet can be extended at will.
         </>
       )
     },
     {
       title: 'React Native 0.59+',
+      SVGLogo: ReactLogo,
       description: (
         <>
           This library provides hooks and thus requires React Native 0.59 or
-          greater. Expo is also supported.
+          greater, and expo SDK 33.0 or greater.
         </>
       )
     }
