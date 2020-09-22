@@ -1,41 +1,22 @@
-diff --git a/dist/plugin/index.js b/dist/plugin/index.js
-index 2e3531802ec6e30ff4310fbf4e127231b72b0b16..eefd55a2e246f9b2de91f446ab6c8c42a055351b 100644
---- a/dist/plugin/index.js
-+++ b/dist/plugin/index.js
-@@ -10,12 +10,14 @@ function pluginDocusaurus(context, options) {
+diff --git a/dist/plugin.js b/dist/plugin.js
+index 32e3adc2db38f7e770ca0ffc9bd2ac4fd3617ecb..8a0a9ffa958dd2f1900ebf7d49c50797fc312648 100644
+--- a/dist/plugin.js
++++ b/dist/plugin.js
+@@ -21,7 +21,8 @@ function pluginDocusaurus(context, pluginOptions) {
+     const options = Object.assign(Object.assign({}, DEFAULT_PLUGIN_OPTIONS), pluginOptions);
+     const inputFiles = options.inputFiles;
+     const sidebar = options.sidebar;
+-    const sidebarPath = path.resolve(siteDir, 'sidebars.js');
++    const sidebarFile = options.sidebarFile || 'sidebars.js';
++    const sidebarPath = path.resolve(siteDir, sidebarFile);
+     const docsRoot = path.resolve(siteDir, options.docsRoot ? options.docsRoot : '');
      const outFolder = options.out !== undefined ? options.out : 'api';
      const out = docsRoot + (outFolder ? '/' + outFolder : '');
-     const skipSidebar = options.skipSidebar || false;
-+    const sidebarFile = options.sidebarFile || 'sidebars.js';
-     options.hideBreadcrumbs = true;
-     delete options.skipSidebar;
+@@ -30,6 +31,7 @@ function pluginDocusaurus(context, pluginOptions) {
      delete options.inputFiles;
      delete options.out;
-     delete options.id;
      delete options.docsRoot;
 +    delete options.sidebarFile;
      return {
          name: 'docusaurus-plugin-typedoc',
          async loadContent() {
-@@ -25,7 +27,7 @@ function pluginDocusaurus(context, options) {
-                 const project = app.convert(app.expandInputFiles(inputFiles));
-                 app.generateDocs(project, out);
-                 if (app.renderer.theme.isOutputDirectory(out) && !skipSidebar) {
--                    const sidebarPath = path.resolve(siteDir, 'sidebars.js');
-+                    const sidebarPath = path.resolve(siteDir, sidebarFile);
-                     const theme = app.renderer.theme;
-                     const navigation = theme.getNavigationV3(project);
-                     const sidebarContent = getSidebarJson(navigation, outFolder);
-diff --git a/dist/theme/theme.js b/dist/theme/theme.js
-index 288c863530b2d4c94d4e50ec3980d2ff6c26cbde..b373d358b4bccb9a9f049df15d8555fc75eb0873 100644
---- a/dist/theme/theme.js
-+++ b/dist/theme/theme.js
-@@ -11,7 +11,7 @@ class DocusaurusTheme extends theme_1.default {
-         renderer.addComponent('docusaurus-frontmatter', new front_matter_component_1.DocsaurusFrontMatterComponent(renderer));
-     }
-     onDocusaurusPageEnd(page) {
--        page.contents = page.contents.replace(/</g, '‹').replace(/>/g, '›');
-+        page.contents = page.contents.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-     }
- }
- exports.default = DocusaurusTheme;

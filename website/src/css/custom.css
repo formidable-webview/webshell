@@ -183,6 +183,11 @@ a {
   color: var(--formidable-external-link-color);
 }
 
+section a,
+articla a {
+  text-decoration: underline;
+}
+
 .admonition a {
   color: var(--formidable-external-link-admonition-color);
 }
@@ -205,22 +210,6 @@ article abbr a.term {
 a:hover {
   color: var(--formidable-external-link-hover);
 }
-a.api-ref {
-  font-family: var(--formidable-reference-font);
-  font-style: italic;
-  font-weight: bold;
-  text-decoration: none;
-}
-a.api-ref:hover {
-  text-decoration: underline;
-}
-article .admonition a.api-ref {
-  color: var(--ifm-color-gray-800);
-}
-
-article .admonition a.api-ref:hover {
-  color: var(--ifm-color-gray-900);
-}
 
 article .admonition a > code {
   color: var(--ifm-code-color);
@@ -235,12 +224,40 @@ article .admonition a > code {
   max-width: 25rem;
 }
 
-.api-box .api-ref {
+.api-box {
   font-weight: var(--ifm-font-weight-bold);
 }
 
 html[data-theme='light'] .api-box {
   background-color: var(--ifm-color-gray-100);
+}
+
+code {
+  font-family: var(--formidable-reference-font);
+  font-style: italic;
+  background-color: transparent;
+  padding: 0;
+}
+
+.api-symbol {
+  font-family: var(--formidable-reference-font);
+  font-style: italic;
+}
+
+a.api-ref {
+  text-decoration: none;
+}
+
+a.api-ref:hover {
+  text-decoration: underline;
+}
+
+article .admonition a.api-ref {
+  color: var(--ifm-color-gray-800);
+}
+
+article .admonition a.api-ref:hover {
+  color: var(--ifm-color-gray-900);
 }
 
 .api-box__title {
@@ -249,7 +266,7 @@ html[data-theme='light'] .api-box {
   letter-spacing: 2px;
 }
 
-.api-ref.function::after {
+.api-symbol.function::after {
   content: '()';
 }
 

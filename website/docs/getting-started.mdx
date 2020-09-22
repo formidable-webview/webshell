@@ -1,0 +1,126 @@
+---
+id: getting-started
+title: Getting Started
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import { Webshell } from '../components/Webshell';
+import { Term } from '../components/Term';
+import { WebView, ReactReference } from '../components/ReactReference';
+import { APIReference, APISymbolFormat } from '../components/APIReference';
+import { APIBox } from '../components/APIBox';
+import {
+  InstallPackageSnippet,
+  DualCodeSource
+} from '../components/CodeSource';
+import { IllustrationSnippet } from '../components/IllustrationSnippet';
+
+## Install
+
+<InstallPackageSnippet packages="@formidable-webview/webshell" />
+
+## How does it work?
+
+@formidable-webview/webshell exports a simple builder-function (<Term id="HOC" />) which
+creates an augmented <WebView /> component with additional <Term id="DOM" />-based features. The returned
+component behaves exactly like a <WebView />, and given a `ref` prop, you'll get
+the underlying <WebView /> instance and be able to access its imperative methods.
+
+The <Term id="DOM" /> features form an abstraction layer over <WebView />'s <Term id="messaging system" />,
+hence the “shell” in <Webshell />. Each <Term id="DOM" />
+feature augments the <WebView /> with new props and behaviors.
+
+And you can, of course, [implement any DOM feature you'd
+like](./implementing-features). This library also presents a set of good
+practices to test features in isolation and, by extension, test any injected
+scripts. See [the tooling guide](./tooling).
+
+## What is a Feature?
+
+### Definition
+
+In the context of <Webshell />, a feature is like a plugin. It encapsulates
+behaviors injectable into <WebView />s. More precisely, a feature can do the
+following things:
+
+- Alter the content of the <Term id="DOM" />;
+- Inject behaviors through scripts in the <Term id="DOM" />;
+- Add handler props to the <WebView /> component in order to react to specific events. These features are called _event features_.
+
+<APIBox reference="Feature" type="class" />
+
+Event features will augment the <WebView/> with <Term id="DOM" /> message
+handler props, for example `onDOMLinkPress`. Here are examples of event features you
+can assemble in the shell:
+
+- Intercept click events on anchors and prevent navigation (<APIReference reference="HandleLinkPressFeature" type="variable" />);
+- Get notified when the page content size changes (<APIReference reference="HandleHTMLDimensionsFeature" type="variable" />);
+
+### Read More
+
+- [Read the complete list of features exposed by this library](./features).
+- [Learn what implementing a feature looks like](./implementing-features).
+
+## What is a Shell?
+
+This library exposes one landmark function, <APIReference reference="makeWebshell" type="function" />, a <Term id="HOC"/>
+which **augments** a <WebView /> passed as first argument with features passed
+as remaining arguments.
+
+<APIBox reference="makeWebshell" type="function" />
+
+Features are classes customizable during instantiation, where you can pass an
+object of options to their constructor. Sometimes, a feature options object
+might not have required fields, and you can skip the constructor argument if
+you are OK with the defaults.
+
+In the bellow snippet,
+we are creating a component which augments <WebView /> with the two features
+previously mentioned, but of course any number of features could be instantiated!
+
+```js
+const Webshell = makeWebshell(
+  WebView,
+  new HandleLinkPressFeature({ preventDefault: true }),
+  new HandleHTMLDimensionsFeature({ forceImplementation: 'mutation' })
+);
+```
+
+:::note
+We will use the word _shell_ as an alias to instances of <APIReference reference="WebshellComponent" type="alias" /> produced
+by <APIReference reference="makeWebshell" type="function" /> function.
+:::
+
+The injected features will add two props to the shell, which already supports all <WebView /> props:
+
+- `onDOMLinkPress`
+- `onDOMHTMLDimensions`
+
+Now it's time to try out this code in a full example.
+
+## Minimal Example
+
+:::important
+This example is shown for didactic purposes. If you need an autoheight <WebView/>
+, <a href="./autoheight">read the guide dedicated to <APISymbolFormat reference="useAutoheight" type="function" /> hook</a> which covers many caveats and their workarounds.
+:::
+
+The below example will benefit from two features to implement the following behaviors:
+
+- Open external links in the system browser, thanks to <APIReference reference="HandleLinkPressFeature" type="variable" />;
+- Automatically adjust <Term id="viewport" /> height with content height, thanks to <APIReference reference="HandleHTMLDimensionsFeature" type="variable" />.
+
+<DualCodeSource jsx sourceBase="basic" titleBase="NaiveAutoheightWebView" />
+
+As you can see, each feature has added two event handler props to the shell,
+`onDOMLinkPress` and `onDOMHTMLDimensions`. When the <Term id="DOM" /> is
+loaded, the two features scripts are executed and register handlers to communicate with the shell:
+
+- `onDOMLinkPress` is invoked when the user clicks on anchors. The above implementation opens links to system browser thanks to React Native <ReactReference name="Linking" type="variable" /> API.
+- `onDOMHTMLDimensions` is invoked when the page content size changes. The above implementation stores this size in a local state and injects it to the shell `style` prop. We have just created a minimal Autoheight WebView!
+
+:::important
+This example is shown for didactic purposes. If you need an autoheight <WebView/>
+, <a href="./autoheight">read the guide dedicated to <APISymbolFormat reference="useAutoheight" type="function" /> hook</a> which covers many caveats and their workarounds.
+:::

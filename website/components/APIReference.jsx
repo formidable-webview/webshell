@@ -1,5 +1,14 @@
 import * as React from 'react';
 
+export const APISymbolFormat = ({ reference, member, type }) => {
+  return (
+    <span className={`api-symbol ${type}`}>
+      {reference}
+      {member ? `.${member}` : ''}
+    </span>
+  );
+};
+
 export const APIReference = ({ reference, type, overrideUrl, member }) => {
   const suffix = member ? `#${member.toLowerCase()}` : '';
   const href =
@@ -9,11 +18,9 @@ export const APIReference = ({ reference, type, overrideUrl, member }) => {
       ? `/docs/api/classes/${reference.toLowerCase()}${suffix}`
       : type === 'enum'
       ? `/docs/api/enums/${reference.toLowerCase()}${suffix}`
-      : type === 'variable'
-      ? `/docs/api/index#const-${reference.toLowerCase()}`
       : `/docs/api/index#${reference.toLowerCase()}`;
   return (
-    <a className={`api-ref ${type}`} href={overrideUrl || href}>
+    <a className={`api-ref api-symbol ${type}`} href={overrideUrl || href}>
       {reference}
       {member ? `.${member}` : ''}
     </a>

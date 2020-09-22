@@ -34,7 +34,6 @@ function Feature({ iconName, SVGLogo, title, description }) {
 function Home() {
   const context = useDocusaurusContext();
   const { siteConfig = {} } = context;
-  const autoheightURL = useBaseUrl('docs/autoheight');
   const features = [
     {
       title: "Don't Repeat Ourselves",
@@ -66,13 +65,11 @@ function Home() {
       iconName: 'height',
       description: (
         <>
-          Discorver a landmark use-case: the{' '}
-          <APIReference
-            overrideUrl={autoheightURL}
-            reference="useAutoheight"
-            type="function"
-          />{' '}
-          hook. Its underlying complexity finally demystified!
+          Discorver a landmark use-case:{' '}
+          <a href="/docs/autoheight">the Autoheight WebView</a>. We depict
+          caveats and feature workarounds to{' '}
+          <strong>convey transparency over magic</strong> and let API consumers
+          decide.
         </>
       )
     },

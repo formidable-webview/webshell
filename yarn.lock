@@ -3035,7 +3035,6 @@ __metadata:
     "@typescript-eslint/parser": ^3.10.1
     babel-jest: ^26.3.0
     babel-plugin-inline-import: ^3.0.0
-    docusaurus-plugin-typedoc: ^0.0.3
     embedme: ^1.21.0
     eslint: ^7.8.0
     eslint-plugin-compat: ^3.8.0
@@ -3050,7 +3049,6 @@ __metadata:
     react-test-renderer: 16.13.1
     release-it: ^13.7.0
     typedoc: ^0.19.1
-    typedoc-plugin-markdown: ^2.4.2
     typescript: 3.9.7
   peerDependencies:
     react: "*"
@@ -10032,23 +10030,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-docusaurus-plugin-typedoc@0.0.3:
-  version: 0.0.3
-  resolution: "docusaurus-plugin-typedoc@npm:0.0.3"
+docusaurus-plugin-typedoc@0.1.1:
+  version: 0.1.1
+  resolution: "docusaurus-plugin-typedoc@npm:0.1.1"
   peerDependencies:
-    typedoc: ">=0.17.0"
-    typedoc-plugin-markdown: ">=2.4.2"
-  checksum: d2cb4b15660d5cc1c24bdb9c5806f7367a1eaaa3ef4a53911c0e78560b353d4030103d550b47a96391ab663a37dffe61559a284f5c6e44bb407deaab88ec29dd
+    typedoc: ">=0.19.0"
+    typedoc-plugin-markdown: ">=3.0.0"
+  checksum: bd4ab6c21752fa5115672b1d80e4f58760581ad3301794886d64cac2a50cc274e8e1b277c980f84ec1fcce056426e87f59d255926d900f097e3ba56e2d79a17c
   languageName: node
   linkType: hard
 
-"docusaurus-plugin-typedoc@patch:docusaurus-plugin-typedoc@0.0.3#patches/docusaurus-plugin-typedoc.patch::locator=%40formidable-webview%2Fwebshell%40workspace%3A.":
-  version: 0.0.3
-  resolution: "docusaurus-plugin-typedoc@patch:docusaurus-plugin-typedoc@npm%3A0.0.3#patches/docusaurus-plugin-typedoc.patch::version=0.0.3&hash=44c2ec&locator=%40formidable-webview%2Fwebshell%40workspace%3A."
+"docusaurus-plugin-typedoc@patch:docusaurus-plugin-typedoc@0.1.1#patches/docusaurus-plugin-typedoc.patch::locator=%40formidable-webview%2Fwebshell%40workspace%3A.":
+  version: 0.1.1
+  resolution: "docusaurus-plugin-typedoc@patch:docusaurus-plugin-typedoc@npm%3A0.1.1#patches/docusaurus-plugin-typedoc.patch::version=0.1.1&hash=846099&locator=%40formidable-webview%2Fwebshell%40workspace%3A."
   peerDependencies:
-    typedoc: ">=0.17.0"
-    typedoc-plugin-markdown: ">=2.4.2"
-  checksum: e9a4e610f83e53371ebae48f8b84e590633512d4f80115ed28d7ac7b29e77fdeb207db54ec94a26c0c47dfd1fe17b4531f7270f258702398e3d2d8a5522a050d
+    typedoc: ">=0.19.0"
+    typedoc-plugin-markdown: ">=3.0.0"
+  checksum: 232e42171675fd588d9194e1ff7b8a753cc086eee8f442b2c3fd18ebb407b0fbfbff122ea11d966a83ddcceeda64fe3240c762e1f3188bdc2d62186b07335601
   languageName: node
   linkType: hard
 
@@ -24820,27 +24818,14 @@ resolve@~1.12.0:
   languageName: node
   linkType: hard
 
-typedoc-plugin-markdown@2.4.2:
-  version: 2.4.2
-  resolution: "typedoc-plugin-markdown@npm:2.4.2"
+"typedoc-plugin-markdown@npm:^3.0.2":
+  version: 3.0.2
+  resolution: "typedoc-plugin-markdown@npm:3.0.2"
   dependencies:
-    fs-extra: ^9.0.1
     handlebars: ^4.7.6
   peerDependencies:
-    typedoc: ">=0.17.0"
-  checksum: a072a6d77d0b4f340f86a7a08d08f45d739644c5a0a6f8b1f9668b2e08773e873e31c7345ab5b64bcfbbe185d40b925f4f7847ca43ecf98cc5a321038c46d3cd
-  languageName: node
-  linkType: hard
-
-"typedoc-plugin-markdown@patch:typedoc-plugin-markdown@2.4.2#patches/typedoc-plugin-markdown.patch::locator=%40formidable-webview%2Fwebshell%40workspace%3A.":
-  version: 2.4.2
-  resolution: "typedoc-plugin-markdown@patch:typedoc-plugin-markdown@npm%3A2.4.2#patches/typedoc-plugin-markdown.patch::version=2.4.2&hash=368f6a&locator=%40formidable-webview%2Fwebshell%40workspace%3A."
-  dependencies:
-    fs-extra: ^9.0.1
-    handlebars: ^4.7.6
-  peerDependencies:
-    typedoc: ">=0.17.0"
-  checksum: 993bda2157764dabf649e34281b87b830450f735c6b37f3b37afc39e2c9a403fb4a973bed31a8b94b8d4f4c9ed00726bdc8b08937cd47272c66c944379663953
+    typedoc: ">=0.19.0"
+  checksum: e6b74b41e241aef698e4bb56330bbceab33d254a27232c2e16996ff85f435b6209308686db8fecea2af059e393e2889ce970dc94391797b8d561948cfe41c17e
   languageName: node
   linkType: hard
 
@@ -26084,8 +26069,10 @@ typedoc-plugin-markdown@2.4.2:
     "@docusaurus/preset-classic": 2.0.0-alpha.64
     "@mdx-js/react": ^1.5.8
     clsx: ^1.1.1
+    docusaurus-plugin-typedoc: ^0.1.1
     react: ^16.8.4
     react-dom: ^16.8.4
+    typedoc-plugin-markdown: ^3.0.2
   languageName: unknown
   linkType: soft
 

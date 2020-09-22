@@ -15,8 +15,11 @@
     "@docusaurus/preset-classic": "2.0.0-alpha.64",
     "@mdx-js/react": "^1.5.8",
     "clsx": "^1.1.1",
+    "docusaurus-plugin-typedoc": "^0.1.1",
     "react": "^16.8.4",
-    "react-dom": "^16.8.4"
+    "react-dom": "^16.8.4",
+    "typedoc-plugin-markdown": "^3.0.2",
+    "typedoc": "^0.19.1"
   },
   "browserslist": {
     "production": [

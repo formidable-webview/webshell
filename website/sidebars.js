@@ -5,7 +5,7 @@ module.exports = {
     {
       type: 'category',
       label: 'Webshell',
-      items: ['introduction', 'minimal-example']
+      items: ['introduction', 'getting-started']
     },
     {
       type: 'category',
