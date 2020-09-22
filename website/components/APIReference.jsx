@@ -1,4 +1,5 @@
 import * as React from 'react';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 export const APISymbolFormat = ({ reference, member, type }) => {
   return (
@@ -20,7 +21,9 @@ export const APIReference = ({ reference, type, overrideUrl, member }) => {
       ? `/docs/api/enums/${reference.toLowerCase()}${suffix}`
       : `/docs/api/index#${reference.toLowerCase()}`;
   return (
-    <a className={`api-ref api-symbol ${type}`} href={overrideUrl || href}>
+    <a
+      className={`api-ref api-symbol ${type}`}
+      href={useBaseUrl(overrideUrl || href)}>
       {reference}
       {member ? `.${member}` : ''}
     </a>

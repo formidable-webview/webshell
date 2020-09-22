@@ -6,15 +6,15 @@ const discordInvite = 'https://discord.gg/XV3zt3d';
 module.exports = {
   title: 'webshell',
   tagline: 'Craft React Native WebView-based components with ease.',
-  url: 'https://your-docusaurus-test-site.com',
-  baseUrl: '/',
+  url: 'https://formidable-webview.github.io',
+  baseUrl: '/webshell/',
   onBrokenLinks: 'throw',
   favicon: 'img/favicon.ico',
-  organizationName: '@formidable-webview', // Usually your GitHub org/user name.
-  projectName: 'webshell', // Usually your repo name.
+  organizationName: 'formidable-webview',
+  projectName: 'webshell',
   themeConfig: {
     announcementBar: {
-      id: '_disclaimer!',
+      id: '__disclaimer__',
       content:
         '&#9888; This documentation is for the yet unstable V2 of @formidable-webview/webshell. Disclaimer: it is a work in progress!',
       backgroundColor: '#ffba00',
@@ -115,7 +115,10 @@ module.exports = {
             'https://github.com/facebook/docusaurus/edit/master/website/blog/'
         },
         theme: {
-          customCss: require.resolve('./src/css/custom.css')
+          customCss: [
+            require.resolve('./src/css/custom.css'),
+            require.resolve('./src/css/devices.css')
+          ]
         }
       }
     ]

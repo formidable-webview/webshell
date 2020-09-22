@@ -51,14 +51,18 @@ export const CodeSourceBlock = ({ lang, lines, title, content }) => {
 };
 
 export const SingleCodeSource = ({ source, lang, lines, title }) => {
-  const fetchURL = useBaseUrl(`snippets/${source}`);
-  const tsxState = useSource(fetchURL);
+  const fetchURL = useBaseUrl(`/snippets/${source}`);
+  const srcState = useSource(fetchURL);
   const realTitle = title || source;
-  return (
+  return srcState.error ? (
+    <div className="admonition admonition-warning alert alert--danger">
+      {fetchURL} snippet could not be loaded
+    </div>
+  ) : (
     <CodeSourceBlockWrapper>
       <CodeSourceBlock
         lang={lang}
-        content={tsxState.content}
+        content={srcState.content}
         lines={lines}
         title={realTitle}
       />
@@ -100,14 +104,22 @@ export const DualCodeSource = ({
   jsx = false,
   lines = null
 }) => {
-  const tsFetchURL = useBaseUrl(`snippets/${sourceBase}.${jsx ? 'tsx' : 'ts'}`);
-  const jsFetchURL = useBaseUrl(`snippets/${sourceBase}.${jsx ? 'jsx' : 'js'}`);
+  const tsFetchURL = useBaseUrl(
+    `/snippets/${sourceBase}.${jsx ? 'tsx' : 'ts'}`
+  );
+  const jsFetchURL = useBaseUrl(
+    `/snippets/${sourceBase}.${jsx ? 'jsx' : 'js'}`
+  );
   const tsState = useSource(tsFetchURL);
   const jsState = useSource(jsFetchURL);
   const realTitleBase = titleBase || sourceBase;
   return tsState.error ? (
-    <div className="alert alert--error">
-      {sourceBase} snippet could not be loaded
+    <div className="admonition admonition-warning alert alert--danger">
+      {tsFetchURL} snippet could not be loaded
+    </div>
+  ) : jsState.error ? (
+    <div className="admonition admonition-warning alert alert--danger">
+      {jsFetchURL} snippet could not be loaded
     </div>
   ) : (
     <CodeSourceBlockWrapper>

@@ -10,7 +10,7 @@
   font-family: 'Material Icons';
   font-style: normal;
   font-weight: 400;
-  src: url(/fonts/MaterialIconsRound-Regular.otf) format('opentype');
+  src: url(/webshell/fonts/MaterialIconsRound-Regular.otf) format('opentype');
 }
 
 .material-icons {
@@ -18,7 +18,6 @@
   font-family: 'Material Icons';
   font-weight: normal;
   font-style: normal;
-  font-size: 24px;  /* Preferred icon size */
   display: inline-block;
   line-height: 1;
   text-transform: none;

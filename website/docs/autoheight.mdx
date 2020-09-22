@@ -4,20 +4,23 @@ sidebar_label: Autoheight WebView
 title: Autoheight WebView
 ---
 
-import { Subtitle } from '../components/Subtitle';
 import { APIReference } from '../components/APIReference';
 import { ReactReference, WebView } from '../components/ReactReference';
 import { APIBox } from '../components/APIBox';
 import { DualCodeSource } from '../components/CodeSource';
+import { ShowcaseFrame } from '../components/ShowcaseFrame';
 
 This component height automatically and dynamically adapts to the page height,
 anytime the DOM changes.
 
-<APIBox reference="useAutoheight" type="function" />
+<ShowcaseFrame />
 
 ## Highlights
 
+
 A modular, state-of-the-art implementation which goes beyond many preexisting solutions.
+
+<APIBox reference="useAutoheight" type="function" />
 
 - The **width** of the viewport will grow to the
   available horizontal space and won't need to be specified. You can
@@ -35,6 +38,7 @@ A modular, state-of-the-art implementation which goes beyond many preexisting so
   [ResizeObserver](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver),
   [MutationObserver](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver)
   and finally, polling on a regular interval.
+
 
 <!-- :::note
 Read [Overcoming the Autoheight WebView

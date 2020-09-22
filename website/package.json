@@ -18,8 +18,8 @@
     "docusaurus-plugin-typedoc": "^0.1.1",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
-    "typedoc-plugin-markdown": "^3.0.2",
-    "typedoc": "^0.19.1"
+    "typedoc": "^0.19.1",
+    "typedoc-plugin-markdown": "^3.0.2"
   },
   "browserslist": {
     "production": [
