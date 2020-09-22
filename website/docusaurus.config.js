@@ -115,10 +115,7 @@ module.exports = {
             'https://github.com/facebook/docusaurus/edit/master/website/blog/'
         },
         theme: {
-          customCss: [
-            require.resolve('./src/css/custom.css'),
-            require.resolve('./src/css/devices.css')
-          ]
+          customCss: require.resolve('./src/css/custom.css')
         }
       }
     ]
