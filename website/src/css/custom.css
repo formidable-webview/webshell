@@ -303,6 +303,12 @@ article .admonition a.api-ref:hover {
   font-size: 4rem;
 }
 
+@media screen and (max-width: 400px) {
+  .hero__title {
+    font-size: 3rem;
+  }
+}
+
 .footer.footer--dark {
   background-color: #080505;
 }
@@ -345,7 +351,7 @@ article .admonition a.api-ref:hover {
 .marvel-device.nexus5 {
   padding: 50px 15px 50px 15px;
   width: 320px;
-  height: 568px;
+  height: 520px;
   background: #1e1e1e;
   border-radius: 20px;
 }

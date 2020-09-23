@@ -100,6 +100,7 @@
   align-items: center;
   border-radius: calc(var(--feature-graphic-container-height) / 2);
   position: relative;
+  margin-left: var(--ifm-global-spacing);
 }
 
 html[data-theme="dark"] .graphicContainer {

@@ -107,8 +107,8 @@ function Home() {
       description: (
         <>
           Discorver a landmark use-case:{' '}
-          <a href="/docs/autoheight">the Autoheight WebView</a>. We depict
-          caveats and feature workarounds to{' '}
+          <a href={useBaseUrl('/docs/autoheight')}>the Autoheight WebView</a>.
+          We depict caveats and feature workarounds to{' '}
           <strong>convey transparency over magic</strong> and let API consumers
           decide.
         </>

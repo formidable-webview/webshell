@@ -60,6 +60,7 @@ export default function App() {
   const {
     allowWebViewNavigation,
     allowPinchToZoom,
+    forceResponsiveLayout,
     renderSheet,
     showEvidence,
     showConsole,
@@ -87,25 +88,30 @@ export default function App() {
   // We are using a memo to change dynamically the Webshell component with
   // different features and options. Normally, we would rather create this
   // component statically.
-  const Webshell = React.useMemo(
-    () =>
-      makeWebshell(
-        WebView,
-        new HandleLinkPressFeature({
-          preventDefault: !allowWebViewNavigation
-        }),
-        new HandleHTMLDimensionsFeature({
-          forceImplementation: resizeMethod === 'auto' ? false : resizeMethod,
-          deltaMin: 0
-        }),
-        new HandleHashChangeFeature({ shouldResetHashOnEvent: true }),
-        new ForceResponsiveViewportFeature({
-          maxScale: allowPinchToZoom ? 1.5 : 1
-        }),
-        new ForceElementSizeFeature({ target: 'body' })
-      ),
-    [allowWebViewNavigation, allowPinchToZoom, resizeMethod]
-  );
+  const Webshell = React.useMemo(() => {
+    return makeWebshell(
+      WebView,
+      new HandleLinkPressFeature({
+        preventDefault: !allowWebViewNavigation
+      }),
+      new HandleHTMLDimensionsFeature({
+        forceImplementation: resizeMethod === 'auto' ? false : resizeMethod,
+        deltaMin: 0
+      }),
+      new HandleHashChangeFeature({ shouldResetHashOnEvent: true }),
+      new ForceResponsiveViewportFeature({
+        maxScale: allowPinchToZoom ? 1.5 : 1
+      }),
+      forceResponsiveLayout
+        ? new ForceElementSizeFeature({ target: 'body' })
+        : false as false
+    );
+  }, [
+    allowWebViewNavigation,
+    allowPinchToZoom,
+    resizeMethod,
+    forceResponsiveLayout
+  ]);
   type WebshellProps = React.ComponentProps<typeof Webshell>;
   const onDOMLinkPress = React.useCallback(
     (target: LinkPressTarget) => {

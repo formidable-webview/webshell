@@ -7,38 +7,46 @@ title: Autoheight WebView
 import { APIReference } from '../components/APIReference';
 import { ReactReference, WebView } from '../components/ReactReference';
 import { APIBox } from '../components/APIBox';
+import { Term } from '../components/Term';
 import { DualCodeSource } from '../components/CodeSource';
-import { ShowcaseFrame } from '../components/ShowcaseFrame';
+import { AsideShowcaseFrame } from '../components/AsideShowcaseFrame';
 
-This component height automatically and dynamically adapts to the page height,
-anytime the DOM changes.
-
-<ShowcaseFrame />
+Craft <WebView />-based components which heights automatically and dynamically adapts to their page
+content heights, anytime the <Term id="DOM" /> changes.
 
 ## Highlights
 
+<AsideShowcaseFrame url="/img/autoheight-screencast.mp4">
 
-A modular, state-of-the-art implementation which goes beyond many preexisting solutions.
 
 <APIBox reference="useAutoheight" type="function" />
 
-- The **width** of the viewport will grow to the
+- The **width** of the <Term id="viewport" /> will grow to the
   available horizontal space and won't need to be specified. You can
   override this behavior by setting explicit `width` as a
   parameter attribute of <APIReference reference="useAutoheight" type="function" /> hook.
-- The **height** of the viewport, also called layout
-  height, will dynamically adapts to the content height, which has
-  been constrained by the layout width as we have just mentioned! It
-  means that anytime the content changes or the layout width changes,
-  such as in screen rotations, the layout height will get updated.
+- The **height** of the <Term id="viewport" /> will dynamically adapts to the **content height**, which has
+  been constrained by the <Term id="viewport" /> **width** as we have just mentioned! It
+  means that anytime the content changes or the <Term id="viewport" /> width changes,
+  such as in screen rotations, the <Term id="viewport" /> height will get updated.
+
+  Look at the screen and notice in the top console how <Term id="viewport" /> height closely follows **content** height updates.
+
 - This hook will rely on <APIReference reference="HandleHTMLDimensionsFeature" type="variable" /> to use the best API
   available in the browser
-  **and dynamically adapt layout to content size**. In
+  **and dynamically adapt <Term id="viewport" /> to content size**. In
   order of preference,
   [ResizeObserver](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver),
   [MutationObserver](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver)
   and finally, polling on a regular interval.
 
+</AsideShowcaseFrame>
+
+
+:::note
+You can interchangeably replace "<Term id="viewport" /> size" with "<WebView/>
+size" in the above description, if that makes more sense to you.
+:::
 
 <!-- :::note
 Read [Overcoming the Autoheight WebView
@@ -48,7 +56,7 @@ Challenge](/blog/2020/09/15/overcoming-the-autoheight-webview-challenge) to demy
 ## Basic Example
 
 As previously stated, <APIReference reference="useAutoheight" type="function" />
-requires *a minima* injection of a <APIReference reference="HandleHTMLDimensionsFeature" type="variable" /> in the shell to fetch content dimensions:
+requires _a minima_ injection of a <APIReference reference="HandleHTMLDimensionsFeature" type="variable" /> in the shell to fetch content dimensions:
 
 <DualCodeSource
   jsx
@@ -78,9 +86,15 @@ const Webshell = makeWebshell(
 );
 ```
 
+However, the result might be ugly and overflow on the horizontal axis if the page is not responsive (optimized for mobile).
+Always make sure the content is optimized for mobile, [read more about this here](https://developers.google.com/search/mobile-sites/mobile-seo/responsive-design).
+
 :::
 
 ### Cyclic Size Constraints &infin;
+
+<AsideShowcaseFrame url="/img/autoheight-regression-screencast.mp4">
+
 
 Because the **viewport height** now depends on **content heigh**, you must never have a **body** element
 height depending on viewport height, such as:
@@ -91,7 +105,11 @@ body {
 }
 ```
 
-<div className="margin-bottom--md" style={{textAlign: 'center', fontStyle: 'italic'}}>or</div>
+<div
+  className="margin-bottom--md"
+  style={{ textAlign: 'center', fontStyle: 'italic' }}>
+  or
+</div>
 
 ```css title="evil.css"
 body {
@@ -100,6 +118,12 @@ body {
 ```
 
 That is an evil cyclic dependency ready to cast an infinite loop!
+Wikipedia website has such styles. Watch the console on top of screen and
+notice how the shell is caught in an infinite loop shrinking the height
+inexorably.
+
+</AsideShowcaseFrame>
+
 
 :::tip solution
 Body width and height can be forced to

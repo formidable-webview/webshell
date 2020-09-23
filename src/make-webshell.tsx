@@ -122,13 +122,14 @@ export function makeWebshell<
   F extends Feature<any, any>[]
 >(
   WebView: C,
-  ...features: F
+  ...features: F & boolean[]
 ): React.ForwardRefExoticComponent<
   WebshellProps<React.ComponentPropsWithoutRef<C>, F> &
     React.RefAttributes<ElementRef<C>>
 > {
-  const propsMap = extractPropsSpecsMap(features);
-  const serializedFeatureScripts = serializeFeatureList(features);
+  const filteredFeatures = features.filter((f) => !!f);
+  const propsMap = extractPropsSpecsMap(filteredFeatures);
+  const serializedFeatureScripts = serializeFeatureList(filteredFeatures);
   const injectableScript = assembleScript(serializedFeatureScripts);
   const Webshell = (
     props: WebshellProps<ComponentProps<C>, F> & { webViewRef: ElementRef<C> }

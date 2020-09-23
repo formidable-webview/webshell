@@ -85,6 +85,9 @@ export function useControls({ scrollViewRef }: Props) {
   const [paddingHz, setPaddingHz] = React.useState(0);
   const [showEvidence, setShowEvidence] = React.useState(false);
   const [showConsole, setShowConsole] = React.useState(false);
+  const [forceResponsiveLayout, setForceResponsiveLayout] = React.useState(
+    true
+  );
   const [instance, setInstance] = React.useState(0);
   const [sourceName, setSourceName] = React.useState<string>('welcome');
   const [resizeMethod, setResizeMethod] = React.useState<ForceMethodOption>(
@@ -146,6 +149,10 @@ export function useControls({ scrollViewRef }: Props) {
   const toggleConsole = React.useCallback(() => {
     animateNextFrame();
     setShowConsole((s) => !s);
+    closeBottomSheet();
+  }, [closeBottomSheet]);
+  const toggleForceResponsiveLayout = React.useCallback(() => {
+    setForceResponsiveLayout((v) => !v);
     closeBottomSheet();
   }, [closeBottomSheet]);
   const changeSourcename = React.useCallback(
@@ -236,6 +243,16 @@ export function useControls({ scrollViewRef }: Props) {
                   />
                 )}
               />
+              <List.Item
+                title="Force responsive layout"
+                description="Insert a meta viewport element."
+                right={() => (
+                  <Switch
+                    value={forceResponsiveLayout}
+                    onValueChange={toggleForceResponsiveLayout}
+                  />
+                )}
+              />
             </List.Section>
           </View>
         </View>
@@ -249,11 +266,13 @@ export function useControls({ scrollViewRef }: Props) {
       allowWebViewNavigation,
       allowPinchToZoom,
       resizeMethod,
+      forceResponsiveLayout,
       toggleEvidence,
       toggleConsole,
       togglePadding,
       toggleAllowWebViewNavigation,
       toggleAllowPinchToZoom,
+      toggleForceResponsiveLayout,
       pickerStyle,
       changeResizeMethod,
       changeSourcename,
@@ -307,6 +326,7 @@ export function useControls({ scrollViewRef }: Props) {
     renderSheet,
     allowPinchToZoom,
     allowWebViewNavigation,
+    forceResponsiveLayout,
     paddingHz,
     showEvidence,
     showConsole,
