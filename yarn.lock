@@ -3007,11 +3007,11 @@ __metadata:
 
 "@formidable-webview/webshell@file:../core::locator=example%40workspace%3Apackages%2Fexample":
   version: 1.0.2
-  resolution: "@formidable-webview/webshell@file:../core#../core::hash=b34fbe&locator=example%40workspace%3Apackages%2Fexample"
+  resolution: "@formidable-webview/webshell@file:../core#../core::hash=51a472&locator=example%40workspace%3Apackages%2Fexample"
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: 0b89edac7de4f12243e31414810cbde4542c0c4253b46fd6ea5483be4c5820b6ea5ba0f53d72e9985cb220ad98e72f67e955c901fc232a5a8721dd5792d9246d
+  checksum: 6cd54f9573454a453ce20e784d1ac4af81b10cee92750863ce464ba85e8453f2d63dd2dacf847dbee8592dc32e1605506bf4a4fbe611981494e96c67d1cffdcb
   languageName: node
   linkType: hard
 
@@ -3042,8 +3042,8 @@ __metadata:
     "@types/react-test-renderer": ^16.9.3
     babel-jest: ^26.3.0
     babel-plugin-inline-import: ^3.0.0
-    embedme: ^1.21.0
     eslint: ^7.8.0
+    eslint-plugin-compat: ^3.8.0
     jest: ^26.4.2
     metro-react-native-babel-preset: ^0.63.0
     react: "*"
@@ -7741,16 +7741,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chalk@npm:3.0.0, chalk@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "chalk@npm:3.0.0"
-  dependencies:
-    ansi-styles: ^4.1.0
-    supports-color: ^7.1.0
-  checksum: 4018b0c812880da595d0d7b8159939527b72f58d3370e2fdc1a24d9abd460bab851695d7eca014082f110d5702d1221b05493fec430ccce375de907d50cc48c1
-  languageName: node
-  linkType: hard
-
 "chalk@npm:4.1.0, chalk@npm:^4.0.0, chalk@npm:^4.1.0":
   version: 4.1.0
   resolution: "chalk@npm:4.1.0"
@@ -7771,6 +7761,16 @@ __metadata:
     strip-ansi: ^3.0.0
     supports-color: ^2.0.0
   checksum: bc2df54f6da63d0918254aa2d79dd87f75442e35c751b07f5ca37e5886dd0963472e37ee8c5fa6da27710fdfa0e10779c72be4a6c860c67e96769ba63ee2901e
+  languageName: node
+  linkType: hard
+
+"chalk@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "chalk@npm:3.0.0"
+  dependencies:
+    ansi-styles: ^4.1.0
+    supports-color: ^7.1.0
+  checksum: 4018b0c812880da595d0d7b8159939527b72f58d3370e2fdc1a24d9abd460bab851695d7eca014082f110d5702d1221b05493fec430ccce375de907d50cc48c1
   languageName: node
   linkType: hard
 
@@ -8307,13 +8307,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"commander@npm:5.1.0, commander@npm:^5.1.0":
-  version: 5.1.0
-  resolution: "commander@npm:5.1.0"
-  checksum: d16141ea7f580945156fb8a06de2834c4647c7d9d3732ebd4534ab8e0b7c64747db301e18f2b840f28ea8fef51f7a8d6178e674b45a21931f0b65ff1c7f476b3
-  languageName: node
-  linkType: hard
-
 "commander@npm:^2.18.0, commander@npm:^2.19.0, commander@npm:^2.20.0, commander@npm:^2.7.1, commander@npm:^2.9.0":
   version: 2.20.3
   resolution: "commander@npm:2.20.3"
@@ -8325,6 +8318,13 @@ __metadata:
   version: 4.1.1
   resolution: "commander@npm:4.1.1"
   checksum: 448585071bf8fb4c0bf9dd52abaee43dea086f801334caec2c8e8c9f456f8abc224c1614ccbbdbf7da5ac2524d230f13cf1fc86c233cf8a041ebecea7df106e9
+  languageName: node
+  linkType: hard
+
+"commander@npm:^5.1.0":
+  version: 5.1.0
+  resolution: "commander@npm:5.1.0"
+  checksum: d16141ea7f580945156fb8a06de2834c4647c7d9d3732ebd4534ab8e0b7c64747db301e18f2b840f28ea8fef51f7a8d6178e674b45a21931f0b65ff1c7f476b3
   languageName: node
   linkType: hard
 
@@ -10270,20 +10270,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"embedme@npm:^1.21.0":
-  version: 1.21.0
-  resolution: "embedme@npm:1.21.0"
-  dependencies:
-    chalk: 3.0.0
-    commander: 5.1.0
-    gitignore-parser: ~0.0.2
-    glob: ~7.1.4
-  bin:
-    embedme: dist/embedme.js
-  checksum: f9338845a522effc4db4c55c8af0d844fa688b6470e191318f875e464018f1162006eebeac99ec21bd8787dcafa3a84d2c28fd24bb7f65ee48e992148895f331
-  languageName: node
-  linkType: hard
-
 "emittery@npm:^0.7.1":
   version: 0.7.1
   resolution: "emittery@npm:0.7.1"
@@ -11011,6 +10997,7 @@ __metadata:
     react-native-paper: ^4.1.0
     react-native-picker-select: ^8.0.0
     react-native-reanimated: ~1.9.0
+    react-native-vector-icons: ^7.1.0
     react-native-webview: 9.4.0
     reanimated-bottom-sheet: ^1.0.0-alpha.22
   languageName: unknown
@@ -12684,13 +12671,6 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"gitignore-parser@npm:~0.0.2":
-  version: 0.0.2
-  resolution: "gitignore-parser@npm:0.0.2"
-  checksum: 5d02e7751f492aeecfe8b2745cd6bef016ea2cefd5689cc5d88be044f951948ce51538914853618b57d5d3063305c1be7381694436947074ca644cabebe8aac3
-  languageName: node
-  linkType: hard
-
 "glob-parent@npm:^3.1.0":
   version: 3.1.0
   resolution: "glob-parent@npm:3.1.0"
@@ -12717,7 +12697,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"glob@npm:7.1.6, glob@npm:^7.0.0, glob@npm:^7.0.3, glob@npm:^7.1.1, glob@npm:^7.1.2, glob@npm:^7.1.3, glob@npm:^7.1.4, glob@npm:^7.1.6, glob@npm:~7.1.4":
+"glob@npm:7.1.6, glob@npm:^7.0.0, glob@npm:^7.0.3, glob@npm:^7.1.1, glob@npm:^7.1.2, glob@npm:^7.1.3, glob@npm:^7.1.4, glob@npm:^7.1.6":
   version: 7.1.6
   resolution: "glob@npm:7.1.6"
   dependencies:
@@ -16361,6 +16341,13 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"lodash.frompairs@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "lodash.frompairs@npm:4.0.1"
+  checksum: 8eb820e6d11b843d4fd35d6f4bed2533fb8b15a0101f9daf5815156164fe73c942877c1b660ba4b4948fa65eb540241b2404ae76cf167c6d02601fc0c84b9634
+  languageName: node
+  linkType: hard
+
 "lodash.get@npm:^4.0.0":
   version: 4.4.2
   resolution: "lodash.get@npm:4.4.2"
@@ -16442,6 +16429,13 @@ fsevents@^1.2.7:
   version: 4.6.2
   resolution: "lodash.merge@npm:4.6.2"
   checksum: 4e2bb42a87a148991458d7c384bc197e96f7115e9536fc8e2c86ae9e99ce1c1f693ff15eb85761952535f48d72253aed8e673d9f32dde3e671cd91e3fde220a7
+  languageName: node
+  linkType: hard
+
+"lodash.omit@npm:^4.5.0":
+  version: 4.5.0
+  resolution: "lodash.omit@npm:4.5.0"
+  checksum: b0bca85eb18f178902819b7a78f1770448c86b43407235085d987ea9711246ef8880acc3a0009bef8ac9fbb9ab104d58e0087e0a62ff59d9300e6e25e723ae51
   languageName: node
   linkType: hard
 
@@ -21364,6 +21358,25 @@ fsevents@^1.2.7:
     react: "*"
     react-native: "*"
   checksum: e5597a40a7c124df3bb6407072e819fdff527109a632051dfaaf0614524e8a27575cf580677396b93ff492f7db1923ba59044d9fb6569003980bcaaa0c3a27c5
+  languageName: node
+  linkType: hard
+
+"react-native-vector-icons@npm:^7.1.0":
+  version: 7.1.0
+  resolution: "react-native-vector-icons@npm:7.1.0"
+  dependencies:
+    lodash.frompairs: ^4.0.1
+    lodash.isequal: ^4.5.0
+    lodash.isstring: ^4.0.1
+    lodash.omit: ^4.5.0
+    lodash.pick: ^4.4.0
+    lodash.template: ^4.5.0
+    prop-types: ^15.7.2
+    yargs: ^15.0.2
+  bin:
+    fa5-upgrade: bin/fa5-upgrade.sh
+    generate-icon: bin/generate-icon.js
+  checksum: 486c7c03bdd4ab3796a2cb9a9eea24f9ef975e88f799ec309db9e9ac3a8debc3fb495163f1ee9e7ff1ebdc0e5c090ceb47c7bd87c208f790685b138a56bca118
   languageName: node
   linkType: hard
 
@@ -26860,7 +26873,7 @@ resolve@~1.12.0:
   languageName: node
   linkType: hard
 
-"yargs@npm:^15.1.0, yargs@npm:^15.3.1":
+"yargs@npm:^15.0.2, yargs@npm:^15.1.0, yargs@npm:^15.3.1":
   version: 15.4.1
   resolution: "yargs@npm:15.4.1"
   dependencies:
