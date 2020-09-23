@@ -72,7 +72,6 @@
     "react-native": "*"
   },
   "resolutions": {
-    "docusaurus-plugin-typedoc": "patch:docusaurus-plugin-typedoc@0.1.1#patches/docusaurus-plugin-typedoc.patch",
     "react-native": "https://github.com/expo/react-native/archive/sdk-38.0.2.tar.gz",
     "react": "16.11.0"
   },

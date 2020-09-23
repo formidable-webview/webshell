@@ -1,5 +1,3 @@
-const { typedocSidebar } = require('./typedoc-sidebars');
-
 const entries = [
   {
     type: 'category',
@@ -13,7 +11,11 @@ const entries = [
   },
   { type: 'doc', id: 'features' },
   { type: 'doc', id: 'faq' },
-  { type: 'category', label: 'API Reference', items: typedocSidebar }
+  {
+    type: 'category',
+    label: 'API Reference',
+    items: require('./typedoc-sidebars')
+  }
 ];
 
 if (process.env.NODE_ENV === 'development') {
