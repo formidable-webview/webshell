@@ -3007,11 +3007,11 @@ __metadata:
 
 "@formidable-webview/webshell@file:../core::locator=example%40workspace%3Apackages%2Fexample":
   version: 1.0.2
-  resolution: "@formidable-webview/webshell@file:../core#../core::hash=bad6ca&locator=example%40workspace%3Apackages%2Fexample"
+  resolution: "@formidable-webview/webshell@file:../core#../core::hash=b34fbe&locator=example%40workspace%3Apackages%2Fexample"
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: 91d1e6c7249ab6f28070b45e39c181da2ca52997b2b2548c8a3819fc5d346d343177ed9d3eeccf1b03f2f9ea50ec0bbd21debf117d75cc8640f842040d2bd5b7
+  checksum: 0b89edac7de4f12243e31414810cbde4542c0c4253b46fd6ea5483be4c5820b6ea5ba0f53d72e9985cb220ad98e72f67e955c901fc232a5a8721dd5792d9246d
   languageName: node
   linkType: hard
 
