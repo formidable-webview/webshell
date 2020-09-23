@@ -1,9 +1,15 @@
 module.exports = {
-  root: true,
+  root: false,
   extends: ['@react-native-community', 'plugin:compat/recommended'],
   parser: '@typescript-eslint/parser',
   plugins: ['@typescript-eslint', 'eslint-plugin-tsdoc'],
-  ignorePatterns: ['packages/website/typedoc-sidebars.js'],
+  ignorePatterns: ['lib/', 'types/', 'website/typedoc-sidebars.js'],
+  overrides: [
+    {
+      files: ['*.webjs'],
+      extends: '@formidable-webview/eslint-config-webjs'
+    }
+  ],
   rules: {
     'comma-dangle': ['error', 'never'],
     '@typescript-eslint/no-unused-vars': [

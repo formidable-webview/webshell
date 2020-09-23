@@ -3,7 +3,7 @@
   "description": "Example app for @formidable-webview/webshell",
   "version": "0.0.1",
   "private": true,
-  "main": "index",
+  "main": "index.js",
   "scripts": {
     "android": "expo start --android",
     "ios": "expo start --ios",
@@ -12,7 +12,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@formidable-webview/webshell": "workspace:*",
+    "@formidable-webview/webshell": "file:../core",
     "@react-native-community/picker": "1.6.0",
     "@rnhooks/device-orientation": "^0.0.1",
     "expo": "~38.0.10",
@@ -35,5 +35,8 @@
     "babel-plugin-module-resolver": "^4.0.0",
     "babel-preset-expo": "^8.3.0",
     "expo-cli": "^3.25.1"
+  },
+  "installConfig": {
+    "hoistingLimits": "workspaces"
   }
 }

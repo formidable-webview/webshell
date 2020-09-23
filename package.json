@@ -1,97 +1,44 @@
 {
-  "name": "@formidable-webview/webshell",
-  "version": "1.0.2",
-  "description": "🔥 Augment React Native WebViews with DOM features",
-  "main": "lib/commonjs/index.js",
-  "types": "types/@formidable-webview/webshell/index.d.ts",
-  "files": [
-    "lib/commonjs",
-    "src",
-    "types"
-  ],
+  "name": "project",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "test": "yarn test:ts && yarn test:lint && yarn test:jest && yarn build:base",
-    "test:jest": "jest src/",
-    "test:ts": "tsc --noEmit --project tsconfig.json",
-    "test:lint": "eslint --ext webjs,ts,tsx src/",
-    "build": "yarn build:base && yarn build:doc",
-    "build:base": "yarn build:source && yarn build:defs",
-    "build:source": "bob build",
-    "build:defs": "api-extractor run --local --verbose",
-    "build:doc": "cd website && yarn build",
-    "prepublish": "yarn build"
+    "start": "yarn workspace example start",
+    "build:website": "yarn workspace website build",
+    "test:core:jest": "yarn workspace @formidable-webview/webshell test:jest",
+    "test:core:ts": "yarn workspace @formidable-webview/webshell test:ts",
+    "test:core:lint": "yarn workspace @formidable-webview/webshell test:lint",
+    "build:core": "yarn workspace @formidable-webview/webshell build"
   },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/formidable-webview/webshell.git"
   },
   "devDependencies": {
-    "@babel/cli": "^7.11.5",
-    "@babel/core": "^7.11.5",
-    "@babel/plugin-transform-react-jsx": "^7.10.4",
-    "@babel/preset-typescript": "^7.10.4",
-    "@babel/runtime": "^7.11.2",
     "@commitlint/cli": "^9.1.2",
     "@commitlint/config-conventional": "^9.1.2",
-    "@docusaurus/init": "next",
-    "@formidable-webview/ersatz": "^1.0.0",
-    "@formidable-webview/ersatz-testing": "^1.0.1",
-    "@formidable-webview/eslint-config-webjs": "^1.0.0",
-    "@microsoft/api-documenter": "^7.8.36",
-    "@microsoft/api-extractor": "7.9.11",
     "@react-native-community/bob": "^0.16.2",
     "@react-native-community/eslint-config": "^2.0.0",
     "@release-it/conventional-changelog": "^1.1.4",
-    "@testing-library/react-native": "^7.0.2",
-    "@tsconfig/react-native": "^1.0.2",
-    "@types/jest": "^26.0.12",
-    "@types/react": "^16.9.49",
-    "@types/react-native": "^0.63.13",
-    "@types/react-test-renderer": "^16.9.3",
     "@typescript-eslint/eslint-plugin": "^3.10.1",
     "@typescript-eslint/parser": "^3.10.1",
-    "babel-jest": "^26.3.0",
-    "babel-plugin-inline-import": "^3.0.0",
-    "embedme": "^1.21.0",
     "eslint": "^7.8.0",
     "eslint-plugin-compat": "^3.8.0",
     "eslint-plugin-tsdoc": "^0.2.6",
     "husky": "^4.2.5",
-    "jest": "^26.4.2",
-    "metro-react-native-babel-preset": "^0.63.0",
     "prettier": "^2.1.1",
-    "react": "16.13.1",
-    "react-native": "^0.63.2",
-    "react-native-webview": "^10.8.3",
-    "react-test-renderer": "16.13.1",
-    "release-it": "^13.7.0",
-    "typescript": "3.9.7"
-  },
-  "peerDependencies": {
-    "react": "*",
-    "react-native": "*"
+    "release-it": "^13.7.0"
   },
   "resolutions": {
     "react-native": "https://github.com/expo/react-native/archive/sdk-38.0.2.tar.gz",
-    "react": "16.11.0"
+    "react": "16.11.0",
+    "react-test-renderer": "16.11.0"
   },
-  "keywords": [
-    "react-native",
-    "react-native-webview",
-    "event",
-    "DOM"
-  ],
   "author": "Jules Sam. Randolph <jules.sam.randolph@gmail.com> (https://github.com/jsamr)",
   "license": "MIT",
-  "publishConfig": {
-    "access": "public"
-  },
   "workspaces": [
-    "example",
-    "website",
-    "./"
+    "packages/*"
   ],
-  "source": "src/index.ts",
   "release-it": {
     "git": {
       "commitMessage": "chore: release ${version}",
@@ -110,24 +57,6 @@
         "skipUnstable": true
       }
     }
-  },
-  "@react-native-community/bob": {
-    "source": "src",
-    "output": "lib",
-    "targets": [
-      [
-        "commonjs",
-        {
-          "babelrc": true
-        }
-      ],
-      [
-        "typescript",
-        {
-          "project": "tsconfig.build.json"
-        }
-      ]
-    ]
   },
   "husky": {
     "hooks": {

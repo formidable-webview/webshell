@@ -1,7 +1,9 @@
 const path = require('path');
-const prettierOptions = require('../.prettierrc.js');
+const prettierOptions = require('../../.prettierrc.js');
 
 const discordInvite = 'https://discord.gg/XV3zt3d';
+
+const webshellPath = '../core';
 
 module.exports = {
   title: 'webshell',
@@ -125,7 +127,7 @@ module.exports = {
       'docusaurus-plugin-typedoc',
       {
         // list of input files relative to project (required).
-        inputFiles: ['../types'],
+        inputFiles: [path.join(webshellPath, '/types')],
 
         // docs directory relative to the site directory (defaults to docs).
         docsRoot: 'docs',
@@ -154,7 +156,10 @@ module.exports = {
       path.resolve(__dirname, 'inject-snippets-plugin.js'),
       {
         snippetsPath: './static/snippets',
-        includes: ['../integration/*.ts?(x)', '../integration/*.webjs'],
+        includes: [
+          path.join(webshellPath, '/integration/*.ts?(x)'),
+          path.join(webshellPath, '/integration/*.webjs')
+        ],
         prettierOptions: prettierOptions
       }
     ]

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 const hrefMap = {
   webview: 'https://github.com/react-native-community/react-native-webview',
