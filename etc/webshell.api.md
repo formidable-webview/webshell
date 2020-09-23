@@ -274,7 +274,7 @@ export interface LinkPressTarget {
 }
 
 // @public
-function makeWebshell<C extends ComponentType<any>, F extends Feature<any, any>[]>(WebView: C, ...features: F & boolean[]): React_2.ForwardRefExoticComponent<WebshellProps<React_2.ComponentPropsWithoutRef<C>, F> & React_2.RefAttributes<ElementRef<C>>>;
+function makeWebshell<C extends ComponentType<any>, F extends Feature<any, any>[]>(WebView: C, ...features: F): React_2.ForwardRefExoticComponent<WebshellProps<React_2.ComponentPropsWithoutRef<C>, F> & React_2.RefAttributes<ElementRef<C>>>;
 
 export default makeWebshell;
 

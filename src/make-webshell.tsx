@@ -122,7 +122,7 @@ export function makeWebshell<
   F extends Feature<any, any>[]
 >(
   WebView: C,
-  ...features: F & boolean[]
+  ...features: F
 ): React.ForwardRefExoticComponent<
   WebshellProps<React.ComponentPropsWithoutRef<C>, F> &
     React.RefAttributes<ElementRef<C>>

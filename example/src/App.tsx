@@ -89,8 +89,7 @@ export default function App() {
   // different features and options. Normally, we would rather create this
   // component statically.
   const Webshell = React.useMemo(() => {
-    return makeWebshell(
-      WebView,
+    const features = [
       new HandleLinkPressFeature({
         preventDefault: !allowWebViewNavigation
       }),
@@ -101,11 +100,11 @@ export default function App() {
       new HandleHashChangeFeature({ shouldResetHashOnEvent: true }),
       new ForceResponsiveViewportFeature({
         maxScale: allowPinchToZoom ? 1.5 : 1
-      }),
-      forceResponsiveLayout
-        ? new ForceElementSizeFeature({ target: 'body' })
-        : false as false
-    );
+      })
+    ];
+    forceResponsiveLayout &&
+      features.push(new ForceElementSizeFeature({ target: 'body' }) as any);
+    return makeWebshell(WebView, ...features);
   }, [
     allowWebViewNavigation,
     allowPinchToZoom,
