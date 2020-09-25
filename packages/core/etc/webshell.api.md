@@ -22,7 +22,7 @@ export interface AutoheightParams<S extends WebshellProps<MinimalWebViewProps, F
 // @public
 export interface AutoheightState<S extends WebshellProps<MinimalWebViewProps, [FeatureInstanceOf<typeof HandleHTMLDimensionsFeature>]>> {
     autoheightWebshellProps: Pick<S, 'webshellDebug' | 'onDOMHTMLDimensions' | 'style' | 'scalesPageToFit' | 'showsVerticalScrollIndicator' | 'disableScrollViewPanResponder'> & Partial<S>;
-    contentSize: Partial<RectSize>;
+    contentSize: Partial<DOMRectSize>;
     resizeImplementation: HTMLDimensionsImplementation | null;
     syncState: AutoheightSyncState;
 }
@@ -93,17 +93,21 @@ export type DOMElementTagNameRequest = {
 };
 
 // @public
-export interface DOMRect {
+export interface DOMRect extends DOMRectSize {
     // (undocumented)
     bottom: number;
-    // (undocumented)
-    height: number;
     // (undocumented)
     left: number;
     // (undocumented)
     right: number;
     // (undocumented)
     top: number;
+}
+
+// @public (undocumented)
+export interface DOMRectSize {
+    // (undocumented)
+    height: number;
     // (undocumented)
     width: number;
 }
@@ -244,9 +248,9 @@ export interface HashChangeEvent {
 
 // @public
 export interface HTMLDimensions {
-    content: RectSize;
+    content: DOMRectSize;
     implementation: HTMLDimensionsImplementation;
-    layoutViewport: RectSize;
+    layoutViewport: DOMRectSize;
 }
 
 // @public
@@ -318,14 +322,6 @@ export type PropsFromSpecs<S> = S extends PropsSpecs<any> ? S[number]['signature
 // @public (undocumented)
 export type PropsSpecs<P = {}> = PropDefinition<P>[];
 
-// @public (undocumented)
-export interface RectSize {
-    // (undocumented)
-    height: number;
-    // (undocumented)
-    width: number;
-}
-
 // @beta
 export function useAutoheight<S extends WebshellProps<MinimalWebViewProps, [FeatureInstanceOf<typeof HandleHTMLDimensionsFeature>]>>(params: AutoheightParams<S>): AutoheightState<S>;
 
@@ -333,7 +329,7 @@ export function useAutoheight<S extends WebshellProps<MinimalWebViewProps, [Feat
 export interface VisualViewportDimensions {
     isLegacy: boolean;
     scale: number;
-    visualViewport: RectSize;
+    visualViewport: DOMRectSize;
 }
 
 // @public

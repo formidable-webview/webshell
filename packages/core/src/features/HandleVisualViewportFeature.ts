@@ -1,8 +1,7 @@
 import script from './HandleVisualViewportFeature.webjs';
 import { FeatureBuilder } from '../FeatureBuilder';
-import type { RectSize } from './types';
 import { FeatureConstructor } from '../Feature';
-import { PropDefinition } from '../types';
+import type { PropDefinition, DOMRectSize } from '../types';
 
 /**
  * An object describing the visual viewport of the `WebView`.
@@ -21,7 +20,7 @@ export interface VisualViewportDimensions {
   /**
    * window.visualViewport.width and window.visualViewport.height
    */
-  visualViewport: RectSize;
+  visualViewport: DOMRectSize;
   /**
    * `false` when these values are coming from the VisualViewport API and
    * `true` when they are "best guess". In legacy mode, be warned that you will

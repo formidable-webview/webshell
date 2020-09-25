@@ -225,17 +225,23 @@ export interface WebjsContext<O extends {}, P> {
 }
 
 /**
+ * @public
+ */
+export interface DOMRectSize {
+  width: number;
+  height: number;
+}
+
+/**
  * See {@link https://developer.mozilla.org/en-US/docs/Web/API/DOMRect | DOMRect}.
  *
  * @public
  */
-export interface DOMRect {
+export interface DOMRect extends DOMRectSize {
   top: number;
   left: number;
   right: number;
   bottom: number;
-  width: number;
-  height: number;
 }
 
 /**

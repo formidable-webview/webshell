@@ -7,6 +7,7 @@ export type {
   DOMElementRequest,
   DOMElementTagNameRequest,
   DOMRect,
+  DOMRectSize,
   EventHandlerProps,
   FeatureDefinition,
   MinimalWebViewProps,
@@ -19,7 +20,6 @@ export type {
   WebshellInvariantProps,
   WebshellProps
 } from './types';
-export * from './features/types';
 export * from './FeatureBuilder';
 export * from './Feature';
 export * from './features';

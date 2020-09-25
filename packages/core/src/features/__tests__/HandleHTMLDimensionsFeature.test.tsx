@@ -7,11 +7,11 @@ import {
   HandleHTMLDimensionsFeature,
   HTMLDimensions
 } from '../HandleHTMLDimensionsFeature';
-import { RectSize } from '../types';
+import type { DOMRectSize } from '../../types';
 
 const { waitForErsatz } = makeErsatzTesting(Ersatz);
 
-const boxMatcher: Record<keyof RectSize, any> = {
+const boxMatcher: Record<keyof DOMRectSize, any> = {
   width: expect.any(Number),
   height: expect.any(Number)
 };

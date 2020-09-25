@@ -1,12 +1,11 @@
 import * as React from 'react';
-import type { MinimalWebViewProps, WebshellProps } from '../types';
+import type { MinimalWebViewProps, WebshellProps, DOMRectSize } from '../types';
 import type {
   HTMLDimensions,
   HandleHTMLDimensionsFeature,
   HTMLDimensionsImplementation
 } from '../features/HandleHTMLDimensionsFeature';
 import { StyleProp, ViewStyle } from 'react-native';
-import { RectSize } from '../features/types';
 import { Feature, FeatureInstanceOf } from '../Feature';
 
 const initialDimensions = { width: undefined, height: undefined };
@@ -57,7 +56,7 @@ export interface AutoheightState<
    * An object describing the content size. When the size is not yet known,
    * this object fields will be undefined.
    */
-  contentSize: Partial<RectSize>;
+  contentSize: Partial<DOMRectSize>;
   /**
    * The state of synchronization between viewport and content size:
    *
@@ -108,7 +107,7 @@ export interface AutoheightParams<
 }
 interface AutoheightInternalState {
   implementation: HTMLDimensionsImplementation | null;
-  contentSize: Partial<RectSize>;
+  contentSize: Partial<DOMRectSize>;
   syncState: AutoheightSyncState;
   lastFrameChangedWidth: boolean;
   viewportWidth: number;

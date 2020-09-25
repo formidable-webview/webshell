@@ -1,8 +1,7 @@
 import script from './HandleHTMLDimensionsFeature.webjs';
 import { FeatureBuilder } from '../FeatureBuilder';
-import type { RectSize } from './types';
 import type { FeatureConstructor } from '../Feature';
-import type { PropDefinition } from '../types';
+import type { PropDefinition, DOMRectSize } from '../types';
 
 /**
  * The script will check for different APIs in order to
@@ -64,12 +63,12 @@ export interface HTMLDimensions {
   /**
    * The layout viewport size, e.g. the size of the WebView in device pixels.
    */
-  layoutViewport: RectSize;
+  layoutViewport: DOMRectSize;
 
   /**
    * The content size, e.g. the size of the body element in CSS pixels.
    */
-  content: RectSize;
+  content: DOMRectSize;
 
   /**
    * Which implementation has been used to generate this event?
