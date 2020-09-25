@@ -1,0 +1,60 @@
+function HandleLinkPressFeature(context) {
+  var postMessage = context.postMessage;
+  var options = context.options || {};
+  var preventDefault = options.preventDefault !== false;
+  var ignoreHashChange =
+    typeof options.ignoreHashChange === 'boolean'
+      ? options.ignoreHashChange
+      : true;
+
+  function findParentByTagName(tagname, el) {
+    while (el) {
+      if ((el.nodeName || el.tagName).toLowerCase() === tagname.toLowerCase()) {
+        return el;
+      }
+      el = el.parentNode;
+    }
+    return null;
+  }
+
+  function extractScheme(uri) {
+    var groups = uri.match(/(\w+):\/\//);
+    return (groups && groups.length > 1 && groups[1]) || '';
+  }
+
+  var interceptClickEvent = context.makeCallbackSafe(function (e) {
+    var target = e.target || e.srcElement;
+    var anchor = findParentByTagName('a', target);
+    if (anchor) {
+      var href = anchor.href;
+      if (
+        ignoreHashChange &&
+        anchor.origin === window.location.origin &&
+        anchor.pathname === window.location.pathname
+      ) {
+        return;
+      }
+      var rect = anchor.getBoundingClientRect();
+      var clickedAnchorBoundingRect = {
+        top: rect.top,
+        left: rect.left,
+        bottom: rect.bottom,
+        right: rect.right,
+        width: rect.width,
+        height: rect.height
+      };
+      preventDefault && e.preventDefault();
+      postMessage({
+        uri: href,
+        scheme: extractScheme(href),
+        hrefAttribute: anchor.getAttribute('href'),
+        clickedAnchorBoundingRect: clickedAnchorBoundingRect,
+        page: {
+          href: window.location.href,
+          origin: window.location.origin
+        }
+      });
+    }
+  });
+  document.addEventListener('click', interceptClickEvent, false);
+}
