@@ -1,0 +1,153 @@
+// eslint-disable-next-line no-undef
+var debug = $$__DEBUG__$$;
+// eslint-disable-next-line no-undef
+var features = $$___FEATURES___$$;
+var safePostMessage = (function () {
+  return window.ReactNativeWebView &&
+    typeof window.ReactNativeWebView.postMessage === 'function'
+    ? window.ReactNativeWebView.postMessage.bind(window.ReactNativeWebView)
+    : typeof window.postMessage === 'function'
+    ? window.postMessage
+    : function throwPostMessage() {
+        throw 'Missing postMessage. You must run this script in a WebView or @formidable-webview/ersatz.';
+      };
+})();
+function numericFromPxString(pixelString) {
+  return pixelString ? parseFloat(pixelString.match(/[\d.]+/)) : 0;
+}
+function makeCallbackSafe(onError, callback) {
+  return function () {
+    try {
+      callback.apply(null, arguments);
+    } catch (e) {
+      onError(e);
+    }
+  };
+}
+function getDOMSelection(request, isCollection) {
+  var normalRequest =
+    typeof request === 'string' ? { query: request } : request;
+  var selection;
+  if (
+    !isCollection &&
+    (normalRequest.query === 'html' || normalRequest.tagName === 'html')
+  ) {
+    return document.documentElement;
+  }
+  if (
+    !isCollection &&
+    (normalRequest.query === 'body' || normalRequest.tagName === 'body')
+  ) {
+    return document.body;
+  }
+  if (normalRequest.query) {
+    return isCollection
+      ? document.querySelectorAll(normalRequest.query)
+      : document.querySelector(normalRequest.query);
+  }
+  if (normalRequest.className) {
+    selection = document.getElementsByClassName(normalRequest.className);
+    return isCollection
+      ? selection
+      : (selection.length && selection[0]) || null;
+  }
+  if (normalRequest.id) {
+    return document.getElementById(normalRequest.id) || null;
+  }
+  if (normalRequest.tagName) {
+    selection = document.getElementsByTagName(normalRequest.tagName);
+    if (isCollection) {
+      return selection;
+    }
+    return (selection.length && selection[0]) || null;
+  }
+}
+function registerFeature(specs) {
+  if (specs && typeof specs === 'object') {
+    var executable = specs.source;
+    var snippetIdentifier = specs.identifier;
+    var snippetOptions = specs.options || {};
+    var handlerName = specs.handlerName || null;
+  } else {
+    return;
+  }
+  function sendLogMessage(severity, message) {
+    safePostMessage(
+      JSON.stringify({
+        type: 'log',
+        severity: severity,
+        identifier: snippetIdentifier,
+        __isWebshellPostMessage: true,
+        body: message
+      })
+    );
+  }
+  function sendErrorMessage(e) {
+    var message =
+      typeof e === 'string'
+        ? e
+        : typeof e === 'object' && typeof e.message === 'string'
+        ? e.message
+        : 'unknown error';
+    console.error(message);
+    safePostMessage(
+      JSON.stringify({
+        type: 'error',
+        identifier: snippetIdentifier,
+        __isWebshellPostMessage: true,
+        body: message
+      })
+    );
+  }
+  var context = {
+    getDOMSelection: getDOMSelection,
+    numericFromPxString: numericFromPxString,
+    makeCallbackSafe: makeCallbackSafe.bind(null, sendErrorMessage),
+    postMessage: function (message) {
+      if (handlerName == null) {
+        sendErrorMessage(
+          new TypeError(
+            snippetIdentifier +
+              ': ' +
+              'context.postMessage was invoked while no handlerName was passed to this feature. ' +
+              'Register a handlerName and try again.'
+          )
+        );
+        return;
+      }
+      safePostMessage(
+        JSON.stringify({
+          type: 'feature',
+          identifier: snippetIdentifier,
+          body: message,
+          handlerName: handlerName,
+          __isWebshellPostMessage: true
+        })
+      );
+    },
+    options: snippetOptions,
+    info: function (text) {
+      var logger = console.info || console.log;
+      var message = snippetIdentifier + ': ' + text;
+      logger && logger.call(console, message);
+      debug && sendLogMessage('info', message);
+    },
+    warn: function (text) {
+      var logger = console.warn || console.log;
+      var message = snippetIdentifier + ': ' + text;
+      logger && logger.call(console, message);
+      debug && sendLogMessage('warn', message);
+    }
+  };
+  if (executable && typeof executable === 'function') {
+    try {
+      executable.call(null, context);
+    } catch (e) {
+      sendErrorMessage(e);
+    }
+  }
+}
+
+if (Array.isArray(features)) {
+  Array.prototype.forEach.call(features, registerFeature);
+}
