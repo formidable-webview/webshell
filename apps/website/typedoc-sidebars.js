@@ -17,6 +17,7 @@ module.exports = [
       "api/interfaces/cssbox",
       "api/interfaces/cssboxdimensionscomputedstyle",
       "api/interfaces/domrect",
+      "api/interfaces/domrectsize",
       "api/interfaces/elementcssboxdimensions",
       "api/interfaces/featurebuilderconfig",
       "api/interfaces/featureconstructor",
@@ -30,7 +31,6 @@ module.exports = [
       "api/interfaces/linkpressoptions",
       "api/interfaces/linkpresstarget",
       "api/interfaces/minimalwebviewprops",
-      "api/interfaces/rectsize",
       "api/interfaces/visualviewportdimensions",
       "api/interfaces/webjscontext",
       "api/interfaces/webshellinvariantprops"

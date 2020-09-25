@@ -10,12 +10,18 @@ const { waitForDocument } = makeErsatzTesting(Ersatz);
 describe('Webshell with HandleLinkPressFeature', () => {
   it('should invoke onDOMLinkPress prop when a link is pressed', async () => {
     const onDOMLinkPress = jest.fn();
-    const Webshell = makeWebshell(Ersatz, new HandleLinkPressFeature());
+    const Webshell = makeWebshell(
+      Ersatz,
+      new HandleLinkPressFeature()
+    );
     const document = await waitForDocument(
       render(
         <Webshell
           onDOMLinkPress={onDOMLinkPress}
-          source={{ html: '<a id="anchor0" href="https://foo.org">bar</a>' }}
+          source={{
+            html:
+              '<a id="anchor0" href="https://foo.org">bar</a>'
+          }}
         />
       )
     );

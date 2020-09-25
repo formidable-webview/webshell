@@ -1,9 +1,8 @@
 function HandleLinkPressFeature(context) {
-  var preventDefault = context.options.preventDefault !== false;
   function interceptClickEvent(e) {
     var element = e.target || e.srcElement;
     if (element && element.tagName.toLowerCase() === 'a') {
-      preventDefault && e.preventDefault();
+      context.options.preventDefault && e.preventDefault();
       context.postShellMessage({
         uri: element.href
       });

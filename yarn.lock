@@ -5681,6 +5681,7 @@ __metadata:
   dependencies:
     "@formidable-webview/webshell": "workspace:*"
     eslint: ^7.8.0
+    prettier: ^2.1.2
     typescript: 3.9.7
   languageName: unknown
   linkType: soft
@@ -20620,7 +20621,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"prettier@npm:^2.0.2, prettier@npm:^2.1.1":
+"prettier@npm:^2.0.2, prettier@npm:^2.1.1, prettier@npm:^2.1.2":
   version: 2.1.2
   resolution: "prettier@npm:2.1.2"
   bin:

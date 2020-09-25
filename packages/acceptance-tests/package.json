@@ -6,7 +6,8 @@
     "test:ts": "tsc --noEmit --project tsconfig.json"
   },
   "dependencies": {
-    "@formidable-webview/webshell": "workspace:*"
+    "@formidable-webview/webshell": "workspace:*",
+    "prettier": "^2.1.2"
   },
   "devDependencies": {
     "eslint": "^7.8.0",

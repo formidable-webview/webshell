@@ -23,6 +23,8 @@ export type WebshellProps = ComponentProps<typeof Webshell>;
 export default function ResilientAutoheightWebView(
   webshellProps: WebshellProps
 ) {
-  const { autoheightWebshellProps } = useAutoheight({ webshellProps });
+  const { autoheightWebshellProps } = useAutoheight({
+    webshellProps
+  });
   return <Webshell {...autoheightWebshellProps} />;
 }

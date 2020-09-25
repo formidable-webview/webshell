@@ -5,7 +5,9 @@ import makeWebshell, {
   HandleLinkPressFeature,
   MinimalWebViewProps
 } from '@formidable-webview/webshell';
-import WebView, { WebViewProps } from 'react-native-webview';
+import WebView, {
+  WebViewProps
+} from 'react-native-webview';
 import type { ComponentType } from 'react';
 
 let Webshell1: WebshellComponentOf<typeof WebView, []>;
@@ -15,7 +17,10 @@ let Webshell2: WebshellComponentOf<
 >;
 let Webshell3: WebshellComponentOf<
   typeof WebView,
-  [typeof HandleElementCSSBoxFeature, typeof HandleLinkPressFeature]
+  [
+    typeof HandleElementCSSBoxFeature,
+    typeof HandleLinkPressFeature
+  ]
 >;
 // Testing for generic type
 export type WebshellWithElementDimensionsFeatureType = WebshellComponentOf<
@@ -27,7 +32,10 @@ Webshell1 = makeWebshell(WebView);
 Webshell2 = makeWebshell(
   WebView,
   new HandleElementCSSBoxFeature({ target: 'body' })
-) as WebshellComponentOf<typeof WebView, [typeof HandleElementCSSBoxFeature]>;
+) as WebshellComponentOf<
+  typeof WebView,
+  [typeof HandleElementCSSBoxFeature]
+>;
 Webshell3 = makeWebshell(
   WebView,
   new HandleElementCSSBoxFeature({ target: 'body' }),
@@ -42,7 +50,10 @@ const Webshell4 = makeWebshell(
 const props: WebViewProps = {};
 
 <Webshell1 {...props} />;
-<Webshell2 onDOMElementCSSBoxDimensions={() => undefined} {...props} />;
+<Webshell2
+  onDOMElementCSSBoxDimensions={() => undefined}
+  {...props}
+/>;
 <Webshell3
   onDOMLinkPress={() => undefined}
   onDOMElementCSSBoxDimensions={() => undefined}

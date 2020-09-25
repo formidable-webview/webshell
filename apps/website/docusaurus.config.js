@@ -1,5 +1,8 @@
 const path = require('path');
-const prettierOptions = require('../../.prettierrc.js');
+const prettierOptions = {
+  ...require('../../.prettierrc.js'),
+  printWidth: 60
+};
 
 const discordInvite = 'https://discord.gg/XV3zt3d';
 

@@ -18,11 +18,19 @@ const Webshell = makeWebshell(
   new HandleHTMLDimensionsFeature()
 );
 
-export default function NaiveAutoheightWebView(webViewProps: WebViewProps) {
-  const [size, setSize] = useState<DOMRectSize | null>(null);
-  const onLinkPress = useCallback((target: LinkPressTarget) => {
-    Linking.canOpenURL(target.uri) && Linking.openURL(target.uri);
-  }, []);
+export default function NaiveAutoheightWebView(
+  webViewProps: WebViewProps
+) {
+  const [size, setSize] = useState<DOMRectSize | null>(
+    null
+  );
+  const onLinkPress = useCallback(
+    (target: LinkPressTarget) => {
+      Linking.canOpenURL(target.uri) &&
+        Linking.openURL(target.uri);
+    },
+    []
+  );
   const onHTMLDimensions = useCallback(
     ({ content: { height, width } }: HTMLDimensions) =>
       setSize({ width, height }),
