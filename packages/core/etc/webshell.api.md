@@ -123,8 +123,8 @@ export type EventHandlerProps<H extends string, P> = {
 };
 
 // @public
-export abstract class Feature<O extends {}, S extends PropsSpecs<any> = []> implements FeatureBase<O> {
-    constructor(params: FeatureBase<O> & {
+export abstract class Feature<O extends {}, S extends PropsSpecs<any> = []> implements FeatureDefinition<O> {
+    constructor(params: FeatureDefinition<O> & {
         propSpecs: S;
     }, options: O);
     // (undocumented)
@@ -135,18 +135,8 @@ export abstract class Feature<O extends {}, S extends PropsSpecs<any> = []> impl
     readonly options: O;
     // (undocumented)
     readonly propSpecs: S;
-    // Warning: (ae-unresolved-inheritdoc-reference) The @inheritDoc reference could not be resolved: The package "@formidable-webview/webshell" does not have an export "FeatureDefinition"
-    //
-    // (undocumented)
     readonly script: string;
 }
-
-// @public
-export type FeatureBase<O extends {}> = {
-    readonly script: string;
-    readonly featureIdentifier: string;
-    readonly defaultOptions: O;
-};
 
 // @public
 export class FeatureBuilder<O extends {}, S extends PropsSpecs<any> = []> {
@@ -156,7 +146,7 @@ export class FeatureBuilder<O extends {}, S extends PropsSpecs<any> = []> {
 }
 
 // @public
-export interface FeatureBuilderConfig<O extends {}, S extends PropsSpecs<any> = []> extends FeatureBase<O> {
+export interface FeatureBuilderConfig<O extends {}, S extends PropsSpecs<any> = []> extends FeatureDefinition<O> {
     // @internal (undocumented)
     __propSpecs?: S;
     className?: string;
@@ -171,6 +161,13 @@ export interface FeatureConstructor<O extends {}, S extends PropsSpecs<any> = []
     // (undocumented)
     name: string;
 }
+
+// @public
+export type FeatureDefinition<O extends {}> = {
+    readonly script: string;
+    readonly featureIdentifier: string;
+    readonly defaultOptions: O;
+};
 
 // @public
 export type FeatureInstanceOf<F> = F extends FeatureConstructor<infer O, infer S> ? Feature<O, S> : never;
