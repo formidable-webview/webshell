@@ -137,7 +137,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/cli@npm:^7.11.5":
+"@babel/cli@npm:^7.11.6":
   version: 7.11.6
   resolution: "@babel/cli@npm:7.11.6"
   dependencies:
@@ -239,7 +239,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:^7.0.0, @babel/core@npm:^7.1.0, @babel/core@npm:^7.10.2, @babel/core@npm:^7.11.5, @babel/core@npm:^7.4.5, @babel/core@npm:^7.7.5, @babel/core@npm:^7.9.0":
+"@babel/core@npm:^7.0.0, @babel/core@npm:^7.1.0, @babel/core@npm:^7.10.2, @babel/core@npm:^7.11.6, @babel/core@npm:^7.4.5, @babel/core@npm:^7.7.5, @babel/core@npm:^7.9.0":
   version: 7.11.6
   resolution: "@babel/core@npm:7.11.6"
   dependencies:
@@ -3009,8 +3009,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@formidable-webview/webshell@workspace:packages/core"
   dependencies:
-    "@babel/cli": ^7.11.5
-    "@babel/core": ^7.11.5
+    "@babel/cli": ^7.11.6
+    "@babel/core": ^7.11.6
     "@babel/plugin-transform-react-jsx": ^7.10.4
     "@babel/preset-typescript": ^7.10.4
     "@babel/runtime": ^7.11.2
@@ -3025,9 +3025,9 @@ __metadata:
     "@release-it/conventional-changelog": ^1.1.4
     "@testing-library/react-native": ^7.0.2
     "@tsconfig/react-native": ^1.0.2
-    "@types/jest": ^26.0.12
+    "@types/jest": ^26.0.14
     "@types/react": ^16.9.49
-    "@types/react-native": ^0.63.13
+    "@types/react-native": ^0.63.22
     "@types/react-test-renderer": ^16.9.3
     babel-jest: ^26.3.0
     babel-plugin-inline-import: ^3.0.0
@@ -5020,7 +5020,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:^26.0.12":
+"@types/jest@npm:^26.0.14":
   version: 26.0.14
   resolution: "@types/jest@npm:26.0.14"
   dependencies:
@@ -5155,12 +5155,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-native@npm:^0.63.13":
-  version: 0.63.18
-  resolution: "@types/react-native@npm:0.63.18"
+"@types/react-native@npm:^0.63.22":
+  version: 0.63.22
+  resolution: "@types/react-native@npm:0.63.22"
   dependencies:
     "@types/react": "*"
-  checksum: 815cdcdaf18de85bb7150dea90347c535292ce031cf736f63f4593ea1ae7636f43af0882059a798255e84421bb70eae34213a1c57d77d56af097c08d200699db
+  checksum: 3a1239862746b771ff15dc063b5204bb0be60beb6d17091b2607c34abfff226e968dcd85f96200596ce02d0c142ffb211f2a35ec4da4593952e2eca195f1ebf1
   languageName: node
   linkType: hard
 
@@ -10947,7 +10947,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "example@workspace:apps/example"
   dependencies:
-    "@babel/core": ^7.11.5
+    "@babel/core": ^7.11.6
     "@babel/runtime": ^7.11.2
     "@formidable-webview/webshell": "workspace:*"
     "@react-native-community/picker": 1.6.6
@@ -13261,7 +13261,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"highlight.js@npm:^10.0.0":
+"highlight.js@npm:^10.2.0":
   version: 10.2.0
   resolution: "highlight.js@npm:10.2.0"
   checksum: 249ae2aa4504200bb0bf856a0ed40dfd65f0302b5780dffcdc74d30bed31de72c9d1d1c2ab1fb6e365ebf7096064b69288cf1985c1d7bac6967fcb956ea7d247
@@ -24836,31 +24836,31 @@ resolve@~1.12.0:
   languageName: node
   linkType: hard
 
-"typedoc-default-themes@npm:^0.11.1":
-  version: 0.11.3
-  resolution: "typedoc-default-themes@npm:0.11.3"
-  checksum: b126abdeefff0c7c24c2b0f7cdb99d8032bfa1cdcdb5177dc01438417a3db441c34110352e75d05a0f0435d2cd5f7fe78e9d053e376501d9805c77afd2816681
+"typedoc-default-themes@npm:^0.11.4":
+  version: 0.11.4
+  resolution: "typedoc-default-themes@npm:0.11.4"
+  checksum: 1993030e242ae9cd8b25ec706d7fefccd14b6f8de8f766b55b9bfa1b7044e244eccec9e6ed2382f85a6cea23e547bf398125bcd6f359fa0647212802c0830f4f
   languageName: node
   linkType: hard
 
-"typedoc-plugin-markdown@npm:^3.0.2":
-  version: 3.0.2
-  resolution: "typedoc-plugin-markdown@npm:3.0.2"
+"typedoc-plugin-markdown@npm:^3.0.3":
+  version: 3.0.3
+  resolution: "typedoc-plugin-markdown@npm:3.0.3"
   dependencies:
     handlebars: ^4.7.6
   peerDependencies:
     typedoc: ">=0.19.0"
-  checksum: e6b74b41e241aef698e4bb56330bbceab33d254a27232c2e16996ff85f435b6209308686db8fecea2af059e393e2889ce970dc94391797b8d561948cfe41c17e
+  checksum: 14eab3afa01803a24df6daa77d8be9c6636b642b4fdce73a4a93f962a149012b2861e0708b2f2619dcabbee1346ca472cf249384e17bfe2563a535189100459c
   languageName: node
   linkType: hard
 
-"typedoc@npm:^0.19.1":
-  version: 0.19.1
-  resolution: "typedoc@npm:0.19.1"
+"typedoc@npm:^0.19.2":
+  version: 0.19.2
+  resolution: "typedoc@npm:0.19.2"
   dependencies:
     fs-extra: ^9.0.1
     handlebars: ^4.7.6
-    highlight.js: ^10.0.0
+    highlight.js: ^10.2.0
     lodash: ^4.17.20
     lunr: ^2.3.9
     marked: ^1.1.1
@@ -24868,12 +24868,12 @@ resolve@~1.12.0:
     progress: ^2.0.3
     semver: ^7.3.2
     shelljs: ^0.8.4
-    typedoc-default-themes: ^0.11.1
+    typedoc-default-themes: ^0.11.4
   peerDependencies:
     typescript: 3.9.x || 4.0.x
   bin:
     typedoc: bin/typedoc
-  checksum: aee83bcc5fc359193b94c8a20f7916440bfb8bd529d377e8818560e5711b685c66093c82a969a17217926a7a9da8e0c26fc92e1ad387566904767fd62f7deebb
+  checksum: fc33909c4d66a390fd6dfe7ef88a979d799413403af3f3dea4e320ea5cee07f06d5fda57b9b0872fad0b17a540ebe5e1a8829618c731d9dd7837ddfef8e9f2bf
   languageName: node
   linkType: hard
 
@@ -26116,10 +26116,10 @@ resolve@~1.12.0:
     "@mdx-js/react": ^1.5.8
     clsx: ^1.1.1
     docusaurus-plugin-typedoc: ^0.2.0
-    react: ^16.8.4
+    react: ^16.13.1
     react-dom: ^16.8.4
-    typedoc: ^0.19.1
-    typedoc-plugin-markdown: ^3.0.2
+    typedoc: ^0.19.2
+    typedoc-plugin-markdown: ^3.0.3
   languageName: unknown
   linkType: soft
 
