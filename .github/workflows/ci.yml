@@ -21,21 +21,19 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: yarn install --immutable
-    - run: yarn run test:ts
+    - run: yarn test:core:ts
       name: Typescript Tests
-    - run: yarn run test:lint
+    - run: yarn test:core:lint
       name: Linting Tests
-    - run: yarn run test:jest --coverage
+    - run: yarn test:core:jest --coverage
       name: Behavior Tests
-    - run: yarn run test:doc
-      name: Documentation Tests
-    - run: yarn run build
-      name: Build
-    - run: yarn run init:integration
-      name: Init Integration
-    - run:  yarn run test:integration
-      name: Integration Tests
+    - run: yarn build:core
+      name: Build Webshell
+    - run: yarn test:acceptance
+      name: Acceptance Types Tests
+    - run: yarn build:website
+      name: Build Website
     - uses: codecov/codecov-action@v1
       with:
-        file: ./coverage/clover.xml
+        file: packages/core/coverage/clover.xml
         fail_ci_if_error: true

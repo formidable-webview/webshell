@@ -1,4 +1,0 @@
-function dummyHelloFeature(arg) {
-  var postMessage = arg.postMessage;
-  postMessage('Hello world!');
-}
