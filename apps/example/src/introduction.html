@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      body {
+        background-color: #2b2b2b;
+        color: #c9c9c9;
+        box-sizing: border-box;
+        font-size: 14px;
+        margin: 0;
+      }
+      h2,
+      h3 {
+        color: white;
+        font-family: serif;
+      }
+      h2 {
+        font-size: 1.8em;
+        text-align: center;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      li {
+        margin-bottom: 10px;
+      }
+      #root {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+      }
+      header, footer {
+        color: aliceblue;
+        font-style: italic;
+        background-color: #1b1b1b;
+        padding: 20px;
+        line-height: 1.2;
+      }
+      header {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: center;
+      }
+      footer {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        min-height: 80px;
+        text-align: center;
+      }
+      article {
+        padding: 10px;
+        max-width: 480px;
+      }
+      strong {
+        color: white;
+        font-weight: normal;
+      }
+      button {
+        background-color: transparent;
+        display: inline-block;
+        padding: 0.35em 1.2em;
+        border: 0.1em solid white;
+        margin: 0 0.3em 0.3em 0;
+        border-radius: 0.12em;
+        box-sizing: border-box;
+        text-decoration: none;
+        font-weight: 300;
+        color: white;
+        text-align: center;
+        transition: all 200ms;
+        font-size: 18px;
+        margin: 6px;
+        font-family: monospace;
+      }
+      button:active {
+        color: #1a1a1a;
+        background-color: white;
+      }
+      button:focus {
+        outline-color: white;
+        outline-width: 4px;
+      }
+      code {
+        color: white;
+        font-size: 13px;
+      }
+      a {
+        color: #0f9ec5;
+      }
+      a[href^='#'] {
+        color: white;
+        font-style: normal;
+        border: 1px solid #a4aeda;
+        padding: 1px;
+        text-decoration: none;
+      }
+      .logo {
+        border: 1px solid white;
+        border-radius: 20px;
+        margin-right: 20px;
+      }
+      .workaround {
+        position: relative;
+        padding: 10px;
+        border-radius: 10px;
+        background-color: #757575;
+        color: white;
+      }
+      .workaround::before {
+        content: '💡';
+        line-height: 1em;
+        left: -20px;
+        top: calc(50% - 0.5em);
+        position: absolute;
+        font-weight: bold;
+      }
+      .subtitle a {
+        color: #a4aeda;
+      }
+      .subtitle img {
+        margin-right: 8px;
+      }
+      .container {
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <header>
+        <a href="https://github.com/formidable-webview">
+          <img
+            class="logo"
+            src="https://avatars3.githubusercontent.com/u/69217828?s=400&u=f3c683287f866a197e49df2c7308fed60df79589&v=4"
+            width="40"
+            height="40"
+          />
+        </a>
+        <span>
+          This very <code>WebView</code> you are looking has been augmented with <code>makeWebshell</code>
+          <a href="https://reactjs.org/docs/higher-order-components.html"
+            >HOC</a
+          >
+          and <code>useAutoheight</code>
+          hook exported by
+          <a href="https://github.com/formidable-webview/webshell#readme"
+            >@formidable-webview/webshell</a
+          >.
+        </span>
+      </header>
+      <article>
+        <div class="title">
+          <h2>
+            Autoheight WebView with <em>webshell</em>
+          </h2>
+        </div>
+        <h3>Documentation</h3>
+        Read the Autoheight WebView guide in <a href="https://formidable-webview.github.io/webshell/docs/autoheight">the official documentation website</a>.
+        <h3 id="play">Play</h3>
+        <ul>
+          <li>
+            <strong>Shrink</strong> and <strong>increase footer</strong> by
+            pressing buttons above footer and notice how the <code>WebView</code> height
+            adapts dynamically.
+          </li>
+        </ul>
+        <ul>
+          <li>
+            <strong>Rotate</strong> the <strong>screen</strong> and observe how
+            the <code>WebView</code> height and width will adjust.
+          </li>
+          <li>
+            Change configuration by pressing the app bar button below and
+            observe how this <code>WebView</code> react.
+          </li>
+        </ul>
+      </article>
+      <div style="margin-bottom: 20px;" class="container">
+        <button onclick="shrinkDiv()">-20</button>
+        <button onclick="increaseDiv()">+20</button>
+      </div>
+      <footer id="footer">
+        <em>Change this footer height with the controls above.</em>
+        <div class="container">
+          <a href="#root">&uarr;&nbsp;back&nbsp;to&nbsp;top</a>
+        </div>
+      </footer>
+
+      <script>
+        function shrinkDiv() {
+          var div = document.getElementById('footer');
+          var currentHeight = Number(
+            getComputedStyle(div).height.match(/[\d.]+/)[0]
+          );
+          div.style.height = currentHeight - 20 + 'px';
+        }
+        function increaseDiv() {
+          var div = document.getElementById('footer');
+          var currentHeight = Number(
+            getComputedStyle(div).height.match(/[\d.]+/)[0]
+          );
+          div.style.height = currentHeight + 20 + 'px';
+        }
+      </script>
+    </div>
+  </body>
+</html>
