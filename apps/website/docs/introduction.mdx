@@ -1,0 +1,57 @@
+---
+id: introduction
+title: Introduction
+slug: /
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import { Webshell } from '../components/Webshell';
+import { Term } from '../components/Term';
+import { WebView } from '../components/ReactReference';
+import { APIReference } from '../components/APIReference';
+import { APIBox } from '../components/APIBox';
+import { InstallPackageSnippet } from '../components/CodeSource';
+import { IllustrationSnippet } from '../components/IllustrationSnippet';
+
+## Compatibility
+
+:::important
+**@formidable-webview/webshell** requires React Native 0.59+ or expo SDK 33.0+.
+:::
+
+:::important
+We officially support the most up to date version of
+[react-native-webview](https://github.com/react-native-community/react-native-webview).
+There is a compatibility layer for [the deprecated WebView component](https://reactnative.dev/docs/webview) exported by
+react-native, but we don't officially support it.
+:::
+
+## Prerequisites
+
+To have a good understanding of this library capabilities, you are highly encouraged, if not already, to familiarize with the following:
+
+- React <Term id="hoc" title="Higher Order Components"/> (HOC);
+- React <Term id="hooks"/>;
+- <Term id="dom" title="Document Object Model" /> (DOM).
+
+## Motivations
+
+With React Native becoming an incredibly popular framework to build mobile
+applications, the <WebView /> component has become a central piece for many
+applications relying on web contents. This has lead a great deal of packages to
+be published built on the <WebView /> component; each adding specific features
+incompatible with one another.
+
+:::note Design Goal
+The ultimate goal of <Webshell /> is to **reconcile** all those scattered features
+by providing a universal tool to craft WebView-based components and define new behaviors.
+:::
+
+:::note Requirements
+
+- Features must be **injectable** to comply with [composition over inheritance](https://en.wikipedia.org/wiki/Composition_over_inheritance) principle.
+- Features must be **customizable** to convey reusability.
+- Features must be **well tested** to convey reliability.
+
+:::

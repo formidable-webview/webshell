@@ -1,0 +1,481 @@
+/* stylelint-disable docusaurus/copyright-header */
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,600;1,400;1,600&display=swap');
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url(/webshell/fonts/MaterialIconsRound-Regular.otf) format('opentype');
+}
+
+.material-icons {
+  user-select: none;
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  vertical-align: center;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}
+
+/* You can override the default Infima variables here. */
+:root {
+  --ifm-color-primary: #0f9ec5;
+  --ifm-color-primary-dark: #0d8eb1;
+  --ifm-color-primary-darker: #0d86a7;
+  --ifm-color-primary-darkest: #0a6f8a;
+  --ifm-color-primary-light: #10aed9;
+  --ifm-color-primary-lighter: #11b6e3;
+  --ifm-color-primary-lightest: #00c8ff;
+  --ifm-code-font-size: 95%;
+
+  --ifm-color-secondary: #ebedf0;
+  --ifm-color-secondary-dark: rgb(212, 213, 216);
+  --ifm-color-secondary-darker: rgb(200, 201, 204);
+  --ifm-color-secondary-darkest: rgb(164, 166, 168);
+  --ifm-color-secondary-light: rgb(238, 240, 242);
+  --ifm-color-secondary-lighter: rgb(241, 242, 245);
+  --ifm-color-secondary-lightest: rgb(245, 246, 248);
+
+  --ifm-font-family-base: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu,
+    Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica,
+    Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  --ifm-font-family-monospace: 'Fira Code', 'Hack', SFMono-Regular, Menlo,
+    Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+
+  --ifm-color-success: #7df17d;
+  --ifm-color-success-dark: #5ced5c;
+  --ifm-color-success-darker: #4bec4b;
+  --ifm-color-success-darkest: #1ae61a;
+  --ifm-color-success-light: #9ef59e;
+  --ifm-color-success-lighter: #aff6af;
+  --ifm-color-success-lightest: #d0fad0;
+
+  --ifm-color-info: #7bcfeb;
+  --ifm-color-info-dark: #5cc4e6;
+  --ifm-color-info-darker: #4cbee4;
+  --ifm-color-info-darkest: #21abda;
+  --ifm-color-info-light: #9adaf0;
+  --ifm-color-info-lighter: #aae0f2;
+  --ifm-color-info-lightest: #c9ebf7;
+
+  --ifm-color-warning: #f8cf5d;
+  --ifm-color-warning-dark: #f7c53c;
+  --ifm-color-warning-darker: #f6c02c;
+  --ifm-color-warning-darkest: #e5ab0a;
+  --ifm-color-warning-light: #f9d97e;
+  --ifm-color-warning-lighter: #fade8e;
+  --ifm-color-warning-lightest: #fce7af;
+
+  --ifm-color-danger: #f76469;
+  --ifm-color-danger-dark: #f54349;
+  --ifm-color-danger-darker: #f43339;
+  --ifm-color-danger-darkest: #e70c13;
+  --ifm-color-danger-light: #f98589;
+  --ifm-color-danger-lighter: #fa9599;
+  --ifm-color-danger-lightest: #fbb6b9;
+}
+
+/* Derived from infa*/
+:root {
+  --ra-admonition-background-color: var(--ifm-alert-background-color);
+  --ra-admonition-border-width: var(--ifm-alert-border-width);
+  --ra-admonition-border-color: var(--ifm-alert-border-color);
+  --ra-admonition-border-radius: var(--ifm-alert-border-radius);
+  --ra-admonition-color: var(--ifm-alert-color);
+  --ra-admonition-padding-vertical: var(--ifm-alert-padding-vertical);
+  --ra-admonition-padding-horizontal: var(--ifm-alert-padding-horizontal);
+  --ra-color-note: var(--ifm-color-secondary);
+  --ra-color-important: var(--ifm-color-info);
+  --ra-color-tip: var(--ifm-color-success);
+  --ra-color-caution: var(--ifm-color-warning);
+  --ra-color-warning: var(--ifm-color-danger);
+  --ra-color-text-dark: var(--ifm-color-gray-900);
+}
+
+.alert--success {
+  --ifm-alert-background-color: var(--ifm-color-success-lightest);
+  --ifm-alert-border-color: var(--ifm-color-success-lightest);
+  --ifm-alert-color: var(--ifm-color-gray-900);
+}
+.alert--info {
+  --ifm-alert-background-color: var(--ifm-color-info-lightest);
+  --ifm-alert-border-color: var(--ifm-color-info-lightest);
+  --ifm-alert-color: var(--ifm-color-gray-900);
+}
+.alert--warning {
+  --ifm-alert-background-color: var(--ifm-color-warning-light);
+  --ifm-alert-border-color: var(--ifm-color-warning-light);
+  --ifm-alert-color: var(--ifm-color-gray-900);
+}
+.alert--danger {
+  --ifm-alert-background-color: var(--ifm-color-danger-lightest);
+  --ifm-alert-border-color: var(--ifm-color-danger-light);
+  --ifm-alert-color: var(--ifm-color-gray-900);
+}
+
+.alert svg {
+  fill: var(--ifm-alert-color);
+}
+
+/* custom variables */
+:root {
+  --formidable-reference-font: 'IBM Plex Mono', monospace;
+  --formidable-external-link-admonition-color: var(--ifm-color-gray-900);
+  --formidable-external-link-admonition-color-hover: var(--ifm-color-gray-800);
+  --formidable-external-link-hover: var(--ifm-color-gray-500);
+}
+
+html[data-theme='dark'] {
+  --formidable-external-link-color: var(--ifm-color-gray-100);
+  --formidable-external-link-color-reverse: var(--ifm-color-gray-800);
+  --formidable-api-ref-color: var(--ifm-color-primary-lightest);
+}
+
+html[data-theme='light'] {
+  --formidable-external-link-color: var(--ifm-color-gray-800);
+  --formidable-external-link-color-reverse: var(--ifm-color-gray-100);
+  --formidable-api-ref-color: var(--ifm-color-primary);
+}
+
+html[data-theme='dark'] {
+  --ifm-font-color-base: var(--ifm-color-gray-500);
+  --ifm-color-primary: var(--ifm-color-primary-lightest);
+}
+
+html[data-theme='dark'] main h1,
+html[data-theme='dark'] main h2,
+html[data-theme='dark'] main h3,
+html[data-theme='dark'] main h4 {
+  color: white;
+}
+
+.docusaurus-highlight-code-line {
+  background-color: rgb(87, 97, 114);
+  display: block;
+  margin: 0 calc(-1 * var(--ifm-pre-padding));
+  padding: 0 var(--ifm-pre-padding);
+}
+
+a {
+  color: var(--formidable-external-link-color);
+}
+
+section a,
+articla a {
+  text-decoration: underline;
+}
+
+.admonition a {
+  color: var(--formidable-external-link-admonition-color);
+}
+
+.admonition a:hover {
+  color: var(--formidable-external-link-admonition-color-hover);
+}
+
+a.api-ref {
+  color: var(--formidable-api-ref-color);
+}
+
+a.api-ref:hover {
+  color: var(--ifm-font-color-base);
+}
+
+article abbr a.term {
+  text-decoration: underline dotted;
+}
+a:hover {
+  color: var(--formidable-external-link-hover);
+}
+
+article .admonition a > code {
+  color: var(--ifm-code-color);
+  text-decoration: underline;
+}
+
+.api-box {
+  margin: auto;
+  margin-top: var(--ifm-global-spacing);
+  margin-bottom: var(--ifm-global-spacing);
+  padding-bottom: var(--ifm-global-spacing);
+  max-width: 25rem;
+}
+
+.api-box {
+  font-weight: var(--ifm-font-weight-bold);
+}
+
+html[data-theme='light'] .api-box {
+  background-color: var(--ifm-color-gray-100);
+}
+
+code {
+  font-family: var(--formidable-reference-font);
+  font-style: italic;
+  background-color: transparent;
+  padding: 0;
+}
+
+.api-symbol {
+  font-family: var(--formidable-reference-font);
+  font-style: italic;
+}
+
+a.api-ref {
+  text-decoration: none;
+}
+
+a.api-ref:hover {
+  text-decoration: underline;
+}
+
+article .admonition a.api-ref {
+  color: var(--ifm-color-gray-800);
+}
+
+article .admonition a.api-ref:hover {
+  color: var(--ifm-color-gray-900);
+}
+
+.api-box__title {
+  text-transform: uppercase;
+  font-size: 0.6rem;
+  letter-spacing: 2px;
+}
+
+.api-symbol.function::after {
+  content: '()';
+}
+
+.hero--primary {
+  --ifm-hero-background-color: #2f3745;
+  --ifm-hero-text-color: var(--ifm-color-primary-lightest);
+}
+
+.hero--primary .button {
+  --ifm-font-color-base: var(--ifm-font-color-base);
+}
+
+.hero__title::before,
+.navbar__title::before {
+  content: '(';
+}
+
+.hero__title::after,
+.navbar__title::after {
+  content: ')';
+}
+
+.webshell {
+  font-weight: bold;
+}
+
+.hero__title,
+.navbar__title,
+.webshell {
+  font-family: var(--formidable-reference-font);
+  font-style: italic;
+}
+
+.hero__title {
+  font-size: 4rem;
+}
+
+@media screen and (max-width: 400px) {
+  .hero__title {
+    font-size: 3rem;
+  }
+}
+
+.footer.footer--dark {
+  background-color: #080505;
+}
+
+/** MARVEL DEVICES */
+.marvel-device {
+  display: inline-block;
+  position: relative;
+  -webkit-box-sizing: content-box !important;
+  box-sizing: content-box !important;
+}
+.marvel-device .screen {
+  width: 100%;
+  position: relative;
+  height: 100%;
+  z-index: 3;
+  background: white;
+  overflow: hidden;
+  display: block;
+  border-radius: 1px;
+  -webkit-box-shadow: 0 0 0 3px #111;
+  box-shadow: 0 0 0 3px #111;
+}
+.marvel-device .top-bar,
+.marvel-device .bottom-bar {
+  height: 3px;
+  background: black;
+  width: 100%;
+  display: block;
+}
+.marvel-device .middle-bar {
+  width: 3px;
+  height: 4px;
+  top: 0px;
+  left: 90px;
+  background: black;
+  position: absolute;
+}
+
+.marvel-device.nexus5 {
+  padding: 50px 15px 50px 15px;
+  width: 320px;
+  height: 568px; /*520 + 48 */
+  background: #1e1e1e;
+  border-radius: 20px;
+}
+.marvel-device.nexus5:before {
+  border-radius: 600px / 50px;
+  background: inherit;
+  content: '';
+  top: 0;
+  position: absolute;
+  height: 103.1%;
+  width: calc(100% - 26px);
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+}
+.marvel-device.nexus5 .top-bar {
+  width: calc(100% - 8px);
+  height: calc(100% - 6px);
+  position: absolute;
+  top: 3px;
+  left: 4px;
+  border-radius: 20px;
+  background: #181818;
+}
+.marvel-device.nexus5 .top-bar:before {
+  border-radius: 600px / 50px;
+  background: inherit;
+  content: '';
+  top: 0;
+  position: absolute;
+  height: 103%;
+  width: calc(100% - 26px);
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+}
+.marvel-device.nexus5 .bottom-bar {
+  display: none;
+}
+.marvel-device.nexus5 .sleep {
+  width: 3px;
+  position: absolute;
+  left: -3px;
+  top: 110px;
+  height: 100px;
+  background: inherit;
+  border-radius: 2px 0px 0px 2px;
+}
+.marvel-device.nexus5 .volume {
+  width: 3px;
+  position: absolute;
+  right: -3px;
+  top: 70px;
+  height: 45px;
+  background: inherit;
+  border-radius: 0px 2px 2px 0px;
+}
+.marvel-device.nexus5 .camera {
+  background: #3c3d3d;
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  z-index: 3;
+  margin-left: -5px;
+  border-radius: 100%;
+}
+.marvel-device.nexus5 .camera:before {
+  background: #3c3d3d;
+  width: 6px;
+  height: 6px;
+  content: '';
+  display: block;
+  position: absolute;
+  top: 2px;
+  left: -100px;
+  z-index: 3;
+  border-radius: 100%;
+}
+.marvel-device.nexus5.landscape {
+  padding: 15px 50px 15px 50px;
+  height: 320px;
+  width: 568px;
+}
+.marvel-device.nexus5.landscape:before {
+  width: 103.1%;
+  height: calc(100% - 26px);
+  border-radius: 50px / 600px;
+}
+.marvel-device.nexus5.landscape .top-bar {
+  left: 3px;
+  top: 4px;
+  height: calc(100% - 8px);
+  width: calc(100% - 6px);
+}
+.marvel-device.nexus5.landscape .top-bar:before {
+  width: 103%;
+  height: calc(100% - 26px);
+  border-radius: 50px / 600px;
+}
+.marvel-device.nexus5.landscape .sleep {
+  height: 3px;
+  width: 100px;
+  left: calc(100% - 210px);
+  top: -3px;
+  border-radius: 2px 2px 0px 0px;
+}
+.marvel-device.nexus5.landscape .volume {
+  height: 3px;
+  width: 45px;
+  right: 70px;
+  top: 100%;
+  border-radius: 0px 0px 2px 2px;
+}
+.marvel-device.nexus5.landscape .camera {
+  top: 50%;
+  left: calc(100% - 18px);
+  margin-left: 0;
+  margin-top: -5px;
+}
+.marvel-device.nexus5.landscape .camera:before {
+  top: -100px;
+  left: 2px;
+}

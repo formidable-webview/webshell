@@ -1,0 +1,141 @@
+/* stylelint-disable docusaurus/copyright-header */
+
+/**
+ * CSS files with the .module.css suffix will be treated as CSS modules
+ * and scoped locally.
+ */
+
+.heroBanner {
+  padding: 4rem 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.buttons {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+
+@media screen and (max-width: 920px) {
+  .heroBanner {
+    padding: 2rem;
+  }
+}
+
+@media screen and (min-width: 920px) {
+  .heroBanner {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+  .titleContainer {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: right;
+    max-width: 600px;
+    margin-right: 40px;
+    padding-right: 60px;
+    align-self: stretch;
+    justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .snippet {
+    margin-right: auto;
+  }
+}
+
+@media screen and (max-width: 920px) {
+  .snippet {
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
+  .heroBanner {
+    flex-direction: column;
+  }
+  .buttons {
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.snippet {
+  max-width: 520px;
+  text-align: left;
+}
+
+@media screen and (max-width: 519px) {
+  .snippet {
+    max-width: unset;
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .snippet {
+    display: none;
+  }
+}
+
+.features {
+  display: flex;
+  align-items: center;
+  padding: 2rem 0;
+  margin-top: 4rem;
+  width: 100%;
+  --feature-icon-height: 30px;
+  --feature-graphic-container-height: calc(var(--feature-icon-height) + 20px);
+  --feature-graphic-color: var(--ifm-color-primary);
+}
+
+.graphicContainer {
+  height: var(--feature-graphic-container-height);
+  width: var(--feature-graphic-container-height);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: calc(var(--feature-graphic-container-height) / 2);
+  position: relative;
+  margin-left: var(--ifm-global-spacing);
+}
+
+html[data-theme="dark"] .graphicContainer {
+  background-color: rgba(255,255,255,0.05);
+}
+
+html[data-theme="light"] .graphicContainer {
+  background-color: rgba(0,0,0,0.05);
+}
+
+.svgLogo {
+  height: var(--feature-icon-height);
+  width: var(--feature-icon-height);
+  fill: var(--feature-graphic-color);
+  stroke: var(--feature-graphic-color);
+}
+
+.featureIcon {
+  font-size: var(--feature-icon-height);
+  color: var(--feature-graphic-color);
+  position: relative;
+ }
+
+.featureHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  vertical-align: center;
+}
+
+.featureHeader > h3 {
+  margin: 0;
+}
+
+.subtitle {
+  max-width: 400px;
+}

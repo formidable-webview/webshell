@@ -1,0 +1,111 @@
+---
+id: implementing-features
+title: Implementing Features
+---
+
+import { Webshell } from '../components/Webshell';
+import { Term } from '../components/Term';
+import { APIReference } from '../components/APIReference';
+import { ReactReference, WebView } from '../components/ReactReference';
+import { APIBox } from '../components/APIBox';
+import { DualCodeSource, SingleCodeSource, InstallPackageSnippet } from '../components/CodeSource';
+
+## Introduction
+
+To have a good sense on how to make new features, we will take a look at
+a simplified implementation of <APIReference reference="HandleLinkPressFeature"
+type="variable" />. It is best to follow typescript snippet, which conveys the
+shape of objects required to specify a feature.
+
+A feature has two facets:
+
+- The [DOM Script](#dom-script), which embodies behavior in the <WebView />;
+- The [Native Feature Class](#building-a-feature-class), which embodies integration with the shell.
+
+:::caution disclaimer
+This implementation is naive and doesn't handle inner click events. If you need such a feature, use our official <APIReference reference="HandleLinkPressFeature" type="variable" />.
+:::
+
+## DOM Script
+
+Let's start with the DOM Script, the code which will run in the <ReactReference name="WebView" type="class" />.
+
+<SingleCodeSource source="HandleLinkPressFeature.webjs" lang="js" />
+
+**Every DOM script top declaration must be a function** taking one argument.
+
+The shape of this argument is depicted in <APIReference reference="WebjsContext" type="interface" /> definition.
+This context object is the central API to interact with the shell.
+
+<APIBox reference="WebjsContext" type="interface" />
+
+Below is the same snippet with highlighted lines each matching a different context usage:
+
+<SingleCodeSource
+  lines="2,7,12,17"
+  source="HandleLinkPressFeature.webjs"
+  lang="js"
+/>
+
+1. `context.options` is the result of shallow-merging `defaultOptions` with user-provided options during feature instantiation.
+2. `context.postMessage` will send an event which will be intercepted by the shell. If an event handler has been registered for this feature and passed as a prop to the shell, it will be invoked with the message content.
+3. `context.warn` and `context.info` will send a log event to the shell when `webshellDebug` prop is set to `true`. The shell will log the message for quick feedback during development.
+4. `context.makeCallbackSafe` guarantees that any error raised in the body of the callback will be intercepted by the context API and routed to the shell for quick feedback during development.
+
+
+## Building a Feature Class
+
+<APIBox reference="FeatureBuilder" type="class" />
+
+Now let's dive into the native-side. As you can see, the definition is relatively terse:
+
+<DualCodeSource sourceBase="HandleLinkPressFeature" />
+
+Below is a recap of all the symbols present in this snippet:
+
+| Symbol                            | Description                                                                                                       |
+| :-------------------------------- | :---------------------------------------------------------------------------------------------------------------- |
+| `linkPressScript`                 | Behavior in the <Term id="DOM" />.                                                                                |
+| `defaultOptions`                  | Default options for this feature.                                                                                 |
+| `"onDOMLinkPress"`                | The name of the DOM handler prop which will be available in the shell.                                            |
+| `"org.myorg/webshell.link-press"` | A unique identifier for this feature.                                                                             |
+| `"HandleLinkPressFeature"`        | The name of the class returned by <APIReference reference="FeatureBuilder" type="class" member="build" /> method. |
+| `LinkPressOptions`                | [**Typescript**] The shape of options the feature class can be instantiated with.                                 |
+| `LinkPressTarget`                 | [**Typescript**] The type of payload the DOM handler prop will receive.                                           |
+
+It is also worth noting that:
+
+- `linkPressScript` is imported as a string thanks to babel-plugin-inline-import, see the [tooling guide](./tooling);
+- invoking `withEventHandlerProp` is not an option:
+  1. It register the handler to the shell, otherwise events fired by the below <Term id="DOM" /> script will not be routed to their handler props.
+  2. When implemented in typescript, type generation will add the handler name and payload type to the the feature, which will be grabbed by the resulting shell type.
+
+:::important
+Don't forget to invoke `build` method, otherwise you'll end up with a <APIReference reference="FeatureBuilder" type="class" /> instance.
+:::
+
+## Testing with Jest
+
+### Install Ersatz and Testing Library
+
+To test injected scripts, the best way is to use
+[`@formidable-webview/ersatz`](https://github.com/formidable-webview/ersatz).
+It will mock the WebView and run a <Term id="DOM" /> environment in [jsdom](https://github.com/jsdom/jsdom).
+
+<InstallPackageSnippet dev packages="@testing-library/react-native @formidable-webview/ersatz @formidable-webview/ersatz-testing" />
+
+### Implementing Tests
+
+<DualCodeSource jsx sourceBase="HandleLinkPressFeature.test" />
+
+## Web-Engines Compatibility
+
+For wide compatibility purposes **of the DOM Script**, it is recommended to:
+
+- enforce ECMAScript 5 syntax with ESlint;
+- lint the script with the
+  [eslint-plugin-compat](https://www.npmjs.com/package/eslint-plugin-compat) to
+  enforce backward compatibility with old engines;
+
+See the [tooling guide](./tooling) for more details on how to achieve this.
+
