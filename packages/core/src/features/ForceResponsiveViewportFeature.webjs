@@ -1,0 +1,23 @@
+function ForceResponsiveViewportFeature(context) {
+  var options = context.options || {};
+  var maxScale = options.maxScale || 1;
+  var metaViewportContent =
+    'width=device-width, ' +
+    'initial-scale=1, ' +
+    'minimum-scale=1, ' +
+    'maximum-scale=' +
+    maxScale;
+  var metaElements = document.getElementsByTagName('meta');
+  Array.prototype.forEach.call(metaElements, function (elem) {
+    elem.name === 'viewport' && elem.parentNode.removeChild(elem);
+  });
+  var metaViewport = document.createElement('meta');
+  metaViewport.setAttribute('name', 'viewport');
+  metaViewport.setAttribute('content', metaViewportContent);
+  var head = document.getElementsByTagName('head')[0];
+  if (!head) {
+    head = document.createElement('head');
+    document.documentElement.appendChild(head);
+  }
+  head.appendChild(metaViewport);
+}
