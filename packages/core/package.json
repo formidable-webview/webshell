@@ -1,0 +1,111 @@
+{
+  "name": "@formidable-webview/webshell",
+  "version": "1.0.2",
+  "description": "🔥 Augment React Native WebViews with DOM features",
+  "main": "lib/commonjs/index.js",
+  "types": "types/@formidable-webview/webshell/index.d.ts",
+  "files": [
+    "lib/commonjs",
+    "src",
+    "types"
+  ],
+  "scripts": {
+    "test": "yarn test:ts && yarn test:lint && yarn test:jest",
+    "test:jest": "jest src/",
+    "test:ts": "tsc --noEmit --project tsconfig.json",
+    "test:lint": "eslint --ext webjs,ts,tsx src/",
+    "build": "yarn build:source && yarn build:defs",
+    "build:source": "bob build",
+    "build:defs": "api-extractor run --local --verbose",
+    "prepack": "yarn build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/formidable-webview/webshell.git"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.11.5",
+    "@babel/core": "^7.11.5",
+    "@babel/plugin-transform-react-jsx": "^7.10.4",
+    "@babel/preset-typescript": "^7.10.4",
+    "@babel/runtime": "^7.11.2",
+    "@commitlint/cli": "^9.1.2",
+    "@commitlint/config-conventional": "^9.1.2",
+    "@docusaurus/init": "next",
+    "@formidable-webview/ersatz": "^1.0.0",
+    "@formidable-webview/ersatz-testing": "^1.0.1",
+    "@microsoft/api-documenter": "^7.8.36",
+    "@microsoft/api-extractor": "7.9.11",
+    "@react-native-community/bob": "^0.16.2",
+    "@release-it/conventional-changelog": "^1.1.4",
+    "@testing-library/react-native": "^7.0.2",
+    "@tsconfig/react-native": "^1.0.2",
+    "@types/jest": "^26.0.12",
+    "@types/react": "^16.9.49",
+    "@types/react-native": "^0.63.13",
+    "@types/react-test-renderer": "^16.9.3",
+    "babel-jest": "^26.3.0",
+    "babel-plugin-inline-import": "^3.0.0",
+    "eslint": "^7.8.0",
+    "jest": "^26.4.2",
+    "metro-react-native-babel-preset": "^0.63.0",
+    "react": "*",
+    "react-native": "*",
+    "react-native-webview": "^10.8.3",
+    "react-test-renderer": "*",
+    "typescript": "3.9.7"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
+  },
+  "keywords": [
+    "react-native",
+    "react-native-webview",
+    "event",
+    "DOM"
+  ],
+  "author": "Jules Sam. Randolph <jules.sam.randolph@gmail.com> (https://github.com/jsamr)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "source": "src/index.ts",
+  "release-it": {
+    "git": {
+      "commitMessage": "chore: release ${version}",
+      "tagName": "v${version}"
+    },
+    "npm": {
+      "publish": true
+    },
+    "github": {
+      "release": true
+    },
+    "plugins": {
+      "@release-it/conventional-changelog": {
+        "preset": "angular",
+        "infile": "CHANGELOG.MD",
+        "skipUnstable": true
+      }
+    }
+  },
+  "@react-native-community/bob": {
+    "source": "src",
+    "output": "lib",
+    "targets": [
+      [
+        "commonjs",
+        {
+          "babelrc": true
+        }
+      ],
+      [
+        "typescript",
+        {
+          "project": "tsconfig.build.json"
+        }
+      ]
+    ]
+  }
+}

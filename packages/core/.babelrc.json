@@ -1,0 +1,12 @@
+{
+  "presets": ["@babel/typescript", "@babel/env", "@babel/react", "@babel/flow"],
+  "plugins": [
+    [
+      "babel-plugin-inline-import",
+      {
+        "extensions": ["webjs"]
+      }
+    ],
+    "@babel/plugin-proposal-class-properties"
+  ]
+}
