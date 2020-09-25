@@ -1,0 +1,3 @@
+function dummyFailingFeature(arg) {
+  throw Error('I am a dummy feature failing consistently!');
+}
