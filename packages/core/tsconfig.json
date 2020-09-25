@@ -1,7 +1,7 @@
 {
   "extends": "../../tsconfig-base.json",
   "compilerOptions": {
-    "outDir": "./lib",
+    "noEmit": true
   },
-  "exclude": ["node_modules", "lib", "types"]
+  "include": ["src/"]
 }
