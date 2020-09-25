@@ -1,0 +1,31 @@
+function HandleHashChangeFeature(context) {
+  var postMessage = context.postMessage;
+  var options = context.options || {};
+  var shouldResetHashOnEvent = !!options.shouldResetHashOnEvent;
+  var handleHashChangeEvent = context.makeCallbackSafe(function () {
+    var newhash = document.location.hash;
+    var name = newhash.substr(1);
+    var targetEl =
+      document.getElementById(name) ||
+      document.querySelector('a[name="' + name + '"]');
+    shouldResetHashOnEvent && (document.location.hash = '');
+    if (targetEl) {
+      var rect = targetEl.getBoundingClientRect();
+      var targetElementBoundingRect = {
+        x: rect.x,
+        y: rect.y,
+        top: rect.top,
+        left: rect.left,
+        bottom: rect.bottom,
+        right: rect.right,
+        width: rect.width,
+        height: rect.height
+      };
+      postMessage({
+        hash: newhash,
+        targetElementBoundingRect: targetElementBoundingRect
+      });
+    }
+  });
+  window.addEventListener('hashchange', handleHashChangeEvent);
+}
