@@ -1,0 +1,87 @@
+function HandleElementCSSBoxFeature(context) {
+  var postMessage = context.postMessage;
+  var options = context.options || {};
+  var target = options.target;
+  var shouldThrowWhenNotFound = options.shouldThrowWhenNotFound === true;
+
+  if (!target || (typeof target !== 'string' && typeof target !== 'object')) {
+    throw new Error('Missing or wrong type for required target option');
+  }
+
+  var postSize = context.makeCallbackSafe(function () {
+    var element = context.getDOMSelection(target, false);
+    if (element != null) {
+      var clientRect = element.getBoundingClientRect(),
+        styles = getComputedStyle(element),
+        paddingLeft = context.numericFromPxString(styles.paddingLeft),
+        paddingRight = context.numericFromPxString(styles.paddingRight),
+        paddingTop = context.numericFromPxString(styles.paddingTop),
+        paddingBottom = context.numericFromPxString(styles.paddingBottom),
+        borderLeftWidth = context.numericFromPxString(styles.borderLeftWidth),
+        borderRightWidth = context.numericFromPxString(styles.borderRightWidth),
+        borderTopWidth = context.numericFromPxString(styles.borderTopWidth),
+        borderBottomWidth = context.numericFromPxString(
+          styles.borderBottomWidth
+        ),
+        marginLeft = context.numericFromPxString(styles.marginLeft),
+        marginRight = context.numericFromPxString(styles.marginRight),
+        marginTop = context.numericFromPxString(styles.marginTop),
+        marginBottom = context.numericFromPxString(styles.marginBottom),
+        borderBoxWidth = clientRect.width,
+        borderBoxHeight = clientRect.height,
+        horizontalScrollbarWidth = element.offsetHeight - element.clientHeight,
+        verticalScrollbarWidth = element.offsetWidth - element.clientWidth,
+        scrollBoxWidth = element.scrollWidth,
+        scrollBoxHeight = element.scrollHeight;
+      var dimensions = {
+        scrollBox: {
+          width: scrollBoxWidth,
+          height: scrollBoxHeight
+        },
+        borderBox: {
+          width: borderBoxWidth,
+          height: borderBoxHeight
+        },
+        computedStyle: {
+          paddingTop: paddingTop,
+          paddingBottom: paddingBottom,
+          paddingLeft: paddingLeft,
+          paddingRight: paddingRight,
+          borderTopWidth: borderTopWidth,
+          borderBottomWidth: borderBottomWidth,
+          borderLeftWidth: borderLeftWidth,
+          borderRightWidth: borderRightWidth,
+          marginTop: marginTop,
+          marginBottom: marginBottom,
+          marginLeft: marginLeft,
+          marginRight: marginRight
+        },
+        horizontalScrollbarWidth: horizontalScrollbarWidth,
+        verticalScrollbarWidth: verticalScrollbarWidth
+      };
+      postMessage(dimensions);
+    } else if (shouldThrowWhenNotFound) {
+      throw new Error(
+        "Couldn't find an element for target " + JSON.stringify(target)
+      );
+    }
+  });
+  postSize();
+  window.addEventListener('resize', postSize);
+  // trigger when DOM changes
+  var MutationObserver =
+    window['MutationObserver'] || window['WebKitMutationObserver'];
+  if (MutationObserver) {
+    var observer = new MutationObserver(postSize);
+    observer.observe(document, {
+      subtree: true,
+      attributes: true
+    });
+  } else {
+    // That is a last resort fallback for older browsers
+    context.warn(
+      "This browser doesn't support MutationObserver. Falling back to an interval."
+    );
+    setInterval(postSize, 200);
+  }
+}
