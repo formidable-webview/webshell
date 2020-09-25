@@ -24,39 +24,37 @@ function makeCallbackSafe(onError, callback) {
     }
   };
 }
-function getDOMSelection(request, isCollection) {
+function __getDOMSelection(request, multiple) {
   var normalRequest =
     typeof request === 'string' ? { query: request } : request;
   var selection;
   if (
-    !isCollection &&
+    !multiple &&
     (normalRequest.query === 'html' || normalRequest.tagName === 'html')
   ) {
     return document.documentElement;
   }
   if (
-    !isCollection &&
+    !multiple &&
     (normalRequest.query === 'body' || normalRequest.tagName === 'body')
   ) {
     return document.body;
   }
   if (normalRequest.query) {
-    return isCollection
+    return multiple
       ? document.querySelectorAll(normalRequest.query)
       : document.querySelector(normalRequest.query);
   }
   if (normalRequest.className) {
     selection = document.getElementsByClassName(normalRequest.className);
-    return isCollection
-      ? selection
-      : (selection.length && selection[0]) || null;
+    return multiple ? selection : (selection.length && selection[0]) || null;
   }
   if (normalRequest.id) {
     return document.getElementById(normalRequest.id) || null;
   }
   if (normalRequest.tagName) {
     selection = document.getElementsByTagName(normalRequest.tagName);
-    if (isCollection) {
+    if (multiple) {
       return selection;
     }
     return (selection.length && selection[0]) || null;
@@ -100,7 +98,12 @@ function registerFeature(specs) {
     );
   }
   var context = {
-    getDOMSelection: getDOMSelection,
+    getDOMSelection: function (selection) {
+      return __getDOMSelection(selection, false);
+    },
+    getDOMSelectionAll: function (selection) {
+      return __getDOMSelection(selection, true);
+    },
     numericFromPxString: numericFromPxString,
     makeCallbackSafe: makeCallbackSafe.bind(null, sendErrorMessage),
     postShellMessage: function (message) {

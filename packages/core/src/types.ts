@@ -189,33 +189,26 @@ export interface WebjsContext<O extends {}, P> {
    */
   error(message: string): void;
   /**
-   * Get one element in the DOM from a request.
+   * Get one element in the DOM from a request. See {@link DOMElementRequest}.
    *
    * @returns An {@link https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement | HTMLElement} or `null`.
    */
-  getDOMSelection(
-    selector: DOMElementRequest,
-    multiple: false
-  ): HTMLElement | null;
+  getDOMSelection(selector: DOMElementRequest): HTMLElement | null;
   /**
    * Get a collection of live elements in the DOM from a query request.
    *
    * @param selector - Which elements should be returned?
    * @returns A live {@link https://developer.mozilla.org/en-US/docs/Web/API/HTMLCollection | HTMLCollection}.
    */
-  getDOMSelection(
-    selector: DOMElementQueryRequest | string,
-    multiple: true
-  ): any;
+  getDOMSelectionAll(selector: DOMElementQueryRequest | string): any;
   /**
    * Get a collection of static elements in the DOM from a class or tag-name request.
    *
    * @param selector - Which elements should be returned?
    * @returns A static {@link https://developer.mozilla.org/en-US/docs/Web/API/NodeList | NodeList}.
    */
-  getDOMSelection(
-    selector: DOMElementClassNameRequest | DOMElementTagNameRequest,
-    multiple: true
+  getDOMSelectionAll(
+    selector: DOMElementClassNameRequest | DOMElementTagNameRequest
   ): any;
   /**
    * @param style - The style to parse, e.g. `'18px'`

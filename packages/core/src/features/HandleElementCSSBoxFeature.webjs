@@ -6,9 +6,9 @@ function HandleElementCSSBoxFeature(context) {
   if (!target || (typeof target !== 'string' && typeof target !== 'object')) {
     throw new Error('Missing or wrong type for required target option');
   }
-
+  var proxy = new Proxy({}, {});
   var postSize = context.makeCallbackSafe(function () {
-    var element = context.getDOMSelection(target, false);
+    var element = context.getDOMSelection(target);
     if (element != null) {
       var clientRect = element.getBoundingClientRect(),
         styles = getComputedStyle(element),

@@ -335,9 +335,9 @@ export interface VisualViewportDimensions {
 // @public
 export interface WebjsContext<O extends {}, P> {
     error(message: string): void;
-    getDOMSelection(selector: DOMElementRequest, multiple: false): HTMLElement | null;
-    getDOMSelection(selector: DOMElementQueryRequest | string, multiple: true): any;
-    getDOMSelection(selector: DOMElementClassNameRequest | DOMElementTagNameRequest, multiple: true): any;
+    getDOMSelection(selector: DOMElementRequest): HTMLElement | null;
+    getDOMSelectionAll(selector: DOMElementQueryRequest | string): any;
+    getDOMSelectionAll(selector: DOMElementClassNameRequest | DOMElementTagNameRequest): any;
     makeCallbackSafe<T extends Function>(callback: T): T;
     // (undocumented)
     numericFromPxString(style: string): number;
