@@ -1,0 +1,15 @@
+{
+  "name": "acceptance-tests",
+  "scripts": {
+    "test": "yarn test:ts && yarn test:lint",
+    "test:lint": "eslint --ext webjs,ts,tsx src/",
+    "test:ts": "tsc --noEmit --project tsconfig.json"
+  },
+  "dependencies": {
+    "@formidable-webview/webshell": "workspace:*"
+  },
+  "devDependencies": {
+    "eslint": "^7.8.0",
+    "typescript": "3.9.7"
+  }
+}

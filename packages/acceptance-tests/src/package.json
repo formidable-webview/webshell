@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@formidable-webview/webshell": "../"
+  }
+}
