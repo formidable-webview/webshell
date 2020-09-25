@@ -1,0 +1,25 @@
+function ForceElementSizeFeature(context) {
+  var options = context.options || {};
+  var widthValue = options.widthValue || 'auto';
+  var heightValue = options.heightValue || 'auto';
+  var forceWidth = options.forceWidth !== false;
+  var forceHeight = options.forceHeight !== false;
+  var target = options.target;
+  var shouldThrowWhenNotFound = options.shouldThrowWhenNotFound === true;
+  if (!target || (typeof target !== 'string' && typeof target !== 'object')) {
+    throw new Error('Missing or wrong type for required target option');
+  }
+  var element = context.getDOMSelection(target, false);
+  if (element) {
+    if (forceWidth) {
+      element.style.width = widthValue;
+    }
+    if (forceHeight) {
+      element.style.height = heightValue;
+    }
+  } else if (shouldThrowWhenNotFound) {
+    throw new Error(
+      "Couldn't find an element for target " + JSON.stringify(target)
+    );
+  }
+}
