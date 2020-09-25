@@ -103,13 +103,13 @@ function registerFeature(specs) {
     getDOMSelection: getDOMSelection,
     numericFromPxString: numericFromPxString,
     makeCallbackSafe: makeCallbackSafe.bind(null, sendErrorMessage),
-    postMessage: function (message) {
+    postShellMessage: function (message) {
       if (handlerName == null) {
         sendErrorMessage(
           new TypeError(
             snippetIdentifier +
               ': ' +
-              'context.postMessage was invoked while no handlerName was passed to this feature. ' +
+              'context.postShellMessage was invoked while no handlerName was passed to this feature. ' +
               'Register a handlerName and try again.'
           )
         );

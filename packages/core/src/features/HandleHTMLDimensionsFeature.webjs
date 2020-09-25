@@ -1,5 +1,4 @@
 function HandleHTMLDimensionsFeature(context) {
-  var postMessage = context.postMessage;
   var options = context.options || {};
   var forceImplementation = options.forceImplementation || false;
   var pollingInterval =
@@ -43,7 +42,7 @@ function HandleHTMLDimensionsFeature(context) {
         }
       };
       if (!dimensionsAreEqual(oldDimensions, dimensions)) {
-        postMessage(dimensions);
+        context.postShellMessage(dimensions);
         oldDimensions = dimensions;
       }
     });

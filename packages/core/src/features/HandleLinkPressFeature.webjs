@@ -1,5 +1,4 @@
 function HandleLinkPressFeature(context) {
-  var postMessage = context.postMessage;
   var options = context.options || {};
   var preventDefault = options.preventDefault !== false;
   var ignoreHashChange =
@@ -44,7 +43,7 @@ function HandleLinkPressFeature(context) {
         height: rect.height
       };
       preventDefault && e.preventDefault();
-      postMessage({
+      context.postShellMessage({
         uri: href,
         scheme: extractScheme(href),
         hrefAttribute: anchor.getAttribute('href'),

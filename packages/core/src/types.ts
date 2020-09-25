@@ -157,7 +157,7 @@ export interface MinimalWebViewProps {
 /**
  * This type specifies the shape of the object passed to DOM features scripts.
  *
- * @typeparam O - The shape of the JSON-serializable object that will be passed to the DOM script.
+ * @typeparam O - The shape of the JSON-serializable options that will be passed to the DOM script.
  * @typeparam P - The type of the argument which will be passed to the event handler prop.
  * @public
  */
@@ -167,11 +167,12 @@ export interface WebjsContext<O extends {}, P> {
    */
   readonly options: O;
   /**
-   * When invoked, the webshell will call the handler associated with this script.
+   * When invoked, the webshell will call the handler associated with this
+   * script, if any.
    *
    * @param payload - The value which will be passed to the handler.
    */
-  postMessage(payload: P): void;
+  postShellMessage(payload: P): void;
   /**
    * Create a function which execute a callback in a try-catch block that will
    * grab errors en send them to the `Webshell` component.

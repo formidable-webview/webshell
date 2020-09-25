@@ -48,7 +48,7 @@ Below is the same snippet with highlighted lines each matching a different conte
 />
 
 1. `context.options` is the result of shallow-merging `defaultOptions` with user-provided options during feature instantiation.
-2. `context.postMessage` will send an event which will be intercepted by the shell. If an event handler has been registered for this feature and passed as a prop to the shell, it will be invoked with the message content.
+2. `context.postShellMessage` will send an event which will be intercepted by the shell. If an event handler has been registered for this feature and passed as a prop to the shell, it will be invoked with the message content.
 3. `context.warn` and `context.info` will send a log event to the shell when `webshellDebug` prop is set to `true`. The shell will log the message for quick feedback during development.
 4. `context.makeCallbackSafe` guarantees that any error raised in the body of the callback will be intercepted by the context API and routed to the shell for quick feedback during development.
 

@@ -86,7 +86,7 @@ describe('Webshell component', () => {
     );
     expect(onDOMDummyOption).toHaveBeenCalledWith({ foo: 'bar' });
   });
-  it('should keep support for onMessage and injectedJavascript', async () => {
+  it('should keep support for onMessage and injectedJavaScript', async () => {
     const onDOMDummyOption = jest.fn();
     const onMessage = jest.fn();
     const injectedJavaScript = "window.ReactNativeWebView.postMessage('test');";

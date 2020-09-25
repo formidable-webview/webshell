@@ -1,5 +1,4 @@
 function HandleElementCSSBoxFeature(context) {
-  var postMessage = context.postMessage;
   var options = context.options || {};
   var target = options.target;
   var shouldThrowWhenNotFound = options.shouldThrowWhenNotFound === true;
@@ -59,7 +58,7 @@ function HandleElementCSSBoxFeature(context) {
         horizontalScrollbarWidth: horizontalScrollbarWidth,
         verticalScrollbarWidth: verticalScrollbarWidth
       };
-      postMessage(dimensions);
+      context.postShellMessage(dimensions);
     } else if (shouldThrowWhenNotFound) {
       throw new Error(
         "Couldn't find an element for target " + JSON.stringify(target)

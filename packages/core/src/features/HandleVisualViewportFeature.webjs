@@ -1,6 +1,4 @@
 function HandleVisualViewportFeature(context) {
-  var postMessage = context.postMessage;
-  var options = context.options || {};
   var isLegacy = !window.visualViewport;
   var postSize = context.makeCallbackSafe(function () {
     var scale = !isLegacy
@@ -26,7 +24,7 @@ function HandleVisualViewportFeature(context) {
       visualViewport: visualViewport,
       isLegacy: isLegacy
     };
-    postMessage(dimensions);
+    context.postShellMessage(dimensions);
   });
   postSize();
   if (isLegacy) {

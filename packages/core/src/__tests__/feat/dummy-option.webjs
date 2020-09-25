@@ -1,5 +1,5 @@
 function dummyOptionFeature(arg) {
-  var postMessage = arg.postMessage;
+  var postShellMessage = arg.postShellMessage;
   var options = arg.options;
-  postMessage(options);
+  postShellMessage(options);
 }
