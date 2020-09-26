@@ -3019,8 +3019,7 @@ __metadata:
     "@docusaurus/init": next
     "@formidable-webview/ersatz": ^1.0.0
     "@formidable-webview/ersatz-testing": ^1.0.1
-    "@microsoft/api-documenter": ^7.8.36
-    "@microsoft/api-extractor": 7.9.11
+    "@microsoft/api-extractor": 7.9.22
     "@react-native-community/bob": ^0.16.2
     "@release-it/conventional-changelog": ^2.0.0
     "@testing-library/react-native": ^7.0.2
@@ -3938,51 +3937,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@microsoft/api-documenter@npm:^7.8.36":
-  version: 7.8.49
-  resolution: "@microsoft/api-documenter@npm:7.8.49"
+"@microsoft/api-extractor-model@npm:7.9.7":
+  version: 7.9.7
+  resolution: "@microsoft/api-extractor-model@npm:7.9.7"
   dependencies:
-    "@microsoft/api-extractor-model": 7.9.0
     "@microsoft/tsdoc": 0.12.19
-    "@rushstack/node-core-library": 3.32.0
-    "@rushstack/ts-command-line": 4.6.4
-    colors: ~1.2.1
-    js-yaml: ~3.13.1
-    resolve: ~1.17.0
-  bin:
-    api-documenter: bin/api-documenter
-  checksum: 1dafa316ef211ae739fb991d637cf42fea02126cd59aaa14304efbe148dff0dd18dc32f1b63f1fafda867e885276e4333cd041d8048df1917cd525a190ff40ab
+    "@rushstack/node-core-library": 3.33.6
+  checksum: 4dc9f60acad72235b55928271a893f6c7016124a4d3bfc22b1c6664084fdc3b544fe52f1d343e1c87ec1ad3db368409fdc7dd8117e09aaa6d4a9ae4910187003
   languageName: node
   linkType: hard
 
-"@microsoft/api-extractor-model@npm:7.8.19":
-  version: 7.8.19
-  resolution: "@microsoft/api-extractor-model@npm:7.8.19"
+"@microsoft/api-extractor@npm:7.9.22":
+  version: 7.9.22
+  resolution: "@microsoft/api-extractor@npm:7.9.22"
   dependencies:
+    "@microsoft/api-extractor-model": 7.9.7
     "@microsoft/tsdoc": 0.12.19
-    "@rushstack/node-core-library": 3.30.0
-  checksum: d4669ee103ba7ef85fc4726f6b634265582ae1f8ed2f6ec0321610b97079fb552d4663b40627f5fea9bb78e61fc27d0ce2d796b0da96b921f5188bb2d826741a
-  languageName: node
-  linkType: hard
-
-"@microsoft/api-extractor-model@npm:7.9.0":
-  version: 7.9.0
-  resolution: "@microsoft/api-extractor-model@npm:7.9.0"
-  dependencies:
-    "@microsoft/tsdoc": 0.12.19
-    "@rushstack/node-core-library": 3.32.0
-  checksum: 4ce2b1cfdf2687adf142a4dbc5dd94e518e28d1a87b2adbec54e96a9f9dc6412cc926ade9adedc341fee80831632f56a04ffccff95f5ab373b8a83d12f4e528a
-  languageName: node
-  linkType: hard
-
-"@microsoft/api-extractor@npm:7.9.11":
-  version: 7.9.11
-  resolution: "@microsoft/api-extractor@npm:7.9.11"
-  dependencies:
-    "@microsoft/api-extractor-model": 7.8.19
-    "@microsoft/tsdoc": 0.12.19
-    "@rushstack/node-core-library": 3.30.0
-    "@rushstack/ts-command-line": 4.6.4
+    "@rushstack/node-core-library": 3.33.6
+    "@rushstack/ts-command-line": 4.6.10
     colors: ~1.2.1
     lodash: ~4.17.15
     resolve: ~1.17.0
@@ -3991,7 +3963,7 @@ __metadata:
     typescript: ~3.9.5
   bin:
     api-extractor: bin/api-extractor
-  checksum: 24e9291406dd10df3fad180141f7dec4559ce2bccf8d80603797180606833fee3f09aebec911f1335b573d6dc07758f8e2c9854c11db7ac08ba8ab2a3000617a
+  checksum: 49494c995df11ee42bd4fe16d44998dfd31d8bf5c05d79b686e5c6d68a4f3a758c22d5233197ced8440d1a5922b6f52f1334d72579e4bdf0519ea37f2f4579f0
   languageName: node
   linkType: hard
 
@@ -4554,9 +4526,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rushstack/node-core-library@npm:3.30.0":
-  version: 3.30.0
-  resolution: "@rushstack/node-core-library@npm:3.30.0"
+"@rushstack/node-core-library@npm:3.33.6":
+  version: 3.33.6
+  resolution: "@rushstack/node-core-library@npm:3.33.6"
   dependencies:
     "@types/node": 10.17.13
     colors: ~1.2.1
@@ -4567,36 +4539,19 @@ __metadata:
     semver: ~7.3.0
     timsort: ~0.3.0
     z-schema: ~3.18.3
-  checksum: d6c021b4dd1781e7d1609efa1c09e269878d059dde37710766fd2492d4e9edcc970dcd34d68fcf1706bd2152f6ab240c0b87aacc49563c808222159d1aaf9290
+  checksum: bba6e58971631891874873e60385efd7ceb2ea2ac789a3e6889ae71fbcdb78f16431a22489197f68ad74fd46214158a000cfb001534c2e172a52eb172a2341f2
   languageName: node
   linkType: hard
 
-"@rushstack/node-core-library@npm:3.32.0":
-  version: 3.32.0
-  resolution: "@rushstack/node-core-library@npm:3.32.0"
-  dependencies:
-    "@types/node": 10.17.13
-    colors: ~1.2.1
-    fs-extra: ~7.0.1
-    import-lazy: ~4.0.0
-    jju: ~1.4.0
-    resolve: ~1.17.0
-    semver: ~7.3.0
-    timsort: ~0.3.0
-    z-schema: ~3.18.3
-  checksum: da9ab6cad3483ade473bbd72eece5299f615b885ce6cd3ba0e126934088860a8bb8d280ea937a4b8aa80487e500c6dfae991c77d4b2a5c58aa7acb8db977ed03
-  languageName: node
-  linkType: hard
-
-"@rushstack/ts-command-line@npm:4.6.4":
-  version: 4.6.4
-  resolution: "@rushstack/ts-command-line@npm:4.6.4"
+"@rushstack/ts-command-line@npm:4.6.10":
+  version: 4.6.10
+  resolution: "@rushstack/ts-command-line@npm:4.6.10"
   dependencies:
     "@types/argparse": 1.0.38
     argparse: ~1.0.9
     colors: ~1.2.1
     string-argv: ~0.3.1
-  checksum: cfe819a4fe743a3feff706bda96c04e265be64ec919753462afe409aed5a871acee7722dc6ca31f3df9b17ee6b439868bcfca9372e1a8b2900a715234790a9ff
+  checksum: dd72513c4ca23139fd3b4c12320069e18a3ca078496d79c43ac641ef2d712cf0095f192c3dc52b0eea594c73676864c1819e7f89451480a5b8af0a9917f78099
   languageName: node
   linkType: hard
 
@@ -15540,18 +15495,6 @@ fsevents@^1.2.7:
   bin:
     js-yaml: bin/js-yaml.js
   checksum: 2eb95464e5263aedc20ae2d9280f0e29b00adab15ece080ec42473d7055efaab24b904108644d115f687efe05a5bde02972b883aafa93607c4c108f667a56fa7
-  languageName: node
-  linkType: hard
-
-"js-yaml@npm:~3.13.1":
-  version: 3.13.1
-  resolution: "js-yaml@npm:3.13.1"
-  dependencies:
-    argparse: ^1.0.7
-    esprima: ^4.0.0
-  bin:
-    js-yaml: bin/js-yaml.js
-  checksum: 277157fdf235757b71cfbf24f6bef57576a26d9b4cf89b63d89c9044da7b0f9d16c3629c8b5fd549ae343523727a0df1598794e9a4429763cee4e17056ff8523
   languageName: node
   linkType: hard
 
