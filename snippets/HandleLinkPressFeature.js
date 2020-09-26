@@ -12,4 +12,3 @@ export const HandleLinkPressFeature = new FeatureBuilder({
 })
   .withEventHandlerProp('onDOMLinkPress')
   .build();
-    .build();
