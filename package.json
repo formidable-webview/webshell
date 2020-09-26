@@ -29,7 +29,7 @@
     "eslint": "^7.9.0",
     "eslint-plugin-compat": "^3.8.0",
     "eslint-plugin-tsdoc": "^0.2.7",
-    "husky": "^4.2.5",
+    "husky": "^4.3.0",
     "prettier": "^2.1.2",
     "release-it": "^14.0.3"
   },
