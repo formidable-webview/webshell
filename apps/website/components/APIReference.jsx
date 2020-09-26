@@ -19,7 +19,7 @@ export const APIReference = ({ reference, type, overrideUrl, member }) => {
       ? `/docs/api/classes/${reference.toLowerCase()}${suffix}`
       : type === 'enum'
       ? `/docs/api/enums/${reference.toLowerCase()}${suffix}`
-      : `/docs/api/index#${reference.toLowerCase()}`;
+      : `/docs/api#${reference.toLowerCase()}`;
   return (
     <a
       className={`api-ref api-symbol ${type}`}
