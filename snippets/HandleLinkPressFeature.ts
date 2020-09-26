@@ -1,5 +1,5 @@
 // This file is imported as a string thanks to babel-plugin-inline-import
-import linkPressScript from './handle-link-press.webjs';
+import linkPressScript from './HandleLinkPressFeature.webjs';
 import { FeatureBuilder } from '@formidable-webview/webshell';
 
 export interface LinkPressOptions {
@@ -20,5 +20,7 @@ export const HandleLinkPressFeature = new FeatureBuilder({
   featureIdentifier: 'org.myorg/webshell.link-press',
   className: 'HandleLinkPressFeature'
 })
-  .withEventHandlerProp<LinkPressTarget, 'onDOMLinkPress'>('onDOMLinkPress')
+  .withEventHandlerProp<LinkPressTarget, 'onDOMLinkPress'>(
+    'onDOMLinkPress'
+  )
   .build();

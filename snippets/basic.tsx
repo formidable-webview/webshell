@@ -7,7 +7,7 @@ import makeWebshell, {
 import type {
   HTMLDimensions,
   LinkPressTarget,
-  RectSize
+  DOMRectSize
 } from '@formidable-webview/webshell';
 import WebView from 'react-native-webview';
 import type { WebViewProps } from 'react-native-webview';
@@ -18,11 +18,19 @@ const Webshell = makeWebshell(
   new HandleHTMLDimensionsFeature()
 );
 
-export default function NaiveAutoheightWebView(webViewProps: WebViewProps) {
-  const [size, setSize] = useState<RectSize | null>(null);
-  const onLinkPress = useCallback((target: LinkPressTarget) => {
-    Linking.canOpenURL(target.uri) && Linking.openURL(target.uri);
-  }, []);
+export default function NaiveAutoheightWebView(
+  webViewProps: WebViewProps
+) {
+  const [size, setSize] = useState<DOMRectSize | null>(
+    null
+  );
+  const onLinkPress = useCallback(
+    (target: LinkPressTarget) => {
+      Linking.canOpenURL(target.uri) &&
+        Linking.openURL(target.uri);
+    },
+    []
+  );
   const onHTMLDimensions = useCallback(
     ({ content: { height, width } }: HTMLDimensions) =>
       setSize({ width, height }),

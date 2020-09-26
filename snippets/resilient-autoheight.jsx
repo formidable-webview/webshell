@@ -16,7 +16,11 @@ const Webshell = makeWebshell(
     widthValue: 'auto'
   })
 );
-export default function ResilientAutoheightWebView(webshellProps) {
-  const { autoheightWebshellProps } = useAutoheight({ webshellProps });
+export default function ResilientAutoheightWebView(
+  webshellProps
+) {
+  const { autoheightWebshellProps } = useAutoheight({
+    webshellProps
+  });
   return <Webshell {...autoheightWebshellProps} />;
 }

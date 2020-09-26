@@ -10,13 +10,17 @@ const Webshell = makeWebshell(
   new HandleLinkPressFeature({ preventDefault: true }),
   new HandleHTMLDimensionsFeature()
 );
-export default function NaiveAutoheightWebView(webViewProps) {
+export default function NaiveAutoheightWebView(
+  webViewProps
+) {
   const [size, setSize] = useState(null);
   const onLinkPress = useCallback((target) => {
-    Linking.canOpenURL(target.uri) && Linking.openURL(target.uri);
+    Linking.canOpenURL(target.uri) &&
+      Linking.openURL(target.uri);
   }, []);
   const onHTMLDimensions = useCallback(
-    ({ content: { height, width } }) => setSize({ width, height }),
+    ({ content: { height, width } }) =>
+      setSize({ width, height }),
     []
   );
   return (
