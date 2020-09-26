@@ -55,7 +55,7 @@
   },
   "peerDependencies": {
     "react": "*",
-    "react-native": "*"
+    "react-native": ">= 0.59.0"
   },
   "keywords": [
     "react-native",
@@ -68,10 +68,9 @@
   "publishConfig": {
     "access": "public"
   },
-  "source": "src/index.ts",
   "release-it": {
     "git": {
-      "commitMessage": "chore: release ${version}",
+      "commitMessage": "chore: release @formidable-webview/webshell ${version}",
       "tagName": "v${version}"
     },
     "npm": {
