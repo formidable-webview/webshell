@@ -30,8 +30,7 @@
     "eslint-plugin-compat": "^3.8.0",
     "eslint-plugin-tsdoc": "^0.2.7",
     "husky": "^4.3.0",
-    "prettier": "^2.1.2",
-    "release-it": "^14.0.3"
+    "prettier": "^2.1.2"
   },
   "resolutions": {
     "react": "16.13.1",
@@ -45,25 +44,6 @@
     "packages/*",
     "apps/*"
   ],
-  "release-it": {
-    "git": {
-      "commitMessage": "chore: release ${version}",
-      "tagName": "v${version}"
-    },
-    "npm": {
-      "publish": true
-    },
-    "github": {
-      "release": true
-    },
-    "plugins": {
-      "@release-it/conventional-changelog": {
-        "preset": "angular",
-        "infile": "CHANGELOG.MD",
-        "skipUnstable": true
-      }
-    }
-  },
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
