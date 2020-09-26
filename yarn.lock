@@ -2968,8 +2968,6 @@ __metadata:
     "@babel/plugin-transform-react-jsx": ^7.10.4
     "@babel/preset-typescript": ^7.10.4
     "@babel/runtime": ^7.11.2
-    "@commitlint/cli": ^11.0.0
-    "@commitlint/config-conventional": ^11.0.0
     "@docusaurus/init": next
     "@formidable-webview/ersatz": ^1.0.0
     "@formidable-webview/ersatz-testing": ^1.0.1
@@ -2991,6 +2989,7 @@ __metadata:
     react-native: "*"
     react-native-webview: ^10.8.3
     react-test-renderer: "*"
+    release-it: ^14.0.3
     typescript: 3.9.7
   peerDependencies:
     react: "*"
