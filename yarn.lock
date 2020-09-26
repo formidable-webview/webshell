@@ -2993,7 +2993,7 @@ __metadata:
     typescript: 3.9.7
   peerDependencies:
     react: "*"
-    react-native: "*"
+    react-native: ">= 0.59.0"
   languageName: unknown
   linkType: soft
 
@@ -26015,7 +26015,6 @@ resolve@~1.12.0:
     eslint-plugin-tsdoc: ^0.2.7
     husky: ^4.3.0
     prettier: ^2.1.2
-    release-it: ^14.0.3
   languageName: unknown
   linkType: soft
 
