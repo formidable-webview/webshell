@@ -1,6 +1,5 @@
 [![npm](https://img.shields.io/npm/v/@formidable-webview/webshell/latest)](https://www.npmjs.com/package/@formidable-webview/webshell)
 [![npm](https://img.shields.io/npm/v/@formidable-webview/webshell/next)](https://www.npmjs.com/package/@formidable-webview/webshell)
-
 [![semver](https://img.shields.io/badge/semver-2.0.0-e10079.svg)](https://semver.org/spec/v2.0.0.html)
 [![codecov](https://codecov.io/gh/formidable-webview/webshell/branch/master/graph/badge.svg)](https://codecov.io/gh/formidable-webview/webshell)
 [![CI](https://github.com/formidable-webview/webshell/workflows/CI/badge.svg?branch=master)](https://github.com/formidable-webview/webshell/actions?query=branch%3Amaster+workflow%3ACI)
