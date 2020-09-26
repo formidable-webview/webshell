@@ -90,7 +90,7 @@ const defaultOptions: HandleHTMLDimensionsOptions = {
  * @remarks
  * If you need to guarantee that 1 CSS pixel = 1 Device pixel, you should use this
  * feature with a meta tag viewport setting width to device width.
- * {@link ForceResponsiveViewportFeature}
+ * See {@link ForceResponsiveViewportFeature}
  *
  * @public
  */

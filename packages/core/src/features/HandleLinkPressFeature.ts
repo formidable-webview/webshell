@@ -75,8 +75,17 @@ const defaultOptions: LinkPressOptions = {
 };
 
 /**
- * This feature allows to intercept clicks on anchors (`<a>`). By default, it
- * will prevent the click from propagating. But you can disable this option.
+ * This feature allows to intercept clicks on anchors such as:
+ *
+ * ```html
+ * <a href="https://domain.com/">Let's Travel</a>
+ * ```
+ *
+ * @remarks
+ * By default, it will prevent the click from propagating. But you can disable
+ * this option.
+ *
+ * If you need to intercept click on hash fragments, consider {@link HandleHashChangeFeature} instead.
  *
  * @public
  */

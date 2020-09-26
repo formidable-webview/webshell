@@ -235,7 +235,7 @@ export const HandleLinkPressFeature: FeatureConstructor<LinkPressOptions, [PropD
     onDOMLinkPress?: (t: LinkPressTarget) => void;
 }>]>;
 
-// @beta
+// @public
 export const HandleVisualViewportFeature: FeatureConstructor<{}, [PropDefinition<{
     onDOMVisualViewport?: (d: VisualViewportDimensions) => void;
 }>]>;

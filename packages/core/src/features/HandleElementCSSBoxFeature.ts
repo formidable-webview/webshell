@@ -113,10 +113,12 @@ const defaultOptions: HandleElementCSSBoxDimensionsOptions = {
 } as HandleElementCSSBoxDimensionsOptions;
 
 /**
- * This feature enables receiving the CSS Box dimensions of an element
- * identified by `tagName` in the `WebView` pixels unit. The first element
- * matching the provided tagName is retained. A new event will be triggered on
- * every resize.
+ * This feature enables receiving the {@link https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Box_Model/Introduction_to_the_CSS_box_model | CSS Box dimensions} of an element in the
+ * `WebView` pixels unit. The first element matching the provided tagName is
+ * retained. A new event will be triggered on every resize.
+ *
+ * @remarks
+ * If you are looking for the document content size, use {@link HandleHTMLDimensionsFeature} instead.
  *
  * @public
  */

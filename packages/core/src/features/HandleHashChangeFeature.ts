@@ -41,8 +41,15 @@ const defaultOptions: HandleHashChangeOptions = {
 };
 
 /**
- * This feature allows to intercept clicks on anchors (`<a>`). By default, it
- * will prevent the click from propagating. But you can disable this option.
+ * This feature allows to intercept hashchange events, when the hash fragment of the URL changes.
+ * This could happen when the user clicks on anchors like this:
+ *
+ * ```html
+ * <a href="#subresource">Let's Jump to Subresource</a>
+ * ```
+ *
+ * Or when JavaScript code imperatively changes the hash fragment of current location.
+ * See {@link https://developer.mozilla.org/en-US/docs/Web/API/Window/hashchange_event | MDN—hashchange event}.
  *
  * @public
  */

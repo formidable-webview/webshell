@@ -5,13 +5,86 @@ title: Features Reference
 
 import { Webshell } from '../components/Webshell';
 import { Term } from '../components/Term';
-import { APIReference } from '../components/APIReference.jsx';
-import { APIBox } from '../components/APIBox.jsx';
+import { APIReference } from '../components/APIReference';
+import { APIBox } from '../components/APIBox';
 
 ## ForceElementSizeFeature
 
 <APIBox reference="ForceElementSizeFeature" type="variable" />
 
+This feature sets element size programmatically and only once, when
+[DOMContentLoaded](https://developer.mozilla.org/fr/docs/Web/Events/DOMContentLoaded)
+has been fired.
+
 ## ForceResponsiveViewportFeature
 
 <APIBox reference="ForceResponsiveViewportFeature" type="variable" />
+
+This feature inserts or replace a meta element looking like:
+
+```html
+<meta name="viewport" content="width=device-width" />
+```
+
+This will guarantee that the layout viewport will match
+device-width (hence, “responsive”). Minimum scale is locked to 1, but you
+can customize maximum scale to allow pinch-zoom gestures.
+See [MDN—Using the viewport meta tag ...](https://developer.mozilla.org/en-US/docs/Mozilla/Mobile/Viewport_meta_tag).
+
+## HandleElementCSSBoxFeature
+
+<APIBox reference="HandleElementCSSBoxFeature" type="variable" />
+
+This feature enables receiving the [CSS Box dimensions](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Box_Model/Introduction_to_the_CSS_box_model) of an element in the
+`WebView` pixels unit. The first element matching the provided tagName is
+retained. A new event will be triggered on every resize.
+
+If you are looking for the document content size, use <APIReference reference="HandleHTMLDimensionsFeature" type="variable" /> instead.
+
+## HandleHashChangeFeature
+
+<APIBox reference="HandleHashChangeFeature" type="variable" />
+
+This feature allows to intercept `hashchange` events, when the hash fragment of the URL changes.
+This could happen when the user clicks on anchors like this:
+
+```html
+<a href="#subresource">Let's Jump to Subresource</a>
+```
+
+Or when JavaScript code imperatively changes the hash fragment of current location.
+See [MDN—hashchange event](https://developer.mozilla.org/en-US/docs/Web/API/Window/hashchange_event).
+
+## HandleHTMLDimensionsFeature
+
+<APIBox reference="HandleHTMLDimensionsFeature" type="variable" />
+
+This feature enables receiving various dimensions relative to the layout. The events
+will only be fired when a change is observed to either the layout or the content size.
+
+If you need to guarantee that 1 CSS pixel = 1 Device pixel, you should use this
+feature with a meta tag viewport setting width to device width.
+See <APIReference reference="ForceResponsiveViewportFeature" type="variable" />.
+
+## HandleLinkPressFeature
+
+<APIBox reference="HandleLinkPressFeature" type="variable" />
+
+This feature allows to intercept clicks on anchors such as:
+
+```html
+<a href="https://domain.com/">Let's Travel</a>
+```
+
+By default, it will prevent the click from propagating. But you can disable
+this option.
+
+If you need to intercept click on hash fragments, consider <APIBox reference="HandleHashChangeFeature" type="variable" /> instead.
+
+## HandleVisualViewportFeature
+
+<APIBox reference="HandleVisualViewportFeature" type="variable" />
+
+This feature adds a handler triggered when the visual viewport changes. It
+requires `VisualViewport` API support on browsers (iOS Safari 13 and Android WebView 62).
+See [MDN—VisualViewport API](https://developer.mozilla.org/en-US/docs/Web/API/VisualViewport).

@@ -31,11 +31,12 @@ export interface VisualViewportDimensions {
 
 /**
  * This feature adds a handler triggered when the visual viewport changes. It
- * requires VisualViewport API support on browsers (iOS Safari 13 and Android
+ * requires `VisualViewport` API support on browsers (iOS Safari 13 and Android
  * WebView 62).
  * See {@link https://developer.mozilla.org/en-US/docs/Web/API/VisualViewport | VisualViewport API}.
  *
- * @beta
+ * @public
+ *
  */
 export const HandleVisualViewportFeature: FeatureConstructor<
   {},
