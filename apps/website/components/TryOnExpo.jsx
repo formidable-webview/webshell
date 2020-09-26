@@ -2,6 +2,7 @@
 import * as React from 'react';
 import QRCode from 'qrcode.react';
 import useThemeContext from '@theme/hooks/useThemeContext';
+import BrowserOnly from '@docusaurus/BrowserOnly';
 
 const styles = {
   container: {
@@ -56,25 +57,34 @@ export const TryOnExpo = ({ label, className }) => {
   const backgroundColor = isDarkTheme ? '#18191a' : 'white';
   const foregroundColor = isDarkTheme ? 'white' : '#1c1e21';
   return (
-    <div className={className} style={{ ...styles.boxStyle, backgroundColor }}>
-      <div className="padding-vert--ml" style={styles.container}>
-        <div style={styles.boxTitle}>
-          <div style={styles.expoLogoContainer}>
-            <ExpoLogo size={48} color={foregroundColor} />
+    <BrowserOnly
+      fallback={
+        <div style={{ width: 160, height: 10 }} className={className} />
+      }>
+      {() => (
+        <div
+          className={className}
+          style={{ ...styles.boxStyle, backgroundColor }}>
+          <div className="padding-vert--ml" style={styles.container}>
+            <div style={styles.boxTitle}>
+              <div style={styles.expoLogoContainer}>
+                <ExpoLogo size={48} color={foregroundColor} />
+              </div>
+            </div>
+            <a href={`https://expo.io/${projectName}`}>
+              <strong>{label}</strong>
+            </a>
+            <QRCode
+              style={styles.qrcode}
+              fgColor={foregroundColor}
+              bgColor={backgroundColor}
+              size={160}
+              renderAs="svg"
+              value={`exp://exp.host/${projectName}`}
+            />
           </div>
         </div>
-        <a href={`https://expo.io/${projectName}`}>
-          <strong>{label}</strong>
-        </a>
-        <QRCode
-          style={styles.qrcode}
-          fgColor={foregroundColor}
-          bgColor={backgroundColor}
-          size={160}
-          renderAs="svg"
-          value={`exp://exp.host/${projectName}`}
-        />
-      </div>
-    </div>
+      )}
+    </BrowserOnly>
   );
 };

@@ -94,11 +94,11 @@
 
 .featuresGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr 180px;
+  grid-template-columns: 1fr 1fr 220px;
   grid-column-gap: calc(var(--ifm-global-spacing) * 3);
 }
 
-@media (max-width: 800px) {
+@media (max-width: 960px) {
   .featuresGrid {
     display: flex;
     flex-direction: column;
@@ -113,7 +113,7 @@
   grid-row: 1 / span 3;
   grid-column-start: 3;
   grid-column-end: 3;
-  margin-top: 40px;
+  justify-self: end;
 }
 
 .graphicContainer {
