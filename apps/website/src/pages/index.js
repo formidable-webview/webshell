@@ -5,6 +5,7 @@ import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import styles from './styles.module.css';
+import { TryOnExpo } from '../../components/TryOnExpo';
 import { ReactReference } from '../../components/ReactReference';
 import { APIReference } from '../../components/APIReference';
 import { Term } from '../../components/Term';
@@ -177,10 +178,14 @@ function Home() {
         {features && features.length > 0 && (
           <section className={styles.features}>
             <div className="container">
-              <div className="row">
+              <div className={styles.featuresGrid}>
                 {features.map((props, idx) => (
                   <Feature key={idx} {...props} />
                 ))}
+                <TryOnExpo
+                  className={styles.expo}
+                  label="Try webshell on Expo!"
+                />
               </div>
             </div>
           </section>

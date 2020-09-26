@@ -20892,12 +20892,32 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"qr.js@npm:0.0.0":
+  version: 0.0.0
+  resolution: "qr.js@npm:0.0.0"
+  checksum: 83e1d6140ec8781d0def39a70d7ef9e7a7ff455697d8e078b86aeeb773dd33fd5235d4f94710b871fc3cfdefb806165503b8241cd4cd9b18a4b9b4160f48db43
+  languageName: node
+  linkType: hard
+
 "qrcode-terminal@npm:0.11.0":
   version: 0.11.0
   resolution: "qrcode-terminal@npm:0.11.0"
   bin:
     qrcode-terminal: ./bin/qrcode-terminal.js
   checksum: ee6b60ca7fec10625e05b5f6d0aab3a51f34d953c6ed77f9bb88ab9ff0d2efdf3207e3dd33bfffd07c7c515fe51c4a1d35df8c54f8c70eb32d69e3a916a1e546
+  languageName: node
+  linkType: hard
+
+"qrcode.react@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "qrcode.react@npm:1.0.0"
+  dependencies:
+    loose-envify: ^1.4.0
+    prop-types: ^15.6.0
+    qr.js: 0.0.0
+  peerDependencies:
+    react: ^15.5.3 || ^16.0.0
+  checksum: cb0d10f126d3080a6e640f46075aff567ade4c39ed5b74ece13361227f04fda8c3237090fff81d9bfbdfc5f5b60220d763a44b1cc6c7cc35b406ad08c6fcafed
   languageName: node
   linkType: hard
 
@@ -26027,6 +26047,7 @@ resolve@~1.12.0:
     "@mdx-js/react": ^1.5.8
     clsx: ^1.1.1
     docusaurus-plugin-typedoc: ^0.2.0
+    qrcode.react: ^1.0.0
     react: ^16.13.1
     react-dom: ^16.8.4
     typedoc: ^0.19.2
