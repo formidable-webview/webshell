@@ -1,215 +1,74 @@
 import * as React from 'react';
-import * as WebBrowser from 'expo-web-browser';
-import { StyleSheet, ScrollView, View, LayoutRectangle } from 'react-native';
-import makeWebshell, {
-  ForceResponsiveViewportFeature,
-  HandleHTMLDimensionsFeature,
-  ForceElementSizeFeature,
-  HandleHashChangeFeature,
-  HandleLinkPressFeature,
-  useAutoheight,
-  LinkPressTarget,
-  HashChangeEvent
-} from '@formidable-webview/webshell';
-import WebView from 'react-native-webview';
-import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
-import { WebViewSource } from 'react-native-webview/lib/WebViewTypes';
-import {
-  TOP_TEXT_HEIGHT,
-  BOTTOM_SHEET_COLLAPSED_OFFSET,
-  STAT_HEIGHT,
-  BACKGROUND
-} from './styles';
-import { Stats } from './Stats';
-import { Theme } from 'react-native-paper/lib/typescript/src/types';
-import { useControls } from './controls';
-import introduction from './introduction.html';
-import { Evidence } from './Evidence';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { HomeScreen } from './HomeScreen';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { StyleSheet, View } from 'react-native';
+import { STAT_HEIGHT, BACKGROUND } from './styles';
 import { StatusBar } from 'expo-status-bar';
+import AppStoreProvider from './Provider';
+import { OptionsScreen } from './OptionsScreen';
 
-const sourceMap: Record<string, WebViewSource> = {
-  welcome: { html: introduction },
-  wikipedia: { uri: 'https://en.wikipedia.org/wiki/React_Native' },
-  firefox: {
-    uri:
-      'https://support.mozilla.org/en-US/kb/get-started-firefox-overview-main-features'
-  },
-  expo: { uri: 'https://docs.expo.io/' },
-  washington: { uri: 'https://www.washingtonpost.com/' },
-  fox: { uri: 'https://www.foxnews.com/' },
-  nonresponsive: {
-    uri: 'https://dequeuniversity.com/library/responsive/1-non-responsive#'
-  },
-  nsfw: {
-    uri: 'https://motherfuckingwebsite.com/'
-  }
-};
-
-const theme: Theme = {
-  ...DefaultTheme,
-  colors: {
-    ...DefaultTheme.colors,
-    accent: '#0f9ec5',
-    primary: '#2f3745'
-  }
-};
+const Stack = createStackNavigator();
 
 export default function App() {
-  const [layout, setLayout] = React.useState<LayoutRectangle | null>(null);
-  const scrollViewRef = React.useRef<ScrollView>(null);
-  const containerPaddingTopRef = React.useRef<number>(0);
-  const {
-    allowWebViewNavigation,
-    allowPinchToZoom,
-    forceResponsiveLayout,
-    renderSheet,
-    showEvidence,
-    showConsole,
-    instance,
-    paddingHz,
-    sourceName,
-    resizeMethod
-  } = useControls({ scrollViewRef });
-  const source = sourceMap[sourceName];
-  const {
-    autoheightWebshellProps,
-    resizeImplementation,
-    contentSize,
-    syncState
-  } = useAutoheight<WebshellProps>({
-    webshellProps: {
-      source,
-      style: styles.autoheight,
-      webshellDebug: true
-    },
-    initialHeight: 200
-  });
-  const containerPaddingTop = showEvidence ? TOP_TEXT_HEIGHT : 0;
-  containerPaddingTopRef.current = containerPaddingTop;
-  // We are using a memo to change dynamically the Webshell component with
-  // different features and options. Normally, we would rather create this
-  // component statically.
-  const Webshell = React.useMemo(() => {
-    const features = [
-      new HandleLinkPressFeature({
-        preventDefault: !allowWebViewNavigation
-      }),
-      new HandleHTMLDimensionsFeature({
-        forceImplementation: resizeMethod === 'auto' ? false : resizeMethod,
-        deltaMin: 0
-      }),
-      new HandleHashChangeFeature({ shouldResetHashOnEvent: true }),
-      new ForceResponsiveViewportFeature({
-        maxScale: allowPinchToZoom ? 1.5 : 1
-      })
-    ];
-    forceResponsiveLayout &&
-      features.push(new ForceElementSizeFeature({ target: 'body' }) as any);
-    return makeWebshell(WebView, ...features);
-  }, [
-    allowWebViewNavigation,
-    allowPinchToZoom,
-    resizeMethod,
-    forceResponsiveLayout
-  ]);
-  type WebshellProps = React.ComponentProps<typeof Webshell>;
-  const onDOMLinkPress = React.useCallback(
-    (target: LinkPressTarget) => {
-      if (target.scheme.match(/^https?$/)) {
-        if (!allowWebViewNavigation) {
-          WebBrowser.openBrowserAsync(target.uri);
-        } else {
-          scrollViewRef.current?.scrollTo({
-            y: containerPaddingTop,
-            animated: true
-          });
-        }
-      }
-    },
-    [allowWebViewNavigation, containerPaddingTop]
-  );
-  const onLayout = React.useCallback(
-    (e) => setLayout(e.nativeEvent.layout),
-    []
-  );
-  const onDOMHashChange = React.useCallback(
-    (e: HashChangeEvent) =>
-      scrollViewRef.current?.scrollTo({
-        y: e.targetElementBoundingRect.top + containerPaddingTop,
-        animated: true
-      }),
-    [containerPaddingTop]
-  );
-  const webshellContainerStyle = {
-    paddingHorizontal: paddingHz,
-    alignSelf: 'stretch' as 'stretch'
-  };
-  React.useEffect(() => {
-    setLayout(null);
-  }, [instance]);
-  React.useEffect(() => {
-    scrollViewRef.current?.scrollTo({
-      y: containerPaddingTopRef.current,
-      animated: true
-    });
-  }, [source]);
-  React.useEffect(() => {
-    scrollViewRef.current?.scrollTo({ y: 0, animated: true });
-  }, [showEvidence]);
+  const insets = useSafeAreaInsets();
   return (
-    <PaperProvider theme={theme}>
-      <View style={styles.root}>
-        <ScrollView
-          key={instance}
-          ref={scrollViewRef}
-          pinchGestureEnabled={false}
-          horizontal={false}
-          contentContainerStyle={styles.container}>
-          {showConsole ? <View style={styles.statsPlaceholder} /> : null}
-          {showEvidence ? <Evidence webshellPosition="below" /> : null}
-          <View style={webshellContainerStyle}>
-            <Webshell
-              onDOMLinkPress={onDOMLinkPress}
-              onDOMHashChange={onDOMHashChange}
-              onLayout={onLayout}
-              {...autoheightWebshellProps}
-            />
-          </View>
-          {showEvidence ? <Evidence webshellPosition="above" /> : null}
-        </ScrollView>
-      </View>
-      {renderSheet()}
-      <Stats
-        display={showConsole}
-        contentSize={contentSize}
-        layout={layout}
-        source={source}
-        resizeImplementation={resizeImplementation}
-        syncState={syncState}
-      />
-      <StatusBar
-        translucent={false}
-        style="light"
-        backgroundColor={BACKGROUND}
-      />
-    </PaperProvider>
+    <>
+      <AppStoreProvider>
+        <StatusBar translucent={true} style="light" />
+        <View
+          style={[
+            styles.statusBarPlaceholder,
+            {
+              paddingTop: insets.top,
+              paddingBottom: insets.bottom
+            }
+          ]}>
+          <NavigationContainer>
+            <Stack.Navigator>
+              <Stack.Screen
+                options={{
+                  headerShown: false,
+                  safeAreaInsets: StyleSheet.absoluteFillObject
+                }}
+                name="Home"
+                component={HomeScreen}
+              />
+              <Stack.Screen
+                options={{
+                  headerShown: true,
+                  safeAreaInsets: { top: 0, bottom: 0 }
+                }}
+                name="Options"
+                component={OptionsScreen}
+              />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </View>
+      </AppStoreProvider>
+    </>
   );
 }
-
 const styles = StyleSheet.create({
+  safeContainer: {},
+  statusBarPlaceholder: {
+    flex: 1,
+    backgroundColor: BACKGROUND,
+    width: '100%'
+  },
   autoheight: {
     backgroundColor: 'transparent'
   },
   statsPlaceholder: {
     height: STAT_HEIGHT,
-    alignSelf: 'stretch',
-    backgroundColor: 'black'
+    alignSelf: 'stretch'
   },
   container: {
     padding: 0,
     margin: 0,
     alignItems: 'center',
-    paddingBottom: BOTTOM_SHEET_COLLAPSED_OFFSET
+    flexShrink: 0
   },
   root: {
     flexGrow: 1

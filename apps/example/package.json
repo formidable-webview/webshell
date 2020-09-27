@@ -13,7 +13,10 @@
   },
   "dependencies": {
     "@formidable-webview/webshell": "workspace:*",
+    "@react-native-community/masked-view": "0.1.10",
     "@react-native-community/picker": "1.6.6",
+    "@react-navigation/native": "^5.7.4",
+    "@react-navigation/stack": "^5.9.1",
     "@rnhooks/device-orientation": "^0.0.1",
     "expo": "^39.0.3",
     "expo-splash-screen": "~0.6.1",
@@ -25,9 +28,10 @@
     "react-native-paper": "^4.2.0",
     "react-native-picker-select": "^8.0.0",
     "react-native-reanimated": "~1.13.0",
+    "react-native-safe-area-context": "3.1.4",
+    "react-native-screens": "~2.10.1",
     "react-native-vector-icons": "^7.1.0",
-    "react-native-webview": "10.7.0",
-    "reanimated-bottom-sheet": "^1.0.0-alpha.22"
+    "react-native-webview": "10.7.0"
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",
