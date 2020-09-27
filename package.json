@@ -13,7 +13,8 @@
     "test:core:ts": "yarn workspace @formidable-webview/webshell test:ts",
     "test:core:lint": "yarn workspace @formidable-webview/webshell test:lint",
     "release:core": "yarn workspace @formidable-webview/webshell release-it",
-    "release:website": "GIT_USER=$USER USE_SSH=true yarn workspace website deploy"
+    "publish:example": "yarn workspace example expo publish",
+    "publish:website": "GIT_USER=$USER USE_SSH=true yarn workspace website deploy"
   },
   "repository": {
     "type": "git",
