@@ -167,7 +167,7 @@ export interface WebjsContext<O extends {}, P> {
    */
   readonly options: O;
   /**
-   * When invoked, the webshell will call the handler associated with this
+   * When invoked, the shell will call the handler associated with this
    * script, if any.
    *
    * @param payload - The value which will be passed to the handler.
@@ -181,13 +181,15 @@ export interface WebjsContext<O extends {}, P> {
    */
   makeCallbackSafe<T extends Function>(callback: T): T;
   /**
-   * Safely post a warn message to the console.
+   * Safely post a warn message to the console. The message will be routed to
+   * shell and printed in the React Native console during development.
    */
   warn(message: string): void;
   /**
-   * Safely post an error message to the console.
+   * Safely post an info message to the console. The message will be routed to
+   * shell and printed in the React Native console during development.
    */
-  error(message: string): void;
+  info(message: string): void;
   /**
    * Get one element in the DOM from a request. See {@link DOMElementRequest}.
    *
