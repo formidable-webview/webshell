@@ -11,58 +11,164 @@ import { Webshell } from '../components/Webshell';
 
 This post will be regularly updated to track the main features scheduled for <Webshell />.
 
-## Native to DOM Communication
+## Native to Web Communication
 
 Currently, features can inject scripts which will create events, and offer props to handle those events.
-What we'd like to provide is a way to communicate imperatively _from_ the shell _to_ the DOM. Something like this:
+What we'd like to provide is a way to communicate imperatively _from_ the shell _to_ the Web. Something like this:
+
+### Native Usage
 
 ```jsx title="MyComponent.jsx"
 import * as React from 'react';
+import { makeWebshell } from '@formidable-webview/webshell';
 import { Feature1 } from './Feature1';
 
 const feature1 = new Feature1();
 const Webshell = makeWebshell(WebView, feature1);
 
 export const MyComponent = (props) => {
-  const bridge = React.useRef();
+  const webHandle = React.useRef();
   React.useEffect(() => {
     // props.user must be JSON-serializable
-    bridge.postDOMMessage(feature1.instanceId, props.user);
+    webHandle.postMessageToWeb(feature1, 'user', props.user);
   }, [props.user]);
-  return <Webshell bridge={bridge} />;
+  return <Webshell webHandle={webHandle} />;
 };
 ```
 
-And on the Web side:
+### Native Implementation
 
-```js title="feature1.webjs"
-function feature1(context) {
-  context.onShellMessage(function (user) {
+```js title="Feature1.js"
+import { FeatureBuilder } from '@formidable-webview/webshell';
+import script from './Feature1.webjs';
+
+export const Feature1 = new FeatureBuilder({
+  script,
+  defaultOptions: {},
+  featureIdentifier: 'org.myorg/webshell.feature1',
+  className: 'Feature1'
+})
+  .withWebHandler('user')
+  .build();
+```
+
+### Web Implementation
+
+```js title="Feature1.webjs"
+function Feature1(context) {
+  context.onShellMessage('user', function (user) {
     console.info(user); // Prints user!
+  });
+}
+```
+
+## Asynchronous Web to Native Communication
+
+### Native Usage
+
+```jsx title="MyComponent.jsx"
+import * as React from 'react';
+import { makeWebshell } from '@formidable-webview/webshell';
+import { AsyncFlatteryFeature } from './AsyncFlatteryFeature';
+
+const flatters = new AsyncFlatteryFeature();
+const Webshell = makeWebshell(WebView, flatters);
+
+// This function must return a promise!
+function handleAsyncFlattery() {
+  return Promise.resolve('I love you too!');
+}
+
+export const MyComponent = (props) => {
+  return <Webshell onAsyncWebFlattery={handleFlattery} />;
+};
+```
+
+### Native Implementation
+
+```js title="AsyncFlatteryFeature.js"
+import { FeatureBuilder } from '@formidable-webview/webshell';
+import script from './AsyncFlatteryFeature.webjs';
+
+export const AsyncFlatteryFeature = new FeatureBuilder({
+  script,
+  defaultOptions: {},
+  featureIdentifier: 'org.myorg/webshell.async-flattery',
+  className: 'AsyncFlatteryFeature'
+})
+  .withAsyncHandlerProp('onAsyncWebFlattery', 'flatters')
+  .build();
+```
+
+### Web Implementation
+
+```js title="AsyncFlatteryFeature.webjs"
+function AsyncFlatteryFeature(context) {
+  context
+    .postAsyncMessageToShell('flatters', 'I really like you.')
+    .then(function (response) {
+      console.info(response);
+      // 'I love you too!'
+    });
+}
+```
+
+## Asynchronous Native to Web Communication
+
+
+### Native Usage
+
+```jsx title="MyComponent.jsx"
+import * as React from 'react';
+import { makeWebshell } from '@formidable-webview/webshell';
+import { AsyncFlatteryFeature } from './AsyncFlatteryFeature';
+
+const flatteryFeature = new AsyncFlatteryFeature();
+const Webshell = makeWebshell(WebView, flatteryFeature);
+
+export const MyComponent = (props) => {
+  const webHandle = React.useRef();
+  React.useEffect(() => {
+    // props.user must be JSON-serializable
+    webHandle
+      .postAsyncMessageToWeb(flatteryFeature, 'flatters', 'I really like you!')
+      .then(response => console.info(response));
+  }, []);
+  return <Webshell webHandle={webHandle} />;
+};
+```
+
+### Native Implementation
+
+```js title="AsyncFlatteryFeature.js"
+import { FeatureBuilder } from '@formidable-webview/webshell';
+import script from './AsyncFlatteryFeature.webjs';
+
+export const AsyncFlatteryFeature = new FeatureBuilder({
+  script,
+  defaultOptions: {},
+  featureIdentifier: 'org.myorg/webshell.async-flattery',
+  className: 'AsyncFlatteryFeature'
+})
+  .withAsyncWebHandler('flatters')
+  .build();
+```
+
+### Web Implementation
+
+```js title="AsyncFlatteryFeature.webjs"
+function AsyncFlatteryFeature(context) {
+  context.onAsyncShellMessage('flatters', function (message) {
+    return Promise.resolve('I love you too!')
   });
 }
 ```
 
 ## Feature Cardinality
 
-- specify the cardinality of a feature (how many instances can co-exist). We
-  are planning to get inspiration from [multi-instance plugins in
-  docusaurus](https://v2.docusaurus.io/docs/using-plugins#multi-instance-plugins-and-plugin-ids).
-
-## Inter-feature Script Communication
-
-Feature scripts could add listeners to events emitted by other features.
-
-```js title="listening-feature.webjs"
-function listeningFeature(context) {
-  function onLinkPress(instanceId, target) {
-    console.info(target.uri + ' pressed!');
-  }
-  context.addDOMEventListener('org.myorg/webshell.link-press', onLinkPress);
-}
-```
-
-## Feature Composition
+Specify the cardinality of a feature (how many instances can co-exist). We
+are planning to get inspiration from [multi-instance plugins in
+docusaurus](https://v2.docusaurus.io/docs/using-plugins#multi-instance-plugins-and-plugin-ids).
 
 ## Passing Props to Feature Scripts
 
@@ -70,7 +176,7 @@ Features are already customizable with options, which are once-and-for-all
 delivered as an argument of the feature function. What we could provide is a way to
 declare JSON-serializable props that could be read in Feature Scripts.
 
-### Native Consumption
+### Native Usage
 
 ```jsx title="MyAugmentedWebView"
 import React, { ComponentProps } from 'react';
@@ -101,7 +207,7 @@ export const FeatureWithProp = new FeatureBuilder({
   .build();
 ```
 
-### DOM Implementation
+### Web Implementation
 
 ```js title="feature-with-prop.webjs"
 function featureWithProp(context) {
