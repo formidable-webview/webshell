@@ -3,7 +3,7 @@ function HandleLinkPressFeature(context) {
     var element = e.target || e.srcElement;
     if (element && element.tagName.toLowerCase() === 'a') {
       context.options.preventDefault && e.preventDefault();
-      context.postShellMessage({
+      context.postMessageToShell({
         uri: element.href
       });
     }

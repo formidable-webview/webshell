@@ -106,7 +106,7 @@ function registerFeature(specs) {
     },
     numericFromPxString: numericFromPxString,
     makeCallbackSafe: makeCallbackSafe.bind(null, sendErrorMessage),
-    postShellMessage: function () {
+    postMessageToShell: function () {
       var message = arguments.length > 1 ? arguments[1] : arguments[0];
       var handlerId = arguments.length > 1 ? arguments[0] : 'default';
       if (handlerName == null) {
@@ -114,7 +114,7 @@ function registerFeature(specs) {
           new TypeError(
             snippetIdentifier +
               ': ' +
-              'context.postShellMessage was invoked while no handlerName was passed to this feature. ' +
+              'context.postMessageToShell was invoked while no handlerName was passed to this feature. ' +
               'Register a handlerName and try again.'
           )
         );

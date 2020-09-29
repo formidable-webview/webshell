@@ -43,7 +43,7 @@ function HandleLinkPressFeature(context) {
         height: rect.height
       };
       preventDefault && e.preventDefault();
-      context.postShellMessage({
+      context.postMessageToShell({
         uri: href,
         scheme: extractScheme(href),
         hrefAttribute: anchor.getAttribute('href'),

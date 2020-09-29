@@ -24,7 +24,7 @@ function HandleVisualViewportFeature(context) {
       visualViewport: visualViewport,
       isLegacy: isLegacy
     };
-    context.postShellMessage(dimensions);
+    context.postMessageToShell(dimensions);
   });
   postSize();
   if (isLegacy) {

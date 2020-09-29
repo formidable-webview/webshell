@@ -342,8 +342,8 @@ export interface WebjsContext<O extends {}, P> {
     // (undocumented)
     numericFromPxString(style: string): number;
     readonly options: O;
-    postShellMessage(payload: P): void;
-    postShellMessage(handlerId: string, payload: P): void;
+    postMessageToShell(payload: P): void;
+    postMessageToShell(handlerId: string, payload: P): void;
     warn(message: string): void;
 }
 

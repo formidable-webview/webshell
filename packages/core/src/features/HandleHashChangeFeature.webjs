@@ -20,7 +20,7 @@ function HandleHashChangeFeature(context) {
         width: rect.width,
         height: rect.height
       };
-      context.postShellMessage({
+      context.postMessageToShell({
         hash: newhash,
         targetElementBoundingRect: targetElementBoundingRect
       });

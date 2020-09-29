@@ -42,7 +42,7 @@ function HandleHTMLDimensionsFeature(context) {
         }
       };
       if (!dimensionsAreEqual(oldDimensions, dimensions)) {
-        context.postShellMessage(dimensions);
+        context.postMessageToShell(dimensions);
         oldDimensions = dimensions;
       }
     });

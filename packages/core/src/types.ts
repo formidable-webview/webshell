@@ -174,7 +174,7 @@ export interface WebjsContext<O extends {}, P> {
    *
    * @param payload - The value which will be passed to the handler.
    */
-  postShellMessage(payload: P): void;
+  postMessageToShell(payload: P): void;
   /**
    * Instruct the shell to call the handler associated with this
    * feature and `eventId`, if any.
@@ -183,7 +183,7 @@ export interface WebjsContext<O extends {}, P> {
    * You can omit this param if you are sending to `"default"` handler.
    * @param payload - The value which will be passed to the handler.
    */
-  postShellMessage(handlerId: string, payload: P): void;
+  postMessageToShell(handlerId: string, payload: P): void;
   /**
    * Create a function which execute a callback in a try-catch block that will
    * grab errors en send them to the `Webshell` component.
