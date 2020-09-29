@@ -3,7 +3,7 @@ import * as React from 'react';
 import Ersatz from '@formidable-webview/ersatz';
 import makeErsatzTesting from '@formidable-webview/ersatz-testing';
 import { render } from '@testing-library/react-native';
-import dummyHelloScript from './feat/dummy-hello.webjs';
+import dummyHelloScript from './feat/DummyHello.webjs';
 import { assembleScript } from '../make-webshell';
 import { FeatureBuilder } from '../FeatureBuilder';
 

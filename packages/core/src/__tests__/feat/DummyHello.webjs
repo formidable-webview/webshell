@@ -1,4 +1,4 @@
-function dummyHelloFeature(arg) {
+function DummyHelloFeature(arg) {
   var postMessageToShell = arg.postMessageToShell;
   postMessageToShell('Hello world!');
 }

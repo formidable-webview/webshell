@@ -1,4 +1,4 @@
-function dummyHandlerIdFeature(arg) {
+function DummyHandlerIdFeature(arg) {
   var postMessageToShell = arg.postMessageToShell;
   postMessageToShell('hi', 'Hello world!');
 }
