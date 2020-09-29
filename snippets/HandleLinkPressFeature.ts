@@ -17,8 +17,7 @@ const defaultOptions: LinkPressOptions = {
 export const HandleLinkPressFeature = new FeatureBuilder({
   defaultOptions,
   script: linkPressScript,
-  featureIdentifier: 'org.myorg/webshell.link-press',
-  className: 'HandleLinkPressFeature'
+  featureIdentifier: 'org.myorg/webshell.link-press'
 })
   .withEventHandlerProp<LinkPressTarget, 'onDOMLinkPress'>(
     'onDOMLinkPress'
