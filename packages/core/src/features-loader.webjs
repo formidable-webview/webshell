@@ -1,7 +1,3 @@
-// eslint-disable-next-line no-undef
-var debug = $$__DEBUG__$$;
-// eslint-disable-next-line no-undef
-var features = $$___FEATURES___$$;
 var safePostMessage = (function () {
   return window.ReactNativeWebView &&
     typeof window.ReactNativeWebView.postMessage === 'function'
@@ -60,42 +56,44 @@ function __getDOMSelection(request, multiple) {
     return (selection.length && selection[0]) || null;
   }
 }
+
+function sendLogMessage(snippetIdentifier, severity, message) {
+  safePostMessage(
+    JSON.stringify({
+      type: 'log',
+      severity: severity,
+      identifier: snippetIdentifier,
+      __isWebshellPostMessage: true,
+      body: message
+    })
+  );
+}
+
+function sendErrorMessage(snippetIdentifier, e) {
+  var message =
+    typeof e === 'string'
+      ? e
+      : typeof e === 'object' && typeof e.message === 'string'
+      ? e.message
+      : 'unknown error';
+  console.error(message);
+  safePostMessage(
+    JSON.stringify({
+      type: 'error',
+      identifier: snippetIdentifier,
+      __isWebshellPostMessage: true,
+      body: message
+    })
+  );
+}
+
 function registerFeature(specs) {
   if (specs && typeof specs === 'object') {
     var executable = specs.source;
     var snippetIdentifier = specs.identifier;
     var snippetOptions = specs.options || {};
-    var handlerName = specs.handlerName || null;
   } else {
     return;
-  }
-  function sendLogMessage(severity, message) {
-    safePostMessage(
-      JSON.stringify({
-        type: 'log',
-        severity: severity,
-        identifier: snippetIdentifier,
-        __isWebshellPostMessage: true,
-        body: message
-      })
-    );
-  }
-  function sendErrorMessage(e) {
-    var message =
-      typeof e === 'string'
-        ? e
-        : typeof e === 'object' && typeof e.message === 'string'
-        ? e.message
-        : 'unknown error';
-    console.error(message);
-    safePostMessage(
-      JSON.stringify({
-        type: 'error',
-        identifier: snippetIdentifier,
-        __isWebshellPostMessage: true,
-        body: message
-      })
-    );
   }
   var context = {
     getDOMSelection: function (selection) {
@@ -105,27 +103,18 @@ function registerFeature(specs) {
       return __getDOMSelection(selection, true);
     },
     numericFromPxString: numericFromPxString,
-    makeCallbackSafe: makeCallbackSafe.bind(null, sendErrorMessage),
+    makeCallbackSafe: makeCallbackSafe.bind(
+      null,
+      sendErrorMessage.bind(null, snippetIdentifier)
+    ),
     postMessageToShell: function () {
       var message = arguments.length > 1 ? arguments[1] : arguments[0];
       var handlerId = arguments.length > 1 ? arguments[0] : 'default';
-      if (handlerName == null) {
-        sendErrorMessage(
-          new TypeError(
-            snippetIdentifier +
-              ': ' +
-              'context.postMessageToShell was invoked while no handlerName was passed to this feature. ' +
-              'Register a handlerName and try again.'
-          )
-        );
-        return;
-      }
       safePostMessage(
         JSON.stringify({
           type: 'feature',
           identifier: snippetIdentifier,
           body: message,
-          handlerName: handlerName,
           handlerId: handlerId,
           __isWebshellPostMessage: true
         })
@@ -136,24 +125,28 @@ function registerFeature(specs) {
       var logger = console.info || console.log;
       var message = snippetIdentifier + ': ' + text;
       logger && logger.call(console, message);
-      debug && sendLogMessage('info', message);
+      window.ReactNativeWebshell.debug &&
+        sendLogMessage(snippetIdentifier, 'info', message);
     },
     warn: function (text) {
       var logger = console.warn || console.log;
       var message = snippetIdentifier + ': ' + text;
       logger && logger.call(console, message);
-      debug && sendLogMessage('warn', message);
+      window.ReactNativeWebshell.debug &&
+        sendLogMessage(snippetIdentifier, 'warn', message);
     }
   };
   if (executable && typeof executable === 'function') {
     try {
       executable.call(null, context);
     } catch (e) {
-      sendErrorMessage(e);
+      sendErrorMessage(snippetIdentifier, e);
     }
   }
 }
 
-if (Array.isArray(features)) {
-  Array.prototype.forEach.call(features, registerFeature);
-}
+window.ReactNativeWebshell = {
+  debug: true,
+  registerFeature: registerFeature,
+  sendErrorMessage: sendErrorMessage
+};

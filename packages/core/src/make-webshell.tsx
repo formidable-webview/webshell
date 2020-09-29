@@ -48,17 +48,9 @@ function isPostMessageObject(o: unknown): o is PostMessage {
 }
 
 function serializeFeature(feature: Feature<any, PropsSpecs<any>>) {
-  const propDef = feature.propSpecs.find((f) => f.type === 'handler');
-  return `{
-    source:${feature.script},
-    identifier:${JSON.stringify(feature.featureIdentifier)},
-    options:${JSON.stringify(feature.options || {})},
-    handlerName: ${JSON.stringify(propDef?.name || '')}
-  }`;
-}
-
-function serializeFeatureList(feats: Feature<any, any>[]) {
-  return `[${feats.map(serializeFeature).join(',')}]`;
+  return `{source:${feature.script},identifier:${JSON.stringify(
+    feature.featureIdentifier
+  )},options:${JSON.stringify(feature.options || {})}}`;
 }
 
 function extractFeatureProps(
@@ -119,10 +111,20 @@ function extractPropsSpecsMap(features: Feature<any, PropsSpecs<any>>[]) {
     ) as Record<string, PropDefinition<any>>;
 }
 
-export function assembleScript(serializedFeatureList: string) {
-  return featuresLoaderScript
-    .replace('$$___FEATURES___$$', serializedFeatureList)
-    .replace('$$__DEBUG__$$', `${__DEV__}`);
+function registerFeature(feat: Feature<any, any>) {
+  return `try {
+    window.ReactNativeWebshell.registerFeature(${serializeFeature(feat)});
+  } catch (e) {
+    window.ReactNativeWebshell.sendErrorMessage(${JSON.stringify(
+      feat.featureIdentifier
+    )},e);
+  };`;
+}
+
+export function assembleScript(feats: Feature<any, any>[], debug: boolean) {
+  return `${featuresLoaderScript}(function(){${feats.map(
+    registerFeature
+  )};window.ReactNativeWebshell.debug=${debug};})();`;
 }
 
 /**
@@ -147,8 +149,7 @@ export function makeWebshell<
   const filteredFeatures = features.filter((f) => !!f);
   const propsMap = extractPropsSpecsMap(filteredFeatures);
   const handlersMap = extractHandlersMap(filteredFeatures);
-  const serializedFeatureScripts = serializeFeatureList(filteredFeatures);
-  const injectableScript = assembleScript(serializedFeatureScripts);
+  const injectableScript = assembleScript(filteredFeatures, __DEV__);
   const Webshell = (
     props: WebshellProps<ComponentProps<C>, F> & { webViewRef: ElementRef<C> }
   ) => {

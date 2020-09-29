@@ -4,7 +4,10 @@ module.exports = {
   overrides: [
     {
       files: ['*.webjs'],
-      extends: '@formidable-webview/eslint-config-webjs'
+      extends: '@formidable-webview/eslint-config-webjs',
+      globals: {
+        webshell: "readonly"
+      }
     }
   ]
 };
