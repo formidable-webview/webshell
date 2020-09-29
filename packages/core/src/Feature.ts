@@ -42,7 +42,7 @@ export type FeatureInstanceOf<F> = F extends FeatureConstructor<
  * You should never instantiate that class directly. Use {@link FeatureBuilder} instead.
  *
  * @param params - An object to specify attributes of the feature.
- * @typeparam O - The shape of the JSON-serializable object that will be passed to the DOM script.
+ * @typeparam O - The shape of the JSON-serializable object that will be passed to the Web script.
  * @typeparam S - Specifications for the new properties added to webshell.
  * @public
  */

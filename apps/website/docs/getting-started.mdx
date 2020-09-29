@@ -26,18 +26,18 @@ If you are looking for v1 documentation, [jump here](https://github.com/formidab
 ## How does it work?
 
 @formidable-webview/webshell exports a simple builder-function (<Term id="HOC" />) which
-creates an augmented <WebView /> component with additional <Term id="DOM" />-based features. The returned
+creates an augmented <WebView /> component with additional Web-based features. The returned
 component behaves exactly like a <WebView />, and given a `ref` prop, you'll get
 the underlying <WebView /> instance and be able to access its imperative methods.
 
 The only difference with a vanilla <WebView /> is that this new component (from now on, we'll call it *the shell*)
 will have additional props.
 
-The <Term id="DOM" /> features form an abstraction layer over <WebView />'s <Term id="messaging system" />,
-hence the “shell” in <Webshell />. Each <Term id="DOM" />
-feature augments the <WebView /> with new props and behaviors.
+The Web-features form an abstraction layer over <WebView />'s <Term id="messaging system" />,
+hence the “shell” in <Webshell />. Each Web-feature
+augments the <WebView /> with new props and behaviors.
 
-And you can, of course, [implement any DOM feature you'd
+And you can, of course, [implement any Web feature you'd
 like](./implementing-features). This library also presents a set of good
 practices to test features in isolation and, by extension, test any injected
 scripts. See [the tooling guide](./tooling).
@@ -51,10 +51,10 @@ behaviors injectable into <WebView />s. More precisely, a feature can do the
 following things:
 
 - Alter the content of the <Term id="DOM" />;
-- Inject behaviors through scripts in the <Term id="DOM" />;
+- Inject behaviors through scripts in the Web environment;
 - Add handler props to the <WebView /> component in order to react to specific events. These features are called _event features_.
 
-Event features will augment the <WebView/> with <Term id="DOM" /> message
+Event features will augment the <WebView/> with message
 handler props, for example `onDOMLinkPress`. Here are examples of event features you
 can instantiate in a shell:
 

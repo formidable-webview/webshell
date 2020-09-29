@@ -114,7 +114,7 @@ export interface WebshellInvariantProps {
    */
   onDOMError?: (featureIdentifier: string, error: string) => void;
   /**
-   * Report DOM error messages from features in the console.
+   * Report Web error messages from features in the console.
    *
    * @defaultvalue `__DEV__`
    */
@@ -152,13 +152,14 @@ export interface MinimalWebViewProps {
   readonly disableScrollViewPanResponder?: unknown;
 }
 
-// DOM TYPES
+// Web TYPES
 
 /**
- * This type specifies the shape of the object passed to DOM features scripts.
+ * This type specifies the shape of the object passed to Web features scripts.
  *
- * @typeparam O - The shape of the JSON-serializable options that will be passed to the DOM script.
+ * @typeparam O - The shape of the JSON-serializable options that will be passed to the Web script.
  * @typeparam P - The type of the argument which will be passed to the event handler prop.
+ *
  * @public
  */
 export interface WebjsContext<O extends {}, P> {

@@ -17,8 +17,7 @@ const DummyWebView = ({}: MinimalWebViewProps) => <View />;
 const HelloFeature = new FeatureBuilder({
   script: dummyHelloScript,
   featureIdentifier: 'test.hello',
-  defaultOptions: {},
-  className: 'HelloFeature'
+  defaultOptions: {}
 })
   .withEventHandlerProp('onDOMDummyHello')
   .build();
@@ -26,8 +25,7 @@ const HelloFeature = new FeatureBuilder({
 const FailingFeature = new FeatureBuilder({
   script: dummyFailingScript,
   featureIdentifier: 'test.fail',
-  defaultOptions: {},
-  className: 'FailingFeature'
+  defaultOptions: {}
 })
   .withEventHandlerProp('onDOMDummyFailure')
   .build();
@@ -35,8 +33,7 @@ const FailingFeature = new FeatureBuilder({
 const OptionFeature = new FeatureBuilder({
   script: dummyOptionScript,
   featureIdentifier: 'test.option',
-  defaultOptions: {},
-  className: 'FailingFeature'
+  defaultOptions: {}
 })
   .withEventHandlerProp<{ foo: string }, 'onDOMDummyOption'>('onDOMDummyOption')
   .build();

@@ -23,7 +23,7 @@ export interface FeatureBuilderConfig<
  *
  * @param config - An object to specify attributes of the feature.
  *
- * @typeparam O - The shape of the JSON-serializable object that will be passed to the DOM script.
+ * @typeparam O - The shape of the JSON-serializable object that will be passed to the Web script.
  * @typeparam S - Specifications for the new properties added by the built feature.
  * @public
  */
@@ -34,7 +34,7 @@ export class FeatureBuilder<O extends {}, S extends PropsSpecs<any> = []> {
     this.config = config;
   }
   /**
-   * Signal that the feature will receive events from the DOM, and the shell
+   * Signal that the feature will receive events from the Web, and the shell
    * will provide a new handler prop.
    *
    * @param eventHandlerName - The name of the handler prop added to the shell.
