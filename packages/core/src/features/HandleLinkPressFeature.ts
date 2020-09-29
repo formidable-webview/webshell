@@ -99,7 +99,6 @@ export const HandleLinkPressFeature: FeatureConstructor<
 > = new FeatureBuilder({
   script: linkPressScript,
   defaultOptions,
-  className: 'HandleLinkPressFeature',
   featureIdentifier: 'org.formidable-webview/webshell.link-press'
 })
   .withEventHandlerProp<LinkPressTarget, 'onDOMLinkPress'>('onDOMLinkPress')

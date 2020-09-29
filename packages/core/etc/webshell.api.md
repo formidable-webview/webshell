@@ -153,7 +153,6 @@ export class FeatureBuilder<O extends {}, S extends PropsSpecs<any> = []> {
 export interface FeatureBuilderConfig<O extends {}, S extends PropsSpecs<any> = []> extends FeatureDefinition<O> {
     // @internal (undocumented)
     __propSpecs?: S;
-    className?: string;
 }
 
 // @public

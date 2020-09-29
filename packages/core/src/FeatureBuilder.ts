@@ -16,11 +16,6 @@ export interface FeatureBuilderConfig<
    * @internal
    */
   __propSpecs?: S;
-  /**
-   * When present, the returned constructor will be given this name.
-   * See {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/name | Function.name}
-   */
-  className?: string;
 }
 
 /**
@@ -69,7 +64,6 @@ export class FeatureBuilder<O extends {}, S extends PropsSpecs<any> = []> {
     const {
       script,
       featureIdentifier,
-      className,
       __propSpecs: propSpecs,
       defaultOptions
     } = this.config;
@@ -91,7 +85,7 @@ export class FeatureBuilder<O extends {}, S extends PropsSpecs<any> = []> {
       configurable: true,
       enumerable: false,
       writable: false,
-      value: className || 'AnonymousFeature'
+      value: `Feature(${featureIdentifier})`
     });
     return ctor;
   }

@@ -132,7 +132,6 @@ export const HandleElementCSSBoxFeature: FeatureConstructor<
 > = new FeatureBuilder({
   script,
   defaultOptions,
-  className: 'HandleElementCSSBoxFeature',
   featureIdentifier:
     'org.formidable-webview/webshell.handle-element-cssbox-dimensions'
 })

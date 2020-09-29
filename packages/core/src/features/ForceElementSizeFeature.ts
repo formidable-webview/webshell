@@ -66,6 +66,5 @@ export const ForceElementSizeFeature: FeatureConstructor<ForceElementSizeOptions
 >({
   script,
   defaultOptions,
-  featureIdentifier: 'org.formidable-webview/webshell.force-element-size',
-  className: 'ForceElementSizeFeature'
+  featureIdentifier: 'org.formidable-webview/webshell.force-element-size'
 }).build();
