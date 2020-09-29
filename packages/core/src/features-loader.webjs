@@ -1,3 +1,5 @@
+var messagesHandlerRegistry = {};
+
 var safePostMessage = (function () {
   return window.ReactNativeWebView &&
     typeof window.ReactNativeWebView.postMessage === 'function'
@@ -8,9 +10,11 @@ var safePostMessage = (function () {
         throw 'Missing postMessage. You must run this script in a WebView or @formidable-webview/ersatz.';
       };
 })();
+
 function numericFromPxString(pixelString) {
   return pixelString ? parseFloat(pixelString.match(/[\d.]+/)) : 0;
 }
+
 function makeCallbackSafe(onError, callback) {
   return function () {
     try {
@@ -20,6 +24,7 @@ function makeCallbackSafe(onError, callback) {
     }
   };
 }
+
 function __getDOMSelection(request, multiple) {
   var normalRequest =
     typeof request === 'string' ? { query: request } : request;
@@ -87,6 +92,8 @@ function sendErrorMessage(snippetIdentifier, e) {
   );
 }
 
+function registerShellMessageHandler(identifier, handlerId, handler) {}
+
 function registerFeature(specs) {
   if (specs && typeof specs === 'object') {
     var executable = specs.source;
@@ -95,6 +102,7 @@ function registerFeature(specs) {
   } else {
     return;
   }
+  messagesHandlerRegistry[specs.identifier] = {};
   var context = {
     getDOMSelection: function (selection) {
       return __getDOMSelection(selection, false);
@@ -107,6 +115,9 @@ function registerFeature(specs) {
       null,
       sendErrorMessage.bind(null, snippetIdentifier)
     ),
+    onShellMessage: function (handlerId, messageHandler) {
+      messagesHandlerRegistry[specs.identifier][handlerId] = messageHandler;
+    },
     postMessageToShell: function () {
       var message = arguments.length > 1 ? arguments[1] : arguments[0];
       var handlerId = arguments.length > 1 ? arguments[0] : 'default';
@@ -148,5 +159,12 @@ function registerFeature(specs) {
 window.ReactNativeWebshell = {
   debug: true,
   registerFeature: registerFeature,
-  sendErrorMessage: sendErrorMessage
+  sendErrorMessage: sendErrorMessage,
+  postMessageToWeb: function (identifier, handlerId, message) {
+    var identifierReg = messagesHandlerRegistry[identifier];
+    if (identifierReg) {
+      var handler = identifierReg[handlerId];
+      typeof handler === 'function' && handler(message);
+    }
+  }
 };

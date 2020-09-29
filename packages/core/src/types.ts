@@ -3,7 +3,8 @@ import type {
   ForwardRefExoticComponent,
   RefAttributes,
   ElementRef,
-  ComponentPropsWithoutRef
+  ComponentPropsWithoutRef,
+  Ref
 } from 'react';
 import type {
   Feature,
@@ -21,7 +22,7 @@ import type {
  */
 export type WebshellComponent<
   C extends ComponentType<any>,
-  F extends Feature<any, any>[]
+  F extends Feature<any, any, any>[]
 > = ForwardRefExoticComponent<
   WebshellProps<ComponentPropsWithoutRef<C>, F> & RefAttributes<ElementRef<C>>
 >;
@@ -33,7 +34,7 @@ export type WebshellComponent<
  */
 export type WebshellComponentOf<
   C extends ComponentType<any>,
-  F extends FeatureConstructor<any, any>[]
+  F extends FeatureConstructor<any, any, any>[]
 > = WebshellComponent<C, FeatureInstanceOf<F[number]>[]>;
 
 /**
@@ -65,10 +66,49 @@ export type FeatureDefinition<O extends {}> = {
   /**
    * These options will be shallow-merged with the options provided to the {@link FeatureConstructor}.
    */
-  readonly defaultOptions: O;
+  readonly defaultOptions: Required<O>;
 };
 
 /**
+ * An object to define an API to send messages from shell to Web.
+ *
+ * @public
+ */
+export interface WebHandlerDefinition<P, I extends string> {
+  handlerId: I;
+  payload?: P;
+  async: false;
+}
+
+/**
+ * @public
+ */
+export type WebHandlersSpecs<P = {}, I extends string = string> = {
+  [k in I]: WebHandlerDefinition<P, I>;
+};
+
+/**
+ * @public
+ */
+export type WebHandlerSpecOf<S> = S extends WebHandlerDefinition<
+  infer P,
+  infer I
+>
+  ? {
+      [k in I]: WebHandlerDefinition<P, I>;
+    }
+  : never;
+
+/**
+ * @public
+ */
+export type WebHandlerSpecsFromFeature<F> = F extends Feature<any, any, infer P>
+  ? P
+  : never;
+
+/**
+ * An object to define an API to send messages from Web to shell.
+ *
  * @public
  */
 export type PropDefinition<P extends Partial<Record<string, any>>> = {
@@ -83,7 +123,9 @@ export type PropDefinition<P extends Partial<Record<string, any>>> = {
  * @public
  */
 export type PropsFromSpecs<S> = S extends PropsSpecs<any>
-  ? S[number]['signature']
+  ? S[number] extends never
+    ? {}
+    : S[number]['signature']
   : never;
 
 /**
@@ -105,6 +147,26 @@ export type EventHandlerProps<H extends string, P> = {
 };
 
 /**
+ * @public
+ */
+export interface WebHandle {
+  /**
+   *
+   * @param feat - The feature to which a message should be sent.
+   * @param handlerId - The handler identifier used in the Web script to register a listener.
+   * @param payload - The type of the message to sent.
+   */
+  postMessageToWeb<
+    F extends Feature<any, any, any>,
+    H extends keyof WebHandlerSpecsFromFeature<F>
+  >(
+    feat: F,
+    handlerId: H,
+    payload: Required<WebHandlerSpecsFromFeature<F>[H]>['payload']
+  ): void;
+}
+
+/**
  * Props any Webshell component will support.
  *
  * @public
@@ -120,6 +182,10 @@ export interface WebshellInvariantProps {
    * @defaultvalue `__DEV__`
    */
   webshellDebug?: boolean;
+  /**
+   * Pass a reference to send messages to the Web environment.
+   */
+  webHandle?: Ref<WebHandle>;
 }
 
 /**
@@ -129,7 +195,7 @@ export interface WebshellInvariantProps {
  */
 export type WebshellProps<
   W extends MinimalWebViewProps,
-  F extends Feature<any, any>[]
+  F extends Feature<any, any, any>[]
 > = WebshellInvariantProps &
   W &
   (F[number] extends never ? {} : PropsFromFeature<F[number]>);
@@ -159,11 +225,10 @@ export interface MinimalWebViewProps {
  * This type specifies the shape of the object passed to Web features scripts.
  *
  * @typeparam O - The shape of the JSON-serializable options that will be passed to the Web script.
- * @typeparam P - The type of the argument which will be passed to the event handler prop.
  *
  * @public
  */
-export interface WebjsContext<O extends {}, P> {
+export interface WebjsContext<O extends {}> {
   /**
    * The options to customize the script behavior.
    */
@@ -174,16 +239,23 @@ export interface WebjsContext<O extends {}, P> {
    *
    * @param payload - The value which will be passed to the handler.
    */
-  postMessageToShell(payload: P): void;
+  postMessageToShell<P>(payload: P): void;
   /**
    * Instruct the shell to call the handler associated with this
    * feature and `eventId`, if any.
    *
-   * @param handlerId - A unique string to disambiguate between different handlers.
+   * @param handlerId - A unique string to disambiguate between different shell handlers.
    * You can omit this param if you are sending to `"default"` handler.
    * @param payload - The value which will be passed to the handler.
    */
-  postMessageToShell(handlerId: string, payload: P): void;
+  postMessageToShell<P>(handlerId: string, payload: P): void;
+  /**
+   * Register a handler on messages sent from the shell.
+   *
+   * @param handlerId - A unique string to disambiguate between different Web handlers.
+   * @param payload - The value which will be passed to the handler.
+   */
+  onShellMessage<P>(handlerId: string, handler: (payload: P) => void): void;
   /**
    * Create a function which execute a callback in a try-catch block that will
    * grab errors en send them to the `Webshell` component.

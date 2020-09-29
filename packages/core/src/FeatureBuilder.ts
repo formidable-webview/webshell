@@ -1,7 +1,13 @@
 /* eslint-disable no-spaced-func */
 import { Feature } from './Feature';
 import type { FeatureConstructor } from './Feature';
-import type { FeatureDefinition, PropDefinition, PropsSpecs } from './types';
+import type {
+  FeatureDefinition,
+  PropDefinition,
+  PropsSpecs,
+  WebHandlerDefinition,
+  WebHandlersSpecs
+} from './types';
 
 /**
  * See {@link FeatureBuilder}.
@@ -16,6 +22,10 @@ export interface FeatureBuilderConfig<
    * @internal
    */
   __propSpecs?: S;
+  /**
+   * @internal
+   */
+  __webSpecs?: WebHandlersSpecs<any>;
 }
 
 /**
@@ -27,17 +37,21 @@ export interface FeatureBuilderConfig<
  * @typeparam S - Specifications for the new properties added by the built feature.
  * @public
  */
-export class FeatureBuilder<O extends {}, S extends PropsSpecs<any> = []> {
+export class FeatureBuilder<
+  O extends {},
+  S extends PropsSpecs<any> = [],
+  W extends WebHandlersSpecs<any> = {}
+> {
   private config: FeatureBuilderConfig<O, S>;
 
   public constructor(config: FeatureBuilderConfig<O, S>) {
     this.config = config;
   }
   /**
-   * Signal that the feature will receive events from the Web, and the shell
-   * will provide a new handler prop.
+   * Instruct that the shell will receive events from the Web, and provide a
+   * new handler prop.
    *
-   * @param eventHandlerName - The name of the handler prop added to the shell.
+   * @param propName - The name of the handler prop added to the shell.
    * It is advised to follow the convention of prefixing all these handlers
    * with `onDom` to avoid collisions with `WebView` own props.
    *
@@ -45,12 +59,12 @@ export class FeatureBuilder<O extends {}, S extends PropsSpecs<any> = []> {
    * script to post a message. If none is provided, fallback to `"default"`.
    */
   withandlerProp<P, H extends string>(
-    eventHandlerName: H,
+    propName: H,
     handlerId: string = 'default'
   ) {
     const propDefinition: PropDefinition<{ [k in H]?: (p: P) => void }> = {
       handlerId,
-      name: eventHandlerName,
+      name: propName,
       featureIdentifier: this.config.featureIdentifier,
       type: 'handler'
     };
@@ -65,16 +79,36 @@ export class FeatureBuilder<O extends {}, S extends PropsSpecs<any> = []> {
     });
   }
   /**
+   * Instruct that the Web script will receive events from the shell.
+   * See {@link WebshellInvariantProps.webHandle} and {@link WebjsContext.onShellMessage}.
+   *
+   * @param handlerId - The name of the handler in the Web script.
+   */
+  withWebHandler<P = undefined, I extends string = string>(handlerId: I) {
+    return new FeatureBuilder<
+      O,
+      S,
+      W & { [k in I]: WebHandlerDefinition<P, I> }
+    >({
+      ...this.config,
+      __webSpecs: {
+        ...(this.config.__webSpecs || {}),
+        [handlerId]: { async: false, handlerId }
+      }
+    });
+  }
+  /**
    * Assemble this configuration into a feature class.
    */
-  build(): FeatureConstructor<O, S> {
+  build(): FeatureConstructor<O, S, W> {
     const {
       script,
       featureIdentifier,
       __propSpecs: propSpecs,
+      __webSpecs: webSpecs,
       defaultOptions
     } = this.config;
-    const ctor = class extends Feature<O, S> {
+    const ctor = class extends Feature<O, S, W> {
       static identifier = featureIdentifier;
       constructor(...args: O extends Partial<O> ? [] | [O] : [O]) {
         super(
@@ -82,7 +116,8 @@ export class FeatureBuilder<O extends {}, S extends PropsSpecs<any> = []> {
             script,
             featureIdentifier,
             defaultOptions,
-            propSpecs: (propSpecs || []) as S
+            propSpecs: (propSpecs || []) as S,
+            webSpecs: (webSpecs || {}) as W
           },
           (args[0] || {}) as O
         );

@@ -10,7 +10,7 @@ export interface LinkPressTarget {
   uri: string;
 }
 
-const defaultOptions: LinkPressOptions = {
+const defaultOptions = {
   preventDefault: true
 };
 

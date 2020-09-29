@@ -16,7 +16,7 @@ export interface ForceResponsiveViewportOptions {
   maxScale?: number;
 }
 
-const defaultOptions: ForceResponsiveViewportOptions = {
+const defaultOptions: Required<ForceResponsiveViewportOptions> = {
   maxScale: 1
 };
 

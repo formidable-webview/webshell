@@ -7,13 +7,20 @@ import dummyHelloScript from './feat/DummyHello.webjs';
 import dummyFailingScript from './feat/DummyFailing.webjs';
 import dummyOptionScript from './feat/DummyOption.webjs';
 import dummyHandleridScript from './feat/DummyHandlerid.webjs';
+import dummyReceiverScript from './feat/DummyReceiver.webjs';
 import { makeWebshell } from '../make-webshell';
 import { FeatureBuilder } from '../FeatureBuilder';
-import { MinimalWebViewProps } from '../types';
+import { MinimalWebViewProps, WebHandle } from '../types';
+import { act } from 'react-test-renderer';
 
 const { waitForErsatz } = makeErsatzTesting(Ersatz);
 
-const DummyWebView = ({}: MinimalWebViewProps) => <View />;
+const DummyWebView = React.forwardRef(({}: MinimalWebViewProps, ref) => {
+  React.useImperativeHandle(ref, () => ({
+    injectJavaScript() {}
+  }));
+  return <View ref={ref as any} />;
+});
 
 const HelloFeature = new FeatureBuilder({
   script: dummyHelloScript,
@@ -45,6 +52,15 @@ const HandlerIdFeature = new FeatureBuilder({
   defaultOptions: {}
 })
   .withandlerProp('onDOMDummyOption', 'hi')
+  .build();
+
+const ReceiverFeature = new FeatureBuilder({
+  script: dummyReceiverScript,
+  featureIdentifier: 'test.receiver',
+  defaultOptions: {}
+})
+  .withandlerProp<string, 'onWebFeedback'>('onWebFeedback')
+  .withWebHandler<string, 'hello'>('hello')
   .build();
 
 describe('Webshell component', () => {
@@ -104,6 +120,25 @@ describe('Webshell component', () => {
       )
     );
     expect(onHandlerIdDummyOption).toHaveBeenCalledWith('Hello world!');
+  });
+  it('should support receiving messages', async () => {
+    const onWebFeedback = jest.fn();
+    const feature = new ReceiverFeature();
+    const Webshell = makeWebshell(Ersatz, feature);
+    const webHandle = React.createRef<WebHandle>();
+    await waitForErsatz(
+      render(
+        <Webshell
+          webHandle={webHandle}
+          webshellDebug={false}
+          onWebFeedback={onWebFeedback}
+        />
+      )
+    );
+    act(() => {
+      webHandle.current?.postMessageToWeb(feature, 'hello', 'Hello world!');
+    });
+    expect(onWebFeedback).toHaveBeenCalledWith('Hello world!');
   });
   it('should keep support for onMessage and injectedJavaScript', async () => {
     const onDOMDummyOption = jest.fn();

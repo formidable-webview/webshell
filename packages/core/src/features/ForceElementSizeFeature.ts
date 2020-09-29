@@ -46,13 +46,13 @@ export interface ForceElementSizeOptions {
   shouldThrowWhenNotFound?: boolean;
 }
 
-const defaultOptions: ForceElementSizeOptions = {
+const defaultOptions: Required<ForceElementSizeOptions> = {
   forceHeight: true,
   forceWidth: true,
   widthValue: 'auto',
   heightValue: 'auto',
   shouldThrowWhenNotFound: false
-} as ForceElementSizeOptions;
+} as Required<ForceElementSizeOptions>;
 
 /**
  * This feature sets element size programmatically and only once, when

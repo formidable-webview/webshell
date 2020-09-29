@@ -1,0 +1,5 @@
+function DummyReceiver(context) {
+  context.onShellMessage('hello', function (message) {
+    context.postMessageToShell(message);
+  });
+}

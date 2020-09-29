@@ -108,9 +108,9 @@ export interface ElementCSSBoxDimensions {
   verticalScrollbarWidth: number;
 }
 
-const defaultOptions: HandleElementCSSBoxDimensionsOptions = {
+const defaultOptions: Required<HandleElementCSSBoxDimensionsOptions> = {
   shouldThrowWhenNotFound: false
-} as HandleElementCSSBoxDimensionsOptions;
+} as Required<HandleElementCSSBoxDimensionsOptions>;
 
 /**
  * This feature enables receiving the {@link https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Box_Model/Introduction_to_the_CSS_box_model | CSS Box dimensions} of an element in the

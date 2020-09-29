@@ -77,7 +77,7 @@ export interface HTMLDimensions {
   implementation: HTMLDimensionsImplementation;
 }
 
-const defaultOptions: HandleHTMLDimensionsOptions = {
+const defaultOptions: Required<HandleHTMLDimensionsOptions> = {
   deltaMin: 0,
   forceImplementation: false,
   pollingInterval: 200

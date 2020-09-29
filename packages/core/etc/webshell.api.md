@@ -8,7 +8,7 @@ import type { ComponentPropsWithoutRef } from 'react';
 import type { ComponentType } from 'react';
 import type { ElementRef } from 'react';
 import type { ForwardRefExoticComponent } from 'react';
-import * as React_2 from 'react';
+import type { Ref } from 'react';
 import type { RefAttributes } from 'react';
 
 // @public
@@ -127,38 +127,47 @@ export type EventHandlerProps<H extends string, P> = {
 };
 
 // @public
-export abstract class Feature<O extends {}, S extends PropsSpecs<any> = []> implements FeatureDefinition<O> {
-    constructor(params: FeatureDefinition<O> & {
-        propSpecs: S;
+export abstract class Feature<O extends {}, P extends PropsSpecs<any> = [], W extends WebHandlersSpecs<any> = {}> implements FeatureDefinition<O> {
+    // @internal
+    protected constructor(params: FeatureDefinition<O> & {
+        propSpecs: P;
+        webSpecs: W;
     }, options: O);
     // (undocumented)
-    readonly defaultOptions: O;
+    readonly defaultOptions: Required<O>;
     // (undocumented)
     readonly featureIdentifier: string;
     // (undocumented)
+    hasWebHandler(handlerId: string): boolean;
+    // (undocumented)
     readonly options: O;
     // (undocumented)
-    readonly propSpecs: S;
+    readonly propSpecs: P;
     readonly script: string;
+    // (undocumented)
+    readonly webSpecs: W;
 }
 
 // @public
-export class FeatureBuilder<O extends {}, S extends PropsSpecs<any> = []> {
+export class FeatureBuilder<O extends {}, S extends PropsSpecs<any> = [], W extends WebHandlersSpecs<any> = {}> {
     constructor(config: FeatureBuilderConfig<O, S>);
-    build(): FeatureConstructor<O, S>;
-    withandlerProp<P, H extends string>(eventHandlerName: H, handlerId?: string): FeatureBuilder<O, S[number] extends never ? [PropDefinition<{ [k in H]?: ((p: P) => void) | undefined; }>] : [PropDefinition<{ [k_1 in H]?: ((p: P) => void) | undefined; }>, ...S[number][]]>;
+    build(): FeatureConstructor<O, S, W>;
+    withandlerProp<P, H extends string>(propName: H, handlerId?: string): FeatureBuilder<O, S[number] extends never ? [PropDefinition<{ [k in H]?: ((p: P) => void) | undefined; }>] : [PropDefinition<{ [k_1 in H]?: ((p: P) => void) | undefined; }>, ...S[number][]], {}>;
+    withWebHandler<P = undefined, I extends string = string>(handlerId: I): FeatureBuilder<O, S, W & { [k in I]: WebHandlerDefinition<P, I>; }>;
 }
 
 // @public
 export interface FeatureBuilderConfig<O extends {}, S extends PropsSpecs<any> = []> extends FeatureDefinition<O> {
     // @internal (undocumented)
     __propSpecs?: S;
+    // @internal (undocumented)
+    __webSpecs?: WebHandlersSpecs<any>;
 }
 
 // @public
-export interface FeatureConstructor<O extends {}, S extends PropsSpecs<any> = []> {
+export interface FeatureConstructor<O extends {}, S extends PropsSpecs<any> = [], W extends WebHandlersSpecs<any> = {}> {
     // (undocumented)
-    new (...args: O extends Partial<O> ? [] | [O] : [O]): Feature<O, S>;
+    new (...args: O extends Partial<O> ? [] | [O] : [O]): Feature<O, S, W>;
     // (undocumented)
     identifier: string;
     // (undocumented)
@@ -169,11 +178,11 @@ export interface FeatureConstructor<O extends {}, S extends PropsSpecs<any> = []
 export type FeatureDefinition<O extends {}> = {
     readonly script: string;
     readonly featureIdentifier: string;
-    readonly defaultOptions: O;
+    readonly defaultOptions: Required<O>;
 };
 
 // @public
-export type FeatureInstanceOf<F> = F extends FeatureConstructor<infer O, infer S> ? Feature<O, S> : never;
+export type FeatureInstanceOf<F> = F extends FeatureConstructor<infer O, infer S, infer W> ? Feature<O, S, W> : never;
 
 // @public
 export const ForceElementSizeFeature: FeatureConstructor<ForceElementSizeOptions>;
@@ -274,7 +283,7 @@ export interface LinkPressTarget {
 }
 
 // @public
-function makeWebshell<C extends ComponentType<any>, F extends Feature<any, any>[]>(WebView: C, ...features: F): React_2.ForwardRefExoticComponent<WebshellProps<React_2.ComponentPropsWithoutRef<C>, F> & React_2.RefAttributes<ElementRef<C>>>;
+function makeWebshell<C extends ComponentType<any>, F extends Feature<any, any, any>[]>(WebView: C, ...features: F): WebshellComponent<C, F>;
 
 export default makeWebshell;
 
@@ -304,7 +313,7 @@ export interface MinimalWebViewProps {
     readonly style?: unknown;
 }
 
-// @public (undocumented)
+// @public
 export type PropDefinition<P extends Partial<Record<string, any>>> = {
     handlerId: string;
     type: 'handler' | 'inert';
@@ -314,10 +323,10 @@ export type PropDefinition<P extends Partial<Record<string, any>>> = {
 };
 
 // @public
-export type PropsFromFeature<F> = F extends Feature<any, infer S> ? PropsFromSpecs<S> : never;
+export type PropsFromFeature<F> = F extends Feature<any, infer S, any> ? PropsFromSpecs<S> : {};
 
 // @public (undocumented)
-export type PropsFromSpecs<S> = S extends PropsSpecs<any> ? S[number]['signature'] : never;
+export type PropsFromSpecs<S> = S extends PropsSpecs<any> ? S[number] extends never ? {} : S[number]['signature'] : never;
 
 // @public (undocumented)
 export type PropsSpecs<P = {}> = PropDefinition<P>[];
@@ -332,8 +341,31 @@ export interface VisualViewportDimensions {
     visualViewport: DOMRectSize;
 }
 
+// @public (undocumented)
+export interface WebHandle {
+    // Warning: (ae-forgotten-export) The symbol "WebHandlerSpecsFromFeature" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    postMessageToWeb<F extends Feature<any, any, any>, H extends keyof WebHandlerSpecsFromFeature<F>>(feat: F, handlerId: H, payload: Required<WebHandlerSpecsFromFeature<F>[H]>['payload']): void;
+}
+
 // @public
-export interface WebjsContext<O extends {}, P> {
+export interface WebHandlerDefinition<P, I extends string> {
+    // (undocumented)
+    async: false;
+    // (undocumented)
+    handlerId: I;
+    // (undocumented)
+    payload?: P;
+}
+
+// @public (undocumented)
+export type WebHandlersSpecs<P = {}, I extends string = string> = {
+    [k in I]: WebHandlerDefinition<P, I>;
+};
+
+// @public
+export interface WebjsContext<O extends {}> {
     getDOMSelection(selector: DOMElementRequest): HTMLElement | null;
     getDOMSelectionAll(selector: DOMElementQueryRequest | string): any;
     getDOMSelectionAll(selector: DOMElementClassNameRequest | DOMElementTagNameRequest): any;
@@ -341,26 +373,28 @@ export interface WebjsContext<O extends {}, P> {
     makeCallbackSafe<T extends Function>(callback: T): T;
     // (undocumented)
     numericFromPxString(style: string): number;
+    onShellMessage<P>(handlerId: string, handler: (payload: P) => void): void;
     readonly options: O;
-    postMessageToShell(payload: P): void;
-    postMessageToShell(handlerId: string, payload: P): void;
+    postMessageToShell<P>(payload: P): void;
+    postMessageToShell<P>(handlerId: string, payload: P): void;
     warn(message: string): void;
 }
 
 // @public
-export type WebshellComponent<C extends ComponentType<any>, F extends Feature<any, any>[]> = ForwardRefExoticComponent<WebshellProps<ComponentPropsWithoutRef<C>, F> & RefAttributes<ElementRef<C>>>;
+export type WebshellComponent<C extends ComponentType<any>, F extends Feature<any, any, any>[]> = ForwardRefExoticComponent<WebshellProps<ComponentPropsWithoutRef<C>, F> & RefAttributes<ElementRef<C>>>;
 
 // @public
-export type WebshellComponentOf<C extends ComponentType<any>, F extends FeatureConstructor<any, any>[]> = WebshellComponent<C, FeatureInstanceOf<F[number]>[]>;
+export type WebshellComponentOf<C extends ComponentType<any>, F extends FeatureConstructor<any, any, any>[]> = WebshellComponent<C, FeatureInstanceOf<F[number]>[]>;
 
 // @public
 export interface WebshellInvariantProps {
     onDOMError?: (featureIdentifier: string, error: string) => void;
+    webHandle?: Ref<WebHandle>;
     webshellDebug?: boolean;
 }
 
 // @public
-export type WebshellProps<W extends MinimalWebViewProps, F extends Feature<any, any>[]> = WebshellInvariantProps & W & (F[number] extends never ? {} : PropsFromFeature<F[number]>);
+export type WebshellProps<W extends MinimalWebViewProps, F extends Feature<any, any, any>[]> = WebshellInvariantProps & W & (F[number] extends never ? {} : PropsFromFeature<F[number]>);
 
 
 // (No @packageDocumentation comment for this package)

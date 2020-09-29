@@ -1,13 +1,18 @@
-import type { FeatureDefinition, PropsFromSpecs, PropsSpecs } from './types';
+import type {
+  FeatureDefinition,
+  PropsFromSpecs,
+  PropsSpecs,
+  WebHandlersSpecs
+} from './types';
 
 /**
  * A lookup type to infer the additional props from a feature.
  *
  * @public
  */
-export type PropsFromFeature<F> = F extends Feature<any, infer S>
+export type PropsFromFeature<F> = F extends Feature<any, infer S, any>
   ? PropsFromSpecs<S>
-  : never;
+  : {};
 
 /**
  * A feature constructor function, aka class.
@@ -16,9 +21,10 @@ export type PropsFromFeature<F> = F extends Feature<any, infer S>
  */
 export interface FeatureConstructor<
   O extends {},
-  S extends PropsSpecs<any> = []
+  S extends PropsSpecs<any> = [],
+  W extends WebHandlersSpecs<any> = {}
 > {
-  new (...args: O extends Partial<O> ? [] | [O] : [O]): Feature<O, S>;
+  new (...args: O extends Partial<O> ? [] | [O] : [O]): Feature<O, S, W>;
   name: string;
   identifier: string;
 }
@@ -30,9 +36,10 @@ export interface FeatureConstructor<
  */
 export type FeatureInstanceOf<F> = F extends FeatureConstructor<
   infer O,
-  infer S
+  infer S,
+  infer W
 >
-  ? Feature<O, S>
+  ? Feature<O, S, W>
   : never;
 
 /**
@@ -46,21 +53,39 @@ export type FeatureInstanceOf<F> = F extends FeatureConstructor<
  * @typeparam S - Specifications for the new properties added to webshell.
  * @public
  */
-export abstract class Feature<O extends {}, S extends PropsSpecs<any> = []>
-  implements FeatureDefinition<O> {
+export abstract class Feature<
+  O extends {},
+  P extends PropsSpecs<any> = [],
+  W extends WebHandlersSpecs<any> = {}
+> implements FeatureDefinition<O> {
   /**
    * {@inheritdoc FeatureDefinition.script}
    */
   readonly script: string;
   readonly featureIdentifier: string;
-  readonly propSpecs: S;
-  readonly defaultOptions: O;
+  readonly propSpecs: P;
+  readonly webSpecs: W;
+  readonly defaultOptions: Required<O>;
   readonly options: O;
-  constructor(params: FeatureDefinition<O> & { propSpecs: S }, options: O) {
+  /**
+   * @internal
+   */
+  protected constructor(
+    params: FeatureDefinition<O> & {
+      propSpecs: P;
+      webSpecs: W;
+    },
+    options: O
+  ) {
     this.script = params.script;
     this.featureIdentifier = params.featureIdentifier;
     this.propSpecs = params.propSpecs;
     this.defaultOptions = params.defaultOptions;
     this.options = { ...params.defaultOptions, ...options };
+    this.webSpecs = params.webSpecs;
+  }
+
+  hasWebHandler(handlerId: string) {
+    return !!this.webSpecs[handlerId];
   }
 }

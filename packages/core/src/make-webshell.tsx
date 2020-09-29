@@ -8,14 +8,14 @@ import type {
 } from 'react';
 import type { NativeSyntheticEvent } from 'react-native';
 import { Feature } from './Feature';
-import featuresLoaderScript from './features-loader.webjs';
 import type {
   WebshellProps,
   WebshellInvariantProps,
   MinimalWebViewProps,
-  PropsSpecs,
-  PropDefinition
+  WebshellComponent
 } from './types';
+import { FeatureRegistry } from './FeatureRegistry';
+import { WebHandleImpl } from './WebHandleImpl';
 
 interface WebViewMessage {
   data: string;
@@ -47,84 +47,97 @@ function isPostMessageObject(o: unknown): o is PostMessage {
   );
 }
 
-function serializeFeature(feature: Feature<any, PropsSpecs<any>>) {
-  return `{source:${feature.script},identifier:${JSON.stringify(
-    feature.featureIdentifier
-  )},options:${JSON.stringify(feature.options || {})}}`;
+function useWebMessagesHandler(
+  registry: FeatureRegistry<any>,
+  {
+    webshellDebug,
+    onDOMError,
+    onMessage,
+    ...otherProps
+  }: WebshellProps<any, any>
+) {
+  const domHandlers = React.useMemo(() => registry.getWebHandlers(otherProps), [
+    otherProps,
+    registry
+  ]);
+
+  return React.useCallback(
+    ({ nativeEvent }: NativeSyntheticEvent<WebViewMessage>) => {
+      const parsedJSON = parseJSONSafe(nativeEvent.data);
+      if (isPostMessageObject(parsedJSON)) {
+        const { type, identifier, body, handlerId, severity } = parsedJSON;
+        if (type === 'feature') {
+          const propDef = registry.getPropDefFromId(identifier, handlerId);
+          if (!propDef) {
+            console.warn(
+              `[Webshell]: script from feature "${identifier}" sent an event towards ${handlerId} handler, but there is ` +
+                'no handler registered for this feature. ' +
+                'Use FeatureBuilder.withHandlerProp to register that handler, or make ' +
+                'sure its name is not misspell in the DOM script.'
+            );
+            return;
+          }
+          const handlerName = propDef.name;
+          const handler =
+            typeof handlerId === 'string' ? domHandlers[handlerName] : null;
+          if (registry.getPropDefFromHandlerName(handlerName)) {
+            if (typeof handler === 'function') {
+              handler(body);
+            } else {
+              webshellDebug &&
+                console.info(
+                  `[Webshell]: script from feature "${identifier}" sent an event towards ${handlerId} handler, but there ` +
+                    `is no handler prop named "${handlerName}" attached to the shell.`
+                );
+            }
+          } else {
+            console.warn(
+              `[Webshell]: script from feature "${identifier}" sent an event towards ${handlerId} handler, but there is ` +
+                `no handler named "${handlerName}" defined with this handler ID. ` +
+                'Use FeatureBuilder.withHandlerProp to register that handler, or make ' +
+                'sure its name is not misspell in the DOM script.'
+            );
+          }
+        } else if (type === 'error') {
+          // Handle as an error message
+          typeof onDOMError === 'function' && onDOMError(identifier, body);
+          webshellDebug &&
+            console.warn(
+              `[Webshell]: script from feature "${identifier}" raised an error: ${body}`
+            );
+          return;
+        } else if (type === 'log') {
+          webshellDebug && severity === 'warn' && console.warn(body);
+          webshellDebug && severity === 'info' && console.info(body);
+        }
+      } else {
+        typeof onMessage === 'function' && onMessage(nativeEvent);
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [...Object.values(domHandlers), onDOMError, onMessage]
+  );
 }
 
-function extractFeatureProps(
-  props: WebshellProps<any, any>,
-  propsMap: Record<string, PropDefinition<any>>,
-  type: 'handler' | 'inert' | null = null
-): any {
-  return Object.keys(props).reduce((obj, key) => {
-    if (propsMap[key] && (type == null || propsMap[key].type === type)) {
-      return {
-        ...obj,
-        [key]: props[key]
-      };
-    }
-    return obj;
-  }, {});
+function useWebHandle(
+  webViewRef: React.RefObject<any>,
+  registry: FeatureRegistry<any>
+) {
+  return React.useMemo(
+    (): WebHandleImpl => new WebHandleImpl(webViewRef, registry),
+    [webViewRef, registry]
+  );
 }
 
-function filterWebViewProps<W>(
-  props: WebshellProps<any, any>,
-  propsMap: Record<string, PropDefinition<any>>
-): W {
-  return Object.keys(props).reduce((obj, key) => {
-    if (propsMap[key] || key.startsWith('webshell')) {
-      return obj;
-    }
-    return {
-      ...obj,
-      [key]: props[key]
-    };
-  }, {} as W);
-}
-
-function getHandlerUUID(def: PropDefinition<any>) {
-  return `${def.featureIdentifier}:${def.handlerId}`;
-}
-
-function extractHandlersMap(features: Feature<any, PropsSpecs<any>>[]) {
-  return features
-    .map((f: Feature<any, PropsSpecs<any>>) => f.propSpecs)
-    .reduce((p, c) => [...p, ...c], [])
-    .reduce(
-      (map, spec: PropDefinition<any>) => ({
-        ...map,
-        [getHandlerUUID(spec)]: spec
-      }),
-      {}
-    ) as Record<string, PropDefinition<any>>;
-}
-
-function extractPropsSpecsMap(features: Feature<any, PropsSpecs<any>>[]) {
-  return features
-    .map((f: Feature<any, PropsSpecs<any>>) => f.propSpecs)
-    .reduce((p, c) => [...p, ...c], [])
-    .reduce(
-      (map, spec: PropDefinition<any>) => ({ ...map, [spec.name]: spec }),
-      {}
-    ) as Record<string, PropDefinition<any>>;
-}
-
-function registerFeature(feat: Feature<any, any>) {
-  return `try {
-    window.ReactNativeWebshell.registerFeature(${serializeFeature(feat)});
-  } catch (e) {
-    window.ReactNativeWebshell.sendErrorMessage(${JSON.stringify(
-      feat.featureIdentifier
-    )},e);
-  };`;
-}
-
-export function assembleScript(feats: Feature<any, any>[], debug: boolean) {
-  return `${featuresLoaderScript}(function(){${feats.map(
-    registerFeature
-  )};window.ReactNativeWebshell.debug=${debug};})();`;
+function useJavaScript(
+  registry: FeatureRegistry<any>,
+  injectedJavaScript: string
+) {
+  return React.useMemo(() => {
+    const safeUserscript =
+      typeof injectedJavaScript === 'string' ? injectedJavaScript : '';
+    return `(function(){${safeUserscript};${registry.assembledFeaturesScript};})();true;`;
+  }, [injectedJavaScript, registry]);
 }
 
 /**
@@ -138,83 +151,33 @@ export function assembleScript(feats: Feature<any, any>[], debug: boolean) {
  */
 export function makeWebshell<
   C extends ComponentType<any>,
-  F extends Feature<any, any>[]
->(
-  WebView: C,
-  ...features: F
-): React.ForwardRefExoticComponent<
-  WebshellProps<React.ComponentPropsWithoutRef<C>, F> &
-    React.RefAttributes<ElementRef<C>>
-> {
-  const filteredFeatures = features.filter((f) => !!f);
-  const propsMap = extractPropsSpecsMap(filteredFeatures);
-  const handlersMap = extractHandlersMap(filteredFeatures);
-  const injectableScript = assembleScript(filteredFeatures, __DEV__);
+  F extends Feature<any, any, any>[]
+>(WebView: C, ...features: F): WebshellComponent<C, F> {
+  const registry = new FeatureRegistry(features);
   const Webshell = (
     props: WebshellProps<ComponentProps<C>, F> & { webViewRef: ElementRef<C> }
   ) => {
     const {
-      onMessage,
-      onDOMError,
-      webshellDebug,
+      webHandle: webHandleRef,
       ...otherProps
     } = props as WebshellInvariantProps & MinimalWebViewProps;
-    const domHandlers = extractFeatureProps(otherProps, propsMap, 'handler');
-    const handleOnMessage = React.useCallback(
-      ({ nativeEvent }: NativeSyntheticEvent<WebViewMessage>) => {
-        const parsedJSON = parseJSONSafe(nativeEvent.data);
-        if (isPostMessageObject(parsedJSON)) {
-          const { type, identifier, body, handlerId, severity } = parsedJSON;
-          if (type === 'feature') {
-            const handlerName = handlersMap[`${identifier}:${handlerId}`].name;
-            const handler =
-              typeof handlerId === 'string' ? domHandlers[handlerName] : null;
-            if (propsMap[handlerName]) {
-              if (typeof handler === 'function') {
-                handler(body);
-              } else {
-                webshellDebug &&
-                  console.info(
-                    `[Webshell]: script from feature "${identifier}" sent an event towards ${handlerId} handler, but there ` +
-                      `is no handler prop named "${handlerName}" attached to the shell.`
-                  );
-              }
-            } else {
-              console.warn(
-                `[Webshell]: script from feature "${identifier}" sent an event towards ${handlerId} handler, but there is ` +
-                  `no handler named "${handlerName}" defined for this feature. ` +
-                  'Use FeatureBuilder.withHandlerProp to register that handler, or make ' +
-                  'sure its name is not misspell in the DOM script.'
-              );
-            }
-          } else if (type === 'error') {
-            // Handle as an error message
-            typeof onDOMError === 'function' && onDOMError(identifier, body);
-            webshellDebug &&
-              console.warn(
-                `[Webshell]: script from feature "${identifier}" raised an error: ${body}`
-              );
-            return;
-          } else if (type === 'log') {
-            webshellDebug && severity === 'warn' && console.warn(body);
-            webshellDebug && severity === 'info' && console.info(body);
-          }
-        } else {
-          typeof onMessage === 'function' && onMessage(nativeEvent);
-        }
-      },
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      [...Object.values(domHandlers), onDOMError, onMessage]
-    );
-    const { webViewRef, injectedJavaScript, ...webViewProps } = props;
-    const resultingJavascript = React.useMemo(() => {
-      const safeUserscript =
-        typeof injectedJavaScript === 'string' ? injectedJavaScript : '';
-      return `(function(){${safeUserscript};${injectableScript};})();true;`;
-    }, [injectedJavaScript]);
+    const {
+      webViewRef,
+      injectedJavaScript,
+      webshellDebug,
+      ...webViewProps
+    } = props;
+    const handleOnMessage = useWebMessagesHandler(registry, otherProps);
+    const resultingJavascript = useJavaScript(registry, injectedJavaScript);
+    const webHandle = useWebHandle(webViewRef, registry);
+    React.useImperativeHandle(webHandleRef, () => webHandle);
+    React.useEffect(() => webHandle.setDebug(webshellDebug), [
+      webshellDebug,
+      webHandle
+    ]);
     return (
       <WebView
-        {...filterWebViewProps(webViewProps, propsMap)}
+        {...registry.filterWebViewProps(webViewProps)}
         ref={webViewRef}
         injectedJavaScript={resultingJavascript}
         javaScriptEnabled={true}
@@ -228,10 +191,13 @@ export function makeWebshell<
   return React.forwardRef<
     ElementRef<C>,
     WebshellProps<ComponentPropsWithRef<C>, F>
-  >((props, ref) => (
-    <Webshell
-      webViewRef={ref}
-      {...(props as WebshellProps<ComponentPropsWithRef<any>, F>)}
-    />
-  )) as any;
+  >((props, ref) => {
+    const localWebViewRef = React.useRef();
+    return (
+      <Webshell
+        webViewRef={ref || localWebViewRef}
+        {...(props as WebshellProps<ComponentPropsWithRef<any>, F>)}
+      />
+    );
+  }) as any;
 }

@@ -36,7 +36,7 @@ export interface HashChangeEvent {
   targetElementBoundingRect: DOMRect;
 }
 
-const defaultOptions: HandleHashChangeOptions = {
+const defaultOptions: Required<HandleHashChangeOptions> = {
   shouldResetHashOnEvent: false
 };
 

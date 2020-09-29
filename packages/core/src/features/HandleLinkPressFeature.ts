@@ -69,7 +69,7 @@ export interface LinkPressTarget {
   };
 }
 
-const defaultOptions: LinkPressOptions = {
+const defaultOptions: Required<LinkPressOptions> = {
   preventDefault: true,
   ignoreHashChange: true
 };
