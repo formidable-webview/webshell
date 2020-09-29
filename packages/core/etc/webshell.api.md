@@ -146,7 +146,7 @@ export abstract class Feature<O extends {}, S extends PropsSpecs<any> = []> impl
 export class FeatureBuilder<O extends {}, S extends PropsSpecs<any> = []> {
     constructor(config: FeatureBuilderConfig<O, S>);
     build(): FeatureConstructor<O, S>;
-    withEventHandlerProp<P, H extends string>(eventHandlerName: H): FeatureBuilder<O, S[number] extends never ? [PropDefinition<{ [k in H]?: ((p: P) => void) | undefined; }>] : [PropDefinition<{ [k_1 in H]?: ((p: P) => void) | undefined; }>, ...S[number][]]>;
+    withandlerProp<P, H extends string>(eventHandlerName: H, handlerId?: string): FeatureBuilder<O, S[number] extends never ? [PropDefinition<{ [k in H]?: ((p: P) => void) | undefined; }>] : [PropDefinition<{ [k_1 in H]?: ((p: P) => void) | undefined; }>, ...S[number][]]>;
 }
 
 // @public
@@ -306,6 +306,7 @@ export interface MinimalWebViewProps {
 
 // @public (undocumented)
 export type PropDefinition<P extends Partial<Record<string, any>>> = {
+    handlerId: string;
     type: 'handler' | 'inert';
     featureIdentifier: string;
     name: string;
@@ -342,6 +343,7 @@ export interface WebjsContext<O extends {}, P> {
     numericFromPxString(style: string): number;
     readonly options: O;
     postShellMessage(payload: P): void;
+    postShellMessage(handlerId: string, payload: P): void;
     warn(message: string): void;
 }
 

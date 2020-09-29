@@ -6,6 +6,7 @@ import { View } from 'react-native';
 import dummyHelloScript from './feat/dummy-hello.webjs';
 import dummyFailingScript from './feat/dummy-failing.webjs';
 import dummyOptionScript from './feat/dummy-option.webjs';
+import dummyHandleridScript from './feat/dummy-handlerid.webjs';
 import { makeWebshell } from '../make-webshell';
 import { FeatureBuilder } from '../FeatureBuilder';
 import { MinimalWebViewProps } from '../types';
@@ -19,7 +20,7 @@ const HelloFeature = new FeatureBuilder({
   featureIdentifier: 'test.hello',
   defaultOptions: {}
 })
-  .withEventHandlerProp('onDOMDummyHello')
+  .withandlerProp('onDOMDummyHello')
   .build();
 
 const FailingFeature = new FeatureBuilder({
@@ -27,7 +28,7 @@ const FailingFeature = new FeatureBuilder({
   featureIdentifier: 'test.fail',
   defaultOptions: {}
 })
-  .withEventHandlerProp('onDOMDummyFailure')
+  .withandlerProp('onDOMDummyFailure')
   .build();
 
 const OptionFeature = new FeatureBuilder({
@@ -35,7 +36,15 @@ const OptionFeature = new FeatureBuilder({
   featureIdentifier: 'test.option',
   defaultOptions: {}
 })
-  .withEventHandlerProp<{ foo: string }, 'onDOMDummyOption'>('onDOMDummyOption')
+  .withandlerProp<{ foo: string }, 'onDOMDummyOption'>('onDOMDummyOption')
+  .build();
+
+const HandlerIdFeature = new FeatureBuilder({
+  script: dummyHandleridScript,
+  featureIdentifier: 'test.handlerid',
+  defaultOptions: {}
+})
+  .withandlerProp('onDOMDummyOption', 'hi')
   .build();
 
 describe('Webshell component', () => {
@@ -82,6 +91,19 @@ describe('Webshell component', () => {
       )
     );
     expect(onDOMDummyOption).toHaveBeenCalledWith({ foo: 'bar' });
+  });
+  it('should disambiguate between handlerIds', async () => {
+    const onHandlerIdDummyOption = jest.fn();
+    const Webshell = makeWebshell(Ersatz, new HandlerIdFeature());
+    await waitForErsatz(
+      render(
+        <Webshell
+          webshellDebug={false}
+          onDOMDummyOption={onHandlerIdDummyOption}
+        />
+      )
+    );
+    expect(onHandlerIdDummyOption).toHaveBeenCalledWith('Hello world!');
   });
   it('should keep support for onMessage and injectedJavaScript', async () => {
     const onDOMDummyOption = jest.fn();

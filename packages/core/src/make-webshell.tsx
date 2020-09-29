@@ -23,7 +23,7 @@ interface WebViewMessage {
 
 interface PostMessage {
   identifier: string;
-  handlerName: string;
+  handlerId: string;
   type: 'feature' | 'error' | 'log';
   severity: 'warn' | 'info';
   body: any;
@@ -92,6 +92,23 @@ function filterWebViewProps<W>(
   }, {} as W);
 }
 
+function getHandlerUUID(def: PropDefinition<any>) {
+  return `${def.featureIdentifier}:${def.handlerId}`;
+}
+
+function extractHandlersMap(features: Feature<any, PropsSpecs<any>>[]) {
+  return features
+    .map((f: Feature<any, PropsSpecs<any>>) => f.propSpecs)
+    .reduce((p, c) => [...p, ...c], [])
+    .reduce(
+      (map, spec: PropDefinition<any>) => ({
+        ...map,
+        [getHandlerUUID(spec)]: spec
+      }),
+      {}
+    ) as Record<string, PropDefinition<any>>;
+}
+
 function extractPropsSpecsMap(features: Feature<any, PropsSpecs<any>>[]) {
   return features
     .map((f: Feature<any, PropsSpecs<any>>) => f.propSpecs)
@@ -129,6 +146,7 @@ export function makeWebshell<
 > {
   const filteredFeatures = features.filter((f) => !!f);
   const propsMap = extractPropsSpecsMap(filteredFeatures);
+  const handlersMap = extractHandlersMap(filteredFeatures);
   const serializedFeatureScripts = serializeFeatureList(filteredFeatures);
   const injectableScript = assembleScript(serializedFeatureScripts);
   const Webshell = (
@@ -145,25 +163,26 @@ export function makeWebshell<
       ({ nativeEvent }: NativeSyntheticEvent<WebViewMessage>) => {
         const parsedJSON = parseJSONSafe(nativeEvent.data);
         if (isPostMessageObject(parsedJSON)) {
-          const { type, identifier, body, handlerName, severity } = parsedJSON;
+          const { type, identifier, body, handlerId, severity } = parsedJSON;
           if (type === 'feature') {
+            const handlerName = handlersMap[`${identifier}:${handlerId}`].name;
             const handler =
-              typeof handlerName === 'string' ? domHandlers[handlerName] : null;
+              typeof handlerId === 'string' ? domHandlers[handlerName] : null;
             if (propsMap[handlerName]) {
               if (typeof handler === 'function') {
                 handler(body);
               } else {
                 webshellDebug &&
                   console.info(
-                    `[Webshell]: script from feature "${identifier}" sent an event, but there ` +
+                    `[Webshell]: script from feature "${identifier}" sent an event towards ${handlerId} handler, but there ` +
                       `is no handler prop named "${handlerName}" attached to the shell.`
                   );
               }
             } else {
               console.warn(
-                `[Webshell]: script from feature "${identifier}" sent an event, but there is ` +
+                `[Webshell]: script from feature "${identifier}" sent an event towards ${handlerId} handler, but there is ` +
                   `no handler named "${handlerName}" defined for this feature. ` +
-                  'Use FeatureBuilder.withEventHandlerProp to register that handler, or make ' +
+                  'Use FeatureBuilder.withHandlerProp to register that handler, or make ' +
                   'sure its name is not misspell in the DOM script.'
               );
             }

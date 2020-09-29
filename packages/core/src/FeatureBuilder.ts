@@ -40,9 +40,16 @@ export class FeatureBuilder<O extends {}, S extends PropsSpecs<any> = []> {
    * @param eventHandlerName - The name of the handler prop added to the shell.
    * It is advised to follow the convention of prefixing all these handlers
    * with `onDom` to avoid collisions with `WebView` own props.
+   *
+   * @param handlerId - The unique identifier of the handler that will be used by the Web
+   * script to post a message. If none is provided, fallback to `"default"`.
    */
-  withEventHandlerProp<P, H extends string>(eventHandlerName: H) {
+  withandlerProp<P, H extends string>(
+    eventHandlerName: H,
+    handlerId: string = 'default'
+  ) {
     const propDefinition: PropDefinition<{ [k in H]?: (p: P) => void }> = {
+      handlerId,
       name: eventHandlerName,
       featureIdentifier: this.config.featureIdentifier,
       type: 'handler'

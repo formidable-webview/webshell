@@ -106,7 +106,5 @@ export const HandleHTMLDimensionsFeature: FeatureConstructor<
   defaultOptions,
   featureIdentifier: 'org.formidable-webview/webshell.handle-html-dimensions'
 })
-  .withEventHandlerProp<HTMLDimensions, 'onDOMHTMLDimensions'>(
-    'onDOMHTMLDimensions'
-  )
+  .withandlerProp<HTMLDimensions, 'onDOMHTMLDimensions'>('onDOMHTMLDimensions')
   .build();

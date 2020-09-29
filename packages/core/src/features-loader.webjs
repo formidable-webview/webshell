@@ -106,7 +106,9 @@ function registerFeature(specs) {
     },
     numericFromPxString: numericFromPxString,
     makeCallbackSafe: makeCallbackSafe.bind(null, sendErrorMessage),
-    postShellMessage: function (message) {
+    postShellMessage: function () {
+      var message = arguments.length > 1 ? arguments[1] : arguments[0];
+      var handlerId = arguments.length > 1 ? arguments[0] : 'default';
       if (handlerName == null) {
         sendErrorMessage(
           new TypeError(
@@ -124,6 +126,7 @@ function registerFeature(specs) {
           identifier: snippetIdentifier,
           body: message,
           handlerName: handlerName,
+          handlerId: handlerId,
           __isWebshellPostMessage: true
         })
       );

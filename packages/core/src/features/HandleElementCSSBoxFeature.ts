@@ -135,8 +135,7 @@ export const HandleElementCSSBoxFeature: FeatureConstructor<
   featureIdentifier:
     'org.formidable-webview/webshell.handle-element-cssbox-dimensions'
 })
-  .withEventHandlerProp<
-    ElementCSSBoxDimensions,
+  .withandlerProp<ElementCSSBoxDimensions, 'onDOMElementCSSBoxDimensions'>(
     'onDOMElementCSSBoxDimensions'
-  >('onDOMElementCSSBoxDimensions')
+  )
   .build();

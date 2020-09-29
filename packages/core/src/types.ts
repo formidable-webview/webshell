@@ -72,6 +72,7 @@ export type FeatureDefinition<O extends {}> = {
  * @public
  */
 export type PropDefinition<P extends Partial<Record<string, any>>> = {
+  handlerId: string;
   type: 'handler' | 'inert';
   featureIdentifier: string;
   name: string;
@@ -168,12 +169,21 @@ export interface WebjsContext<O extends {}, P> {
    */
   readonly options: O;
   /**
-   * When invoked, the shell will call the handler associated with this
-   * script, if any.
+   * Instruct the shell to call **the default handler** associated with
+   * this feature, if any.
    *
    * @param payload - The value which will be passed to the handler.
    */
   postShellMessage(payload: P): void;
+  /**
+   * Instruct the shell to call the handler associated with this
+   * feature and `eventId`, if any.
+   *
+   * @param handlerId - A unique string to disambiguate between different handlers.
+   * You can omit this param if you are sending to `"default"` handler.
+   * @param payload - The value which will be passed to the handler.
+   */
+  postShellMessage(handlerId: string, payload: P): void;
   /**
    * Create a function which execute a callback in a try-catch block that will
    * grab errors en send them to the `Webshell` component.

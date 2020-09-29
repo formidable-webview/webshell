@@ -79,7 +79,7 @@ Below is a recap of all the symbols present in this snippet:
 It is also worth noting that:
 
 - `linkPressScript` is imported as a string thanks to babel-plugin-inline-import, see the [tooling guide](./tooling);
-- invoking `withEventHandlerProp` is not an option:
+- invoking `withHandlerProp` is not an option:
   1. It register the handler to the shell, otherwise events fired by the below Web script will not be routed to their handler props.
   2. When implemented in typescript, type generation will add the handler name and payload type to the the feature, which will be grabbed by the resulting shell type.
 

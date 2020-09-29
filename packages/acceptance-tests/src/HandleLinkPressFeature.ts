@@ -19,7 +19,7 @@ export const HandleLinkPressFeature = new FeatureBuilder({
   script: linkPressScript,
   featureIdentifier: 'org.myorg/webshell.link-press'
 })
-  .withEventHandlerProp<LinkPressTarget, 'onDOMLinkPress'>(
+  .withandlerProp<LinkPressTarget, 'onDOMLinkPress'>(
     'onDOMLinkPress'
   )
   .build();
