@@ -191,6 +191,10 @@ articla a {
   color: var(--formidable-external-link-admonition-color);
 }
 
+.admonition code {
+  color: var(--ifm-alert-color);
+}
+
 .admonition a:hover {
   color: var(--formidable-external-link-admonition-color-hover);
 }
