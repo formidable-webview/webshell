@@ -396,7 +396,7 @@ export type WebshellComponent<C extends ComponentType<any>, F extends Feature<an
 
 // @public
 export interface WebshellInvariantProps {
-    onDOMError?: (featureIdentifier: string, error: string) => void;
+    onWebFeatureError?: (featureIdentifier: string, error: string) => void;
     webHandle?: Ref<WebHandle>;
     webshellDebug?: boolean;
 }

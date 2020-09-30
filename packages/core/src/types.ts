@@ -179,7 +179,7 @@ export interface WebshellInvariantProps {
   /**
    * Triggered when a feature script throws.
    */
-  onDOMError?: (featureIdentifier: string, error: string) => void;
+  onWebFeatureError?: (featureIdentifier: string, error: string) => void;
   /**
    * Report Web error messages from features in the console.
    *

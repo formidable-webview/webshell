@@ -89,7 +89,7 @@ describe('Webshell component', () => {
         <Webshell
           webshellDebug={false}
           onDOMDummyFailure={onDOMDummyFailure}
-          onDOMError={onFailure}
+          onWebFeatureError={onFailure}
         />
       )
     );

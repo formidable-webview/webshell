@@ -50,10 +50,10 @@ function useWeb(
   registry: FeatureRegistry<any>,
   {
     webshellDebug,
-    onDOMError,
+    onWebFeatureError,
     onMessage,
     ...otherProps
-  }: WebshellProps<any, any>
+  }: WebshellInvariantProps & MinimalWebViewProps
 ) {
   const [isLoaded, setIsLoaded] = React.useState(false);
   const domHandlers = React.useMemo(() => registry.getWebHandlers(otherProps), [
@@ -104,7 +104,8 @@ function useWeb(
           }
         } else if (type === 'error') {
           // Handle as an error message
-          typeof onDOMError === 'function' && onDOMError(identifier, body);
+          typeof onWebFeatureError === 'function' &&
+            onWebFeatureError(identifier, body);
           webshellDebug &&
             console.warn(
               `[Webshell]: script from feature "${identifier}" raised an error: ${body}`
@@ -119,7 +120,7 @@ function useWeb(
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [...Object.values(domHandlers), onDOMError, onMessage]
+    [...Object.values(domHandlers), onWebFeatureError, onMessage]
   );
   return {
     handleOnWebMessage,
