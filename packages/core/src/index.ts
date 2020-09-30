@@ -8,6 +8,7 @@ export type {
   DOMElementTagNameRequest,
   DOMRect,
   DOMRectSize,
+  DOMUtils,
   ExtractPropsFromSpecs,
   ExtractWebHandlerSpecFromDef,
   ExtractWebHandlerSpecsFromFeature,

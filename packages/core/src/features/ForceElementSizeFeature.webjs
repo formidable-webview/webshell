@@ -9,7 +9,7 @@ function ForceElementSizeFeature(context) {
   if (!target || (typeof target !== 'string' && typeof target !== 'object')) {
     throw new Error('Missing or wrong type for required target option');
   }
-  var element = context.getDOMSelection(target);
+  var element = context.utils.getDOMSelection(target);
   if (element) {
     if (forceWidth) {
       element.style.width = widthValue;

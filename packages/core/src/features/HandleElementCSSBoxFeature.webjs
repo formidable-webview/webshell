@@ -2,29 +2,28 @@ function HandleElementCSSBoxFeature(context) {
   var options = context.options || {};
   var target = options.target;
   var shouldThrowWhenNotFound = options.shouldThrowWhenNotFound === true;
+  var numericFromPxString = context.utils.numericFromPxString;
 
   if (!target || (typeof target !== 'string' && typeof target !== 'object')) {
     throw new Error('Missing or wrong type for required target option');
   }
   var postSize = context.makeCallbackSafe(function () {
-    var element = context.getDOMSelection(target);
+    var element = context.utils.getDOMSelection(target);
     if (element != null) {
       var clientRect = element.getBoundingClientRect(),
         styles = getComputedStyle(element),
-        paddingLeft = context.numericFromPxString(styles.paddingLeft),
-        paddingRight = context.numericFromPxString(styles.paddingRight),
-        paddingTop = context.numericFromPxString(styles.paddingTop),
-        paddingBottom = context.numericFromPxString(styles.paddingBottom),
-        borderLeftWidth = context.numericFromPxString(styles.borderLeftWidth),
-        borderRightWidth = context.numericFromPxString(styles.borderRightWidth),
-        borderTopWidth = context.numericFromPxString(styles.borderTopWidth),
-        borderBottomWidth = context.numericFromPxString(
-          styles.borderBottomWidth
-        ),
-        marginLeft = context.numericFromPxString(styles.marginLeft),
-        marginRight = context.numericFromPxString(styles.marginRight),
-        marginTop = context.numericFromPxString(styles.marginTop),
-        marginBottom = context.numericFromPxString(styles.marginBottom),
+        paddingLeft = numericFromPxString(styles.paddingLeft),
+        paddingRight = numericFromPxString(styles.paddingRight),
+        paddingTop = numericFromPxString(styles.paddingTop),
+        paddingBottom = numericFromPxString(styles.paddingBottom),
+        borderLeftWidth = numericFromPxString(styles.borderLeftWidth),
+        borderRightWidth = numericFromPxString(styles.borderRightWidth),
+        borderTopWidth = numericFromPxString(styles.borderTopWidth),
+        borderBottomWidth = numericFromPxString(styles.borderBottomWidth),
+        marginLeft = numericFromPxString(styles.marginLeft),
+        marginRight = numericFromPxString(styles.marginRight),
+        marginTop = numericFromPxString(styles.marginTop),
+        marginBottom = numericFromPxString(styles.marginBottom),
         borderBoxWidth = clientRect.width,
         borderBoxHeight = clientRect.height,
         horizontalScrollbarWidth = element.offsetHeight - element.clientHeight,

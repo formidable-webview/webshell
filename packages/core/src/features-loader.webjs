@@ -103,14 +103,18 @@ function registerFeature(specs) {
     return;
   }
   messagesHandlerRegistry[specs.identifier] = {};
-  var context = {
+  var domUtils = {
     getDOMSelection: function (selection) {
       return __getDOMSelection(selection, false);
     },
     getDOMSelectionAll: function (selection) {
       return __getDOMSelection(selection, true);
     },
-    numericFromPxString: numericFromPxString,
+    numericFromPxString: numericFromPxString
+  };
+  var context = {
+    options: snippetOptions,
+    utils: domUtils,
     makeCallbackSafe: makeCallbackSafe.bind(
       null,
       sendErrorMessage.bind(null, snippetIdentifier)
@@ -131,7 +135,6 @@ function registerFeature(specs) {
         })
       );
     },
-    options: snippetOptions,
     info: function (text) {
       var logger = console.info || console.log;
       var message = snippetIdentifier + ': ' + text;

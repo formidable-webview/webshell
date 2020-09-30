@@ -226,6 +226,42 @@ export interface MinimalWebViewProps {
 // Web TYPES
 
 /**
+ * A collection of utilities to manipulate the DOM.
+ *
+ * @public
+ */
+export interface DOMUtils {
+  /**
+   * Get one element in the DOM from a request. See {@link DOMElementRequest}.
+   *
+   * @returns An {@link https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement | HTMLElement} or `null`.
+   */
+  getDOMSelection(selector: DOMElementRequest): HTMLElement | null;
+  /**
+   * Get a collection of live elements in the DOM from a query request.
+   *
+   * @param selector - Which elements should be returned?
+   * @returns A live {@link https://developer.mozilla.org/en-US/docs/Web/API/HTMLCollection | HTMLCollection}.
+   */
+  getDOMSelectionAll(selector: DOMElementQueryRequest | string): any;
+  /**
+   * Get a collection of static elements in the DOM from a class or tag-name request.
+   *
+   * @param selector - Which elements should be returned?
+   * @returns A static {@link https://developer.mozilla.org/en-US/docs/Web/API/NodeList | NodeList}.
+   */
+  getDOMSelectionAll(
+    selector: DOMElementClassNameRequest | DOMElementTagNameRequest
+  ): any;
+  /**
+   * @param style - The style to parse, e.g. `'18px'`
+   *
+   * @returns Numeric value in CSS pixels.
+   */
+  numericFromPxString(style: string): number;
+}
+
+/**
  * This type specifies the shape of the object passed to Web features scripts.
  *
  * @typeparam O - The shape of the JSON-serializable options that will be passed to the Web script.
@@ -277,34 +313,11 @@ export interface WebjsContext<O extends {}> {
    * shell and printed in the React Native console during development.
    */
   info(message: string): void;
+
   /**
-   * Get one element in the DOM from a request. See {@link DOMElementRequest}.
-   *
-   * @returns An {@link https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement | HTMLElement} or `null`.
+   * A collection of utilities to manipulate the DOM.
    */
-  getDOMSelection(selector: DOMElementRequest): HTMLElement | null;
-  /**
-   * Get a collection of live elements in the DOM from a query request.
-   *
-   * @param selector - Which elements should be returned?
-   * @returns A live {@link https://developer.mozilla.org/en-US/docs/Web/API/HTMLCollection | HTMLCollection}.
-   */
-  getDOMSelectionAll(selector: DOMElementQueryRequest | string): any;
-  /**
-   * Get a collection of static elements in the DOM from a class or tag-name request.
-   *
-   * @param selector - Which elements should be returned?
-   * @returns A static {@link https://developer.mozilla.org/en-US/docs/Web/API/NodeList | NodeList}.
-   */
-  getDOMSelectionAll(
-    selector: DOMElementClassNameRequest | DOMElementTagNameRequest
-  ): any;
-  /**
-   * @param style - The style to parse, e.g. `'18px'`
-   *
-   * @returns Numeric value in CSS pixels.
-   */
-  numericFromPxString(style: string): number;
+  utils: DOMUtils;
 }
 
 /**

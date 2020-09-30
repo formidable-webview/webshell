@@ -113,6 +113,15 @@ export interface DOMRectSize {
 }
 
 // @public
+export interface DOMUtils {
+    getDOMSelection(selector: DOMElementRequest): HTMLElement | null;
+    getDOMSelectionAll(selector: DOMElementQueryRequest | string): any;
+    getDOMSelectionAll(selector: DOMElementClassNameRequest | DOMElementTagNameRequest): any;
+    // (undocumented)
+    numericFromPxString(style: string): number;
+}
+
+// @public
 export interface ElementCSSBoxDimensions {
     borderBox: CSSBox;
     computedStyle: CSSBoxDimensionsComputedStyle;
@@ -372,17 +381,13 @@ export type WebHandlersSpecs<P = {}, I extends string = string> = {
 
 // @public
 export interface WebjsContext<O extends {}> {
-    getDOMSelection(selector: DOMElementRequest): HTMLElement | null;
-    getDOMSelectionAll(selector: DOMElementQueryRequest | string): any;
-    getDOMSelectionAll(selector: DOMElementClassNameRequest | DOMElementTagNameRequest): any;
     info(message: string): void;
     makeCallbackSafe<T extends Function>(callback: T): T;
-    // (undocumented)
-    numericFromPxString(style: string): number;
     onShellMessage<P>(handlerId: string, handler: (payload: P) => void): void;
     readonly options: O;
     postMessageToShell<P>(payload: P): void;
     postMessageToShell<P>(handlerId: string, payload: P): void;
+    utils: DOMUtils;
     warn(message: string): void;
 }
 
