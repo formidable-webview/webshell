@@ -13,7 +13,7 @@ const { waitForErsatz } = makeErsatzTesting<typeof Ersatz, Document, Window>(
 
 const HelloFeature = new FeatureBuilder({
   script: dummyHelloScript,
-  featureIdentifier: 'test.hello',
+  identifier: 'test.hello',
   defaultOptions: {}
 })
   .withandlerProp('onDOMDummyHello')

@@ -7,7 +7,7 @@ import WebView from 'react-native-webview';
 
 const Feature1 = new FeatureBuilder({
   defaultOptions: {},
-  featureIdentifier: 'test',
+  identifier: 'test',
   script: ''
 })
   .withWebHandler<{ foo: string }, 'event1'>('event1')

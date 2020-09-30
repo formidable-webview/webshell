@@ -105,7 +105,7 @@ export type FeatureDefinition<O extends {}> = {
    * @example
    * org.formidable-webview/webshell.link-press
    */
-  readonly featureIdentifier: string;
+  readonly identifier: string;
   /**
    * These options will be shallow-merged with the options provided to the {@link FeatureConstructor}.
    */

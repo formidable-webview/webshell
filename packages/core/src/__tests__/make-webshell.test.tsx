@@ -24,7 +24,7 @@ const DummyWebView = React.forwardRef(({}: MinimalWebViewProps, ref) => {
 
 const HelloFeature = new FeatureBuilder({
   script: dummyHelloScript,
-  featureIdentifier: 'test.hello',
+  identifier: 'test.hello',
   defaultOptions: {}
 })
   .withandlerProp('onDOMDummyHello')
@@ -32,7 +32,7 @@ const HelloFeature = new FeatureBuilder({
 
 const FailingFeature = new FeatureBuilder({
   script: dummyFailingScript,
-  featureIdentifier: 'test.fail',
+  identifier: 'test.fail',
   defaultOptions: {}
 })
   .withandlerProp('onDOMDummyFailure')
@@ -40,7 +40,7 @@ const FailingFeature = new FeatureBuilder({
 
 const OptionFeature = new FeatureBuilder({
   script: dummyOptionScript,
-  featureIdentifier: 'test.option',
+  identifier: 'test.option',
   defaultOptions: {}
 })
   .withandlerProp<{ foo: string }, 'onDOMDummyOption'>('onDOMDummyOption')
@@ -48,7 +48,7 @@ const OptionFeature = new FeatureBuilder({
 
 const HandlerIdFeature = new FeatureBuilder({
   script: dummyHandleridScript,
-  featureIdentifier: 'test.handlerid',
+  identifier: 'test.handlerid',
   defaultOptions: {}
 })
   .withandlerProp('onDOMDummyOption', 'hi')
@@ -56,7 +56,7 @@ const HandlerIdFeature = new FeatureBuilder({
 
 const ReceiverFeature = new FeatureBuilder({
   script: dummyReceiverScript,
-  featureIdentifier: 'test.receiver',
+  identifier: 'test.receiver',
   defaultOptions: {}
 })
   .withandlerProp<string, 'onWebFeedback'>('onWebFeedback')

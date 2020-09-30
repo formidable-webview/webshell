@@ -62,7 +62,7 @@ export abstract class Feature<
    * {@inheritdoc FeatureDefinition.script}
    */
   readonly script: string;
-  readonly featureIdentifier: string;
+  readonly identifier: string;
   readonly propSpecs: P;
   readonly webSpecs: W;
   readonly defaultOptions: Required<O>;
@@ -78,7 +78,7 @@ export abstract class Feature<
     options: O
   ) {
     this.script = params.script;
-    this.featureIdentifier = params.featureIdentifier;
+    this.identifier = params.identifier;
     this.propSpecs = params.propSpecs;
     this.defaultOptions = params.defaultOptions;
     this.options = { ...params.defaultOptions, ...options };

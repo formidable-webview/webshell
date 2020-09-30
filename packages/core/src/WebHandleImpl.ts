@@ -46,16 +46,16 @@ export class WebHandleImpl implements WebHandle {
   ) {
     if (__DEV__ && !feat.hasWebHandler(handlerId)) {
       throw new Error(
-        `Feature ${feat.featureIdentifier} has no Web handler with ID "${handlerId}".`
+        `Feature ${feat.identifier} has no Web handler with ID "${handlerId}".`
       );
     }
     if (__DEV__ && !this.registry.hasFeature(feat)) {
       throw new Error(
-        `Feature ${feat.featureIdentifier} has not be instantiated in this shell.`
+        `Feature ${feat.identifier} has not be instantiated in this shell.`
       );
     }
     this
-      .injectJavaScript`window.ReactNativeWebshell.postMessageToWeb(${feat.featureIdentifier},${handlerId},${message});`;
+      .injectJavaScript`window.ReactNativeWebshell.postMessageToWeb(${feat.identifier},${handlerId},${message});`;
   }
 
   setDebug(debug: boolean) {

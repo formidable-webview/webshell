@@ -64,7 +64,7 @@ export const HandleHashChangeFeature: FeatureConstructor<
 > = new FeatureBuilder({
   script: linkPressScript,
   defaultOptions,
-  featureIdentifier: 'org.formidable-webview/webshell.handle-hash-change'
+  identifier: 'org.formidable-webview/webshell.handle-hash-change'
 })
   .withandlerProp<HashChangeEvent, 'onDOMHashChange'>('onDOMHashChange')
   .build();

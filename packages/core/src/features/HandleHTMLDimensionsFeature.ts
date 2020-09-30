@@ -1,4 +1,4 @@
-import script from './HandleHTMLDimensionsFeature.webjs';
+ import script from './HandleHTMLDimensionsFeature.webjs';
 import { FeatureBuilder } from '../FeatureBuilder';
 import type { FeatureConstructor } from '../Feature';
 import type { PropDefinition, DOMRectSize } from '../types';
@@ -105,7 +105,7 @@ export const HandleHTMLDimensionsFeature: FeatureConstructor<
 > = new FeatureBuilder({
   script,
   defaultOptions,
-  featureIdentifier: 'org.formidable-webview/webshell.handle-html-dimensions'
+  identifier: 'org.formidable-webview/webshell.handle-html-dimensions'
 })
   .withandlerProp<HTMLDimensions, 'onDOMHTMLDimensions'>('onDOMHTMLDimensions')
   .build();

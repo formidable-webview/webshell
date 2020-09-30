@@ -49,7 +49,7 @@ export const HandleVisualViewportFeature: FeatureConstructor<
 > = new FeatureBuilder({
   script,
   defaultOptions: {},
-  featureIdentifier: 'org.formidable-webview/webshell.handle-visual-viewport'
+  identifier: 'org.formidable-webview/webshell.handle-visual-viewport'
 })
   .withandlerProp<VisualViewportDimensions, 'onDOMVisualViewport'>(
     'onDOMVisualViewport'

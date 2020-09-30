@@ -38,7 +38,7 @@ export const ForceResponsiveViewportFeature: FeatureConstructor<ForceResponsiveV
   {
     script,
     defaultOptions,
-    featureIdentifier:
+    identifier:
       'org.formidable-webview/webshell.force-responsive-viewport'
   }
 ).build();

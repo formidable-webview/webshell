@@ -154,9 +154,9 @@ export abstract class Feature<O extends {}, P extends PropsSpecs<any, any> = {},
     // (undocumented)
     readonly defaultOptions: Required<O>;
     // (undocumented)
-    readonly featureIdentifier: string;
-    // (undocumented)
     hasWebHandler(handlerId: string): boolean;
+    // (undocumented)
+    readonly identifier: string;
     // (undocumented)
     readonly options: O;
     // (undocumented)
@@ -195,7 +195,7 @@ export interface FeatureConstructor<O extends {}, S extends PropsSpecs<any, any>
 // @public
 export type FeatureDefinition<O extends {}> = {
     readonly script: string;
-    readonly featureIdentifier: string;
+    readonly identifier: string;
     readonly defaultOptions: Required<O>;
 };
 

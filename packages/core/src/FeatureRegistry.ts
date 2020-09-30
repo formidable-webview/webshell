@@ -4,7 +4,7 @@ import featuresLoaderScript from './features-loader.webjs';
 
 function serializeFeature(feature: Feature<any, PropsSpecs<any, any>>) {
   return `{source:${feature.script},identifier:${JSON.stringify(
-    feature.featureIdentifier
+    feature.identifier
   )},options:${JSON.stringify(feature.options || {})}}`;
 }
 
@@ -71,7 +71,7 @@ function registerFeature(feat: Feature<any, any>) {
     window.ReactNativeWebshell.registerFeature(${serializeFeature(feat)});
   } catch (e) {
     window.ReactNativeWebshell.sendErrorMessage(${JSON.stringify(
-      feat.featureIdentifier
+      feat.identifier
     )},e);
   };`;
 }

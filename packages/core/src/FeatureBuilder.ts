@@ -65,7 +65,7 @@ export class FeatureBuilder<
     const propDefinition: PropDefinition<H, (p: P) => void> = {
       handlerId,
       name: propName,
-      featureIdentifier: this.config.featureIdentifier,
+      featureIdentifier: this.config.identifier,
       type: 'handler'
     };
     const propSpec = {
@@ -104,7 +104,7 @@ export class FeatureBuilder<
   build(): FeatureConstructor<O, S, W> {
     const {
       script,
-      featureIdentifier,
+      identifier: featureIdentifier,
       __propSpecs: propSpecs,
       __webSpecs: webSpecs,
       defaultOptions
@@ -115,7 +115,7 @@ export class FeatureBuilder<
         super(
           {
             script,
-            featureIdentifier,
+            identifier: featureIdentifier,
             defaultOptions,
             propSpecs: (propSpecs || []) as S,
             webSpecs: (webSpecs || {}) as W
