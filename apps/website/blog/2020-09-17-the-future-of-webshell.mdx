@@ -45,8 +45,7 @@ import script from './Feature1.webjs';
 export const Feature1 = new FeatureBuilder({
   script,
   defaultOptions: {},
-  featureIdentifier: 'org.myorg/webshell.feature1',
-  className: 'Feature1'
+  featureIdentifier: 'org.myorg/webshell.feature1'
 })
   .withWebHandler('user')
   .build();
@@ -93,8 +92,7 @@ import script from './AsyncFlatteryFeature.webjs';
 export const AsyncFlatteryFeature = new FeatureBuilder({
   script,
   defaultOptions: {},
-  featureIdentifier: 'org.myorg/webshell.async-flattery',
-  className: 'AsyncFlatteryFeature'
+  featureIdentifier: 'org.myorg/webshell.async-flattery'
 })
   .withAsyncHandlerProp('onAsyncWebFlattery', 'flatters')
   .build();
@@ -147,8 +145,7 @@ import script from './AsyncFlatteryFeature.webjs';
 export const AsyncFlatteryFeature = new FeatureBuilder({
   script,
   defaultOptions: {},
-  featureIdentifier: 'org.myorg/webshell.async-flattery',
-  className: 'AsyncFlatteryFeature'
+  featureIdentifier: 'org.myorg/webshell.async-flattery'
 })
   .withAsyncWebHandler('flatters')
   .build();
@@ -200,8 +197,7 @@ import { FeatureBuilder } from '@formidable-webview/webshell';
 export const FeatureWithProp = new FeatureBuilder({
   defaultOptions: {},
   script: featureWithPropScript,
-  featureIdentifier: 'org.myorg/project.feature-with-prop',
-  className: 'FeatureWithProp'
+  featureIdentifier: 'org.myorg/project.feature-with-prop'
 })
   .withProp('userId')
   .build();
