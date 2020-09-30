@@ -13,6 +13,59 @@ import type {
   PropsFromFeature
 } from './Feature';
 
+// LOOKUP TYPES
+
+/**
+ * A lookup type to get the webshell component from WebView and feature classes.
+ *
+ * @example
+ *
+ * ```ts
+ * type MyShellComponent = ExtractWebshellFromFeatClass<
+ *  typeof WebView,
+ *  [typeof HandleElementCSSBoxFeature]
+ * >;
+ * ```
+ *
+ * @public
+ */
+export type ExtractWebshellFromFeatClass<
+  C extends ComponentType<any>,
+  F extends FeatureConstructor<any, any, any>[]
+> = WebshellComponent<C, FeatureInstanceOf<F[number]>[]>;
+
+/**
+ * @public
+ */
+export type ExtractWebHandlerSpecFromDef<S> = S extends WebHandlerDefinition<
+  infer P,
+  infer I
+>
+  ? {
+      [k in I]: WebHandlerDefinition<P, I>;
+    }
+  : never;
+
+/**
+ * @public
+ */
+export type ExtractPropsFromSpecs<S> = S extends PropsSpecs<infer N, any>
+  ? S[N] extends never
+    ? {}
+    : Required<S[N]>['signature']
+  : never;
+
+/**
+ * @public
+ */
+export type ExtractWebHandlerSpecsFromFeature<F> = F extends Feature<
+  any,
+  any,
+  infer P
+>
+  ? P
+  : never;
+
 // CONCRETE TYPES
 
 /**
@@ -26,16 +79,6 @@ export type WebshellComponent<
 > = ForwardRefExoticComponent<
   WebshellProps<ComponentPropsWithoutRef<C>, F> & RefAttributes<ElementRef<C>>
 >;
-
-/**
- * A lookup type to get the webshell component from WebView and feature classes.
- *
- * @public
- */
-export type WebshellComponentOf<
-  C extends ComponentType<any>,
-  F extends FeatureConstructor<any, any, any>[]
-> = WebshellComponent<C, FeatureInstanceOf<F[number]>[]>;
 
 /**
  * A minimal set of attributes to define a feature.
@@ -88,62 +131,23 @@ export type WebHandlersSpecs<P = {}, I extends string = string> = {
 };
 
 /**
- * @public
- */
-export type WebHandlerSpecOf<S> = S extends WebHandlerDefinition<
-  infer P,
-  infer I
->
-  ? {
-      [k in I]: WebHandlerDefinition<P, I>;
-    }
-  : never;
-
-/**
- * @public
- */
-export type WebHandlerSpecsFromFeature<F> = F extends Feature<any, any, infer P>
-  ? P
-  : never;
-
-/**
  * An object to define an API to send messages from Web to shell.
  *
  * @public
  */
-export type PropDefinition<P extends Partial<Record<string, any>>> = {
+export type PropDefinition<N extends string, P> = {
   handlerId: string;
   type: 'handler' | 'inert';
   featureIdentifier: string;
-  name: string;
-  signature?: P;
+  name: N;
+  signature?: Partial<Record<N, P>>;
 };
 
 /**
  * @public
  */
-export type PropsFromSpecs<S> = S extends PropsSpecs<any>
-  ? S[number] extends never
-    ? {}
-    : S[number]['signature']
-  : never;
-
-/**
- * @public
- */
-export type PropsSpecs<P = {}> = PropDefinition<P>[];
-
-/**
- * An object which keys are event handler names, and values are event handler
- * functions.
- *
- * @typeparam H - The event handler name.
- * @typeparam P - The shape of the payload received by the handler function.
- *
- * @public
- */
-export type EventHandlerProps<H extends string, P> = {
-  [k in H]?: (e: P) => void;
+export type PropsSpecs<N extends string, P> = {
+  [k in N]: PropDefinition<N, P>;
 };
 
 /**
@@ -158,11 +162,11 @@ export interface WebHandle {
    */
   postMessageToWeb<
     F extends Feature<any, any, any>,
-    H extends keyof WebHandlerSpecsFromFeature<F>
+    H extends keyof ExtractWebHandlerSpecsFromFeature<F>
   >(
     feat: F,
     handlerId: H,
-    payload: Required<WebHandlerSpecsFromFeature<F>[H]>['payload']
+    payload: Required<ExtractWebHandlerSpecsFromFeature<F>[H]>['payload']
   ): void;
 }
 

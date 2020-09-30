@@ -121,13 +121,22 @@ export interface ElementCSSBoxDimensions {
     verticalScrollbarWidth: number;
 }
 
-// @public
-export type EventHandlerProps<H extends string, P> = {
-    [k in H]?: (e: P) => void;
-};
+// @public (undocumented)
+export type ExtractPropsFromSpecs<S> = S extends PropsSpecs<infer N, any> ? S[N] extends never ? {} : Required<S[N]>['signature'] : never;
+
+// @public (undocumented)
+export type ExtractWebHandlerSpecFromDef<S> = S extends WebHandlerDefinition<infer P, infer I> ? {
+    [k in I]: WebHandlerDefinition<P, I>;
+} : never;
+
+// @public (undocumented)
+export type ExtractWebHandlerSpecsFromFeature<F> = F extends Feature<any, any, infer P> ? P : never;
 
 // @public
-export abstract class Feature<O extends {}, P extends PropsSpecs<any> = [], W extends WebHandlersSpecs<any> = {}> implements FeatureDefinition<O> {
+export type ExtractWebshellFromFeatClass<C extends ComponentType<any>, F extends FeatureConstructor<any, any, any>[]> = WebshellComponent<C, FeatureInstanceOf<F[number]>[]>;
+
+// @public
+export abstract class Feature<O extends {}, P extends PropsSpecs<any, any> = {}, W extends WebHandlersSpecs<any> = {}> implements FeatureDefinition<O> {
     // @internal
     protected constructor(params: FeatureDefinition<O> & {
         propSpecs: P;
@@ -149,15 +158,15 @@ export abstract class Feature<O extends {}, P extends PropsSpecs<any> = [], W ex
 }
 
 // @public
-export class FeatureBuilder<O extends {}, S extends PropsSpecs<any> = [], W extends WebHandlersSpecs<any> = {}> {
+export class FeatureBuilder<O extends {}, S extends PropsSpecs<any, any> = {}, W extends WebHandlersSpecs<any> = {}> {
     constructor(config: FeatureBuilderConfig<O, S>);
     build(): FeatureConstructor<O, S, W>;
-    withandlerProp<P, H extends string>(propName: H, handlerId?: string): FeatureBuilder<O, S[number] extends never ? [PropDefinition<{ [k in H]?: ((p: P) => void) | undefined; }>] : [PropDefinition<{ [k_1 in H]?: ((p: P) => void) | undefined; }>, ...S[number][]], {}>;
+    withandlerProp<P, H extends string>(propName: H, handlerId?: string): FeatureBuilder<O, S & PropsSpecs<H, (p: P) => void>, W>;
     withWebHandler<P = undefined, I extends string = string>(handlerId: I): FeatureBuilder<O, S, W & { [k in I]: WebHandlerDefinition<P, I>; }>;
 }
 
 // @public
-export interface FeatureBuilderConfig<O extends {}, S extends PropsSpecs<any> = []> extends FeatureDefinition<O> {
+export interface FeatureBuilderConfig<O extends {}, S extends PropsSpecs<any, any> = {}> extends FeatureDefinition<O> {
     // @internal (undocumented)
     __propSpecs?: S;
     // @internal (undocumented)
@@ -165,7 +174,7 @@ export interface FeatureBuilderConfig<O extends {}, S extends PropsSpecs<any> = 
 }
 
 // @public
-export interface FeatureConstructor<O extends {}, S extends PropsSpecs<any> = [], W extends WebHandlersSpecs<any> = {}> {
+export interface FeatureConstructor<O extends {}, S extends PropsSpecs<any, any> = {}, W extends WebHandlersSpecs<any> = {}> {
     // (undocumented)
     new (...args: O extends Partial<O> ? [] | [O] : [O]): Feature<O, S, W>;
     // (undocumented)
@@ -212,14 +221,14 @@ export interface HandleElementCSSBoxDimensionsOptions {
 }
 
 // @public
-export const HandleElementCSSBoxFeature: FeatureConstructor<HandleElementCSSBoxDimensionsOptions, [PropDefinition<{
-    onDOMElementCSSBoxDimensions?: (e: ElementCSSBoxDimensions) => void;
-}>]>;
+export const HandleElementCSSBoxFeature: FeatureConstructor<HandleElementCSSBoxDimensionsOptions, {
+    onDOMElementCSSBoxDimensions: PropDefinition<'onDOMElementCSSBoxDimensions', (e: ElementCSSBoxDimensions) => void>;
+}>;
 
 // @public
-export const HandleHashChangeFeature: FeatureConstructor<HandleHashChangeOptions, [PropDefinition<{
-    onDOMHashChange?: (e: HashChangeEvent) => void;
-}>]>;
+export const HandleHashChangeFeature: FeatureConstructor<HandleHashChangeOptions, {
+    onDOMHashChange: PropDefinition<'onDOMHashChange', (e: HashChangeEvent) => void>;
+}>;
 
 // @public
 export interface HandleHashChangeOptions {
@@ -227,9 +236,9 @@ export interface HandleHashChangeOptions {
 }
 
 // @public
-export const HandleHTMLDimensionsFeature: FeatureConstructor<HandleHTMLDimensionsOptions, [PropDefinition<{
-    onDOMHTMLDimensions?: (d: HTMLDimensions) => void;
-}>]>;
+export const HandleHTMLDimensionsFeature: FeatureConstructor<HandleHTMLDimensionsOptions, {
+    onDOMHTMLDimensions: PropDefinition<'onDOMHTMLDimensions', (d: HTMLDimensions) => void>;
+}>;
 
 // @public
 export interface HandleHTMLDimensionsOptions {
@@ -239,14 +248,14 @@ export interface HandleHTMLDimensionsOptions {
 }
 
 // @public
-export const HandleLinkPressFeature: FeatureConstructor<LinkPressOptions, [PropDefinition<{
-    onDOMLinkPress?: (t: LinkPressTarget) => void;
-}>]>;
+export const HandleLinkPressFeature: FeatureConstructor<LinkPressOptions, {
+    onDOMLinkPress: PropDefinition<'onDOMLinkPress', (t: LinkPressTarget) => void>;
+}>;
 
 // @public
-export const HandleVisualViewportFeature: FeatureConstructor<{}, [PropDefinition<{
-    onDOMVisualViewport?: (d: VisualViewportDimensions) => void;
-}>]>;
+export const HandleVisualViewportFeature: FeatureConstructor<{}, {
+    onDOMVisualViewport: PropDefinition<'onDOMVisualViewport', (d: VisualViewportDimensions) => void>;
+}>;
 
 // @public
 export interface HashChangeEvent {
@@ -314,22 +323,21 @@ export interface MinimalWebViewProps {
 }
 
 // @public
-export type PropDefinition<P extends Partial<Record<string, any>>> = {
+export type PropDefinition<N extends string, P> = {
     handlerId: string;
     type: 'handler' | 'inert';
     featureIdentifier: string;
-    name: string;
-    signature?: P;
+    name: N;
+    signature?: Partial<Record<N, P>>;
 };
 
 // @public
-export type PropsFromFeature<F> = F extends Feature<any, infer S, any> ? PropsFromSpecs<S> : {};
+export type PropsFromFeature<F> = F extends Feature<any, infer S, any> ? ExtractPropsFromSpecs<S> : {};
 
 // @public (undocumented)
-export type PropsFromSpecs<S> = S extends PropsSpecs<any> ? S[number] extends never ? {} : S[number]['signature'] : never;
-
-// @public (undocumented)
-export type PropsSpecs<P = {}> = PropDefinition<P>[];
+export type PropsSpecs<N extends string, P> = {
+    [k in N]: PropDefinition<N, P>;
+};
 
 // @beta
 export function useAutoheight<S extends WebshellProps<MinimalWebViewProps, [FeatureInstanceOf<typeof HandleHTMLDimensionsFeature>]>>(params: AutoheightParams<S>): AutoheightState<S>;
@@ -343,10 +351,8 @@ export interface VisualViewportDimensions {
 
 // @public (undocumented)
 export interface WebHandle {
-    // Warning: (ae-forgotten-export) The symbol "WebHandlerSpecsFromFeature" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
-    postMessageToWeb<F extends Feature<any, any, any>, H extends keyof WebHandlerSpecsFromFeature<F>>(feat: F, handlerId: H, payload: Required<WebHandlerSpecsFromFeature<F>[H]>['payload']): void;
+    postMessageToWeb<F extends Feature<any, any, any>, H extends keyof ExtractWebHandlerSpecsFromFeature<F>>(feat: F, handlerId: H, payload: Required<ExtractWebHandlerSpecsFromFeature<F>[H]>['payload']): void;
 }
 
 // @public
@@ -382,9 +388,6 @@ export interface WebjsContext<O extends {}> {
 
 // @public
 export type WebshellComponent<C extends ComponentType<any>, F extends Feature<any, any, any>[]> = ForwardRefExoticComponent<WebshellProps<ComponentPropsWithoutRef<C>, F> & RefAttributes<ElementRef<C>>>;
-
-// @public
-export type WebshellComponentOf<C extends ComponentType<any>, F extends FeatureConstructor<any, any, any>[]> = WebshellComponent<C, FeatureInstanceOf<F[number]>[]>;
 
 // @public
 export interface WebshellInvariantProps {

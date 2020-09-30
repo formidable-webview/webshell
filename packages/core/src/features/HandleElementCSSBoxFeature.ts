@@ -124,11 +124,12 @@ const defaultOptions: Required<HandleElementCSSBoxDimensionsOptions> = {
  */
 export const HandleElementCSSBoxFeature: FeatureConstructor<
   HandleElementCSSBoxDimensionsOptions,
-  [
-    PropDefinition<{
-      onDOMElementCSSBoxDimensions?: (e: ElementCSSBoxDimensions) => void;
-    }>
-  ]
+  {
+    onDOMElementCSSBoxDimensions: PropDefinition<
+      'onDOMElementCSSBoxDimensions',
+      (e: ElementCSSBoxDimensions) => void
+    >;
+  }
 > = new FeatureBuilder({
   script,
   defaultOptions,

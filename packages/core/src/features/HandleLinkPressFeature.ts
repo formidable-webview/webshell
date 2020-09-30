@@ -91,11 +91,12 @@ const defaultOptions: Required<LinkPressOptions> = {
  */
 export const HandleLinkPressFeature: FeatureConstructor<
   LinkPressOptions,
-  [
-    PropDefinition<{
-      onDOMLinkPress?: (t: LinkPressTarget) => void;
-    }>
-  ]
+  {
+    onDOMLinkPress: PropDefinition<
+      'onDOMLinkPress',
+      (t: LinkPressTarget) => void
+    >;
+  }
 > = new FeatureBuilder({
   script: linkPressScript,
   defaultOptions,

@@ -2,7 +2,7 @@ import { Feature } from './Feature';
 import { PropDefinition, PropsSpecs, WebshellProps } from './types';
 import featuresLoaderScript from './features-loader.webjs';
 
-function serializeFeature(feature: Feature<any, PropsSpecs<any>>) {
+function serializeFeature(feature: Feature<any, PropsSpecs<any, any>>) {
   return `{source:${feature.script},identifier:${JSON.stringify(
     feature.featureIdentifier
   )},options:${JSON.stringify(feature.options || {})}}`;
@@ -10,7 +10,7 @@ function serializeFeature(feature: Feature<any, PropsSpecs<any>>) {
 
 function extractFeatureProps(
   props: WebshellProps<any, any>,
-  propsMap: Record<string, PropDefinition<any>>,
+  propsMap: Record<string, PropDefinition<any, any>>,
   type: 'handler' | 'inert' | null = null
 ): any {
   return Object.keys(props).reduce((obj, key) => {
@@ -26,7 +26,7 @@ function extractFeatureProps(
 
 function filterWebViewProps<W>(
   props: WebshellProps<any, any>,
-  propsMap: Record<string, PropDefinition<any>>
+  propsMap: Record<string, PropDefinition<any, any>>
 ): W {
   return Object.keys(props).reduce((obj, key) => {
     if (propsMap[key] || key.startsWith('webshell')) {
@@ -43,27 +43,27 @@ function getHandlerUUID(identifier: string, handlerId: string) {
   return `${identifier}:${handlerId}`;
 }
 
-function extractHandlersMap(features: Feature<any, PropsSpecs<any>>[]) {
+function extractHandlersMap(features: Feature<any, PropsSpecs<any, any>>[]) {
   return features
-    .map((f: Feature<any, PropsSpecs<any>>) => f.propSpecs)
+    .map((f: Feature<any, PropsSpecs<any, any>>) => Object.values(f.propSpecs))
     .reduce((p, c) => [...p, ...c], [])
     .reduce(
-      (map, spec: PropDefinition<any>) => ({
+      (map, spec: PropDefinition<any, any>) => ({
         ...map,
         [getHandlerUUID(spec.featureIdentifier, spec.handlerId)]: spec
       }),
       {}
-    ) as Record<string, PropDefinition<any>>;
+    ) as Record<string, PropDefinition<any, any>>;
 }
 
-function extractPropsSpecsMap(features: Feature<any, PropsSpecs<any>>[]) {
+function extractPropsSpecsMap(features: Feature<any, PropsSpecs<any, any>>[]) {
   return features
-    .map((f: Feature<any, PropsSpecs<any>>) => f.propSpecs)
+    .map((f: Feature<any, PropsSpecs<any, any>>) => Object.values(f.propSpecs))
     .reduce((p, c) => [...p, ...c], [])
     .reduce(
-      (map, spec: PropDefinition<any>) => ({ ...map, [spec.name]: spec }),
+      (map, spec: PropDefinition<any, any>) => ({ ...map, [spec.name]: spec }),
       {}
-    ) as Record<string, PropDefinition<any>>;
+    ) as Record<string, PropDefinition<any, any>>;
 }
 
 function registerFeature(feat: Feature<any, any>) {
@@ -83,8 +83,8 @@ export function assembleScript(feats: Feature<any, any>[]) {
 }
 
 export class FeatureRegistry<F extends Feature<any, any>[]> {
-  readonly propsMap: Record<string, PropDefinition<any>>;
-  readonly handlersMap: Record<string, PropDefinition<any>>;
+  readonly propsMap: Record<string, PropDefinition<any, any>>;
+  readonly handlersMap: Record<string, PropDefinition<any, any>>;
   readonly assembledFeaturesScript: string;
   readonly features: F;
   constructor(features: F) {

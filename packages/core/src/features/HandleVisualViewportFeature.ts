@@ -40,11 +40,12 @@ export interface VisualViewportDimensions {
  */
 export const HandleVisualViewportFeature: FeatureConstructor<
   {},
-  [
-    PropDefinition<{
-      onDOMVisualViewport?: (d: VisualViewportDimensions) => void;
-    }>
-  ]
+  {
+    onDOMVisualViewport: PropDefinition<
+      'onDOMVisualViewport',
+      (d: VisualViewportDimensions) => void
+    >;
+  }
 > = new FeatureBuilder({
   script,
   defaultOptions: {},

@@ -1,6 +1,6 @@
 import type {
   FeatureDefinition,
-  PropsFromSpecs,
+  ExtractPropsFromSpecs,
   PropsSpecs,
   WebHandlersSpecs
 } from './types';
@@ -11,7 +11,7 @@ import type {
  * @public
  */
 export type PropsFromFeature<F> = F extends Feature<any, infer S, any>
-  ? PropsFromSpecs<S>
+  ? ExtractPropsFromSpecs<S>
   : {};
 
 /**
@@ -21,7 +21,7 @@ export type PropsFromFeature<F> = F extends Feature<any, infer S, any>
  */
 export interface FeatureConstructor<
   O extends {},
-  S extends PropsSpecs<any> = [],
+  S extends PropsSpecs<any, any> = {},
   W extends WebHandlersSpecs<any> = {}
 > {
   new (...args: O extends Partial<O> ? [] | [O] : [O]): Feature<O, S, W>;
@@ -55,7 +55,7 @@ export type FeatureInstanceOf<F> = F extends FeatureConstructor<
  */
 export abstract class Feature<
   O extends {},
-  P extends PropsSpecs<any> = [],
+  P extends PropsSpecs<any, any> = {},
   W extends WebHandlersSpecs<any> = {}
 > implements FeatureDefinition<O> {
   /**

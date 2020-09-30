@@ -96,11 +96,12 @@ const defaultOptions: Required<HandleHTMLDimensionsOptions> = {
  */
 export const HandleHTMLDimensionsFeature: FeatureConstructor<
   HandleHTMLDimensionsOptions,
-  [
-    PropDefinition<{
-      onDOMHTMLDimensions?: (d: HTMLDimensions) => void;
-    }>
-  ]
+  {
+    onDOMHTMLDimensions: PropDefinition<
+      'onDOMHTMLDimensions',
+      (d: HTMLDimensions) => void
+    >;
+  }
 > = new FeatureBuilder({
   script,
   defaultOptions,

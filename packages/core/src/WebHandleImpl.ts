@@ -1,7 +1,11 @@
 import { RefObject } from 'react';
 import { Feature } from './Feature';
 import { FeatureRegistry } from './FeatureRegistry';
-import { WebHandle, WebHandlerDefinition, WebHandlerSpecOf } from './types';
+import {
+  WebHandle,
+  WebHandlerDefinition,
+  ExtractWebHandlerSpecFromDef
+} from './types';
 
 function javaScript(snippets: TemplateStringsArray, ...args: any[]) {
   return snippets
@@ -34,7 +38,7 @@ export class WebHandleImpl implements WebHandle {
 
   postMessageToWeb<
     D extends WebHandlerDefinition<any, any>,
-    S extends WebHandlerSpecOf<D>
+    S extends ExtractWebHandlerSpecFromDef<D>
   >(
     feat: Feature<any, any, S>,
     handlerId: D['handlerId'],

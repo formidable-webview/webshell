@@ -16,7 +16,7 @@ import type {
  */
 export interface FeatureBuilderConfig<
   O extends {},
-  S extends PropsSpecs<any> = []
+  S extends PropsSpecs<any, any> = {}
 > extends FeatureDefinition<O> {
   /**
    * @internal
@@ -39,7 +39,7 @@ export interface FeatureBuilderConfig<
  */
 export class FeatureBuilder<
   O extends {},
-  S extends PropsSpecs<any> = [],
+  S extends PropsSpecs<any, any> = {},
   W extends WebHandlersSpecs<any> = {}
 > {
   private config: FeatureBuilderConfig<O, S>;
@@ -62,20 +62,21 @@ export class FeatureBuilder<
     propName: H,
     handlerId: string = 'default'
   ) {
-    const propDefinition: PropDefinition<{ [k in H]?: (p: P) => void }> = {
+    const propDefinition: PropDefinition<H, (p: P) => void> = {
       handlerId,
       name: propName,
       featureIdentifier: this.config.featureIdentifier,
       type: 'handler'
     };
-    return new FeatureBuilder<
-      O,
-      S[number] extends never
-        ? [PropDefinition<{ [k in H]?: (p: P) => void }>]
-        : [PropDefinition<{ [k in H]?: (p: P) => void }>, ...S[number][]]
-    >({
+    const propSpec = {
+      [propName]: propDefinition
+    } as PropsSpecs<H, typeof propDefinition>;
+    return new FeatureBuilder<O, S & PropsSpecs<H, (p: P) => void>, W>({
       ...this.config,
-      __propSpecs: [...(this.config.__propSpecs || []), propDefinition] as any
+      __propSpecs: {
+        ...((this.config.__propSpecs || {}) as S),
+        ...propSpec
+      }
     });
   }
   /**

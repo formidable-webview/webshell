@@ -55,7 +55,12 @@ const defaultOptions: Required<HandleHashChangeOptions> = {
  */
 export const HandleHashChangeFeature: FeatureConstructor<
   HandleHashChangeOptions,
-  [PropDefinition<{ onDOMHashChange?: (e: HashChangeEvent) => void }>]
+  {
+    onDOMHashChange: PropDefinition<
+      'onDOMHashChange',
+      (e: HashChangeEvent) => void
+    >;
+  }
 > = new FeatureBuilder({
   script: linkPressScript,
   defaultOptions,
