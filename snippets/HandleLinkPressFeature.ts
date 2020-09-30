@@ -10,14 +10,14 @@ export interface LinkPressTarget {
   uri: string;
 }
 
-const defaultOptions: LinkPressOptions = {
+const defaultOptions = {
   preventDefault: true
 };
 
 export const HandleLinkPressFeature = new FeatureBuilder({
   defaultOptions,
   script: linkPressScript,
-  featureIdentifier: 'org.myorg/webshell.link-press'
+  identifier: 'org.myorg/webshell.link-press'
 })
   .withandlerProp<LinkPressTarget, 'onDOMLinkPress'>(
     'onDOMLinkPress'

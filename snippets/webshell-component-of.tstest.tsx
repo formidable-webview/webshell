@@ -1,6 +1,6 @@
 import React from 'react';
 import makeWebshell, {
-  WebshellComponentOf,
+  ExtractWebshellFromFeatClass,
   HandleElementCSSBoxFeature,
   HandleLinkPressFeature,
   MinimalWebViewProps
@@ -10,12 +10,15 @@ import WebView, {
 } from 'react-native-webview';
 import type { ComponentType } from 'react';
 
-let Webshell1: WebshellComponentOf<typeof WebView, []>;
-let Webshell2: WebshellComponentOf<
+let Webshell1: ExtractWebshellFromFeatClass<
+  typeof WebView,
+  []
+>;
+let Webshell2: ExtractWebshellFromFeatClass<
   typeof WebView,
   [typeof HandleElementCSSBoxFeature]
 >;
-let Webshell3: WebshellComponentOf<
+let Webshell3: ExtractWebshellFromFeatClass<
   typeof WebView,
   [
     typeof HandleElementCSSBoxFeature,
@@ -23,7 +26,7 @@ let Webshell3: WebshellComponentOf<
   ]
 >;
 // Testing for generic type
-export type WebshellWithElementDimensionsFeatureType = WebshellComponentOf<
+export type WebshellWithElementDimensionsFeatureType = ExtractWebshellFromFeatClass<
   ComponentType<MinimalWebViewProps>,
   [typeof HandleElementCSSBoxFeature]
 >;
@@ -32,7 +35,7 @@ Webshell1 = makeWebshell(WebView);
 Webshell2 = makeWebshell(
   WebView,
   new HandleElementCSSBoxFeature({ target: 'body' })
-) as WebshellComponentOf<
+) as ExtractWebshellFromFeatClass<
   typeof WebView,
   [typeof HandleElementCSSBoxFeature]
 >;
