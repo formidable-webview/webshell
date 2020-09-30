@@ -1,4 +1,4 @@
- import script from './HandleHTMLDimensionsFeature.webjs';
+import script from './HandleHTMLDimensionsFeature.webjs';
 import { FeatureBuilder } from '../FeatureBuilder';
 import type { FeatureConstructor } from '../Feature';
 import type { PropDefinition, DOMRectSize } from '../types';
