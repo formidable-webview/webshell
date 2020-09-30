@@ -133,8 +133,7 @@ export const HandleElementCSSBoxFeature: FeatureConstructor<
 > = new FeatureBuilder({
   script,
   defaultOptions,
-  identifier:
-    'org.formidable-webview/webshell.handle-element-cssbox-dimensions'
+  identifier: 'org.formidable-webview/webshell.handle-element-cssbox-dimensions'
 })
   .withandlerProp<ElementCSSBoxDimensions, 'onDOMElementCSSBoxDimensions'>(
     'onDOMElementCSSBoxDimensions'
