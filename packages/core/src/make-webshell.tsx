@@ -24,7 +24,7 @@ interface WebViewMessage {
 interface PostMessage {
   identifier: string;
   handlerId: string;
-  type: 'feature' | 'error' | 'log';
+  type: 'feature' | 'error' | 'log' | 'init';
   severity: 'warn' | 'info';
   body: any;
 }
@@ -41,13 +41,12 @@ function isPostMessageObject(o: unknown): o is PostMessage {
   return (
     typeof o === 'object' &&
     o !== null &&
-    typeof o['identifier'] === 'string' &&
     typeof o['type'] === 'string' &&
     o['__isWebshellPostMessage'] === true
   );
 }
 
-function useWebMessagesHandler(
+function useWeb(
   registry: FeatureRegistry<any>,
   {
     webshellDebug,
@@ -56,16 +55,21 @@ function useWebMessagesHandler(
     ...otherProps
   }: WebshellProps<any, any>
 ) {
+  const [isLoaded, setIsLoaded] = React.useState(false);
   const domHandlers = React.useMemo(() => registry.getWebHandlers(otherProps), [
     otherProps,
     registry
   ]);
 
-  return React.useCallback(
+  const handleOnWebMessage = React.useCallback(
     ({ nativeEvent }: NativeSyntheticEvent<WebViewMessage>) => {
       const parsedJSON = parseJSONSafe(nativeEvent.data);
       if (isPostMessageObject(parsedJSON)) {
         const { type, identifier, body, handlerId, severity } = parsedJSON;
+        if (type === 'init') {
+          setIsLoaded(true);
+          return;
+        }
         if (type === 'feature') {
           const propDef = registry.getPropDefFromId(identifier, handlerId);
           if (!propDef) {
@@ -117,6 +121,10 @@ function useWebMessagesHandler(
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [...Object.values(domHandlers), onDOMError, onMessage]
   );
+  return {
+    handleOnWebMessage,
+    isLoaded
+  };
 }
 
 function useWebHandle(
@@ -136,7 +144,7 @@ function useJavaScript(
   return React.useMemo(() => {
     const safeUserscript =
       typeof injectedJavaScript === 'string' ? injectedJavaScript : '';
-    return `(function(){${safeUserscript};${registry.assembledFeaturesScript};})();true;`;
+    return `(function(){\n${safeUserscript}\n${registry.assembledFeaturesScript};\n})();true;`;
   }, [injectedJavaScript, registry]);
 }
 
@@ -167,21 +175,20 @@ export function makeWebshell<
       webshellDebug,
       ...webViewProps
     } = props;
-    const handleOnMessage = useWebMessagesHandler(registry, otherProps);
+    const { handleOnWebMessage, isLoaded } = useWeb(registry, otherProps);
     const resultingJavascript = useJavaScript(registry, injectedJavaScript);
     const webHandle = useWebHandle(webViewRef, registry);
     React.useImperativeHandle(webHandleRef, () => webHandle);
-    React.useEffect(() => webHandle.setDebug(webshellDebug), [
-      webshellDebug,
-      webHandle
-    ]);
+    React.useEffect(() => {
+      isLoaded && webHandle.setDebug(webshellDebug);
+    }, [webshellDebug, webHandle, isLoaded]);
     return (
       <WebView
         {...registry.filterWebViewProps(webViewProps)}
         ref={webViewRef}
         injectedJavaScript={resultingJavascript}
         javaScriptEnabled={true}
-        onMessage={handleOnMessage}
+        onMessage={handleOnWebMessage}
       />
     );
   };

@@ -77,9 +77,9 @@ function registerFeature(feat: Feature<any, any>) {
 }
 
 export function assembleScript(feats: Feature<any, any>[]) {
-  return `${featuresLoaderScript}(function(){${feats.map(
-    registerFeature
-  )};})();`;
+  return `${featuresLoaderScript}(function(){${feats
+    .map(registerFeature)
+    .join('\n')};})();`;
 }
 
 export class FeatureRegistry<F extends Feature<any, any>[]> {
