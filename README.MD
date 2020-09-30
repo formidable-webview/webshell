@@ -6,6 +6,7 @@
 
 <blockquote>
 :warning: This branch is for the yet unstable v2 (<code>next</code> tag). If you are looking for v1 documentation, <a href="https://github.com/formidable-webview/webshell/tree/dev/1.x#readme">jump here</a>.
+We still recommend v2 which is an order of magnitude more advanced, reliable and customizable!
 </blockquote>
 
 <h1>@formidable-webview/webshell</h1>
