@@ -130,18 +130,6 @@ function Home() {
       )
     },
     {
-      title: 'Written in Typescript',
-      SVGLogo: TypescriptLogo,
-      description: (
-        <>
-          We are using advanced typing techniques to augment components with
-          props in <Term id="HOC" />
-          s. 80% of this package codebase are types, resulting in a small bundle
-          and <strong>powerful intellisense</strong>.
-        </>
-      )
-    },
-    {
       title: 'Declarative API',
       iconName: 'integration_instructions',
       description: (
@@ -150,6 +138,29 @@ function Home() {
           <APIReference reference="makeWebshell" type="function" />{' '}
           <Term id="HOC" />, and enjoy new props and behaviors! The API is
           terse, and yet can be extended at will.
+        </>
+      )
+    },
+    {
+      title: 'Empathic Programming',
+      iconName: 'hearing',
+      description: (
+        <>
+          This library has been developped with user comfort in mind. We strive
+          at providing a maximum of feedback and help messages in addition to
+          exhaustive documentation.
+        </>
+      )
+    },
+    {
+      title: 'Written in Typescript',
+      SVGLogo: TypescriptLogo,
+      description: (
+        <>
+          We are using advanced typing techniques to augment components with
+          props in <Term id="HOC" />
+          s. 80% of this package codebase are types, resulting in a small bundle
+          and <strong>powerful intellisense</strong>.
         </>
       )
     },
