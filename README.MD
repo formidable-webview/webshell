@@ -37,3 +37,7 @@ yarn add @formidable-webview/webshell
 ## Documentation
 
 [See our official website](https://formidable-webview.github.io/webshell/).
+
+## Changelog
+
+[packages/core/CHANGELOG.MD](packages/core/CHANGELOG.MD)
