@@ -10,7 +10,7 @@ import type {
  *
  * @public
  */
-export type PropsFromFeature<F> = F extends Feature<any, infer S, any>
+export type ExtractPropsFromFeature<F> = F extends Feature<any, infer S, any>
   ? ExtractPropsFromSpecs<S>
   : {};
 

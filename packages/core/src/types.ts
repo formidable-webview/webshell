@@ -10,7 +10,7 @@ import type {
   Feature,
   FeatureConstructor,
   ExtractFeatureFromClass,
-  PropsFromFeature
+  ExtractPropsFromFeature
 } from './Feature';
 
 // LOOKUP TYPES
@@ -236,7 +236,7 @@ export type WebshellProps<
   F extends Feature<any, any, any>[]
 > = WebshellInvariantProps &
   W &
-  (F[number] extends never ? {} : PropsFromFeature<F[number]>);
+  (F[number] extends never ? {} : ExtractPropsFromFeature<F[number]>);
 
 /**
  * A high-compatibility type expressing minimal requirements for the

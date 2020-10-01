@@ -134,6 +134,9 @@ export interface ElementCSSBoxDimensions {
 export type ExtractFeatureFromClass<F> = F extends FeatureConstructor<infer O, infer S, infer W> ? Feature<O, S, W> : never;
 
 // @public
+export type ExtractPropsFromFeature<F> = F extends Feature<any, infer S, any> ? ExtractPropsFromSpecs<S> : {};
+
+// @public
 export type ExtractPropsFromSpecs<S> = S extends PropsSpecs<infer N, any> ? S[N] extends never ? {} : Required<S[N]>['signature'] : never;
 
 // @public
@@ -334,9 +337,6 @@ export type PropDefinition<N extends string, P> = {
     signature?: Partial<Record<N, P>>;
 };
 
-// @public
-export type PropsFromFeature<F> = F extends Feature<any, infer S, any> ? ExtractPropsFromSpecs<S> : {};
-
 // @public (undocumented)
 export type PropsSpecs<N extends string, P> = {
     [k in N]: PropDefinition<k, P>;
@@ -396,7 +396,7 @@ export interface WebshellInvariantProps {
 }
 
 // @public
-export type WebshellProps<W extends MinimalWebViewProps, F extends Feature<any, any, any>[]> = WebshellInvariantProps & W & (F[number] extends never ? {} : PropsFromFeature<F[number]>);
+export type WebshellProps<W extends MinimalWebViewProps, F extends Feature<any, any, any>[]> = WebshellInvariantProps & W & (F[number] extends never ? {} : ExtractPropsFromFeature<F[number]>);
 
 
 // (No @packageDocumentation comment for this package)
