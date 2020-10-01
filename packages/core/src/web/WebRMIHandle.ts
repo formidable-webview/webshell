@@ -1,39 +1,18 @@
 import { RefObject } from 'react';
-import { Feature } from './Feature';
-import { FeatureRegistry } from './FeatureRegistry';
+import { Feature } from '../Feature';
+import { FeatureRegistry } from '../FeatureRegistry';
+import { WebRMIController } from './WebRMIController';
 import {
   WebHandle,
   WebHandlerDefinition,
   ExtractWebHandlerSpecFromDef
-} from './types';
+} from '../types';
 
-function javaScript(snippets: TemplateStringsArray, ...args: any[]) {
-  return snippets
-    .reduce((buffer, currentSnippet, index) => {
-      buffer.push(currentSnippet, JSON.stringify(args[index]) || '');
-      return buffer;
-    }, [] as string[])
-    .join('');
-}
-
-export class WebHandleImpl implements WebHandle {
-  private webViewRef: RefObject<{
-    injectJavaScript: (js: string) => void;
-  }>;
+export class WebRMIHandle extends WebRMIController implements WebHandle {
   private registry: FeatureRegistry<any>;
   constructor(webViewRef: RefObject<any>, registry: FeatureRegistry<any>) {
-    this.webViewRef = webViewRef;
+    super(webViewRef);
     this.registry = registry;
-  }
-
-  protected injectJavaScript(snippets: TemplateStringsArray, ...args: any[]) {
-    if (this.webViewRef.current && !this.webViewRef.current.injectJavaScript) {
-      console.warn(
-        '[Webshell]: The WebView element you passed is missing injectJavaScript method.'
-      );
-      return;
-    }
-    this.webViewRef.current?.injectJavaScript(javaScript(snippets, ...args));
   }
 
   postMessageToWeb<

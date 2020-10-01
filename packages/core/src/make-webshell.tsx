@@ -15,7 +15,8 @@ import type {
   WebshellComponent
 } from './types';
 import { FeatureRegistry } from './FeatureRegistry';
-import { WebHandleImpl } from './WebHandleImpl';
+import { BufferedWebRMIHandle } from './web/BufferedWebRMIHandle';
+import { WebFeaturesLoader } from './web/WebFeaturesLoader';
 
 interface WebViewMessage {
   data: string;
@@ -46,7 +47,7 @@ function isPostMessageObject(o: unknown): o is PostMessage {
   );
 }
 
-function useWeb(
+function useWebMessageBus(
   registry: FeatureRegistry<any>,
   {
     webshellDebug,
@@ -133,20 +134,20 @@ function useWebHandle(
   registry: FeatureRegistry<any>
 ) {
   return React.useMemo(
-    (): WebHandleImpl => new WebHandleImpl(webViewRef, registry),
+    (): BufferedWebRMIHandle => new BufferedWebRMIHandle(webViewRef, registry),
     [webViewRef, registry]
   );
 }
 
 function useJavaScript(
-  registry: FeatureRegistry<any>,
+  loader: WebFeaturesLoader<any>,
   injectedJavaScript: string
 ) {
   return React.useMemo(() => {
     const safeUserscript =
       typeof injectedJavaScript === 'string' ? injectedJavaScript : '';
-    return `(function(){\n${safeUserscript}\n${registry.assembledFeaturesScript};\n})();true;`;
-  }, [injectedJavaScript, registry]);
+    return `(function(){\n${safeUserscript}\n${loader.assembledFeaturesScript};\n})();true;`;
+  }, [injectedJavaScript, loader]);
 }
 
 /**
@@ -185,7 +186,9 @@ export function makeWebshell<
   C extends ComponentType<any>,
   F extends Feature<any, any, any>[]
 >(WebView: C, ...features: F): WebshellComponent<C, F> {
-  const registry = new FeatureRegistry(features);
+  const filteredFeatures = features.filter((f) => !!f);
+  const registry = new FeatureRegistry(filteredFeatures);
+  const loader = new WebFeaturesLoader(filteredFeatures);
   const Webshell = (
     props: WebshellProps<ComponentProps<C>, F> & { webViewRef: ElementRef<C> }
   ) => {
@@ -195,22 +198,31 @@ export function makeWebshell<
     } = props as WebshellInvariantProps & MinimalWebViewProps;
     const {
       webViewRef,
-      injectedJavaScript,
+      injectedJavaScript: userInjectedJavaScript,
       webshellDebug,
       ...webViewProps
     } = props;
-    const { handleOnWebMessage, isLoaded } = useWeb(registry, otherProps);
-    const resultingJavascript = useJavaScript(registry, injectedJavaScript);
+    const { handleOnWebMessage, isLoaded } = useWebMessageBus(
+      registry,
+      otherProps
+    );
+    const injectedJavaScript = useJavaScript(loader, userInjectedJavaScript);
     const webHandle = useWebHandle(webViewRef, registry);
+
     React.useImperativeHandle(webHandleRef, () => webHandle);
     React.useEffect(() => {
-      isLoaded && webHandle.setDebug(webshellDebug);
-    }, [webshellDebug, webHandle, isLoaded]);
+      webHandle.setDebug(webshellDebug);
+    }, [webshellDebug, webHandle]);
+    React.useEffect(() => {
+      if (isLoaded) {
+        webHandle.load();
+      }
+    }, [isLoaded, webHandle]);
     return (
       <WebView
         {...registry.filterWebViewProps(webViewProps)}
         ref={webViewRef}
-        injectedJavaScript={resultingJavascript}
+        injectedJavaScript={injectedJavaScript}
         javaScriptEnabled={true}
         onMessage={handleOnWebMessage}
       />

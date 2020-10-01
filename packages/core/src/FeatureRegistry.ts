@@ -1,12 +1,5 @@
 import { Feature } from './Feature';
 import { PropDefinition, PropsSpecs, WebshellProps } from './types';
-import featuresLoaderScript from './features-loader.webjs';
-
-function serializeFeature(feature: Feature<any, PropsSpecs<any, any>>) {
-  return `{source:${feature.script},identifier:${JSON.stringify(
-    feature.identifier
-  )},options:${JSON.stringify(feature.options || {})}}`;
-}
 
 function extractFeatureProps(
   props: WebshellProps<any, any>,
@@ -66,32 +59,13 @@ function extractPropsSpecsMap(features: Feature<any, PropsSpecs<any, any>>[]) {
     ) as Record<string, PropDefinition<any, any>>;
 }
 
-function registerFeature(feat: Feature<any, any>) {
-  return `try {
-    window.ReactNativeWebshell.registerFeature(${serializeFeature(feat)});
-  } catch (e) {
-    window.ReactNativeWebshell.sendErrorMessage(${JSON.stringify(
-      feat.identifier
-    )},e);
-  };`;
-}
-
-export function assembleScript(feats: Feature<any, any>[]) {
-  return `${featuresLoaderScript}(function(){${feats
-    .map(registerFeature)
-    .join('\n')};})();`;
-}
-
 export class FeatureRegistry<F extends Feature<any, any>[]> {
   readonly propsMap: Record<string, PropDefinition<any, any>>;
   readonly handlersMap: Record<string, PropDefinition<any, any>>;
-  readonly assembledFeaturesScript: string;
   readonly features: F;
   constructor(features: F) {
-    const filteredFeatures = features.filter((f) => !!f);
-    this.propsMap = extractPropsSpecsMap(filteredFeatures);
-    this.handlersMap = extractHandlersMap(filteredFeatures);
-    this.assembledFeaturesScript = assembleScript(filteredFeatures);
+    this.propsMap = extractPropsSpecsMap(features);
+    this.handlersMap = extractHandlersMap(features);
     this.features = features;
   }
 
