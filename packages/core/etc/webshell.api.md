@@ -14,7 +14,7 @@ import type { RefAttributes } from 'react';
 // @public
 export interface AutoheightParams<S extends WebshellProps<MinimalWebViewProps, Feature<any, any>[]>> {
     initialHeight?: number;
-    reinitHeightOnViewportWidthChange?: boolean;
+    resetHeightOnViewportWidthChange?: boolean;
     webshellProps: S;
     width?: number;
 }

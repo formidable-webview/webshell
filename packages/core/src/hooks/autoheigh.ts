@@ -107,7 +107,7 @@ export interface AutoheightParams<
    *
    * @defaultValue true
    */
-  reinitHeightOnViewportWidthChange?: boolean;
+  resetHeightOnViewportWidthChange?: boolean;
 }
 interface AutoheightInternalState {
   implementation: HTMLDimensionsImplementation | null;
@@ -221,7 +221,7 @@ export function useAutoheight<
     webshellProps,
     initialHeight = 0,
     width: userExplicitWidth,
-    reinitHeightOnViewportWidthChange = true
+    resetHeightOnViewportWidthChange = true
   } = params;
   const {
     style,
@@ -240,7 +240,7 @@ export function useAutoheight<
   const shouldReinitNextFrameHeight =
     typeof userExplicitWidth !== 'number' &&
     lastFrameChangedWidth &&
-    reinitHeightOnViewportWidthChange;
+    resetHeightOnViewportWidthChange;
   const handleDOMHTMLDimensions = React.useCallback(
     (htmlDimensions: HTMLDimensions) => {
       setState((prevState) => {
