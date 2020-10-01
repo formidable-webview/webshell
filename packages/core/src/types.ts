@@ -8,7 +8,7 @@ import type {
 } from 'react';
 import type {
   Feature,
-  FeatureConstructor,
+  FeatureClass,
   ExtractFeatureFromClass,
   ExtractPropsFromFeature
 } from './Feature';
@@ -34,7 +34,7 @@ import type {
  */
 export type ExtractWebshellFromFeatClass<
   C extends ComponentType<any>,
-  F extends FeatureConstructor<any, any, any>[]
+  F extends FeatureClass<any, any, any>[]
 > = WebshellComponent<C, ExtractFeatureFromClass<F[number]>[]>;
 
 /**
@@ -121,7 +121,7 @@ export type FeatureDefinition<O extends {}> = {
    */
   readonly identifier: string;
   /**
-   * These options will be shallow-merged with the options provided to the {@link FeatureConstructor}.
+   * These options will be shallow-merged with the options provided to the {@link FeatureClass}.
    */
   readonly defaultOptions: Required<O>;
 };

@@ -1,6 +1,6 @@
 /* eslint-disable no-spaced-func */
 import { Feature } from './Feature';
-import type { FeatureConstructor } from './Feature';
+import type { FeatureClass } from './Feature';
 import type {
   FeatureDefinition,
   PropDefinition,
@@ -112,7 +112,7 @@ export class FeatureBuilder<
   /**
    * Assemble this builder object into a feature class.
    */
-  build(): FeatureConstructor<O, S, W> {
+  build(): FeatureClass<O, S, W> {
     const {
       script,
       identifier: featureIdentifier,

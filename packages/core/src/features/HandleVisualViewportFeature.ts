@@ -1,6 +1,6 @@
 import script from './HandleVisualViewportFeature.webjs';
 import { FeatureBuilder } from '../FeatureBuilder';
-import { FeatureConstructor } from '../Feature';
+import { FeatureClass } from '../Feature';
 import type { PropDefinition, DOMRectSize } from '../types';
 
 /**
@@ -38,7 +38,7 @@ export interface VisualViewportDimensions {
  * @public
  *
  */
-export const HandleVisualViewportFeature: FeatureConstructor<
+export const HandleVisualViewportFeature: FeatureClass<
   {},
   {
     onDOMVisualViewport: PropDefinition<

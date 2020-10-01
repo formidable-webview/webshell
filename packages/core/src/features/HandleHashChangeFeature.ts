@@ -1,7 +1,7 @@
 import linkPressScript from './HandleHashChangeFeature.webjs';
 import { FeatureBuilder } from '../FeatureBuilder';
 import type { DOMRect, PropDefinition } from '../types';
-import type { FeatureConstructor } from '../Feature';
+import type { FeatureClass } from '../Feature';
 
 /**
  * An object describing customization for the hash change feature.
@@ -53,7 +53,7 @@ const defaultOptions: Required<HandleHashChangeOptions> = {
  *
  * @public
  */
-export const HandleHashChangeFeature: FeatureConstructor<
+export const HandleHashChangeFeature: FeatureClass<
   HandleHashChangeOptions,
   {
     onDOMHashChange: PropDefinition<

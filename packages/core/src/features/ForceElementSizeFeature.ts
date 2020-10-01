@@ -1,7 +1,7 @@
 import script from './ForceElementSizeFeature.webjs';
 import { FeatureBuilder } from '../FeatureBuilder';
 import type { DOMElementRequest } from '../types';
-import type { FeatureConstructor } from '../Feature';
+import type { FeatureClass } from '../Feature';
 
 /**
  * An object describing customization for the force body feature.
@@ -61,7 +61,7 @@ const defaultOptions: Required<ForceElementSizeOptions> = {
  *
  * @public
  */
-export const ForceElementSizeFeature: FeatureConstructor<ForceElementSizeOptions> = new FeatureBuilder<
+export const ForceElementSizeFeature: FeatureClass<ForceElementSizeOptions> = new FeatureBuilder<
   ForceElementSizeOptions
 >({
   script,

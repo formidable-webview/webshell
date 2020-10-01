@@ -1,7 +1,7 @@
 import linkPressScript from './HandleLinkPressFeature.webjs';
 import { FeatureBuilder } from '../FeatureBuilder';
 import type { DOMRect, PropDefinition } from '../types';
-import type { FeatureConstructor } from '../Feature';
+import type { FeatureClass } from '../Feature';
 
 /**
  * An object describing customization for the linkPress feature.
@@ -89,7 +89,7 @@ const defaultOptions: Required<LinkPressOptions> = {
  *
  * @public
  */
-export const HandleLinkPressFeature: FeatureConstructor<
+export const HandleLinkPressFeature: FeatureClass<
   LinkPressOptions,
   {
     onDOMLinkPress: PropDefinition<

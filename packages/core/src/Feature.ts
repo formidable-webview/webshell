@@ -23,7 +23,7 @@ export type ExtractPropsFromFeature<F> = F extends Feature<any, infer S, any>
  *
  * @public
  */
-export interface FeatureConstructor<
+export interface FeatureClass<
   O extends {},
   S extends PropsSpecs<any, any> = {},
   W extends WebHandlersSpecs<any> = {}
@@ -34,11 +34,11 @@ export interface FeatureConstructor<
 }
 
 /**
- * A lookup type to extract the instance from a {@link FeatureConstructor}.
+ * A lookup type to extract the instance from a {@link FeatureClass}.
  *
  * @public
  */
-export type ExtractFeatureFromClass<F> = F extends FeatureConstructor<
+export type ExtractFeatureFromClass<F> = F extends FeatureClass<
   infer O,
   infer S,
   infer W
@@ -92,7 +92,7 @@ export abstract class Feature<
    */
   readonly webSpecs: W;
   /**
-   * These options will be shallow-merged with the options provided to the {@link FeatureConstructor}.
+   * These options will be shallow-merged with the options provided to the {@link FeatureClass}.
    */
   readonly defaultOptions: Required<O>;
   /**

@@ -1,6 +1,6 @@
 import script from './ForceResponsiveViewportFeature.webjs';
 import { FeatureBuilder } from '../FeatureBuilder';
-import type { FeatureConstructor } from '../Feature';
+import type { FeatureClass } from '../Feature';
 
 /**
  * An object describing customization for the fix viewport feature.
@@ -34,7 +34,7 @@ const defaultOptions: Required<ForceResponsiveViewportOptions> = {
  *
  * @public
  */
-export const ForceResponsiveViewportFeature: FeatureConstructor<ForceResponsiveViewportOptions> = new FeatureBuilder(
+export const ForceResponsiveViewportFeature: FeatureClass<ForceResponsiveViewportOptions> = new FeatureBuilder(
   {
     script,
     defaultOptions,

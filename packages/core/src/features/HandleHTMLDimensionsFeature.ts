@@ -1,6 +1,6 @@
 import script from './HandleHTMLDimensionsFeature.webjs';
 import { FeatureBuilder } from '../FeatureBuilder';
-import type { FeatureConstructor } from '../Feature';
+import type { FeatureClass } from '../Feature';
 import type { PropDefinition, DOMRectSize } from '../types';
 
 /**
@@ -94,7 +94,7 @@ const defaultOptions: Required<HandleHTMLDimensionsOptions> = {
  *
  * @public
  */
-export const HandleHTMLDimensionsFeature: FeatureConstructor<
+export const HandleHTMLDimensionsFeature: FeatureClass<
   HandleHTMLDimensionsOptions,
   {
     onDOMHTMLDimensions: PropDefinition<

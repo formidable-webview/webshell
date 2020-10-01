@@ -1,7 +1,7 @@
 import script from './HandleElementCSSBoxFeature.webjs';
 import { FeatureBuilder } from '../FeatureBuilder';
 import type { DOMElementRequest, PropDefinition } from '../types';
-import type { FeatureConstructor } from '../Feature';
+import type { FeatureClass } from '../Feature';
 
 /**
  * An object describing customization for the dimensions feature.
@@ -122,7 +122,7 @@ const defaultOptions: Required<HandleElementCSSBoxDimensionsOptions> = {
  *
  * @public
  */
-export const HandleElementCSSBoxFeature: FeatureConstructor<
+export const HandleElementCSSBoxFeature: FeatureClass<
   HandleElementCSSBoxDimensionsOptions,
   {
     onDOMElementCSSBoxDimensions: PropDefinition<

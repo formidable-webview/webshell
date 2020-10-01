@@ -131,7 +131,7 @@ export interface ElementCSSBoxDimensions {
 }
 
 // @public
-export type ExtractFeatureFromClass<F> = F extends FeatureConstructor<infer O, infer S, infer W> ? Feature<O, S, W> : never;
+export type ExtractFeatureFromClass<F> = F extends FeatureClass<infer O, infer S, infer W> ? Feature<O, S, W> : never;
 
 // @public
 export type ExtractPropsFromFeature<F> = F extends Feature<any, infer S, any> ? ExtractPropsFromSpecs<S> : {};
@@ -148,7 +148,7 @@ export type ExtractWebHandlerSpecFromDef<S> = S extends WebHandlerDefinition<inf
 export type ExtractWebHandlerSpecsFromFeature<F> = F extends Feature<any, any, infer P> ? P : never;
 
 // @public
-export type ExtractWebshellFromFeatClass<C extends ComponentType<any>, F extends FeatureConstructor<any, any, any>[]> = WebshellComponent<C, ExtractFeatureFromClass<F[number]>[]>;
+export type ExtractWebshellFromFeatClass<C extends ComponentType<any>, F extends FeatureClass<any, any, any>[]> = WebshellComponent<C, ExtractFeatureFromClass<F[number]>[]>;
 
 // @public
 export abstract class Feature<O extends {}, P extends PropsSpecs<any, any> = {}, W extends WebHandlersSpecs<any> = {}> implements FeatureDefinition<O> {
@@ -169,7 +169,7 @@ export abstract class Feature<O extends {}, P extends PropsSpecs<any, any> = {},
 // @public
 export class FeatureBuilder<O extends {}, S extends PropsSpecs<any, any> = {}, W extends WebHandlersSpecs<any> = {}> {
     constructor(config: FeatureBuilderConfig<O, S>);
-    build(): FeatureConstructor<O, S, W>;
+    build(): FeatureClass<O, S, W>;
     withShellHandler<P, N extends string>(propName: N, handlerId?: string): FeatureBuilder<O, S & PropsSpecs<N, (p: P) => void>, W>;
     withWebHandler<P = undefined, I extends string = string>(handlerId: I): FeatureBuilder<O, S, W & { [k in I]: WebHandlerDefinition<P, I>; }>;
 }
@@ -183,7 +183,7 @@ export interface FeatureBuilderConfig<O extends {}, S extends PropsSpecs<any, an
 }
 
 // @public
-export interface FeatureConstructor<O extends {}, S extends PropsSpecs<any, any> = {}, W extends WebHandlersSpecs<any> = {}> {
+export interface FeatureClass<O extends {}, S extends PropsSpecs<any, any> = {}, W extends WebHandlersSpecs<any> = {}> {
     // (undocumented)
     new (...args: O extends Partial<O> ? [] | [O] : [O]): Feature<O, S, W>;
     // (undocumented)
@@ -200,7 +200,7 @@ export type FeatureDefinition<O extends {}> = {
 };
 
 // @public
-export const ForceElementSizeFeature: FeatureConstructor<ForceElementSizeOptions>;
+export const ForceElementSizeFeature: FeatureClass<ForceElementSizeOptions>;
 
 // @public
 export interface ForceElementSizeOptions {
@@ -213,7 +213,7 @@ export interface ForceElementSizeOptions {
 }
 
 // @public
-export const ForceResponsiveViewportFeature: FeatureConstructor<ForceResponsiveViewportOptions>;
+export const ForceResponsiveViewportFeature: FeatureClass<ForceResponsiveViewportOptions>;
 
 // @public
 export interface ForceResponsiveViewportOptions {
@@ -227,12 +227,12 @@ export interface HandleElementCSSBoxDimensionsOptions {
 }
 
 // @public
-export const HandleElementCSSBoxFeature: FeatureConstructor<HandleElementCSSBoxDimensionsOptions, {
+export const HandleElementCSSBoxFeature: FeatureClass<HandleElementCSSBoxDimensionsOptions, {
     onDOMElementCSSBoxDimensions: PropDefinition<'onDOMElementCSSBoxDimensions', (e: ElementCSSBoxDimensions) => void>;
 }>;
 
 // @public
-export const HandleHashChangeFeature: FeatureConstructor<HandleHashChangeOptions, {
+export const HandleHashChangeFeature: FeatureClass<HandleHashChangeOptions, {
     onDOMHashChange: PropDefinition<'onDOMHashChange', (e: HashChangeEvent) => void>;
 }>;
 
@@ -242,7 +242,7 @@ export interface HandleHashChangeOptions {
 }
 
 // @public
-export const HandleHTMLDimensionsFeature: FeatureConstructor<HandleHTMLDimensionsOptions, {
+export const HandleHTMLDimensionsFeature: FeatureClass<HandleHTMLDimensionsOptions, {
     onDOMHTMLDimensions: PropDefinition<'onDOMHTMLDimensions', (d: HTMLDimensions) => void>;
 }>;
 
@@ -254,12 +254,12 @@ export interface HandleHTMLDimensionsOptions {
 }
 
 // @public
-export const HandleLinkPressFeature: FeatureConstructor<LinkPressOptions, {
+export const HandleLinkPressFeature: FeatureClass<LinkPressOptions, {
     onDOMLinkPress: PropDefinition<'onDOMLinkPress', (t: LinkPressTarget) => void>;
 }>;
 
 // @public
-export const HandleVisualViewportFeature: FeatureConstructor<{}, {
+export const HandleVisualViewportFeature: FeatureClass<{}, {
     onDOMVisualViewport: PropDefinition<'onDOMVisualViewport', (d: VisualViewportDimensions) => void>;
 }>;
 
