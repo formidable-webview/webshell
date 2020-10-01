@@ -89,7 +89,7 @@ export class FeatureBuilder<
   }
   /**
    * Instruct that the Web script will receive events from the shell.
-   * See {@link WebshellInvariantProps.webHandle}, {@link WebHandle.postMessageToWeb} and {@link WebjsContext.onShellMessage}.
+   * See {@link WebshellInvariantProps.webHandleRef}, {@link WebHandle.postMessageToWeb} and {@link WebjsContext.onShellMessage}.
    *
    * @param handlerId - The name of the handler in the Web script.
    *

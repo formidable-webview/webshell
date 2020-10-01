@@ -137,18 +137,18 @@ describe('Webshell component', () => {
     const onWebFeedback = jest.fn();
     const feature = new ReceiverFeature();
     const Webshell = makeWebshell(Ersatz, feature);
-    const webHandle = React.createRef<WebHandle>();
+    const webHandleRef = React.createRef<WebHandle>();
     await waitForErsatz(
       render(
         <Webshell
-          webHandle={webHandle}
+          webHandleRef={webHandleRef}
           onWebFeedback={onWebFeedback}
           {...defaultWebshellProps}
         />
       )
     );
     act(() => {
-      webHandle.current?.postMessageToWeb(feature, 'hello', 'Hello world!');
+      webHandleRef.current?.postMessageToWeb(feature, 'hello', 'Hello world!');
     });
     expect(onWebFeedback).toHaveBeenCalledWith('Hello world!');
   });
@@ -176,7 +176,7 @@ describe('Webshell component', () => {
         <View testID={testID}>
           <Webshell
             onWebFeedback={onWebFeedback}
-            webHandle={webHandle}
+            webHandleRef={webHandle}
             {...defaultWebshellProps}
           />
         </View>

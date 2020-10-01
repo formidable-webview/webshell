@@ -227,7 +227,7 @@ export interface WebshellInvariantProps {
   /**
    * Pass a reference to send messages to the Web environment.
    */
-  webHandle?: Ref<WebHandle>;
+  webHandleRef?: Ref<WebHandle>;
 }
 
 /**

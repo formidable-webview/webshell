@@ -174,10 +174,8 @@ export function makeWebshell<
   const Webshell = (
     props: WebshellProps<ComponentProps<C>, F> & { webViewRef: ElementRef<C> }
   ) => {
-    const {
-      webHandle: webHandleRef,
-      ...otherProps
-    } = props as WebshellInvariantProps & MinimalWebViewProps;
+    const { webHandleRef, ...otherProps } = props as WebshellInvariantProps &
+      MinimalWebViewProps;
     const {
       webViewRef,
       injectedJavaScript: userInjectedJavaScript,
