@@ -34,7 +34,7 @@ export interface FeatureConstructor<
  *
  * @public
  */
-export type FeatureInstanceOf<F> = F extends FeatureConstructor<
+export type ExtractFeatureFromClass<F> = F extends FeatureConstructor<
   infer O,
   infer S,
   infer W
@@ -49,8 +49,11 @@ export type FeatureInstanceOf<F> = F extends FeatureConstructor<
  * You should never instantiate that class directly. Use {@link FeatureBuilder} instead.
  *
  * @param params - An object to specify attributes of the feature.
- * @typeparam O - The shape of the JSON-serializable object that will be passed to the Web script.
- * @typeparam S - Specifications for the new properties added to webshell.
+ *
+ * @typeparam O - A type describing the shape of the JSON-serializable object that will be passed to the Web script.
+ * @typeparam S - A type specifying the new properties added to the shell (capabilities to send message to the shell).
+ * @typeparam W - A type specifying the Web handlers added to the shell (capabilities to send message to the Web script).
+ *
  * @public
  */
 export abstract class Feature<

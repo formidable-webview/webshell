@@ -6,7 +6,7 @@ import type {
   HTMLDimensionsImplementation
 } from '../features/HandleHTMLDimensionsFeature';
 import { StyleProp, ViewStyle } from 'react-native';
-import { Feature, FeatureInstanceOf } from '../Feature';
+import { Feature, ExtractFeatureFromClass } from '../Feature';
 
 const initialDimensions = { width: undefined, height: undefined };
 
@@ -26,12 +26,14 @@ export type AutoheightSyncState = 'init' | 'syncing' | 'synced';
 /**
  * The state returned by {@link useAutoheight} hook.
  *
+ * @typeparam S - The type of the `Webshell` props used by this hook.
+ *
  * @public
  */
 export interface AutoheightState<
   S extends WebshellProps<
     MinimalWebViewProps,
-    [FeatureInstanceOf<typeof HandleHTMLDimensionsFeature>]
+    [ExtractFeatureFromClass<typeof HandleHTMLDimensionsFeature>]
   >
 > {
   /**
@@ -60,9 +62,9 @@ export interface AutoheightState<
   /**
    * The state of synchronization between viewport and content size:
    *
-   * - init: the initial, "onMount" state;
-   * - syncing: the content size is being determined;
-   * - synced: the viewport size has been adjusted to content size.
+   * - `'init'`: the initial, "onMount" state;
+   * - `'syncing'`: the content size is being determined;
+   * - `'synced'`: the viewport size has been adjusted to content size.
    *
    */
   syncState: AutoheightSyncState;
@@ -70,6 +72,8 @@ export interface AutoheightState<
 
 /**
  * Named parameters for autoheight hook.
+ *
+ * @typeparam S - The type of the `Webshell` props used by this hook.
  *
  * @public
  */
@@ -116,7 +120,7 @@ interface AutoheightInternalState {
 function useAutoheightState<
   S extends WebshellProps<
     MinimalWebViewProps,
-    [FeatureInstanceOf<typeof HandleHTMLDimensionsFeature>]
+    [ExtractFeatureFromClass<typeof HandleHTMLDimensionsFeature>]
   >
 >({ webshellProps, initialHeight }: AutoheightParams<S>) {
   const { scalesPageToFit, source = {}, webshellDebug } = webshellProps;
@@ -179,11 +183,30 @@ function useAutoheightState<
  *   Hence, it is strongly advised that you use autoheight only with content
  *   you have been able to test. This can be worked around by forcing body
  *   height to 'auto', see {@link ForceElementSizeFeature}.
- * - When the user clicks to fragment links within the same page (e.g,
- *   “`#help`”), there will be no scrolling, because this is handled by WebView
- *   on overflow, and there is no such overflow when in autoheight mode.
+ * - In some circumstances, the mobile browser might use a virtual
+ *   viewport much larger then the available width in the <WebView />, often
+ *   around 980px for websites which have been built for desktop. For
+ *   this autoheight component to be reliable, you must ensure that the
+ *   content has a [meta viewport element](https://www.w3schools.com/css/css_rwd_viewport.asp)
+ *   in the header. You can enforce this behavior with {@link ForceResponsiveViewportFeature}.
+ *
+ * @example
+ *
+ * ```tsx
+ * export default function MinimalAutoheightWebView(
+ *   webshellProps: ComponentProps<typeof Webshell>
+ * ) {
+ *   const { autoheightWebshellProps } = useAutoheight({
+ *     webshellProps
+ *   });
+ *   return <Webshell {...autoheightWebshellProps} />;
+ * }
+ * ```
  *
  * @param params - The parameters to specify autoheight behavior.
+ *
+ * @typeparam S - The type of the `Webshell` props used by this hook.
+ *
  * @returns - An object to implement autoheight behavior.
  *
  * @beta
@@ -191,7 +214,7 @@ function useAutoheightState<
 export function useAutoheight<
   S extends WebshellProps<
     MinimalWebViewProps,
-    [FeatureInstanceOf<typeof HandleHTMLDimensionsFeature>]
+    [ExtractFeatureFromClass<typeof HandleHTMLDimensionsFeature>]
   >
 >(params: AutoheightParams<S>): AutoheightState<S> {
   const {

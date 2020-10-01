@@ -20,7 +20,7 @@ export interface AutoheightParams<S extends WebshellProps<MinimalWebViewProps, F
 }
 
 // @public
-export interface AutoheightState<S extends WebshellProps<MinimalWebViewProps, [FeatureInstanceOf<typeof HandleHTMLDimensionsFeature>]>> {
+export interface AutoheightState<S extends WebshellProps<MinimalWebViewProps, [ExtractFeatureFromClass<typeof HandleHTMLDimensionsFeature>]>> {
     autoheightWebshellProps: Pick<S, 'webshellDebug' | 'onDOMHTMLDimensions' | 'style' | 'scalesPageToFit' | 'showsVerticalScrollIndicator' | 'disableScrollViewPanResponder'> & Partial<S>;
     contentSize: Partial<DOMRectSize>;
     resizeImplementation: HTMLDimensionsImplementation | null;
@@ -130,6 +130,9 @@ export interface ElementCSSBoxDimensions {
     verticalScrollbarWidth: number;
 }
 
+// @public
+export type ExtractFeatureFromClass<F> = F extends FeatureConstructor<infer O, infer S, infer W> ? Feature<O, S, W> : never;
+
 // @public (undocumented)
 export type ExtractPropsFromSpecs<S> = S extends PropsSpecs<infer N, any> ? S[N] extends never ? {} : Required<S[N]>['signature'] : never;
 
@@ -142,7 +145,7 @@ export type ExtractWebHandlerSpecFromDef<S> = S extends WebHandlerDefinition<inf
 export type ExtractWebHandlerSpecsFromFeature<F> = F extends Feature<any, any, infer P> ? P : never;
 
 // @public
-export type ExtractWebshellFromFeatClass<C extends ComponentType<any>, F extends FeatureConstructor<any, any, any>[]> = WebshellComponent<C, FeatureInstanceOf<F[number]>[]>;
+export type ExtractWebshellFromFeatClass<C extends ComponentType<any>, F extends FeatureConstructor<any, any, any>[]> = WebshellComponent<C, ExtractFeatureFromClass<F[number]>[]>;
 
 // @public
 export abstract class Feature<O extends {}, P extends PropsSpecs<any, any> = {}, W extends WebHandlersSpecs<any> = {}> implements FeatureDefinition<O> {
@@ -198,9 +201,6 @@ export type FeatureDefinition<O extends {}> = {
     readonly identifier: string;
     readonly defaultOptions: Required<O>;
 };
-
-// @public
-export type FeatureInstanceOf<F> = F extends FeatureConstructor<infer O, infer S, infer W> ? Feature<O, S, W> : never;
 
 // @public
 export const ForceElementSizeFeature: FeatureConstructor<ForceElementSizeOptions>;
@@ -349,7 +349,7 @@ export type PropsSpecs<N extends string, P> = {
 };
 
 // @beta
-export function useAutoheight<S extends WebshellProps<MinimalWebViewProps, [FeatureInstanceOf<typeof HandleHTMLDimensionsFeature>]>>(params: AutoheightParams<S>): AutoheightState<S>;
+export function useAutoheight<S extends WebshellProps<MinimalWebViewProps, [ExtractFeatureFromClass<typeof HandleHTMLDimensionsFeature>]>>(params: AutoheightParams<S>): AutoheightState<S>;
 
 // @public
 export interface VisualViewportDimensions {
