@@ -1,5 +1,6 @@
 import React from 'react';
 import { FeatureRegistry } from '../FeatureRegistry';
+import { Reporter } from '../Reporter';
 import { WebHandle } from '../types';
 import { WebRMIHandle } from './WebRMIHandle';
 
@@ -17,9 +18,10 @@ export class BufferedWebRMIHandle implements WebHandle {
 
   constructor(
     webViewRef: React.RefObject<any>,
-    registry: FeatureRegistry<any>
+    registry: FeatureRegistry<any>,
+    webshellDebug: Reporter
   ) {
-    this.handle = new WebRMIHandle(webViewRef, registry);
+    this.handle = new WebRMIHandle(webViewRef, registry, webshellDebug);
     this.postMessageToWeb = this.proxify('postMessageToWeb');
     this.setDebug = this.proxify('setDebug');
   }

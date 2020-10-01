@@ -1,4 +1,5 @@
 import { RefObject } from 'react';
+import { Reporter } from '../Reporter';
 
 function javaScript(snippets: TemplateStringsArray, ...args: any[]) {
   return snippets
@@ -13,15 +14,15 @@ export class WebRMIController {
   private webViewRef: RefObject<{
     injectJavaScript: (js: string) => void;
   }>;
-  constructor(webViewRef: RefObject<any>) {
+  protected reporter: Reporter;
+  constructor(webViewRef: RefObject<any>, reporter: Reporter) {
     this.webViewRef = webViewRef;
+    this.reporter = reporter;
   }
 
   protected injectJavaScript(snippets: TemplateStringsArray, ...args: any[]) {
     if (this.webViewRef.current && !this.webViewRef.current.injectJavaScript) {
-      console.warn(
-        '[Webshell]: The WebView element you passed is missing injectJavaScript method.'
-      );
+      this.reporter.dispatchError('WEBSH_WEBVIEW_MISSING_MEMBER');
       return;
     }
     this.webViewRef.current?.injectJavaScript(javaScript(snippets, ...args));

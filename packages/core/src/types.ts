@@ -214,9 +214,16 @@ export interface WebshellInvariantProps {
   /**
    * Report Web error messages from features in the console.
    *
-   * @defaultvalue `__DEV__`
+   * @defaultvalue `__DEV__` (`true` in development, `false` otherwise)
    */
   webshellDebug?: boolean;
+  /**
+   * If this prop is `true` and `webshellDebug` is `true`, errors will be
+   * thrown when inconsistencies are identified.
+   *
+   * @defaultvalue false
+   */
+  webshellStrictMode?: boolean;
   /**
    * Pass a reference to send messages to the Web environment.
    */

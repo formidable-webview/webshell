@@ -393,6 +393,7 @@ export interface WebshellInvariantProps {
     onWebFeatureError?: (featureIdentifier: string, error: string) => void;
     webHandle?: Ref<WebHandle>;
     webshellDebug?: boolean;
+    webshellStrictMode?: boolean;
 }
 
 // @public

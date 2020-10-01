@@ -74,7 +74,7 @@ function sendLogMessage(snippetIdentifier, severity, message) {
   );
 }
 
-function sendErrorMessage(snippetIdentifier, e) {
+function sendErrorMessage(identifier, e) {
   var message =
     typeof e === 'string'
       ? e
@@ -85,14 +85,22 @@ function sendErrorMessage(snippetIdentifier, e) {
   safePostMessage(
     JSON.stringify({
       type: 'error',
-      identifier: snippetIdentifier,
+      identifier: identifier,
       __isWebshellPostMessage: true,
       body: message
     })
   );
 }
 
-function registerShellMessageHandler(identifier, handlerId, handler) {}
+function createLogger(identifier, severity) {
+  return function (text) {
+    var logger = console[severity] || console.log;
+    var message = identifier + ': ' + text;
+    logger && logger.call(console, message);
+    window.ReactNativeWebshell.debug &&
+      sendLogMessage(identifier, severity, message);
+  };
+}
 
 function registerFeature(specs) {
   if (specs && typeof specs === 'object') {
@@ -135,20 +143,8 @@ function registerFeature(specs) {
         })
       );
     },
-    info: function (text) {
-      var logger = console.info || console.log;
-      var message = snippetIdentifier + ': ' + text;
-      logger && logger.call(console, message);
-      window.ReactNativeWebshell.debug &&
-        sendLogMessage(snippetIdentifier, 'info', message);
-    },
-    warn: function (text) {
-      var logger = console.warn || console.log;
-      var message = snippetIdentifier + ': ' + text;
-      logger && logger.call(console, message);
-      window.ReactNativeWebshell.debug &&
-        sendLogMessage(snippetIdentifier, 'warn', message);
-    }
+    info: createLogger(snippetIdentifier, 'info'),
+    warn: createLogger(snippetIdentifier, 'warn')
   };
   if (executable && typeof executable === 'function') {
     try {

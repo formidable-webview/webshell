@@ -17,6 +17,7 @@ import type {
 import { FeatureRegistry } from './FeatureRegistry';
 import { BufferedWebRMIHandle } from './web/BufferedWebRMIHandle';
 import { WebFeaturesLoader } from './web/WebFeaturesLoader';
+import { Reporter } from './Reporter';
 
 interface WebViewMessage {
   data: string;
@@ -49,6 +50,7 @@ function isPostMessageObject(o: unknown): o is PostMessage {
 
 function useWebMessageBus(
   registry: FeatureRegistry<any>,
+  reporter: Reporter,
   {
     webshellDebug,
     onWebFeatureError,
@@ -74,47 +76,26 @@ function useWebMessageBus(
         if (type === 'feature') {
           const propDef = registry.getPropDefFromId(identifier, handlerId);
           if (!propDef) {
-            console.warn(
-              `[Webshell]: script from feature "${identifier}" sent an event towards ${handlerId} handler, but there is ` +
-                'no handler registered for this feature. ' +
-                'Use FeatureBuilder.withShellHandler to register that handler, or make ' +
-                'sure its name is not misspell in the DOM script.'
+            reporter.dispatchError(
+              'WEBSH_MISSING_SHELL_HANDLER',
+              identifier,
+              handlerId
             );
             return;
           }
           const handlerName = propDef.name;
           const handler =
             typeof handlerId === 'string' ? domHandlers[handlerName] : null;
-          if (registry.getPropDefFromHandlerName(handlerName)) {
-            if (typeof handler === 'function') {
-              handler(body);
-            } else {
-              webshellDebug &&
-                console.info(
-                  `[Webshell]: script from feature "${identifier}" sent an event towards ${handlerId} handler, but there ` +
-                    `is no handler prop named "${handlerName}" attached to the shell.`
-                );
-            }
-          } else {
-            console.warn(
-              `[Webshell]: script from feature "${identifier}" sent an event towards ${handlerId} handler, but there is ` +
-                `no handler named "${handlerName}" defined with this handler ID. ` +
-                'Use FeatureBuilder.withShellHandler to register that handler, or make ' +
-                'sure its name is not misspell in the DOM script.'
-            );
+          if (typeof handler === 'function') {
+            handler(body);
           }
         } else if (type === 'error') {
           // Handle as an error message
           typeof onWebFeatureError === 'function' &&
             onWebFeatureError(identifier, body);
-          webshellDebug &&
-            console.warn(
-              `[Webshell]: script from feature "${identifier}" raised an error: ${body}`
-            );
-          return;
+          reporter.dispatchError('WEBSH_SCRIPT_ERROR', identifier, body);
         } else if (type === 'log') {
-          webshellDebug && severity === 'warn' && console.warn(body);
-          webshellDebug && severity === 'info' && console.info(body);
+          reporter.dispatchWebLog(severity, identifier, body);
         }
       } else {
         typeof onMessage === 'function' && onMessage(nativeEvent);
@@ -131,11 +112,13 @@ function useWebMessageBus(
 
 function useWebHandle(
   webViewRef: React.RefObject<any>,
-  registry: FeatureRegistry<any>
+  registry: FeatureRegistry<any>,
+  reporter: Reporter
 ) {
   return React.useMemo(
-    (): BufferedWebRMIHandle => new BufferedWebRMIHandle(webViewRef, registry),
-    [webViewRef, registry]
+    (): BufferedWebRMIHandle =>
+      new BufferedWebRMIHandle(webViewRef, registry, reporter),
+    [webViewRef, registry, reporter]
   );
 }
 
@@ -200,14 +183,20 @@ export function makeWebshell<
       webViewRef,
       injectedJavaScript: userInjectedJavaScript,
       webshellDebug,
+      webshellStrictMode,
       ...webViewProps
     } = props;
+    const reporter = React.useMemo(
+      () => new Reporter(webshellDebug, webshellStrictMode),
+      [webshellDebug, webshellStrictMode]
+    );
     const { handleOnWebMessage, isLoaded } = useWebMessageBus(
       registry,
+      reporter,
       otherProps
     );
     const injectedJavaScript = useJavaScript(loader, userInjectedJavaScript);
-    const webHandle = useWebHandle(webViewRef, registry);
+    const webHandle = useWebHandle(webViewRef, registry, reporter);
 
     React.useImperativeHandle(webHandleRef, () => webHandle);
     React.useEffect(() => {
@@ -229,7 +218,8 @@ export function makeWebshell<
     );
   };
   Webshell.defaultProps = {
-    webshellDebug: __DEV__
+    webshellDebug: __DEV__,
+    webshellStrict: false
   };
   return React.forwardRef<
     ElementRef<C>,

@@ -10,10 +10,19 @@ import dummyHandleridScript from './feat/DummyHandlerid.webjs';
 import dummyReceiverScript from './feat/DummyReceiver.webjs';
 import { makeWebshell } from '../make-webshell';
 import { FeatureBuilder } from '../FeatureBuilder';
-import { MinimalWebViewProps, WebHandle } from '../types';
+import {
+  MinimalWebViewProps,
+  WebHandle,
+  WebshellInvariantProps
+} from '../types';
 import { act } from 'react-test-renderer';
 
 const { waitForErsatz } = makeErsatzTesting(Ersatz);
+
+const defaultWebshellProps: WebshellInvariantProps = {
+  webshellDebug: true,
+  webshellStrictMode: true
+};
 
 const DummyWebView = React.forwardRef(({}: MinimalWebViewProps, ref) => {
   React.useImperativeHandle(ref, () => ({
@@ -66,7 +75,7 @@ const ReceiverFeature = new FeatureBuilder({
 describe('Webshell component', () => {
   it('sould mount without error', () => {
     const Webshell = makeWebshell(DummyWebView, new HelloFeature());
-    const { UNSAFE_getByType } = render(<Webshell />);
+    const { UNSAFE_getByType } = render(<Webshell {...defaultWebshellProps} />);
     const webshell = UNSAFE_getByType(Webshell);
     expect(webshell).toBeTruthy();
   });
@@ -80,18 +89,11 @@ describe('Webshell component', () => {
     );
     expect(onDOMDummyHello).toHaveBeenCalledWith('Hello world!');
   });
-  it('should handle feature failures', async () => {
-    const onDOMDummyFailure = jest.fn();
+  it('should handle feature failures with onWebFeatureError', async () => {
     const onFailure = jest.fn();
     const Webshell = makeWebshell(Ersatz, new FailingFeature());
     await waitForErsatz(
-      render(
-        <Webshell
-          webshellDebug={false}
-          onDOMDummyFailure={onDOMDummyFailure}
-          onWebFeatureError={onFailure}
-        />
-      )
+      render(<Webshell webshellDebug={false} onWebFeatureError={onFailure} />)
     );
     expect(onFailure).toHaveBeenCalledWith(
       FailingFeature.identifier,
@@ -103,7 +105,10 @@ describe('Webshell component', () => {
     const Webshell = makeWebshell(Ersatz, new OptionFeature({ foo: 'bar' }));
     await waitForErsatz(
       render(
-        <Webshell webshellDebug={false} onDOMDummyOption={onDOMDummyOption} />
+        <Webshell
+          {...defaultWebshellProps}
+          onDOMDummyOption={onDOMDummyOption}
+        />
       )
     );
     expect(onDOMDummyOption).toHaveBeenCalledWith({ foo: 'bar' });
@@ -114,7 +119,7 @@ describe('Webshell component', () => {
     await waitForErsatz(
       render(
         <Webshell
-          webshellDebug={false}
+          {...defaultWebshellProps}
           onDOMDummyOption={onHandlerIdDummyOption}
         />
       )
@@ -130,8 +135,8 @@ describe('Webshell component', () => {
       render(
         <Webshell
           webHandle={webHandle}
-          webshellDebug={false}
           onWebFeedback={onWebFeedback}
+          {...defaultWebshellProps}
         />
       )
     );
