@@ -74,6 +74,7 @@ export const InstallPackageSnippet = ({ packages, dev = false }) => {
   return (
     <Tabs
       defaultValue="yarn"
+      groupId="package-manager"
       values={[
         { label: 'yarn', value: 'yarn' },
         { label: 'npm', value: 'npm' }
@@ -125,6 +126,7 @@ export const DualCodeSource = ({
     <CodeSourceBlockWrapper>
       <Tabs
         defaultValue="ts"
+        groupId="javascript-source"
         values={[
           { label: 'Typescript', value: 'ts' },
           { label: 'JavaScript', value: 'js' }
