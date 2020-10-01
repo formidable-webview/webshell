@@ -9,14 +9,14 @@ import type {
 import type {
   Feature,
   FeatureConstructor,
-  FeatureInstanceOf,
+  ExtractFeatureFromClass,
   PropsFromFeature
 } from './Feature';
 
 // LOOKUP TYPES
 
 /**
- * A lookup type to get the webshell component from WebView and feature classes.
+ * A lookup type to get the shell component from `WebView` and feature classes.
  *
  * @example
  *
@@ -27,14 +27,19 @@ import type {
  * >;
  * ```
  *
+ * @typeparam C - The type of the `WebView` component.
+ * @typeparam F - The type for a collection of features classes.
+ *
  * @public
  */
 export type ExtractWebshellFromFeatClass<
   C extends ComponentType<any>,
   F extends FeatureConstructor<any, any, any>[]
-> = WebshellComponent<C, FeatureInstanceOf<F[number]>[]>;
+> = WebshellComponent<C, ExtractFeatureFromClass<F[number]>[]>;
 
 /**
+ * A lookup type to extract Web Handler specs from {@link WebHandlerDefinition}.
+ *
  * @public
  */
 export type ExtractWebHandlerSpecFromDef<S> = S extends WebHandlerDefinition<
@@ -47,6 +52,8 @@ export type ExtractWebHandlerSpecFromDef<S> = S extends WebHandlerDefinition<
   : never;
 
 /**
+ * A lookup type to extract props from {@link PropsSpecs}.
+ *
  * @public
  */
 export type ExtractPropsFromSpecs<S> = S extends PropsSpecs<infer N, any>
@@ -56,6 +63,8 @@ export type ExtractPropsFromSpecs<S> = S extends PropsSpecs<infer N, any>
   : never;
 
 /**
+ * A lookup type to extract Web handler specs from {@link Feature}.
+ *
  * @public
  */
 export type ExtractWebHandlerSpecsFromFeature<F> = F extends Feature<
@@ -69,7 +78,10 @@ export type ExtractWebHandlerSpecsFromFeature<F> = F extends Feature<
 // CONCRETE TYPES
 
 /**
- * A `Webshell` component type derived from its features.
+ * A shell component type derived from its features.
+ *
+ * @typeparam C - A type of the `WebView` component.
+ * @typeparam F - A type for a collection of features to inject.
  *
  * @public
  */
@@ -82,6 +94,8 @@ export type WebshellComponent<
 
 /**
  * A minimal set of attributes to define a feature.
+ *
+ * @typeparam O - A type describing the shape of the JSON-serializable object that will be passed to the Web script.
  *
  * @public
  */
@@ -115,6 +129,9 @@ export type FeatureDefinition<O extends {}> = {
 /**
  * An object to define an API to send messages from shell to Web.
  *
+ * @typeparam I - A type for the unique handler identifier to disambiguate between messages sent to Web handlers.
+ * @typeparam P - A type describing the shape of payloads sent to Web handlers.
+ *
  * @public
  */
 export interface WebHandlerDefinition<P, I extends string> {
@@ -124,6 +141,11 @@ export interface WebHandlerDefinition<P, I extends string> {
 }
 
 /**
+ * An object describing the structure of messages a feature Web script can handle.
+ *
+ * @typeparam I - A type for the unique handler identifier to disambiguate between messages sent to Web handlers.
+ * @typeparam P - A type describing the shape of payloads sent to Web handlers.
+ *
  * @public
  */
 export type WebHandlersSpecs<P = {}, I extends string = string> = {
@@ -132,6 +154,9 @@ export type WebHandlersSpecs<P = {}, I extends string = string> = {
 
 /**
  * An object to define an API to send messages from Web to shell.
+ *
+ * @typeparam N - A type to define the name of the prop.
+ * @typeparam P - A type describing the shape of the prop.
  *
  * @public
  */
@@ -144,13 +169,19 @@ export type PropDefinition<N extends string, P> = {
 };
 
 /**
+ *
+ * @typeparam N - A type to define the names of the props.
+ * @typeparam P - A type describing the shapes of the props.
+ *
  * @public
  */
 export type PropsSpecs<N extends string, P> = {
-  [k in N]: PropDefinition<N, P>;
+  [k in N]: PropDefinition<k, P>;
 };
 
 /**
+ * An object to send messages from the shell to the Web.
+ *
  * @public
  */
 export interface WebHandle {
@@ -171,7 +202,7 @@ export interface WebHandle {
 }
 
 /**
- * Props any Webshell component will support.
+ * Props all shell components will support.
  *
  * @public
  */
@@ -194,6 +225,9 @@ export interface WebshellInvariantProps {
 
 /**
  * Props of the Webshell produced by {@link makeWebshell}.
+ *
+ * @typeparam W - The type for the Props of the `WebView` component.
+ * @typeparam F - The type for a collection of features classes.
  *
  * @public
  */
@@ -264,7 +298,7 @@ export interface DOMUtils {
 /**
  * This type specifies the shape of the object passed to Web features scripts.
  *
- * @typeparam O - The shape of the JSON-serializable options that will be passed to the Web script.
+ * @typeparam O - A type describing the shape of the JSON-serializable object given by the shell.
  *
  * @public
  */

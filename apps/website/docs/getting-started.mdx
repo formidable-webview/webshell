@@ -25,7 +25,7 @@ If you are looking for v1 documentation, [jump here](https://github.com/formidab
 
 ## How does it work?
 
-@formidable-webview/webshell exports a simple builder-function (<Term id="HOC" />) which
+`@formidable-webview/webshell` exports a simple builder-function (<Term id="HOC" />) which
 creates an augmented <WebView /> component with additional Web-based features. The returned
 component behaves exactly like a <WebView />, and given a `ref` prop, you'll get
 the underlying <WebView /> instance and be able to access its imperative methods.
@@ -42,26 +42,27 @@ like](./implementing-features). This library also presents a set of good
 practices to test features in isolation and, by extension, test any injected
 scripts. See [the tooling guide](./tooling).
 
-## What is a Feature?
+## What is a (Web) Feature?
 
 ### Definition
 
-In the context of <Webshell />, a feature is like a plugin. It encapsulates
+In the context of <Webshell />, a web feature is like a plugin. It encapsulates
 behaviors injectable into <WebView />s. More precisely, a feature can do the
 following things:
 
 - Alter the content of the <Term id="DOM" />;
 - Inject behaviors through scripts in the Web environment;
-- Add handler props to the <WebView /> component in order to react to specific events. These features are called _event features_.
+- Add handler props to the <WebView /> component in order to react to specific events (_handler features_).
+- Handle messages sent from native code.
 
-Event features will augment the <WebView/> with message
-handler props, for example `onDOMLinkPress`. Here are examples of event features you
+Handler features will augment the <WebView/> with message
+handler props, for example `onDOMLinkPress`. Here are examples of handler features you
 can instantiate in a shell:
 
 - Intercept click events on anchors and optionally prevent navigation (<APIReference reference="HandleLinkPressFeature" type="variable" />);
 - Get notified when the page content size changes (<APIReference reference="HandleHTMLDimensionsFeature" type="variable" />);
 
-### Learn More on Features
+### Learn More about Web Features
 
 - [Read the complete list of features exposed by this library](./features).
 - [See how implementing a feature looks like](./implementing-features).
@@ -122,7 +123,7 @@ As you can see, each feature has added one event handler prop to the shell,
 loaded, the two features scripts are executed and register handlers to communicate with the shell:
 
 - `onDOMLinkPress` is invoked when the user clicks on anchors. The above implementation opens links to system browser thanks to React Native <ReactReference name="Linking" type="variable" /> API.
-- `onDOMHTMLDimensions` is invoked when the page content size changes. The above implementation stores this size in a local state and injects it to the shell `style` prop. We have just created a naive Autoheight WebView!
+- `onDOMHTMLDimensions` is invoked when the page content size changes. The above implementation stores this size in a local state and injects it to the shell `style` prop. We have just created a naive Autoheight <WebView/>!
 
 :::caution
 This example is shown for didactic purposes. If you need an autoheight <WebView/>

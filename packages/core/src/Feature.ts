@@ -17,6 +17,10 @@ export type PropsFromFeature<F> = F extends Feature<any, infer S, any>
 /**
  * A feature constructor function, aka class.
  *
+ * @typeparam O - A type describing the shape of the JSON-serializable object that will be passed to the Web script.
+ * @typeparam S - A type specifying the new properties added to the shell (capabilities to send message to the shell).
+ * @typeparam W - A type specifying the Web handlers added to the shell (capabilities to send message to the Web script).
+ *
  * @public
  */
 export interface FeatureConstructor<
@@ -48,8 +52,6 @@ export type ExtractFeatureFromClass<F> = F extends FeatureConstructor<
  * @remarks
  * You should never instantiate that class directly. Use {@link FeatureBuilder} instead.
  *
- * @param params - An object to specify attributes of the feature.
- *
  * @typeparam O - A type describing the shape of the JSON-serializable object that will be passed to the Web script.
  * @typeparam S - A type specifying the new properties added to the shell (capabilities to send message to the shell).
  * @typeparam W - A type specifying the Web handlers added to the shell (capabilities to send message to the Web script).
@@ -62,17 +64,41 @@ export abstract class Feature<
   W extends WebHandlersSpecs<any> = {}
 > implements FeatureDefinition<O> {
   /**
-   * {@inheritdoc FeatureDefinition.script}
+   * The string containing valid ECMAScript 5 to be run in the WebView.
+   *
+   * @remarks
+   * The script must define a single function which only argument is of the
+   * type {@link WebjsContext}.
+   *
+   * It is recommended that you use eslint to validate this script syntax, and
+   * event better, unit-test the script. See our repository home page for more
+   * information.
    */
   readonly script: string;
-  readonly identifier: string;
-  readonly propSpecs: P;
-  readonly webSpecs: W;
-  readonly defaultOptions: Required<O>;
-  readonly options: O;
   /**
-   * @internal
+   * A unique identifier of the feature. The convention is to use a reverse
+   * namespace domain ending with the feature name.
+   *
+   * @example
+   * org.formidable-webview/webshell.link-press
    */
+  readonly identifier: string;
+  /**
+   * An object specifying which props this feature will add to the shell.
+   */
+  readonly propSpecs: P;
+  /**
+   * An object specifying which handlers this feature Web script will support.
+   */
+  readonly webSpecs: W;
+  /**
+   * These options will be shallow-merged with the options provided to the {@link FeatureConstructor}.
+   */
+  readonly defaultOptions: Required<O>;
+  /**
+   * The options that will be passed to the Web script.
+   */
+  readonly options: O;
   protected constructor(
     params: FeatureDefinition<O> & {
       propSpecs: P;
@@ -88,6 +114,9 @@ export abstract class Feature<
     this.webSpecs = params.webSpecs;
   }
 
+  /**
+   * @internal
+   */
   hasWebHandler(handlerId: string) {
     return !!this.webSpecs[handlerId];
   }

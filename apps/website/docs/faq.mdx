@@ -14,7 +14,21 @@ import { APIReference } from '../components/APIReference';
 ```jsx
 function MyComponent() {
   const webViewRef = useRef(null);
-  return <Webshell ref={webViewRef} />
+  return <Webshell ref={webViewRef} />;
+}
+```
+
+## How can I set Feature Options Dynamically?
+
+**`React.useMemo`**  is your friend:
+
+```jsx
+function MyComponent({ option, ...props }) {
+  const Webshell = React.useMemo(() =>
+    makeWebshell(WebView, new Feature({ dynamicOption: option })),
+    [option]
+  );
+  return <Webshell {...props} />;
 }
 ```
 

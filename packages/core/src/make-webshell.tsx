@@ -150,11 +150,34 @@ function useJavaScript(
 }
 
 /**
- * Creates a React component which decorates WebView component with additional
- * props to handle events from the DOM.
+ * Creates a React component which decorates `WebView` component with additional
+ * capabilities such as:
  *
- * @param WebView - A WebView component, typically exported from `react-native-webview`.
- * @param features - Features ready to be loaded in the WebView.
+ * - handling messages from the Web environment;
+ * - sending messages to the Web environment, see {@link WebHandle};
+ * - running script in the Web environment.
+ *
+ * @param WebView - A `WebView` component, typically exported from `react-native-webview`.
+ * @param features - Features to inject in the `WebView`.
+ *
+ * @typeparam C - The type of the `WebView` component.
+ * @typeparam F - The type for a collection of features to inject.
+ *
+ * @example
+ *
+ * ```ts
+ * import {
+ *   makeWebshell,
+ *   HandleHashChangeFeature,
+ *   HandleVisualViewportFeature
+ * } from '@formidable-webview/webshell';
+ *
+ * const Webshell = makeWebshell(
+ *   WebView,
+ *   new HandleHashChangeFeature(),
+ *   new HandleVisualViewportFeature()
+ * );
+ * ```
  *
  * @public
  */

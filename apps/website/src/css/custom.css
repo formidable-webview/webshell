@@ -114,6 +114,13 @@
   --ra-color-text-dark: var(--ifm-color-gray-900);
 }
 
+table {
+  display:table;
+  margin-right:auto;
+  margin-left:auto;
+  width:100%;
+}
+
 .alert--success {
   --ifm-alert-background-color: var(--ifm-color-success-lightest);
   --ifm-alert-border-color: var(--ifm-color-success-lightest);

@@ -8,6 +8,7 @@ import styles from './styles.module.css';
 import { TryOnExpo } from '../../components/TryOnExpo';
 import { ReactReference } from '../../components/ReactReference';
 import { APIReference } from '../../components/APIReference';
+import { Webshell } from '../../components/Webshell';
 import { Term } from '../../components/Term';
 import { IllustrationSnippet } from '../../components/IllustrationSnippet';
 
@@ -82,9 +83,9 @@ function Home() {
       iconName: 'scanner',
       description: (
         <>
-          The ultimate goal of <strong>webshell</strong> is to{' '}
-          <strong>modularize</strong> scattered features reimplemented in so
-          many <ReactReference name="WebView" type="class" />
+          The ultimate goal of <Webshell /> is to <strong>refactor</strong>{' '}
+          scattered features reimplemented in so many{' '}
+          <ReactReference name="WebView" type="class" />
           -based components and reuse these at will.
         </>
       )
@@ -99,6 +100,19 @@ function Home() {
           to craft amazing, <strong>reliable</strong>{' '}
           <ReactReference name="WebView" type="class" />
           -based components.
+        </>
+      )
+    },
+    {
+      title: 'Bidirectional Communication',
+      iconName: 'sync_alt',
+      description: (
+        <>
+          <strong>Send to</strong> and <strong>receive messages from</strong>{' '}
+          <ReactReference name="WebView" type="class" />
+          <code>s</code>. <Webshell /> forms an abstraction layer over{' '}
+          <code>WebView</code> <Term id="messaging system" />, enabling
+          declarative and legible implementations.
         </>
       )
     },

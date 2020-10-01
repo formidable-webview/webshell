@@ -133,15 +133,15 @@ export interface ElementCSSBoxDimensions {
 // @public
 export type ExtractFeatureFromClass<F> = F extends FeatureConstructor<infer O, infer S, infer W> ? Feature<O, S, W> : never;
 
-// @public (undocumented)
+// @public
 export type ExtractPropsFromSpecs<S> = S extends PropsSpecs<infer N, any> ? S[N] extends never ? {} : Required<S[N]>['signature'] : never;
 
-// @public (undocumented)
+// @public
 export type ExtractWebHandlerSpecFromDef<S> = S extends WebHandlerDefinition<infer P, infer I> ? {
     [k in I]: WebHandlerDefinition<P, I>;
 } : never;
 
-// @public (undocumented)
+// @public
 export type ExtractWebHandlerSpecsFromFeature<F> = F extends Feature<any, any, infer P> ? P : never;
 
 // @public
@@ -154,18 +154,13 @@ export abstract class Feature<O extends {}, P extends PropsSpecs<any, any> = {},
         propSpecs: P;
         webSpecs: W;
     }, options: O);
-    // (undocumented)
     readonly defaultOptions: Required<O>;
-    // (undocumented)
+    // @internal (undocumented)
     hasWebHandler(handlerId: string): boolean;
-    // (undocumented)
     readonly identifier: string;
-    // (undocumented)
     readonly options: O;
-    // (undocumented)
     readonly propSpecs: P;
     readonly script: string;
-    // (undocumented)
     readonly webSpecs: W;
 }
 
@@ -173,7 +168,7 @@ export abstract class Feature<O extends {}, P extends PropsSpecs<any, any> = {},
 export class FeatureBuilder<O extends {}, S extends PropsSpecs<any, any> = {}, W extends WebHandlersSpecs<any> = {}> {
     constructor(config: FeatureBuilderConfig<O, S>);
     build(): FeatureConstructor<O, S, W>;
-    withandlerProp<P, H extends string>(propName: H, handlerId?: string): FeatureBuilder<O, S & PropsSpecs<H, (p: P) => void>, W>;
+    withandlerProp<P, N extends string>(propName: N, handlerId?: string): FeatureBuilder<O, S & PropsSpecs<N, (p: P) => void>, W>;
     withWebHandler<P = undefined, I extends string = string>(handlerId: I): FeatureBuilder<O, S, W & { [k in I]: WebHandlerDefinition<P, I>; }>;
 }
 
@@ -345,7 +340,7 @@ export type PropsFromFeature<F> = F extends Feature<any, infer S, any> ? Extract
 
 // @public (undocumented)
 export type PropsSpecs<N extends string, P> = {
-    [k in N]: PropDefinition<N, P>;
+    [k in N]: PropDefinition<k, P>;
 };
 
 // @beta
@@ -358,7 +353,7 @@ export interface VisualViewportDimensions {
     visualViewport: DOMRectSize;
 }
 
-// @public (undocumented)
+// @public
 export interface WebHandle {
     // (undocumented)
     postMessageToWeb<F extends Feature<any, any, any>, H extends keyof ExtractWebHandlerSpecsFromFeature<F>>(feat: F, handlerId: H, payload: Required<ExtractWebHandlerSpecsFromFeature<F>[H]>['payload']): void;
@@ -374,7 +369,7 @@ export interface WebHandlerDefinition<P, I extends string> {
     payload?: P;
 }
 
-// @public (undocumented)
+// @public
 export type WebHandlersSpecs<P = {}, I extends string = string> = {
     [k in I]: WebHandlerDefinition<P, I>;
 };
