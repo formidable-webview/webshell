@@ -1,0 +1,7 @@
+function FeatureWithToken(context) {
+  context.onShellMessage('apiTokenChange', function (
+    apiToken
+  ) {
+    // Fetch stuff with token
+  });
+}

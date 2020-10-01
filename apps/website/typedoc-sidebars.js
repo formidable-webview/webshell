@@ -21,7 +21,7 @@ module.exports = [
       "api/interfaces/domutils",
       "api/interfaces/elementcssboxdimensions",
       "api/interfaces/featurebuilderconfig",
-      "api/interfaces/featureconstructor",
+      "api/interfaces/featureclass",
       "api/interfaces/forceelementsizeoptions",
       "api/interfaces/forceresponsiveviewportoptions",
       "api/interfaces/htmldimensions",

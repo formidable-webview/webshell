@@ -17,8 +17,8 @@ import {
 ## Introduction
 
 To have a good sense on how to make new features, we will take a look at
-a simplified implementation of <APIReference reference="HandleLinkPressFeature"
-type="variable" />. It is best to follow typescript snippet, which conveys the
+a simplified implementation of <APIReference reference="HandleLinkPressFeature" type="variable" />.
+It is best to follow typescript snippet, which conveys the
 shape of objects required to specify a feature.
 
 A feature has two facets:
@@ -30,7 +30,9 @@ A feature has two facets:
 This implementation is naive and doesn't handle inner click events. If you need such a feature, use our official <APIReference reference="HandleLinkPressFeature" type="variable" />.
 :::
 
-## Web Script
+## Web to Native Communication
+
+### Web Script
 
 Let's start with the Web script, the code which will run in the <ReactReference name="WebView" type="class" />.
 
@@ -56,7 +58,7 @@ Below is the same snippet with highlighted lines each matching a different conte
 3. `context.warn` and `context.info` will send a log event to the shell when `webshellDebug` prop is set to `true`. The shell will log the message for quick feedback during development.
 4. `context.makeCallbackSafe` guarantees that any error raised in the body of the callback will be intercepted by the context API and routed to the shell for quick feedback during development.
 
-## Building a Feature Class
+### Building a Feature Class
 
 <APIBox reference="FeatureBuilder" type="class" />
 
@@ -66,28 +68,79 @@ Now let's dive into the native-side. As you can see, the definition is relativel
 
 Below is a recap of all the symbols present in this snippet:
 
-| Symbol                            | Description                                                                                                       |
-| :-------------------------------- | :---------------------------------------------------------------------------------------------------------------- |
-| `linkPressScript`                 | Behavior in the Web environment.                                                                                  |
-| `defaultOptions`                  | Default options for this feature.                                                                                 |
-| `"onDOMLinkPress"`                | The name of the handler prop which will be available in the shell.                                                |
-| `"org.myorg/webshell.link-press"` | A unique identifier for this feature.                                                                             |
-| `"HandleLinkPressFeature"`        | The name of the class returned by <APIReference reference="FeatureBuilder" type="class" member="build" /> method. |
-| `LinkPressOptions`                | [**Typescript**] The shape of options the feature class can be instantiated with.                                 |
-| `LinkPressTarget`                 | [**Typescript**] The type of payload the handler prop will receive.                                               |
+| Symbol                            | Description                                                                       |
+| :-------------------------------- | :-------------------------------------------------------------------------------- |
+| `linkPressScript`                 | Behavior in the Web environment (`string`).                                       |
+| `defaultOptions`                  | Default options for this feature (`object`).                                      |
+| `"onDOMLinkPress"`                | The name of the handler prop which will be available in the shell (`string`).     |
+| `"org.myorg/webshell.link-press"` | A unique identifier for this feature (`string`).                                  |
+| `LinkPressOptions`                | [**Typescript**] The shape of options the feature class can be instantiated with. |
+| `LinkPressTarget`                 | [**Typescript**] The type of payload the handler prop will receive.               |
 
-It is also worth noting that:
-
-- `linkPressScript` is imported as a string thanks to babel-plugin-inline-import, see the [tooling guide](./tooling);
-- invoking `withHandlerProp` is not an option:
-  1. It register the handler to the shell, otherwise events fired by the below Web script will not be routed to their handler props.
+It is also worth noting that invoking `withShellHandler` is not an option:
+  1. It register the handler to the shell, otherwise events fired by the below Web script will not be routed to the corresponding handler prop (`onDOMLinkPress`).
   2. When implemented in typescript, type generation will add the handler name and payload type to the the feature, which will be grabbed by the resulting shell type.
+
+:::important
+Be advised that `linkPressScript` must be a `string`. In the snippet, we are using `babel-plugin-inline-import` to import the script as `string`, see the [tooling guide](./tooling);
+:::
 
 :::important
 Don't forget to invoke `build` method, otherwise you'll end up with a <APIReference reference="FeatureBuilder" type="class" /> instance.
 :::
 
+### Using the Feature
+
+<DualCodeSource jsx sourceBase="WebViewWithOnLinkPress" />
+
+## Native to Web Communication
+
+Until now, we have previewed how to send messages from the Web environment to the shell.
+Let's say we now want to pass an `apiToken` prop to our Web script so that it
+execute some authentication logic when the controlling component prop changes.
+
+To allow communication from the shell to the Web environment, we will need to do the following:
+
+- Declare a Web handler during at building;
+- Implement a handler in the Web script;
+- Use a <APIReference reference="WebHandle" type="alias" /> from the shell to send `apiTokens`.
+
+### Declaring Web Handler
+
+We need to register a handler associated with the feature to allow the
+shell to convey messages to the appropriate destination.
+Let's use <APIReference reference="FeatureBuilder" type="class" member="withWebHandler" /> to declare a Web handler.
+The handler will need an identifier, `'apiTokenChange'`, to disambiguate from multiple messages.
+
+<DualCodeSource sourceBase="FeatureWithToken" />
+
+### Implementing the Web Handler
+
+Now we need to do something with the token.
+We will use <APIReference reference="WebjsContext" type="interface" member="onShellMessage" /> to register a listener function.
+
+:::important
+The first argument, `'apiTokenChange'`, must match the first argument of `withWebHandler`.
+:::
+
+<SingleCodeSource source="FeatureWithToken.webjs" lang="js" />
+
+### Using the Feature
+
+Finally, we need to pass the token from the shell to the Web script.
+We will use <APIReference reference="WebshellInvariantProps" type="interface" member="webHandleRef" /> to imperatively send messages:
+
+<DualCodeSource jsx sourceBase="APIComponent" />
+
+That's it. Our Web script is almost a React component now, it can _react_ to prop changes!
+
+:::tip
+If your script relies on multiple props, it is best advised to use one `useEffect` with a payload comprising all props.
+:::
+
 ## Testing with Jest
+
+Let's go back to our `HandleLinkPressFeature` and implement a simple test.
 
 ### Install Ersatz and Testing Library
 

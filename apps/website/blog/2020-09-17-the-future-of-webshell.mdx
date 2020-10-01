@@ -11,56 +11,6 @@ import { Webshell } from '../components/Webshell';
 
 This post will be regularly updated to track the main features scheduled for <Webshell />.
 
-## Native to Web Communication
-
-Currently, features can inject scripts which will create events, and offer props to handle those events.
-What we'd like to provide is a way to communicate imperatively _from_ the shell _to_ the Web. Something like this:
-
-### Native Usage
-
-```jsx title="MyComponent.jsx"
-import * as React from 'react';
-import { makeWebshell } from '@formidable-webview/webshell';
-import { Feature1 } from './Feature1';
-
-const feature1 = new Feature1();
-const Webshell = makeWebshell(WebView, feature1);
-
-export const MyComponent = (props) => {
-  const webHandle = React.useRef();
-  React.useEffect(() => {
-    // props.user must be JSON-serializable
-    webHandle.postMessageToWeb(feature1, 'user', props.user);
-  }, [props.user]);
-  return <Webshell webHandle={webHandle} />;
-};
-```
-
-### Native Implementation
-
-```js title="Feature1.js"
-import { FeatureBuilder } from '@formidable-webview/webshell';
-import script from './Feature1.webjs';
-
-export const Feature1 = new FeatureBuilder({
-  script,
-  defaultOptions: {},
-  featureIdentifier: 'org.myorg/webshell.feature1'
-})
-  .withWebHandler('user')
-  .build();
-```
-
-### Web Implementation
-
-```js title="Feature1.webjs"
-function Feature1(context) {
-  context.onShellMessage('user', function (user) {
-    console.info(user); // Prints user!
-  });
-}
-```
-
 ## Asynchronous Web to Native Communication
 
 ### Native Usage
@@ -92,7 +42,7 @@ import script from './AsyncFlatteryFeature.webjs';
 export const AsyncFlatteryFeature = new FeatureBuilder({
   script,
   defaultOptions: {},
-  featureIdentifier: 'org.myorg/webshell.async-flattery'
+  identifier: 'org.myorg/webshell.async-flattery'
 })
   .withAsyncShellHandler('onAsyncWebFlattery', 'flatters')
   .build();
@@ -112,7 +62,6 @@ function AsyncFlatteryFeature(context) {
 ```
 
 ## Asynchronous Native to Web Communication
-
 
 ### Native Usage
 
@@ -145,7 +94,7 @@ import script from './AsyncFlatteryFeature.webjs';
 export const AsyncFlatteryFeature = new FeatureBuilder({
   script,
   defaultOptions: {},
-  featureIdentifier: 'org.myorg/webshell.async-flattery'
+  identifier: 'org.myorg/webshell.async-flattery'
 })
   .withAsyncWebHandler('flatters')
   .build();
@@ -197,7 +146,7 @@ import { FeatureBuilder } from '@formidable-webview/webshell';
 export const FeatureWithProp = new FeatureBuilder({
   defaultOptions: {},
   script: featureWithPropScript,
-  featureIdentifier: 'org.myorg/project.feature-with-prop'
+  identifier: 'org.myorg/project.feature-with-prop'
 })
   .withShellProp('userId')
   .build();
