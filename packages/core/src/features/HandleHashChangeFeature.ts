@@ -66,5 +66,5 @@ export const HandleHashChangeFeature: FeatureConstructor<
   defaultOptions,
   identifier: 'org.formidable-webview/webshell.handle-hash-change'
 })
-  .withandlerProp<HashChangeEvent, 'onDOMHashChange'>('onDOMHashChange')
+  .withShellHandler<HashChangeEvent, 'onDOMHashChange'>('onDOMHashChange')
   .build();

@@ -16,7 +16,7 @@ const HelloFeature = new FeatureBuilder({
   identifier: 'test.hello',
   defaultOptions: {}
 })
-  .withandlerProp('onDOMDummyHello')
+  .withShellHandler('onDOMDummyHello')
   .build();
 
 const eventShape = expect.objectContaining({

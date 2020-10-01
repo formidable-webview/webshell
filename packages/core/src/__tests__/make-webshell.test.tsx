@@ -27,7 +27,7 @@ const HelloFeature = new FeatureBuilder({
   identifier: 'test.hello',
   defaultOptions: {}
 })
-  .withandlerProp('onDOMDummyHello')
+  .withShellHandler('onDOMDummyHello')
   .build();
 
 const FailingFeature = new FeatureBuilder({
@@ -35,7 +35,7 @@ const FailingFeature = new FeatureBuilder({
   identifier: 'test.fail',
   defaultOptions: {}
 })
-  .withandlerProp('onDOMDummyFailure')
+  .withShellHandler('onDOMDummyFailure')
   .build();
 
 const OptionFeature = new FeatureBuilder({
@@ -43,7 +43,7 @@ const OptionFeature = new FeatureBuilder({
   identifier: 'test.option',
   defaultOptions: {}
 })
-  .withandlerProp<{ foo: string }, 'onDOMDummyOption'>('onDOMDummyOption')
+  .withShellHandler<{ foo: string }, 'onDOMDummyOption'>('onDOMDummyOption')
   .build();
 
 const HandlerIdFeature = new FeatureBuilder({
@@ -51,7 +51,7 @@ const HandlerIdFeature = new FeatureBuilder({
   identifier: 'test.handlerid',
   defaultOptions: {}
 })
-  .withandlerProp('onDOMDummyOption', 'hi')
+  .withShellHandler('onDOMDummyOption', 'hi')
   .build();
 
 const ReceiverFeature = new FeatureBuilder({
@@ -59,7 +59,7 @@ const ReceiverFeature = new FeatureBuilder({
   identifier: 'test.receiver',
   defaultOptions: {}
 })
-  .withandlerProp<string, 'onWebFeedback'>('onWebFeedback')
+  .withShellHandler<string, 'onWebFeedback'>('onWebFeedback')
   .withWebHandler<string, 'hello'>('hello')
   .build();
 

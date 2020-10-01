@@ -102,5 +102,5 @@ export const HandleLinkPressFeature: FeatureConstructor<
   defaultOptions,
   identifier: 'org.formidable-webview/webshell.link-press'
 })
-  .withandlerProp<LinkPressTarget, 'onDOMLinkPress'>('onDOMLinkPress')
+  .withShellHandler<LinkPressTarget, 'onDOMLinkPress'>('onDOMLinkPress')
   .build();

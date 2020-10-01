@@ -76,7 +76,7 @@ function useWeb(
             console.warn(
               `[Webshell]: script from feature "${identifier}" sent an event towards ${handlerId} handler, but there is ` +
                 'no handler registered for this feature. ' +
-                'Use FeatureBuilder.withHandlerProp to register that handler, or make ' +
+                'Use FeatureBuilder.withShellHandler to register that handler, or make ' +
                 'sure its name is not misspell in the DOM script.'
             );
             return;
@@ -98,7 +98,7 @@ function useWeb(
             console.warn(
               `[Webshell]: script from feature "${identifier}" sent an event towards ${handlerId} handler, but there is ` +
                 `no handler named "${handlerName}" defined with this handler ID. ` +
-                'Use FeatureBuilder.withHandlerProp to register that handler, or make ' +
+                'Use FeatureBuilder.withShellHandler to register that handler, or make ' +
                 'sure its name is not misspell in the DOM script.'
             );
           }

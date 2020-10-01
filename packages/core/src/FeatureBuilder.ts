@@ -55,7 +55,7 @@ export class FeatureBuilder<
   }
   /**
    * Instruct that the shell will receive events from the Web, and provide a
-   * new handler prop.
+   * new handler prop for that purpose.
    *
    * @param propName - The name of the handler prop added to the shell.
    * It is advised to follow the convention of prefixing all these handlers
@@ -66,7 +66,7 @@ export class FeatureBuilder<
    * @typeparam N - A type to define the name of the prop.
    * @typeparam P - A type describing the shape of payloads sent to shell handlers.
    */
-  withandlerProp<P, N extends string>(
+  withShellHandler<P, N extends string>(
     propName: N,
     handlerId: string = 'default'
   ) {
@@ -89,7 +89,7 @@ export class FeatureBuilder<
   }
   /**
    * Instruct that the Web script will receive events from the shell.
-   * See {@link WebshellInvariantProps.webHandle} and {@link WebjsContext.onShellMessage}.
+   * See {@link WebshellInvariantProps.webHandle}, {@link WebHandle.postMessageToWeb} and {@link WebjsContext.onShellMessage}.
    *
    * @param handlerId - The name of the handler in the Web script.
    *

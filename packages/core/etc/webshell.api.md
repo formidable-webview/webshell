@@ -149,7 +149,6 @@ export type ExtractWebshellFromFeatClass<C extends ComponentType<any>, F extends
 
 // @public
 export abstract class Feature<O extends {}, P extends PropsSpecs<any, any> = {}, W extends WebHandlersSpecs<any> = {}> implements FeatureDefinition<O> {
-    // @internal
     protected constructor(params: FeatureDefinition<O> & {
         propSpecs: P;
         webSpecs: W;
@@ -168,7 +167,7 @@ export abstract class Feature<O extends {}, P extends PropsSpecs<any, any> = {},
 export class FeatureBuilder<O extends {}, S extends PropsSpecs<any, any> = {}, W extends WebHandlersSpecs<any> = {}> {
     constructor(config: FeatureBuilderConfig<O, S>);
     build(): FeatureConstructor<O, S, W>;
-    withandlerProp<P, N extends string>(propName: N, handlerId?: string): FeatureBuilder<O, S & PropsSpecs<N, (p: P) => void>, W>;
+    withShellHandler<P, N extends string>(propName: N, handlerId?: string): FeatureBuilder<O, S & PropsSpecs<N, (p: P) => void>, W>;
     withWebHandler<P = undefined, I extends string = string>(handlerId: I): FeatureBuilder<O, S, W & { [k in I]: WebHandlerDefinition<P, I>; }>;
 }
 
