@@ -17,7 +17,7 @@ import {
 } from '../types';
 import { act } from 'react-test-renderer';
 
-const { waitForErsatz } = makeErsatzTesting(Ersatz);
+const { waitForErsatz, waitForWindow } = makeErsatzTesting(Ersatz);
 
 const defaultWebshellProps: WebshellInvariantProps = {
   webshellDebug: true,
@@ -89,6 +89,13 @@ describe('Webshell component', () => {
     );
     expect(onDOMDummyHello).toHaveBeenCalledWith('Hello world!');
   });
+  it('should set debug variable in the Web environment after loading', async () => {
+    const Webshell = makeWebshell(Ersatz);
+    const window = await waitForWindow(
+      render(<Webshell webshellDebug={true} />)
+    );
+    expect(window.ReactNativeWebshell.debug).toBe(true);
+  });
   it('should handle feature failures with onWebFeatureError', async () => {
     const onFailure = jest.fn();
     const Webshell = makeWebshell(Ersatz, new FailingFeature());
@@ -144,6 +151,41 @@ describe('Webshell component', () => {
       webHandle.current?.postMessageToWeb(feature, 'hello', 'Hello world!');
     });
     expect(onWebFeedback).toHaveBeenCalledWith('Hello world!');
+  });
+  it('should buffer messages to Web environment during loading', async () => {
+    const receiverFeature = new ReceiverFeature();
+    const Webshell = makeWebshell(Ersatz, receiverFeature);
+
+    const ReceiverController = function () {
+      const [hasReceivedResponse, setHasReceivedResponse] = React.useState(
+        false
+      );
+      const webHandle = React.createRef<WebHandle>();
+      const onWebFeedback = React.useCallback(() => {
+        setHasReceivedResponse(true);
+      }, []);
+      React.useEffect(() => {
+        webHandle.current?.postMessageToWeb(
+          receiverFeature,
+          'hello',
+          'Hello world!'
+        );
+      }, [webHandle]);
+      const testID = `receiver-${hasReceivedResponse ? 'loaded' : 'loading'}`;
+      return (
+        <View testID={testID}>
+          <Webshell
+            onWebFeedback={onWebFeedback}
+            webHandle={webHandle}
+            {...defaultWebshellProps}
+          />
+        </View>
+      );
+    };
+    const { findByTestId } = render(<ReceiverController />);
+    await findByTestId('receiver-loaded', {
+      timeout: 500
+    });
   });
   it('should keep support for onMessage and injectedJavaScript', async () => {
     const onDOMDummyOption = jest.fn();

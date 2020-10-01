@@ -2932,20 +2932,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@formidable-webview/ersatz@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "@formidable-webview/ersatz@npm:1.0.0"
+"@formidable-webview/ersatz@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "@formidable-webview/ersatz@npm:1.0.1"
   dependencies:
     "@formidable-webview/ersatz-core": ^1.0.0
     assert: ^2.0.0
     canvas: ^2.6.1
-    jsdom: ^16.4.0
+    jsdom: "github:tobyhinloopen/jsdom#2792-replace-request-with-node-fetch"
     node-fetch: ^3.0.0-beta.8
   peerDependencies:
     react: "*"
     react-native: "*"
     react-native-webview: ">= 7.6.0 < 11"
-  checksum: 4780e7b1153adc4710a97e9ec61709c635b18669285c0579856a6fbada8d0181ad111c4961ff52a3fbaaa2e9a2d720e951f5f8fb452b2d091b0187dd74c48122
+  checksum: e22b7719bb117e1333085bf5323d1d411c053d50ed8a76c9b2e7fca21b1d8e249a63fc859a569af84a3c1deafc40a456a932f99efbd9078fd2496e4730d323dd
   languageName: node
   linkType: hard
 
@@ -2969,7 +2969,7 @@ __metadata:
     "@babel/preset-typescript": ^7.10.4
     "@babel/runtime": ^7.11.2
     "@docusaurus/init": next
-    "@formidable-webview/ersatz": ^1.0.0
+    "@formidable-webview/ersatz": ^1.0.1
     "@formidable-webview/ersatz-testing": ^1.0.1
     "@microsoft/api-extractor": 7.9.22
     "@react-native-community/bob": ^0.16.2
@@ -11819,6 +11819,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fetch-cookie@npm:^0.8.0":
+  version: 0.8.0
+  resolution: "fetch-cookie@npm:0.8.0"
+  dependencies:
+    tough-cookie: ^2.3.3 || ^3.0.1 || ^4.0.0
+  checksum: 23811e415f75f29d61243a38ad65b80bcd2c9589f82b04b6f0305e211cd0cfb125c4b2de9c74d7dbe38fab5029c4373602f11b9e7869afe6e26eadb7e172105b
+  languageName: node
+  linkType: hard
+
 "figgy-pudding@npm:^3.5.1":
   version: 3.5.2
   resolution: "figgy-pudding@npm:3.5.2"
@@ -15649,7 +15658,51 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"jsdom@npm:^16.2.2, jsdom@npm:^16.4.0":
+"jsdom@github:tobyhinloopen/jsdom#2792-replace-request-with-node-fetch":
+  version: 16.2.2
+  resolution: "jsdom@https://github.com/tobyhinloopen/jsdom.git#commit=a38237854490e072a25635becd5cd795ba40c6c1"
+  dependencies:
+    abab: ^2.0.3
+    abort-controller: ^3.0.0
+    acorn: ^7.1.1
+    acorn-globals: ^6.0.0
+    cssom: ^0.4.4
+    cssstyle: ^2.2.0
+    data-urls: ^2.0.0
+    decimal.js: ^10.2.0
+    domexception: ^2.0.1
+    escodegen: ^1.14.1
+    fetch-cookie: ^0.8.0
+    html-encoding-sniffer: ^2.0.1
+    http-proxy-agent: ^4.0.1
+    https-proxy-agent: ^5.0.0
+    is-potential-custom-element-name: ^1.0.0
+    node-fetch: ^2.6.0
+    nwsapi: ^2.2.0
+    parse5: 5.1.1
+    request: ^2.88.2
+    request-promise-native: ^1.0.8
+    saxes: ^5.0.0
+    symbol-tree: ^3.2.4
+    tough-cookie: ^3.0.1
+    w3c-hr-time: ^1.0.2
+    w3c-xmlserializer: ^2.0.0
+    webidl-conversions: ^6.1.0
+    whatwg-encoding: ^1.0.5
+    whatwg-mimetype: ^2.3.0
+    whatwg-url: ^8.0.0
+    ws: ^7.2.3
+    xml-name-validator: ^3.0.0
+  peerDependencies:
+    canvas: ^2.5.0
+  peerDependenciesMeta:
+    canvas:
+      optional: true
+  checksum: 6bc29f1acfd372da1f4008a36439846e027b110e1603d2171edadf565ca3a1812f3a13594c0961b1eae4645970574b4ed0963cc2160be2774d7cb22ce66b0a61
+  languageName: node
+  linkType: hard
+
+"jsdom@npm:^16.2.2":
   version: 16.4.0
   resolution: "jsdom@npm:16.4.0"
   dependencies:
@@ -24606,17 +24659,7 @@ resolve@~1.12.0:
   languageName: node
   linkType: hard
 
-"tough-cookie@npm:^2.3.3, tough-cookie@npm:~2.5.0":
-  version: 2.5.0
-  resolution: "tough-cookie@npm:2.5.0"
-  dependencies:
-    psl: ^1.1.28
-    punycode: ^2.1.1
-  checksum: bf5d6fac5ce0bebc5876cb9b9a79d3d9ea21c9e4099f3d3e64701d6ba170a052cb88cece6737ec2473bac4f0a4f6c75d46ec17985be8587c6bbdd38d91625cb4
-  languageName: node
-  linkType: hard
-
-"tough-cookie@npm:^3.0.1":
+"tough-cookie@npm:^2.3.3 || ^3.0.1 || ^4.0.0, tough-cookie@npm:^3.0.1":
   version: 3.0.1
   resolution: "tough-cookie@npm:3.0.1"
   dependencies:
@@ -24624,6 +24667,16 @@ resolve@~1.12.0:
     psl: ^1.1.28
     punycode: ^2.1.1
   checksum: dc1eee69c61a6d5598144ff41c9b5e758207130d92d2b89facad075140a99c10d674a6278764b9edfe8e074cb7840c15e7b786b93d0672875026c2ce5172d774
+  languageName: node
+  linkType: hard
+
+"tough-cookie@npm:^2.3.3, tough-cookie@npm:~2.5.0":
+  version: 2.5.0
+  resolution: "tough-cookie@npm:2.5.0"
+  dependencies:
+    psl: ^1.1.28
+    punycode: ^2.1.1
+  checksum: bf5d6fac5ce0bebc5876cb9b9a79d3d9ea21c9e4099f3d3e64701d6ba170a052cb88cece6737ec2473bac4f0a4f6c75d46ec17985be8587c6bbdd38d91625cb4
   languageName: node
   linkType: hard
 

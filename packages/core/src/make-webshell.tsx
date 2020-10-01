@@ -58,7 +58,7 @@ function useWebMessageBus(
     ...otherProps
   }: WebshellInvariantProps & MinimalWebViewProps
 ) {
-  const [isLoaded, setIsLoaded] = React.useState(false);
+  const [isLoaderReady, setIsLoaderReady] = React.useState(false);
   const domHandlers = React.useMemo(() => registry.getWebHandlers(otherProps), [
     otherProps,
     registry
@@ -70,7 +70,7 @@ function useWebMessageBus(
       if (isPostMessageObject(parsedJSON)) {
         const { type, identifier, body, handlerId, severity } = parsedJSON;
         if (type === 'init') {
-          setIsLoaded(true);
+          setIsLoaderReady(true);
           return;
         }
         if (type === 'feature') {
@@ -106,7 +106,7 @@ function useWebMessageBus(
   );
   return {
     handleOnWebMessage,
-    isLoaded
+    isLoaderReady
   };
 }
 
@@ -190,7 +190,7 @@ export function makeWebshell<
       () => new Reporter(webshellDebug, webshellStrictMode),
       [webshellDebug, webshellStrictMode]
     );
-    const { handleOnWebMessage, isLoaded } = useWebMessageBus(
+    const { handleOnWebMessage, isLoaderReady } = useWebMessageBus(
       registry,
       reporter,
       otherProps
@@ -203,10 +203,10 @@ export function makeWebshell<
       webHandle.setDebug(webshellDebug);
     }, [webshellDebug, webHandle]);
     React.useEffect(() => {
-      if (isLoaded) {
-        webHandle.load();
+      if (isLoaderReady) {
+        webHandle.flushPendingMessages();
       }
-    }, [isLoaded, webHandle]);
+    }, [isLoaderReady, webHandle]);
     return (
       <WebView
         {...registry.filterWebViewProps(webViewProps)}

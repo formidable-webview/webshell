@@ -31,7 +31,7 @@ export class BufferedWebRMIHandle implements WebHandle {
       if (this.isLoaded) {
         this.handle[methodName as any].apply(this.handle, args as any);
       } else {
-        this.buffer.push({ methodName, args: [args as any] });
+        this.buffer.push({ methodName, args });
       }
     };
   }
@@ -39,11 +39,11 @@ export class BufferedWebRMIHandle implements WebHandle {
   /**
    * Flush all pending invocations.
    */
-  load() {
+  flushPendingMessages() {
     this.isLoaded = true;
     let pack: DelayedInvocation<any> | undefined;
     while ((pack = this.buffer.pop()) !== undefined) {
-      this.handle[pack.methodName](...pack.args);
+      this.handle[pack.methodName].apply(this.handle, pack.args);
     }
   }
 }
