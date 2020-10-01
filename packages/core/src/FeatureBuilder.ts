@@ -12,16 +12,16 @@ import type {
 /**
  * See {@link FeatureBuilder}.
  *
+ * @typeparam O - A type describing the shape of the JSON-serializable object that will be passed to the Web script.
+ *
  * @public
  */
-export interface FeatureBuilderConfig<
-  O extends {},
-  S extends PropsSpecs<any, any> = {}
-> extends FeatureDefinition<O> {
+export interface FeatureBuilderConfig<O extends {}>
+  extends FeatureDefinition<O> {
   /**
    * @internal
    */
-  __propSpecs?: S;
+  __propSpecs?: PropsSpecs<any, any>;
   /**
    * @internal
    */
@@ -31,8 +31,6 @@ export interface FeatureBuilderConfig<
 /**
  * A utility to create feature classes.
  *
- * @param config - An object to specify attributes of the feature.
- *
  * @typeparam O - A type describing the shape of the JSON-serializable object that will be passed to the Web script.
  * @typeparam S - A type specifying the new properties added to the shell (capabilities to send message to the shell).
  * @typeparam W - A type specifying the Web handlers added to the shell (capabilities to send message to the Web script).
@@ -40,17 +38,17 @@ export interface FeatureBuilderConfig<
  * @public
  */
 export class FeatureBuilder<
-  O extends {},
+  O extends {} = {},
   S extends PropsSpecs<any, any> = {},
   W extends WebHandlersSpecs<any> = {}
 > {
-  private config: FeatureBuilderConfig<O, S>;
+  private config: FeatureBuilderConfig<O>;
 
   /**
    *
-   * @param config - A configuration object.
+   * @param config - An object to specify attributes of the feature.
    */
-  public constructor(config: FeatureBuilderConfig<O, S>) {
+  public constructor(config: FeatureBuilderConfig<O>) {
     this.config = config;
   }
   /**
@@ -82,7 +80,7 @@ export class FeatureBuilder<
     return new FeatureBuilder<O, S & PropsSpecs<N, (p: P) => void>, W>({
       ...this.config,
       __propSpecs: {
-        ...((this.config.__propSpecs || {}) as S),
+        ...(this.config.__propSpecs || {}),
         ...propSpec
       }
     });

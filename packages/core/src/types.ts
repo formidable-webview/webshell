@@ -6,12 +6,7 @@ import type {
   ComponentPropsWithoutRef,
   Ref
 } from 'react';
-import type {
-  Feature,
-  FeatureClass,
-  ExtractFeatureFromClass,
-  ExtractPropsFromFeature
-} from './Feature';
+import type { Feature, FeatureClass, ExtractFeatureFromClass } from './Feature';
 
 // LOOKUP TYPES
 
@@ -74,6 +69,15 @@ export type ExtractWebHandlerSpecsFromFeature<F> = F extends Feature<
 >
   ? P
   : never;
+
+/**
+ * A lookup type to infer the additional props from a feature.
+ *
+ * @public
+ */
+export type ExtractPropsFromFeature<F> = F extends Feature<any, infer P, any>
+  ? ExtractPropsFromSpecs<P>
+  : {};
 
 // CONCRETE TYPES
 

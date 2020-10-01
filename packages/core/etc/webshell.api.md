@@ -134,9 +134,6 @@ export interface ElementCSSBoxDimensions {
 export type ExtractFeatureFromClass<F> = F extends FeatureClass<infer O, infer S, infer W> ? Feature<O, S, W> : never;
 
 // @public
-export type ExtractPropsFromFeature<F> = F extends Feature<any, infer S, any> ? ExtractPropsFromSpecs<S> : {};
-
-// @public
 export type ExtractPropsFromSpecs<S> = S extends PropsSpecs<infer N, any> ? S[N] extends never ? {} : Required<S[N]>['signature'] : never;
 
 // @public
@@ -151,7 +148,7 @@ export type ExtractWebHandlerSpecsFromFeature<F> = F extends Feature<any, any, i
 export type ExtractWebshellFromFeatClass<C extends ComponentType<any>, F extends FeatureClass<any, any, any>[]> = WebshellComponent<C, ExtractFeatureFromClass<F[number]>[]>;
 
 // @public
-export abstract class Feature<O extends {}, P extends PropsSpecs<any, any> = {}, W extends WebHandlersSpecs<any> = {}> implements FeatureDefinition<O> {
+export abstract class Feature<O extends {} = {}, P extends PropsSpecs<any, any> = {}, W extends WebHandlersSpecs<any> = {}> implements FeatureDefinition<O> {
     protected constructor(params: FeatureDefinition<O> & {
         propSpecs: P;
         webSpecs: W;
@@ -167,25 +164,25 @@ export abstract class Feature<O extends {}, P extends PropsSpecs<any, any> = {},
 }
 
 // @public
-export class FeatureBuilder<O extends {}, S extends PropsSpecs<any, any> = {}, W extends WebHandlersSpecs<any> = {}> {
-    constructor(config: FeatureBuilderConfig<O, S>);
+export class FeatureBuilder<O extends {} = {}, S extends PropsSpecs<any, any> = {}, W extends WebHandlersSpecs<any> = {}> {
+    constructor(config: FeatureBuilderConfig<O>);
     build(): FeatureClass<O, S, W>;
     withShellHandler<P, N extends string>(propName: N, handlerId?: string): FeatureBuilder<O, S & PropsSpecs<N, (p: P) => void>, W>;
     withWebHandler<P = undefined, I extends string = string>(handlerId: I): FeatureBuilder<O, S, W & { [k in I]: WebHandlerDefinition<P, I>; }>;
 }
 
 // @public
-export interface FeatureBuilderConfig<O extends {}, S extends PropsSpecs<any, any> = {}> extends FeatureDefinition<O> {
+export interface FeatureBuilderConfig<O extends {}> extends FeatureDefinition<O> {
     // @internal (undocumented)
-    __propSpecs?: S;
+    __propSpecs?: PropsSpecs<any, any>;
     // @internal (undocumented)
     __webSpecs?: WebHandlersSpecs<any>;
 }
 
 // @public
-export interface FeatureClass<O extends {}, S extends PropsSpecs<any, any> = {}, W extends WebHandlersSpecs<any> = {}> {
+export interface FeatureClass<O extends {} = {}, P extends PropsSpecs<any, any> = {}, W extends WebHandlersSpecs<any> = {}> {
     // (undocumented)
-    new (...args: O extends Partial<O> ? [] | [O] : [O]): Feature<O, S, W>;
+    new (...args: O extends Partial<O> ? [] | [O] : [O]): Feature<O, P, W>;
     // (undocumented)
     identifier: string;
     // (undocumented)
@@ -396,6 +393,8 @@ export interface WebshellInvariantProps {
     webshellStrictMode?: boolean;
 }
 
+// Warning: (ae-forgotten-export) The symbol "ExtractPropsFromFeature" needs to be exported by the entry point index.d.ts
+//
 // @public
 export type WebshellProps<W extends MinimalWebViewProps, F extends Feature<any, any, any>[]> = WebshellInvariantProps & W & (F[number] extends never ? {} : ExtractPropsFromFeature<F[number]>);
 

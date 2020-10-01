@@ -1,34 +1,20 @@
-import type {
-  FeatureDefinition,
-  ExtractPropsFromSpecs,
-  PropsSpecs,
-  WebHandlersSpecs
-} from './types';
-
-/**
- * A lookup type to infer the additional props from a feature.
- *
- * @public
- */
-export type ExtractPropsFromFeature<F> = F extends Feature<any, infer S, any>
-  ? ExtractPropsFromSpecs<S>
-  : {};
+import type { FeatureDefinition, PropsSpecs, WebHandlersSpecs } from './types';
 
 /**
  * A feature constructor function, aka class.
  *
  * @typeparam O - A type describing the shape of the JSON-serializable object that will be passed to the Web script.
- * @typeparam S - A type specifying the new properties added to the shell (capabilities to send message to the shell).
+ * @typeparam P - A type specifying the new properties added to the shell (capabilities to send message to the shell).
  * @typeparam W - A type specifying the Web handlers added to the shell (capabilities to send message to the Web script).
  *
  * @public
  */
 export interface FeatureClass<
-  O extends {},
-  S extends PropsSpecs<any, any> = {},
+  O extends {} = {},
+  P extends PropsSpecs<any, any> = {},
   W extends WebHandlersSpecs<any> = {}
 > {
-  new (...args: O extends Partial<O> ? [] | [O] : [O]): Feature<O, S, W>;
+  new (...args: O extends Partial<O> ? [] | [O] : [O]): Feature<O, P, W>;
   name: string;
   identifier: string;
 }
@@ -53,13 +39,13 @@ export type ExtractFeatureFromClass<F> = F extends FeatureClass<
  * You should never instantiate that class directly. Use {@link FeatureBuilder} instead.
  *
  * @typeparam O - A type describing the shape of the JSON-serializable object that will be passed to the Web script.
- * @typeparam S - A type specifying the new properties added to the shell (capabilities to send message to the shell).
+ * @typeparam P - A type specifying the new properties added to the shell (capabilities to send message to the shell).
  * @typeparam W - A type specifying the Web handlers added to the shell (capabilities to send message to the Web script).
  *
  * @public
  */
 export abstract class Feature<
-  O extends {},
+  O extends {} = {},
   P extends PropsSpecs<any, any> = {},
   W extends WebHandlersSpecs<any> = {}
 > implements FeatureDefinition<O> {
