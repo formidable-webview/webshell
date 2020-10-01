@@ -50,6 +50,13 @@ export class FeatureBuilder<
    */
   public constructor(config: FeatureBuilderConfig<O>) {
     this.config = config;
+    if (typeof config.script === 'function') {
+      throw new TypeError(
+        '[FeatureBuilder]: config.script must be a string. If you are trying to import a ' +
+          'webjs file such as in the docs, you need to setup babel-plugin-inline-import. ' +
+          'See our guide here: https://formidable-webview.github.io/webshell/docs/tooling#babel'
+      );
+    }
   }
   /**
    * Instruct that the shell will receive events from the Web, and provide a
