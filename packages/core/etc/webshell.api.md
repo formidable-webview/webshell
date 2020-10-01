@@ -295,7 +295,7 @@ export interface LinkPressTarget {
 }
 
 // @public
-function makeWebshell<C extends ComponentType<any>, F extends Feature<any, any, any>[]>(WebView: C, ...features: F): WebshellComponent<C, F>;
+function makeWebshell<C extends ComponentType<any>, F extends Feature<{}, {}, {}>[]>(WebView: C, ...features: F): WebshellComponent<C, F>;
 
 export default makeWebshell;
 

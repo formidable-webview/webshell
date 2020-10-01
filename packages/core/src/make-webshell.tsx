@@ -133,6 +133,11 @@ function useJavaScript(
   }, [injectedJavaScript, loader]);
 }
 
+const defaultProps = {
+  webshellDebug: __DEV__,
+  webshellStrictMode: false
+};
+
 /**
  * Creates a React component which decorates `WebView` component with additional
  * capabilities such as:
@@ -167,20 +172,21 @@ function useJavaScript(
  */
 export function makeWebshell<
   C extends ComponentType<any>,
-  F extends Feature<any, any, any>[]
+  F extends Feature<{}, {}, {}>[]
 >(WebView: C, ...features: F): WebshellComponent<C, F> {
   const filteredFeatures = features.filter((f) => !!f);
   const loader = new WebFeaturesLoader(filteredFeatures);
   const Webshell = (
-    props: WebshellProps<ComponentProps<C>, F> & { webViewRef: ElementRef<C> }
+    props: WebshellProps<MinimalWebViewProps, F> & {
+      webViewRef: ElementRef<any>;
+    }
   ) => {
-    const { webHandleRef, ...otherProps } = props as WebshellInvariantProps &
-      MinimalWebViewProps;
     const {
       webViewRef,
+      webHandleRef,
       injectedJavaScript: userInjectedJavaScript,
-      webshellDebug,
-      webshellStrictMode,
+      webshellDebug = defaultProps.webshellDebug,
+      webshellStrictMode = defaultProps.webshellStrictMode,
       ...webViewProps
     } = props;
     const reporter = React.useMemo(
@@ -194,10 +200,13 @@ export function makeWebshell<
     const { handleOnWebMessage, isLoaderReady } = useWebMessageBus(
       registry,
       reporter,
-      otherProps
+      props
     );
-    const injectedJavaScript = useJavaScript(loader, userInjectedJavaScript);
-    const webHandle = useWebHandle(webViewRef, registry, reporter);
+    const injectedJavaScript = useJavaScript(
+      loader,
+      userInjectedJavaScript as string
+    );
+    const webHandle = useWebHandle(webViewRef as any, registry, reporter);
 
     React.useImperativeHandle(webHandleRef, () => webHandle);
     React.useEffect(() => {
@@ -218,10 +227,7 @@ export function makeWebshell<
       />
     );
   };
-  Webshell.defaultProps = {
-    webshellDebug: __DEV__,
-    webshellStrict: false
-  };
+  Webshell.defaultProps = defaultProps;
   return React.forwardRef<
     ElementRef<C>,
     WebshellProps<ComponentPropsWithRef<C>, F>
