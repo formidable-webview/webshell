@@ -170,7 +170,6 @@ export function makeWebshell<
   F extends Feature<any, any, any>[]
 >(WebView: C, ...features: F): WebshellComponent<C, F> {
   const filteredFeatures = features.filter((f) => !!f);
-  const registry = new FeatureRegistry(filteredFeatures);
   const loader = new WebFeaturesLoader(filteredFeatures);
   const Webshell = (
     props: WebshellProps<ComponentProps<C>, F> & { webViewRef: ElementRef<C> }
@@ -189,6 +188,10 @@ export function makeWebshell<
     const reporter = React.useMemo(
       () => new Reporter(webshellDebug, webshellStrictMode),
       [webshellDebug, webshellStrictMode]
+    );
+    const registry = React.useMemo(
+      () => new FeatureRegistry(filteredFeatures, reporter),
+      [reporter]
     );
     const { handleOnWebMessage, isLoaderReady } = useWebMessageBus(
       registry,

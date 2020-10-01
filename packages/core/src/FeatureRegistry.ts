@@ -1,4 +1,5 @@
 import { Feature } from './Feature';
+import { Reporter } from './Reporter';
 import { PropDefinition, PropsSpecs, WebshellProps } from './types';
 
 function extractFeatureProps(
@@ -40,31 +41,39 @@ function extractHandlersMap(features: Feature<any, PropsSpecs<any, any>>[]) {
   return features
     .map((f: Feature<any, PropsSpecs<any, any>>) => Object.values(f.propSpecs))
     .reduce((p, c) => [...p, ...c], [])
-    .reduce(
-      (map, spec: PropDefinition<any, any>) => ({
+    .reduce((map, spec: PropDefinition<any, any>) => {
+      return {
         ...map,
         [getHandlerUUID(spec.featureIdentifier, spec.handlerId)]: spec
-      }),
-      {}
-    ) as Record<string, PropDefinition<any, any>>;
+      };
+    }, {}) as Record<string, PropDefinition<any, any>>;
 }
 
-function extractPropsSpecsMap(features: Feature<any, PropsSpecs<any, any>>[]) {
+function extractPropsSpecsMap(
+  features: Feature<any, PropsSpecs<any, any>>[],
+  reporter: Reporter
+) {
   return features
     .map((f: Feature<any, PropsSpecs<any, any>>) => Object.values(f.propSpecs))
     .reduce((p, c) => [...p, ...c], [])
-    .reduce(
-      (map, spec: PropDefinition<any, any>) => ({ ...map, [spec.name]: spec }),
-      {}
-    ) as Record<string, PropDefinition<any, any>>;
+    .reduce((map, spec: PropDefinition<any, any>) => {
+      if (map[spec.name]) {
+        reporter.dispatchError(
+          'WEBSH_DUPLICATED_REGISTERED_PROP',
+          map[spec.name],
+          spec
+        );
+      }
+      return { ...map, [spec.name]: spec };
+    }, {}) as Record<string, PropDefinition<any, any>>;
 }
 
-export class FeatureRegistry<F extends Feature<any, any>[]> {
+export class FeatureRegistry<F extends Feature<any, any, any>[]> {
   readonly propsMap: Record<string, PropDefinition<any, any>>;
   readonly handlersMap: Record<string, PropDefinition<any, any>>;
   readonly features: F;
-  constructor(features: F) {
-    this.propsMap = extractPropsSpecsMap(features);
+  constructor(features: F, reporter: Reporter) {
+    this.propsMap = extractPropsSpecsMap(features, reporter);
     this.handlersMap = extractHandlersMap(features);
     this.features = features;
   }
