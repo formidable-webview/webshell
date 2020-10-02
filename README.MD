@@ -40,4 +40,4 @@ yarn add @formidable-webview/webshell
 
 ## Changelog
 
-[packages/core/CHANGELOG.MD](packages/core/CHANGELOG.MD)
+[packages/webshell/CHANGELOG.MD](packages/webshell/CHANGELOG.MD)

@@ -6,7 +6,7 @@ const prettierOptions = {
 
 const discordInvite = 'https://discord.gg/XV3zt3d';
 
-const webshellPath = '../../packages/core';
+const webshellPath = '../../packages/webshell';
 const acceptancePath = '../../packages/acceptance-tests';
 
 const webshellJson = require(path.resolve(webshellPath, 'package.json'));
@@ -52,7 +52,7 @@ module.exports = {
         { to: 'blog', label: 'Blog', position: 'left' },
         {
           href:
-            'https://github.com/formidable-webview/webshell/blob/master/packages/core/CHANGELOG.MD',
+            'https://github.com/formidable-webview/webshell/blob/master/packages/webshell/CHANGELOG.MD',
           label: 'Changelog',
           position: 'left'
         },

@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "yarn workspace example start",
+    "webshell": "yarn workspace @formidable-webview/webshell",
     "start:website": "yarn workspace website start",
     "build:website": "yarn workspace website build",
     "build:core": "yarn workspace @formidable-webview/webshell build",

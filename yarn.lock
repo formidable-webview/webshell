@@ -2959,9 +2959,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@formidable-webview/webshell@workspace:*, @formidable-webview/webshell@workspace:packages/core":
+"@formidable-webview/webshell@workspace:*, @formidable-webview/webshell@workspace:packages/webshell":
   version: 0.0.0-use.local
-  resolution: "@formidable-webview/webshell@workspace:packages/core"
+  resolution: "@formidable-webview/webshell@workspace:packages/webshell"
   dependencies:
     "@babel/cli": ^7.11.6
     "@babel/core": ^7.11.6

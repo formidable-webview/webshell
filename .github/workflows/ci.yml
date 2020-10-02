@@ -35,5 +35,5 @@ jobs:
       name: Build Website
     - uses: codecov/codecov-action@v1
       with:
-        file: packages/core/coverage/clover.xml
+        file: packages/webshell/coverage/clover.xml
         fail_ci_if_error: true
