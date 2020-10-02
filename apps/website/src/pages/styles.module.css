@@ -94,11 +94,19 @@
 
 .featuresGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr 220px;
+  grid-template-columns: 1fr 1fr 1fr;
   grid-column-gap: calc(var(--ifm-global-spacing) * 3);
 }
 
-@media (max-width: 960px) {
+
+.expo {
+  grid-row: 1 / span 2;
+  grid-column-start: 3;
+  grid-column-end: 3;
+  justify-self: center;
+}
+
+@media (max-width: 780px) {
   .featuresGrid {
     display: flex;
     flex-direction: column;
@@ -109,11 +117,20 @@
   }
 }
 
-.expo {
-  grid-row: 1 / span 3;
-  grid-column-start: 3;
-  grid-column-end: 3;
-  justify-self: end;
+
+
+@media (max-width: 1130px) {
+  .featuresGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .expo {
+    grid-row: 3 / span 3;
+    grid-column-start: 2;
+    grid-column-end: 2;
+  }
+  .feature {
+    max-width: 460px;
+  }
 }
 
 .graphicContainer {

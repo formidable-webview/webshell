@@ -7,7 +7,6 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 import styles from './styles.module.css';
 import { TryOnExpo } from '../../components/TryOnExpo';
 import { ReactReference } from '../../components/ReactReference';
-import { APIReference } from '../../components/APIReference';
 import { Webshell } from '../../components/Webshell';
 import { Term } from '../../components/Term';
 import { IllustrationSnippet } from '../../components/IllustrationSnippet';
@@ -130,24 +129,14 @@ function Home() {
       )
     },
     {
-      title: 'Declarative API',
-      iconName: 'integration_instructions',
-      description: (
-        <>
-          Create instances of features, pass them to{' '}
-          <APIReference reference="makeWebshell" type="function" />{' '}
-          <Term id="HOC" />, and enjoy new props and behaviors! The API is
-          terse, and yet can be extended at will.
-        </>
-      )
-    },
-    {
-      title: 'Empathic Programming',
+      title: 'Empathic API',
       iconName: 'hearing',
       description: (
         <>
-          This library has been developped with user comfort in mind. We strive
-          at providing a maximum of feedback and help messages in addition to
+          The API is <strong>terse</strong>, <strong>declarative</strong>, and
+          can be extended at will. It has been developped with{' '}
+          <strong>user comfort</strong> in mind: we strive at providing a
+          maximum of <strong>feedback</strong> and help messages in addition to
           exhaustive documentation.
         </>
       )
