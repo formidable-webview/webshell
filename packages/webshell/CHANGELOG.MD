@@ -1,3 +1,31 @@
+# [2.0.0-alpha.2](https://github.com/formidable-webview/webshell/compare/v2.0.0-alpha.1...v2.0.0-alpha.2) (2020-10-02)
+
+
+### Code Refactoring
+
+* rename `FeatureBuilder.withandlerProp` to `withShellHandler` ([65ea547](https://github.com/formidable-webview/webshell/commit/65ea547fdfa39542b6e54c88f81b096d55ff17a0))
+* rename `FeatureConstructor` to `FeatureClass` ([8f64369](https://github.com/formidable-webview/webshell/commit/8f64369682c3c4c40b58101c69062b468aa2cedb))
+* rename `PropsFromFeature` to `ExtractPropsFromFeature` ([e07e8f7](https://github.com/formidable-webview/webshell/commit/e07e8f794956632db8417646c3c5a0594cb6b637))
+* rename FeatureInstanceOf type into ExtractFeatureFromClass ([3f3eed3](https://github.com/formidable-webview/webshell/commit/3f3eed3920ef8bd94c2361d05fc4c1f0a5befb0b))
+* rename resetHeightOnViewportWidthChange to resetHeightOnViewportWidthChange ([d6c777c](https://github.com/formidable-webview/webshell/commit/d6c777c822d34064dd16319dec17238697f41dce))
+
+
+### Features
+
+* add `webshellStrictMode` prop to raise errors on inconsistencies ([81273be](https://github.com/formidable-webview/webshell/commit/81273be0cd5129ca34a069ffff7d146e892658a0))
+* custom typedoc theme (WIP) ([1216e50](https://github.com/formidable-webview/webshell/commit/1216e50fd4ccde9af1cf52ac2f05e0463dfd7d24))
+
+
+### BREAKING CHANGES
+
+* rename `FeatureConstructor` to `FeatureClass`
+* rename `PropsFromFeature` to `ExtractPropsFromFeature`
+* rename
+`AutoheightParams.resetHeightOnViewportWidthChange` to
+`resetHeightOnViewportWidthChange`
+* rename `FeatureBuilder.withandlerProp` to `withShellHandler`
+* rename FeatureInstanceOf type into ExtractFeatureFromClass
+
 # [2.0.0-alpha.1](https://github.com/formidable-webview/webshell/compare/v2.0.0-alpha.0...v2.0.0-alpha.1) (2020-09-30)
 
 
