@@ -9,6 +9,8 @@ const discordInvite = 'https://discord.gg/XV3zt3d';
 const webshellPath = '../../packages/core';
 const acceptancePath = '../../packages/acceptance-tests';
 
+const webshellJson = require(path.resolve(webshellPath, 'package.json'));
+
 module.exports = {
   title: 'webshell',
   tagline: 'Craft Robust React Native WebView-based components with ease.',
@@ -35,7 +37,7 @@ module.exports = {
       respectPrefersColorScheme: true
     },
     navbar: {
-      title: 'webshell',
+      title: 'webshell' + ' v' + webshellJson.version,
       logo: {
         alt: 'Formidable WebView Logo',
         src: 'img/logo.svg'
@@ -48,6 +50,12 @@ module.exports = {
           position: 'left'
         },
         { to: 'blog', label: 'Blog', position: 'left' },
+        {
+          href:
+            'https://github.com/formidable-webview/webshell/blob/master/packages/core/CHANGELOG.MD',
+          label: 'Changelog',
+          position: 'left'
+        },
         {
           href: 'https://github.com/formidable-webview/webshell',
           label: 'GitHub',

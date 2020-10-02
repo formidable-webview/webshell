@@ -289,13 +289,11 @@ article .admonition a.api-ref:hover {
   --ifm-font-color-base: var(--ifm-font-color-base);
 }
 
-.hero__title::before,
-.navbar__title::before {
+.hero__title::before {
   content: '(';
 }
 
-.hero__title::after,
-.navbar__title::after {
+.hero__title::after {
   content: ')';
 }
 
