@@ -120,15 +120,18 @@ function registerFeature(specs) {
     },
     numericFromPxString: numericFromPxString
   };
+  var __makeCallbackSafe = makeCallbackSafe.bind(
+    null,
+    sendErrorMessage.bind(null, snippetIdentifier)
+  );
   var context = {
     options: snippetOptions,
     utils: domUtils,
-    makeCallbackSafe: makeCallbackSafe.bind(
-      null,
-      sendErrorMessage.bind(null, snippetIdentifier)
-    ),
+    makeCallbackSafe: __makeCallbackSafe,
     onShellMessage: function (handlerId, messageHandler) {
-      messagesHandlerRegistry[specs.identifier][handlerId] = messageHandler;
+      messagesHandlerRegistry[specs.identifier][handlerId] = __makeCallbackSafe(
+        messageHandler
+      );
     },
     postMessageToShell: function () {
       var message = arguments.length > 1 ? arguments[1] : arguments[0];
