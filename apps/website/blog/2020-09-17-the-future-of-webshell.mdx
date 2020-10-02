@@ -74,14 +74,14 @@ const flatteryFeature = new AsyncFlatteryFeature();
 const Webshell = makeWebshell(WebView, flatteryFeature);
 
 export const MyComponent = (props) => {
-  const webHandle = React.useRef();
+  const webHandleRef = React.useRef();
   React.useEffect(() => {
     // props.user must be JSON-serializable
-    webHandle
+    webHandleRef.current?
       .postAsyncMessageToWeb(flatteryFeature, 'flatters', 'I really like you!')
       .then(response => console.info(response));
   }, []);
-  return <Webshell webHandle={webHandle} />;
+  return <Webshell webHandleRef={webHandleRef} />;
 };
 ```
 
