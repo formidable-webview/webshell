@@ -1,11 +1,6 @@
 /* eslint-disable dot-notation */
 import * as React from 'react';
-import type {
-  ComponentType,
-  ElementRef,
-  ComponentProps,
-  ComponentPropsWithRef
-} from 'react';
+import type { ComponentType, ElementRef, ComponentPropsWithRef } from 'react';
 import type { NativeSyntheticEvent } from 'react-native';
 import { Feature } from './Feature';
 import type {
