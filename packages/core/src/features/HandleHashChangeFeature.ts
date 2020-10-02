@@ -41,15 +41,18 @@ const defaultOptions: Required<HandleHashChangeOptions> = {
 };
 
 /**
- * This feature allows to intercept hashchange events, when the hash fragment of the URL changes.
- * This could happen when the user clicks on anchors like this:
+ * This feature provide `onDOMHashChange` prop with payloads of type {@link HashChangeEvent} to intercept hashchange events, triggered when the hash fragment of the URL changes.
+ * An event will be triggered when the user clicks on anchors like this:
  *
  * ```html
  * <a href="#subresource">Let's Jump to Subresource</a>
  * ```
  *
  * Or when JavaScript code imperatively changes the hash fragment of current location.
+ * The feature can be customized with {@link HandleHashChangeOptions}.
  * See {@link https://developer.mozilla.org/en-US/docs/Web/API/Window/hashchange_event | MDN—hashchange event}.
+ *
+ * For an example, read {@link https://formidable-webview.github.io/webshell//docs/autoheight#handling-hashchange-events | Handling hashchange events}.
  *
  * @public
  */

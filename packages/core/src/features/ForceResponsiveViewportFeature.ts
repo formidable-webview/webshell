@@ -21,16 +21,27 @@ const defaultOptions: Required<ForceResponsiveViewportOptions> = {
 };
 
 /**
- * This feature inserts or replace a meta element looking like:
+ * This feature inserts or, when present, replace a meta element looking like:
  *
  * ```html
- * <meta name="viewport" content="width=device-width" />
+ * <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1" />
  * ```
  *
  * This will guarantee that the layout viewport will match
  * device-width (hence, “responsive”). Minimum scale is locked to 1, but you
- * can customize maximum scale to allow pinch-zoom gestures.
- * See {@link https://developer.mozilla.org/en-US/docs/Mozilla/Mobile/Viewport_meta_tag | MDN—Using the viewport meta tag ...}
+ * can customize maximum scale to allow pinch-zoom gestures (see {@link ForceResponsiveViewportOptions}).
+ * See also {@link https://developer.mozilla.org/en-US/docs/Mozilla/Mobile/Viewport_meta_tag | MDN—Using the viewport meta tag ...}
+ *
+ * @example
+ *
+ * ```ts
+ * const Webshell = makeWebshell(
+ *   WebView,
+ *   new ForceResponsiveViewportFeature({
+ *     maxScale: 3,
+ *   })
+ * );
+ * ```
  *
  * @public
  */

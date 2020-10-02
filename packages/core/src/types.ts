@@ -185,11 +185,18 @@ export type PropsSpecs<N extends string, P> = {
 
 /**
  * An object to send messages from the shell to the Web.
+ * See {@link WebjsContext.onShellMessage}, {@link WebshellInvariantProps.webHandleRef} and {@link FeatureBuilder.withWebHandler}.
  *
  * @public
  */
 export interface WebHandle {
   /**
+   * Send a message to a Web handler, e.g. a callback registered in the Web script associated with a feature.
+   *
+   * @remarks
+   *
+   * Web handlers must have been declared with {@link FeatureBuilder.withWebHandler}.
+   *
    *
    * @param feat - The feature to which a message should be sent.
    * @param handlerId - The handler identifier used in the Web script to register a listener.

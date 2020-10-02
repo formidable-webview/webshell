@@ -75,7 +75,8 @@ const defaultOptions: Required<LinkPressOptions> = {
 };
 
 /**
- * This feature allows to intercept clicks on anchors such as:
+ * This feature provides `onDOMLinkPress` prop with payloads of type {@link LinkPressTarget}.
+ * It will intercept clicks on anchors such as:
  *
  * ```html
  * <a href="https://domain.com/">Let's Travel</a>
@@ -83,7 +84,7 @@ const defaultOptions: Required<LinkPressOptions> = {
  *
  * @remarks
  * By default, it will prevent the click from propagating. But you can disable
- * this option.
+ * this option, see {@link LinkPressOptions}.
  *
  * If you need to intercept click on hash fragments, consider {@link HandleHashChangeFeature} instead.
  *

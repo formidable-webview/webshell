@@ -205,7 +205,7 @@ export interface ForceElementSizeOptions {
     forceWidth?: boolean;
     heightValue?: number | string;
     shouldThrowWhenNotFound?: boolean;
-    target: DOMElementRequest;
+    target?: DOMElementRequest;
     widthValue?: number | string;
 }
 
@@ -339,7 +339,7 @@ export type PropsSpecs<N extends string, P> = {
     [k in N]: PropDefinition<k, P>;
 };
 
-// @beta
+// @public
 export function useAutoheight<S extends WebshellProps<MinimalWebViewProps, [ExtractFeatureFromClass<typeof HandleHTMLDimensionsFeature>]>>(params: AutoheightParams<S>): AutoheightState<S>;
 
 // @public
@@ -351,7 +351,6 @@ export interface VisualViewportDimensions {
 
 // @public
 export interface WebHandle {
-    // (undocumented)
     postMessageToWeb<F extends Feature<any, any, any>, H extends keyof ExtractWebHandlerSpecsFromFeature<F>>(feat: F, handlerId: H, payload: Required<ExtractWebHandlerSpecsFromFeature<F>[H]>['payload']): void;
 }
 

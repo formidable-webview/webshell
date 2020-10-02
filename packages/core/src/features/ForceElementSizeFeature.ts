@@ -11,8 +11,10 @@ import type { FeatureClass } from '../Feature';
 export interface ForceElementSizeOptions {
   /**
    * The element to target.
+   *
+   * @defaultValue 'body'
    */
-  target: DOMElementRequest;
+  target?: DOMElementRequest;
   /**
    * The width to override.
    *
@@ -47,17 +49,30 @@ export interface ForceElementSizeOptions {
 }
 
 const defaultOptions: Required<ForceElementSizeOptions> = {
+  target: 'body',
   forceHeight: true,
   forceWidth: true,
   widthValue: 'auto',
   heightValue: 'auto',
   shouldThrowWhenNotFound: false
-} as Required<ForceElementSizeOptions>;
+};
 
 /**
  * This feature sets element size programmatically and only once, when
  * {@link https://developer.mozilla.org/fr/docs/Web/Events/DOMContentLoaded | DOMContentLoaded}
- * has been fired.
+ * has been fired. See {@link ForceElementSizeOptions} for customization.
+ *
+ * @example
+ * ```ts
+ * const Webshell = makeWebshell(
+ *   WebView,
+ *   new ForceElementSizeFeature({
+ *     target: { id: "blog-content" },
+ *     heightValue: 500,
+ *     forceWidth: false,
+ *   })
+ * );
+ * ```
  *
  * @public
  */

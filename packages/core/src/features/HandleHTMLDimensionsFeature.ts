@@ -23,6 +23,8 @@ export interface HandleHTMLDimensionsOptions {
   /**
    * Force a specific implementation, if the underlying API is available.
    *
+   * **warning**: forcing to `'polling'` might increase battery consumption.
+   *
    * @remarks
    *
    * This option is useful in development to force one implementation to mock older browsers.
@@ -84,8 +86,11 @@ const defaultOptions: Required<HandleHTMLDimensionsOptions> = {
 };
 
 /**
- * This feature enables receiving various dimensions relative to the layout. The events
- * will only be fired when a change is observed to either the layout or the content size.
+ * This feature provides `onDOMHTMLDimensions` prop with {@link HTMLDimensions} payloads.
+ * It enables receiving various dimensions relative to the layout when a change
+ * is observed to either the layout or the content size. The feature can be customized with
+ * {@link HandleHTMLDimensionsOptions}.
+ * See {@link https://formidable-webview.github.io/webshell//docs/getting-started#minimal-example | this guide for an example}.
  *
  * @remarks
  * If you need to guarantee that 1 CSS pixel = 1 Device pixel, you should use this

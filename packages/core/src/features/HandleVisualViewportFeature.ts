@@ -30,11 +30,16 @@ export interface VisualViewportDimensions {
 }
 
 /**
- * This feature adds a handler triggered when the visual viewport changes. It
- * requires `VisualViewport` API support on browsers (iOS Safari 13 and Android
- * WebView 62).
+ * This feature provides `onDOMVisualViewport` prop with payloads of type {@link VisualViewportDimensions}.
+ * It will trigger events when the visual viewport changes.
+ * Requires `VisualViewport` API support on browsers (iOS Safari 13 and Android WebView 62).
+ * When the API is not available, payload object will have `isLegacy` field set to true.
  * See {@link https://developer.mozilla.org/en-US/docs/Web/API/VisualViewport | VisualViewport API}.
  *
+ * @example
+ * ```ts
+ * const Webshell = makeWebshell(WebView, new HandleVisualViewportFeature());
+ * ```
  * @public
  *
  */

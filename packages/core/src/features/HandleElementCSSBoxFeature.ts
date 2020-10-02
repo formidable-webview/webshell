@@ -113,11 +113,27 @@ const defaultOptions: Required<HandleElementCSSBoxDimensionsOptions> = {
 } as Required<HandleElementCSSBoxDimensionsOptions>;
 
 /**
- * This feature enables receiving the {@link https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Box_Model/Introduction_to_the_CSS_box_model | CSS Box dimensions} of an element in the
- * `WebView` pixels unit. The first element matching the provided tagName is
- * retained. A new event will be triggered on every resize.
+ * This feature provides `onDOMElementCSSBoxDimensions` prop with payloads of type {@link ElementCSSBoxDimensions}.
+ * The payload contains information about the {@link https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Box_Model/Introduction_to_the_CSS_box_model | CSS Box dimensions} of an element in the
+ * `WebView` pixels unit (see {@link HandleElementCSSBoxDimensionsOptions} to instruct which element should be targeted).
+ *
+ * @example
+ * ```ts
+ * const Webshell = makeWebshell(
+ *   WebView,
+ *   new HandleElementCSSBoxDimensionsOptions({
+ *     target: { id: "sidebar" }
+ *   })
+ * );
+ *
+ * export function MyComponent(props) {
+ *   const onSidebarDimensions = ({ borderBox }) => console.info(borderBox.width)
+ *   return <Webshell {...props} onDOMElementCSSBoxDimensions={onSidebarDimensions} />
+ * }
+ * ```
  *
  * @remarks
+ * A new event will be triggered on every resize.
  * If you are looking for the document content size, use {@link HandleHTMLDimensionsFeature} instead.
  *
  * @public

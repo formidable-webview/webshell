@@ -15,9 +15,9 @@ let numberOfEvents = 0;
 /**
  * The state of synchronization between viewport and content size:
  *
- * - init: the initial, "onMount" state;
- * - syncing: the content size is being determined;
- * - synced: the viewport size has been adjusted to content size.
+ * - `init`: the initial state;
+ * - `syncing`: the content size is being determined;
+ * - `synced`: the viewport size has been adjusted to content size.
  *
  * @public
  */
@@ -170,8 +170,13 @@ function useAutoheightState<
 }
 
 /**
- * Requires {@link HandleHTMLDimensionsFeature} and recommends
- * {@link ForceResponsiveViewportFeature}.
+ *
+ * This hook will provide props to inject in a shell component to implement an "autoheight" behavior.
+ * It requires {@link HandleHTMLDimensionsFeature} to have be instantiated in the shell.
+ * Also recommend (see remarks):
+ *
+ * - {@link ForceElementSizeFeature},
+ * - {@link ForceResponsiveViewportFeature}.
  *
  * @remarks
  * This hook has caveats you must understand:
@@ -204,12 +209,10 @@ function useAutoheightState<
  * ```
  *
  * @param params - The parameters to specify autoheight behavior.
- *
  * @typeparam S - The type of the `Webshell` props used by this hook.
- *
  * @returns - An object to implement autoheight behavior.
  *
- * @beta
+ * @public
  */
 export function useAutoheight<
   S extends WebshellProps<
