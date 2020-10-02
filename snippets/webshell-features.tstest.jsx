@@ -13,12 +13,12 @@ const Feature1 = new FeatureBuilder({
   .build();
 const feature1 = new Feature1();
 const Webshell = makeWebshell(WebView, feature1);
-const webHandle = createRef();
-webHandle.current?.postMessageToWeb(feature1, 'event1', {
+const webHandleRef = createRef();
+webHandleRef.current?.postMessageToWeb(feature1, 'event1', {
   foo: ''
 });
-webHandle.current?.postMessageToWeb(feature1, 'event2', {
+webHandleRef.current?.postMessageToWeb(feature1, 'event2', {
   bar: ''
 });
 // Should not throw error
-<Webshell webHandle={webHandle} />;
+<Webshell webHandleRef={webHandleRef} />;
