@@ -32,7 +32,7 @@ function useSource(uri) {
 }
 
 const CodeSourceBlockWrapper = ({ children }) => (
-  <div className="mdxCodeBlock__-node_modules-@docusaurus-theme-classic-lib-theme-MDXComponents-">
+  <div className="margin-vert--md mdxCodeBlock__-node_modules-@docusaurus-theme-classic-lib-theme-MDXComponents-">
     {children}
   </div>
 );

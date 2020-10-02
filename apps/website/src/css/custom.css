@@ -206,7 +206,7 @@ articla a {
   color: var(--formidable-external-link-admonition-color-hover);
 }
 
-a.api-ref, article a[href^="/webshell/docs/api"] {
+a.api-ref, article a[href^="/webshell/docs/api/"] {
   color: var(--formidable-api-ref-color);
 }
 
@@ -242,7 +242,7 @@ html[data-theme='light'] .api-box {
   background-color: var(--ifm-color-gray-100);
 }
 
-code, article a[href^="/webshell/docs/api"] {
+code, article a[href^="/webshell/docs/api/"] {
   font-family: var(--formidable-reference-font);
   font-style: italic;
   background-color: transparent;

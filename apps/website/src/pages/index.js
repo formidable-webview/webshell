@@ -83,7 +83,7 @@ function Home() {
       description: (
         <>
           The ultimate goal of <Webshell /> is to <strong>refactor</strong>{' '}
-          scattered features reimplemented in so many{' '}
+          scattered behaviors reimplemented in so many{' '}
           <ReactReference name="WebView" type="class" />
           -based components and reuse these at will.
         </>
@@ -108,10 +108,10 @@ function Home() {
       description: (
         <>
           <strong>Send to</strong> and <strong>receive messages from</strong>{' '}
-          <ReactReference name="WebView" type="class" />
-          <code>s</code>. <Webshell /> forms an abstraction layer over{' '}
-          <code>WebView</code> <Term id="messaging system" />, enabling
-          declarative and legible implementations.
+          <ReactReference name="WebView" type="class" />. <Webshell /> forms an
+          abstraction layer over <code>WebView</code>{' '}
+          <Term id="messaging system" />, enabling declarative and legible
+          implementations.
         </>
       )
     },

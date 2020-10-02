@@ -1,0 +1,62 @@
+---
+id: glossary
+title: Glossary
+---
+
+import { APIReference, APISymbolFormat } from '../components/APIReference';
+import { WebView } from '../components/ReactReference';
+
+## Shell
+
+A *shell* equals an instance of a <APIReference reference="WebshellComponent" type="alias" />:
+
+```jsx title="Native"
+<Webshell {...props} />
+```
+
+## Controlling Component
+
+A controlling component is the component passing props to a *shell*:
+
+```jsx title="Native"
+function ControllingComponent(props) {
+  return <Webshell {...props} />
+}
+```
+
+## Native environment
+
+The *native environment* is the execution environment for React Native.
+
+## Web Environment
+
+The *Web environment* is the execution environment for any code run in a <WebView />.
+
+## Web Feature
+
+A *Web feature*, or simply *feature*, is a single-responsibility plugin which can be injected in a *shell* to add new behaviors.
+
+## Web Script
+
+A *Web script* is the source code associated with a *Web feature* run in the *Web environment*.
+
+## Shell Handler
+
+A *shell handler* is a function prop passed to a *shell* for reacting to messages sent from *Web scripts*.
+
+```jsx title="Native"
+function shellHandler(message) {
+  // do stuff with message
+}
+<Webshell onDOMFoo={shellHandler} />
+```
+
+## Web Handler
+
+A *Web handler* is a function run in *Web scripts* to react from messages sent from a *controlling component*.
+
+```js title="Web"
+context.onShellMessage('eventId', function(message) {
+  // do stuff with message
+})
+```

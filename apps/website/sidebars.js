@@ -2,7 +2,7 @@ const entries = [
   {
     type: 'category',
     label: 'Webshell',
-    items: ['introduction', 'getting-started']
+    items: ['introduction', 'getting-started', 'glossary']
   },
   {
     type: 'category',

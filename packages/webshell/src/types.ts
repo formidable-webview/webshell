@@ -330,6 +330,8 @@ export interface WebjsContext<O extends {}> {
    * this feature, if any.
    *
    * @param payload - The value which will be passed to the handler.
+   * @typeparam P - A type describing the shape of the payload sent to shell.
+   *
    */
   postMessageToShell<P>(payload: P): void;
   /**
@@ -339,6 +341,7 @@ export interface WebjsContext<O extends {}> {
    * @param handlerId - A unique string to disambiguate between different shell handlers.
    * You can omit this param if you are sending to `"default"` handler.
    * @param payload - The value which will be passed to the handler.
+   * @typeparam P - A type describing the shape of the payload sent to shell.
    */
   postMessageToShell<P>(handlerId: string, payload: P): void;
   /**
@@ -346,6 +349,7 @@ export interface WebjsContext<O extends {}> {
    *
    * @param handlerId - A unique string to disambiguate between different Web handlers.
    * @param payload - The value which will be passed to the handler.
+   * @typeparam P - A type describing the shape of the payload sent by shell.
    */
   onShellMessage<P>(handlerId: string, handler: (payload: P) => void): void;
   /**

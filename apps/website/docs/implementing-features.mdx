@@ -5,7 +5,7 @@ title: Implementing Web Features
 
 import { Webshell } from '../components/Webshell';
 import { Term } from '../components/Term';
-import { APIReference } from '../components/APIReference';
+import { APIReference, APISymbolFormat } from '../components/APIReference';
 import { ReactReference, WebView } from '../components/ReactReference';
 import { APIBox } from '../components/APIBox';
 import {
@@ -14,23 +14,22 @@ import {
   InstallPackageSnippet
 } from '../components/CodeSource';
 
-## Introduction
+Features can set up communication in both directions, *Web to native* and *native to Web*.
+We will approach the two in distinct examples, but a feature can support both at the same time.
 
-To have a good sense on how to make new features, we will take a look at
+## Web to Native Communication
+
+To overview Web to native communication, we will take a look at
 a simplified implementation of <APIReference reference="HandleLinkPressFeature" type="variable" />.
-It is best to follow typescript snippet, which conveys the
-shape of objects required to specify a feature.
 
 A feature has two facets:
 
-- The [Web Script](#web-script), which embodies behavior in the <WebView />;
-- The [Native Feature Class](#building-a-feature-class), which embodies integration with the shell.
+- The [Web Script](#web-script), which embodies behavior in the Web environment;
+- The [Feature Class](#building-a-feature-class), which tackles integration with the shell.
 
 :::caution disclaimer
 This implementation is naive and doesn't handle inner click events. If you need such a feature, use our official <APIReference reference="HandleLinkPressFeature" type="variable" />.
 :::
-
-## Web to Native Communication
 
 ### Web Script
 
@@ -39,9 +38,8 @@ Let's start with the Web script, the code which will run in the <ReactReference 
 <SingleCodeSource source="HandleLinkPressFeature.webjs" lang="js" />
 
 **Every Web script top declaration must be a function** taking one argument.
-
-The shape of this argument is depicted in <APIReference reference="WebjsContext" type="interface" /> definition.
-This context object is the central API to interact with the shell.
+The shape of this argument is depicted in <APISymbolFormat reference="WebjsContext" type="interface" /> definition.
+This context object is the central API to interact with the shell from the Web environment.
 
 <APIBox reference="WebjsContext" type="interface" />
 
@@ -55,7 +53,7 @@ Below is the same snippet with highlighted lines each matching a different conte
 
 1. `context.options` is the result of shallow-merging `defaultOptions` with user-provided options during feature instantiation.
 2. `context.postMessageToShell` will send an event which will be intercepted by the shell. If an event handler has been registered for this feature and passed as a prop to the shell, it will be invoked with the message content.
-3. `context.warn` and `context.info` will send a log event to the shell when `webshellDebug` prop is set to `true`. The shell will log the message for quick feedback during development.
+3. `context.warn` and `context.info` will send a log event to the shell when `webshellDebug` prop is set to `true`. The shell will log the message in the native environment for quick feedback during development.
 4. `context.makeCallbackSafe` guarantees that any error raised in the body of the callback will be intercepted by the context API and routed to the shell for quick feedback during development.
 
 ### Building a Feature Class
@@ -79,10 +77,10 @@ Below is a recap of all the symbols present in this snippet:
 
 It is also worth noting that invoking `withShellHandler` is not an option:
   1. It register the handler to the shell, otherwise events fired by the below Web script will not be routed to the corresponding handler prop (`onDOMLinkPress`).
-  2. When implemented in typescript, type generation will add the handler name and payload type to the the feature, which will be grabbed by the resulting shell type.
+  2. When implemented in typescript, type generation will add the shell handler name and payload type to the the feature, which will be grabbed by the resulting shell prop type.
 
 :::important
-Be advised that `linkPressScript` must be a `string`. In the snippet, we are using `babel-plugin-inline-import` to import the script as `string`, see the [tooling guide](./tooling);
+Be advised that `linkPressScript` must be a `string`. In the snippet, we are using `babel-plugin-inline-import` to import the Web script as `string`, see the [tooling guide](./tooling);
 :::
 
 :::important
@@ -102,7 +100,7 @@ execute some authentication logic when the controlling component prop changes.
 To allow communication from the shell to the Web environment, we will need to do the following:
 
 - Declare a Web handler during at building;
-- Implement a handler in the Web script;
+- Register a handler in the Web script;
 - Use a <APIReference reference="WebHandle" type="alias" /> from the shell to send `apiTokens`.
 
 ### Declaring Web Handler
@@ -114,7 +112,7 @@ The handler will need an identifier, `'apiTokenChange'`, to disambiguate from mu
 
 <DualCodeSource sourceBase="FeatureWithToken" />
 
-### Implementing the Web Handler
+### Registering the Web Handler
 
 Now we need to do something with the token.
 We will use <APIReference reference="WebjsContext" type="interface" member="onShellMessage" /> to register a listener function.
@@ -135,7 +133,13 @@ We will use <APIReference reference="WebshellInvariantProps" type="interface" me
 That's it. Our Web script is almost a React component now, it can _react_ to prop changes!
 
 :::tip
-If your script relies on multiple props, it is best advised to use one `useEffect` with a payload comprising all props.
+If your script relies on multiple props, it is best advised for performance and synchronization concerns to use one `useEffect` with a payload comprising all props.
+:::
+
+:::caution
+Make sure to follow the [rules of hooks](https://reactjs.org/docs/hooks-rules.html) and declare dependencies accordingly in `useEffect`:
+- Declaring no dependencies will cause the effect callback to execute on every render cycle, which might jam the native to Web communication bus;
+- Missing dependencies could cause [stale closures](https://dmitripavlutin.com/react-hooks-stale-closures/) and inconsistencies.
 :::
 
 ## Testing with Jest

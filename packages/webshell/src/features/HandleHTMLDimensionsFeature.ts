@@ -57,7 +57,7 @@ export interface HandleHTMLDimensionsOptions {
  *
  * @remarks
  * This object units are in CSS pixels. CSS pixels match device pixels when the
- * web page has a `<meta name="viewport" content="width=device-width" />` tag.
+ * Web page has a `<meta name="viewport" content="width=device-width" />` tag.
  *
  * @public
  */

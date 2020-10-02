@@ -21,6 +21,7 @@ content heights, anytime the <Term id="DOM" /> changes.
 
 <AsideShowcaseFrame url="/img/autoheight-screencast.mp4">
 
+
 <APIBox reference="useAutoheight" type="function" />
 
 - The **width** of the <Term id="viewport" /> will grow to the
@@ -57,7 +58,8 @@ Challenge](/blog/2020/09/15/overcoming-the-autoheight-webview-challenge) to demy
 
 ## Basic Example
 
-As previously stated, <APIReference reference="useAutoheight" type="function" />
+Invoke <APIReference reference="useAutoheight" type="function" /> in a controlling component and pass returned props to a shell in order to benefit from autoheight behavior.
+As previously stated, it
 requires _a minima_ injection of a <APIReference reference="HandleHTMLDimensionsFeature" type="variable" /> in the shell to fetch content dimensions:
 
 <DualCodeSource
@@ -166,7 +168,7 @@ This section summarize best practices and tricks for a perfect integration.
 | Prop                  | Value   | Rationale                                                                                                                                                                                                                                                                                  |
 | :-------------------- | :------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `pinchGestureEnabled` | `false` | Enabling pinch (the default) will conflict with the pinch-to-zoom feature provided by <APIReference reference="ForceResponsiveViewportFeature" type="variable" /> `maxScale` option. When `maxScale` is above `1`, it will allow for pinch to zoom gestures up to the provided zoom level. |
-| `horizontal`          | `false` | When the web page is ill-designed (not-responsive), the content might overflows horizontally. We suggest to avoid nesting components providing scroll in the same direction, unless necessary.                                                                                             |
+| `horizontal`          | `false` | When the Web page is ill-designed (not-responsive), the content might overflows horizontally. We suggest to avoid nesting components providing scroll in the same direction, unless necessary.                                                                                             |
 
 ### Handling `hashchange` Events
 
