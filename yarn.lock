@@ -24958,7 +24958,7 @@ resolve@~1.12.0:
   languageName: node
   linkType: hard
 
-"typedoc@npm:^0.19.2":
+typedoc@0.19.2:
   version: 0.19.2
   resolution: "typedoc@npm:0.19.2"
   dependencies:
@@ -24978,6 +24978,29 @@ resolve@~1.12.0:
   bin:
     typedoc: bin/typedoc
   checksum: fc33909c4d66a390fd6dfe7ef88a979d799413403af3f3dea4e320ea5cee07f06d5fda57b9b0872fad0b17a540ebe5e1a8829618c731d9dd7837ddfef8e9f2bf
+  languageName: node
+  linkType: hard
+
+"typedoc@patch:typedoc@0.19.2#patches/typedoc.patch::locator=webshell-project%40workspace%3A.":
+  version: 0.19.2
+  resolution: "typedoc@patch:typedoc@npm%3A0.19.2#patches/typedoc.patch::version=0.19.2&hash=1546ee&locator=webshell-project%40workspace%3A."
+  dependencies:
+    fs-extra: ^9.0.1
+    handlebars: ^4.7.6
+    highlight.js: ^10.2.0
+    lodash: ^4.17.20
+    lunr: ^2.3.9
+    marked: ^1.1.1
+    minimatch: ^3.0.0
+    progress: ^2.0.3
+    semver: ^7.3.2
+    shelljs: ^0.8.4
+    typedoc-default-themes: ^0.11.4
+  peerDependencies:
+    typescript: 3.9.x || 4.0.x
+  bin:
+    typedoc: bin/typedoc
+  checksum: c9a66200c6e724474e8ae41db9796780012247b2ddeb70d1f3d27414a66487395a5573c0d51982cd27be258fc9be63b7dc511c74d5cc862acf493f1d0a6ff26d
   languageName: node
   linkType: hard
 

@@ -1,0 +1,27 @@
+diff --git a/dist/lib/output/themes/DefaultTheme.js b/dist/lib/output/themes/DefaultTheme.js
+index 46b5fae75b8945d6d1f1b42c8f7025b721e3b61e..80f90e0787aa8b49a0e8ec6a42009d83a3547330 100644
+--- a/dist/lib/output/themes/DefaultTheme.js
++++ b/dist/lib/output/themes/DefaultTheme.js
+@@ -227,6 +227,22 @@ DefaultTheme.MAPPINGS = [{
+         isLeaf: false,
+         directory: 'enums',
+         template: 'reflection.hbs'
++    },{
++        kind: [index_1.ReflectionKind.Variable],
++        isLeaf: false,
++        directory: 'variables',
++        template: 'reflection.hbs'
++    },{
++        kind: [index_1.ReflectionKind.Function],
++        isLeaf: false,
++        directory: 'functions',
++        template: 'reflection.hbs'
++    }, {
++    },{
++        kind: [index_1.ReflectionKind.TypeAlias],
++        isLeaf: false,
++        directory: 'types',
++        template: 'reflection.hbs'
+     }, {
+         kind: [index_1.ReflectionKind.Namespace, index_1.ReflectionKind.Module],
+         isLeaf: false,
