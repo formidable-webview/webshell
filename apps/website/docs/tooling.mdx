@@ -41,6 +41,36 @@ This plugin will allow you to import scripts as strings instead of transpiling t
 }
 ```
 
+### Configure Metro
+
+We need to tell metro to resolve `webjs` files:
+
+```js title="metro.config.js"
+const { getDefaultConfig } = require("metro-config");
+
+module.exports = (async () => {
+  const {
+    resolver: { sourceExts, assetExts }
+  } = await getDefaultConfig();
+  return {
+    resolver: {
+      sourceExts: [...sourceExts, "webjs"]
+    }
+  };
+})();
+```
+
+:::important
+You might have issue with caching:
+
+- With metro, you will need to change **the file importing the `webjs` extension** in order to invalidate the cache;
+- With jest, you will need to clear cache after changing a `webjs` file. Use `jest --clearCache`.
+:::
+
+:::tip
+To circumvent this issue
+:::
+
 ## ESLint
 
 You can use
@@ -71,9 +101,16 @@ module.exports = {
 };
 ```
 
-### Configure Metro
+## Typescript
 
+Add a declaration file to resolve `.webjs` extensions as `strings`:
 
+```ts title="webjs.d.ts"
+declare module '*.webjs' {
+  const source: string;
+  export default source;
+}
+```
 
 ## Jest
 
