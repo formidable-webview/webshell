@@ -9,13 +9,12 @@ const entries = [
     label: 'Guides',
     items: ['autoheight', 'implementing-features', 'tooling']
   },
-  { type: 'doc', id: 'features' },
-  { type: 'doc', id: 'faq' },
   {
     type: 'category',
     label: 'API Reference',
     items: require('./typedoc-sidebars')
-  }
+  },
+  { type: 'doc', id: 'faq' }
 ];
 
 if (process.env.NODE_ENV === 'development') {

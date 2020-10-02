@@ -2,6 +2,53 @@ module.exports = [
   "api/index",
   {
     "type": "category",
+    "label": "Type aliases",
+    "items": [
+      "api/types/autoheightsyncstate",
+      "api/types/domcollectionrequest",
+      "api/types/domelementclassnamerequest",
+      "api/types/domelementidrequest",
+      "api/types/domelementqueryrequest",
+      "api/types/domelementrequest",
+      "api/types/domelementtagnamerequest",
+      "api/types/extractfeaturefromclass",
+      "api/types/extractpropsfromfeature",
+      "api/types/extractpropsfromspecs",
+      "api/types/extractwebhandlerspecfromdef",
+      "api/types/extractwebhandlerspecsfromfeature",
+      "api/types/extractwebshellfromfeatclass",
+      "api/types/featuredefinition",
+      "api/types/htmldimensionsimplementation",
+      "api/types/propdefinition",
+      "api/types/propsspecs",
+      "api/types/webhandlersspecs",
+      "api/types/webshellcomponent",
+      "api/types/webshellprops"
+    ]
+  },
+  {
+    "type": "category",
+    "label": "Variables",
+    "items": [
+      "api/variables/forceelementsizefeature",
+      "api/variables/forceresponsiveviewportfeature",
+      "api/variables/handleelementcssboxfeature",
+      "api/variables/handlehtmldimensionsfeature",
+      "api/variables/handlehashchangefeature",
+      "api/variables/handlelinkpressfeature",
+      "api/variables/handlevisualviewportfeature"
+    ]
+  },
+  {
+    "type": "category",
+    "label": "Functions",
+    "items": [
+      "api/functions/makewebshell",
+      "api/functions/useautoheight"
+    ]
+  },
+  {
+    "type": "category",
     "label": "Classes",
     "items": [
       "api/classes/feature",

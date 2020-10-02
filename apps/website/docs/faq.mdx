@@ -7,9 +7,9 @@ title: Frequently Asked Questions
 import { WebView } from '../components/ReactReference';
 import { APIReference } from '../components/APIReference';
 
-## How can I get the `ref` of the <WebView />?
+## Can I get the `ref` of the <WebView />?
 
-`Webshell` component already forwards the reference of the underlying <WebView />. Just use `ref` prop as you would with a <WebView />!
+**Yes**. `Webshell` component already forwards the reference of the underlying <WebView />. Just use `ref` prop as you would with a <WebView />!
 
 ```jsx
 function MyComponent() {
@@ -18,9 +18,9 @@ function MyComponent() {
 }
 ```
 
-## How can I set Feature Options Dynamically?
+## Can I set Feature Options Dynamically?
 
-**`React.useMemo`**  is your friend:
+**Yes**. `React.useMemo` is your friend:
 
 ```jsx
 function MyComponent({ option, ...props }) {
@@ -31,6 +31,10 @@ function MyComponent({ option, ...props }) {
   return <Webshell {...props} />;
 }
 ```
+
+## Can I Pass Custom Props to WebViews?
+
+**Yes**. [Read this guide: Native to Web Communication](./implementing-features#native-to-web-communication).
 
 ## Will a Shell Pass `injectedJavaScript` Prop?
 

@@ -19,7 +19,18 @@ export const APIReference = ({ reference, type, overrideUrl, member }) => {
       ? `/docs/api/classes/${reference.toLowerCase()}${suffix}`
       : type === 'enum'
       ? `/docs/api/enums/${reference.toLowerCase()}${suffix}`
-      : `/docs/api#${reference.toLowerCase()}`;
+      : type === 'type' || type === 'alias'
+      ? `/docs/api/types/${reference.toLowerCase()}${suffix}`
+      : type === 'function'
+      ? `/docs/api/functions/${reference.toLowerCase()}${suffix}`
+      : type === 'variable'
+      ? `/docs/api/variables/${reference.toLowerCase()}${suffix}`
+      : null;
+  if (href === null) {
+    throw new TypeError(
+      `APIReference: ${type} must be one of 'interface', 'class', 'type', 'alias', 'function' or 'variable'.`
+    );
+  }
   return (
     <a
       className={`api-ref api-symbol ${type}`}
