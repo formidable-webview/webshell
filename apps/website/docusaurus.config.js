@@ -37,12 +37,17 @@ module.exports = {
       respectPrefersColorScheme: true
     },
     navbar: {
-      title: 'webshell' + ' v' + webshellJson.version,
+      title: 'webshell',
       logo: {
         alt: 'Formidable WebView Logo',
         src: 'img/logo.svg'
       },
       items: [
+        {
+          href: `https://github.com/formidable-webview/webshell/releases/tag/v${webshellJson.version}`,
+          label: webshellJson.version,
+          position: 'left'
+        },
         {
           to: 'docs/',
           activeBasePath: 'docs',
