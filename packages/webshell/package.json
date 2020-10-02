@@ -84,8 +84,7 @@
     "plugins": {
       "@release-it/conventional-changelog": {
         "preset": "angular",
-        "infile": "CHANGELOG.MD",
-        "skipUnstable": true
+        "infile": "CHANGELOG.MD"
       }
     }
   },
