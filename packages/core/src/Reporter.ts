@@ -25,7 +25,7 @@ interface ErrorDefinition<E extends ErrorCode> {
   verbose: (...args: any[]) => string;
 }
 
-const ErrorCodes: Record<ErrorCode, ErrorDefinition<ErrorCode>> = {
+const codes: Record<ErrorCode, ErrorDefinition<ErrorCode>> = {
   WEBSH_MISSING_SHELL_HANDLER: {
     code: 'WEBSH_MISSING_SHELL_HANDLER',
     verbose: function (identifier, handlerId) {
@@ -78,7 +78,7 @@ export class Reporter {
     if (!this.webshellDebug) {
       return;
     }
-    const message = ErrorCodes[code].verbose(...args);
+    const message = codes[code].verbose(...args);
     if (this.strict) {
       throw new Error(message);
     } else {
