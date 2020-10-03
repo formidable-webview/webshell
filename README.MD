@@ -9,7 +9,7 @@
 We still recommend v2 which is an order of magnitude more advanced, reliable and customizable!
 </blockquote>
 
-<h1>@formidable-webview/webshell</h1>
+<h1 align="center">@formidable-webview/webshell</h1>
 
 <p align="center">
   :fire: Craft Robust React Native WebView-based components with ease.
