@@ -129,8 +129,8 @@ function Home() {
       )
     },
     {
-      title: 'Empathic API',
-      iconName: 'hearing',
+      title: 'Expressive API',
+      iconName: 'developer_mode',
       description: (
         <>
           The API is <strong>terse</strong>, <strong>declarative</strong>, and
