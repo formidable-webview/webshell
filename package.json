@@ -7,13 +7,13 @@
     "webshell": "yarn workspace @formidable-webview/webshell",
     "start:website": "yarn workspace website start",
     "build:website": "yarn workspace website build",
-    "build:core": "yarn workspace @formidable-webview/webshell build",
+    "build:webshell": "yarn workspace @formidable-webview/webshell build",
     "test:acceptance": "yarn workspace acceptance-tests test",
-    "test:core": "yarn workspace @formidable-webview/webshell test",
-    "test:core:jest": "yarn workspace @formidable-webview/webshell test:jest",
-    "test:core:ts": "yarn workspace @formidable-webview/webshell test:ts",
-    "test:core:lint": "yarn workspace @formidable-webview/webshell test:lint",
-    "release:core": "yarn workspace @formidable-webview/webshell release-it",
+    "test:webshell": "yarn workspace @formidable-webview/webshell test",
+    "test:webshell:jest": "yarn workspace @formidable-webview/webshell test:jest",
+    "test:webshell:ts": "yarn workspace @formidable-webview/webshell test:ts",
+    "test:webshell:lint": "yarn workspace @formidable-webview/webshell test:lint",
+    "release:webshell": "yarn workspace @formidable-webview/webshell release-it",
     "publish:example": "yarn workspace example expo publish",
     "publish:website": "GIT_USER=$USER USE_SSH=true yarn workspace website deploy"
   },
@@ -38,7 +38,7 @@
   },
   "resolutions": {
     "react": "16.13.1",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.0.tar.gz",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.3.tar.gz",
     "react-test-renderer": "16.13.1",
     "react-native-webview": "10.7.0",
     "typedoc": "patch:typedoc@0.19.2#patches/typedoc.patch"

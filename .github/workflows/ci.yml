@@ -21,13 +21,13 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: yarn install --immutable
-    - run: yarn test:core:ts
+    - run: yarn test:webshell:ts
       name: Typescript Tests
-    - run: yarn test:core:lint
+    - run: yarn test:webshell:lint
       name: Linting Tests
-    - run: yarn test:core:jest --coverage
+    - run: yarn test:webshell:jest --coverage
       name: Behavior Tests
-    - run: yarn build:core
+    - run: yarn build:webshell
       name: Build Webshell
     - run: yarn test:acceptance
       name: Acceptance Types Tests
