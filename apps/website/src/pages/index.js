@@ -91,7 +91,7 @@ function Home() {
     },
     {
       title: 'Leveraging WebViews',
-      iconName: 'important_devices',
+      iconName: 'web',
       description: (
         <>
           <strong>Implement</strong>, <strong>test</strong> and{' '}
