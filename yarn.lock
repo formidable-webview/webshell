@@ -21512,9 +21512,9 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"react-native@https://github.com/expo/react-native/archive/sdk-39.0.0.tar.gz":
+"react-native@https://github.com/expo/react-native/archive/sdk-39.0.3.tar.gz":
   version: 0.63.2
-  resolution: "react-native@https://github.com/expo/react-native/archive/sdk-39.0.0.tar.gz"
+  resolution: "react-native@https://github.com/expo/react-native/archive/sdk-39.0.3.tar.gz"
   dependencies:
     "@babel/runtime": ^7.0.0
     "@react-native-community/cli": ^4.7.0
@@ -21547,7 +21547,7 @@ fsevents@^1.2.7:
     react: 16.13.1
   bin:
     react-native: ./cli.js
-  checksum: 9452e5330dcbbeb53987feb14a06cfd60f505566c8c71d9190f688b88a17a68789e3e72ce90820ad12f5fad9159ddddcd8bfd59d61f858fb9a1cb9339c12d9dc
+  checksum: f8b10fd5b648922b794a31bc252192712f9492dbbf4eef3b9907b9cfca84655d3699c06e506cfd10de72d5b98bada99742df77151c1ea7fd7ce2b0392ae67255
   languageName: node
   linkType: hard
 
