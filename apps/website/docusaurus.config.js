@@ -151,9 +151,9 @@ module.exports = {
 
         // output directory relative to docs directory - use '' for docs root (defaults to 'api').
         out: 'api',
-
         sidebar: {
-          sidebarFile: 'typedoc-sidebars.js'
+          sidebarFile: 'typedoc-sidebars.js',
+          globalsLabel: 'Summary'
         },
 
         // Pass in any additional Typescript/TypeDoc options (see typedoc --help).
@@ -166,7 +166,8 @@ module.exports = {
         readme: 'none',
         disableSources: true,
         includeVersion: false,
-        categoryOrder: ['Functions', 'Variables', '*']
+        categoryOrder: ['Functions', 'Variables', '*'],
+        allReflectionsHaveOwnDocument: true
       }
     ],
     [

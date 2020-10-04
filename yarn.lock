@@ -10045,27 +10045,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-docusaurus-plugin-typedoc@0.2.1:
-  version: 0.2.1
-  resolution: "docusaurus-plugin-typedoc@npm:0.2.1"
+"docusaurus-plugin-typedoc@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "docusaurus-plugin-typedoc@npm:0.3.0"
   dependencies:
     fs-extra: ^9.0.1
   peerDependencies:
     typedoc: ">=0.19.0"
     typedoc-plugin-markdown: ">=3.0.0"
-  checksum: cb5a6ab1a3396c6827945d8814e0330bdcf94bd9e9f38824c34eff265f61eb3f6fcdf7e50fe290a14cd9c55c576af49cdb244537b5920221f22bb6215e69be38
-  languageName: node
-  linkType: hard
-
-"docusaurus-plugin-typedoc@patch:docusaurus-plugin-typedoc@0.2.1#patches/docusaurus-plugin-typedoc.patch::locator=webshell-project%40workspace%3A.":
-  version: 0.2.1
-  resolution: "docusaurus-plugin-typedoc@patch:docusaurus-plugin-typedoc@npm%3A0.2.1#patches/docusaurus-plugin-typedoc.patch::version=0.2.1&hash=f11d1c&locator=webshell-project%40workspace%3A."
-  dependencies:
-    fs-extra: ^9.0.1
-  peerDependencies:
-    typedoc: ">=0.19.0"
-    typedoc-plugin-markdown: ">=3.0.0"
-  checksum: 4aaee94672b1db27fd604ce75bb5fe7f28263a14514977486cf89c1c88d0126d4a840794cc07e9c63669720b8e211c1af4fc5d7a6e4c99960690752fe2373dfa
+  checksum: 1f0894b9e41ea1436421678bf9c7e69b0ed7d2937353ff3739fd98c2a9468d17f8f9c6b5bbc1345294b4679fc6b3deb9ea851d56e63561413d91449e3ee6f456
   languageName: node
   linkType: hard
 
@@ -24959,18 +24947,18 @@ resolve@~1.12.0:
   languageName: node
   linkType: hard
 
-"typedoc-plugin-markdown@npm:^3.0.5":
-  version: 3.0.5
-  resolution: "typedoc-plugin-markdown@npm:3.0.5"
+"typedoc-plugin-markdown@npm:^3.0.6":
+  version: 3.0.6
+  resolution: "typedoc-plugin-markdown@npm:3.0.6"
   dependencies:
     handlebars: ^4.7.6
   peerDependencies:
     typedoc: ">=0.19.0"
-  checksum: b7467d1fc0a36b0b31c3b76fec1421dd1c48b4f1e4bc4d835472b3346134713e0706c3437900c3870b46e0b83012f5ab085f5ceef7a4c718e53be926c5513280
+  checksum: e783203d7da052e6503d128eaaf70f1d19589415cfbe808925d4130cdf5aaa2136d7cd78310bbcc838715145b9de3e9593e6146598049b20c60bd54e4398b1fe
   languageName: node
   linkType: hard
 
-typedoc@0.19.2:
+"typedoc@npm:^0.19.2":
   version: 0.19.2
   resolution: "typedoc@npm:0.19.2"
   dependencies:
@@ -24990,29 +24978,6 @@ typedoc@0.19.2:
   bin:
     typedoc: bin/typedoc
   checksum: fc33909c4d66a390fd6dfe7ef88a979d799413403af3f3dea4e320ea5cee07f06d5fda57b9b0872fad0b17a540ebe5e1a8829618c731d9dd7837ddfef8e9f2bf
-  languageName: node
-  linkType: hard
-
-"typedoc@patch:typedoc@0.19.2#patches/typedoc.patch::locator=webshell-project%40workspace%3A.":
-  version: 0.19.2
-  resolution: "typedoc@patch:typedoc@npm%3A0.19.2#patches/typedoc.patch::version=0.19.2&hash=1546ee&locator=webshell-project%40workspace%3A."
-  dependencies:
-    fs-extra: ^9.0.1
-    handlebars: ^4.7.6
-    highlight.js: ^10.2.0
-    lodash: ^4.17.20
-    lunr: ^2.3.9
-    marked: ^1.1.1
-    minimatch: ^3.0.0
-    progress: ^2.0.3
-    semver: ^7.3.2
-    shelljs: ^0.8.4
-    typedoc-default-themes: ^0.11.4
-  peerDependencies:
-    typescript: 3.9.x || 4.0.x
-  bin:
-    typedoc: bin/typedoc
-  checksum: c9a66200c6e724474e8ae41db9796780012247b2ddeb70d1f3d27414a66487395a5573c0d51982cd27be258fc9be63b7dc511c74d5cc862acf493f1d0a6ff26d
   languageName: node
   linkType: hard
 
@@ -26253,12 +26218,12 @@ typedoc@0.19.2:
     "@docusaurus/preset-classic": 2.0.0-alpha.64
     "@mdx-js/react": ^1.5.8
     clsx: ^1.1.1
-    docusaurus-plugin-typedoc: ^0.2.1
+    docusaurus-plugin-typedoc: ^0.3.0
     qrcode.react: ^1.0.0
     react: ^16.13.1
     react-dom: ^16.8.4
     typedoc: ^0.19.2
-    typedoc-plugin-markdown: ^3.0.5
+    typedoc-plugin-markdown: ^3.0.6
   languageName: unknown
   linkType: soft
 

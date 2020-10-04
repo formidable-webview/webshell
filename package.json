@@ -40,9 +40,7 @@
     "react": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.3.tar.gz",
     "react-test-renderer": "16.13.1",
-    "react-native-webview": "10.7.0",
-    "typedoc": "patch:typedoc@0.19.2#patches/typedoc.patch",
-    "docusaurus-plugin-typedoc": "patch:docusaurus-plugin-typedoc@0.2.1#patches/docusaurus-plugin-typedoc.patch"
+    "react-native-webview": "10.7.0"
   },
   "author": "Jules Sam. Randolph <jules.sam.randolph@gmail.com> (https://github.com/jsamr)",
   "license": "MIT",
