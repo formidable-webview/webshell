@@ -5,13 +5,13 @@ import { render } from '@testing-library/react-native';
 import { makeWebshell } from '../../make-webshell';
 import {
   HandleElementCSSBoxFeature,
-  ElementCSSBoxDimensions,
-  CSSBox
+  ElementCSSBoxDimensions
 } from '../HandleElementCSSBoxFeature';
+import type { DOMRectSize } from '../../types';
 
 const { waitForErsatz } = makeErsatzTesting(Ersatz);
 
-const boxMatcher: Record<keyof CSSBox, any> = {
+const boxMatcher: Record<keyof DOMRectSize, any> = {
   width: expect.any(Number),
   height: expect.any(Number)
 };

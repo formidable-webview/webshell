@@ -30,14 +30,6 @@ export interface AutoheightState<S extends WebshellProps<MinimalWebViewProps, [E
 // @public
 export type AutoheightSyncState = 'init' | 'syncing' | 'synced';
 
-// @public (undocumented)
-export interface CSSBox {
-    // (undocumented)
-    height: number;
-    // (undocumented)
-    width: number;
-}
-
 // @public
 export interface CSSBoxDimensionsComputedStyle {
     // (undocumented)
@@ -123,10 +115,10 @@ export interface DOMUtils {
 
 // @public
 export interface ElementCSSBoxDimensions {
-    borderBox: CSSBox;
+    borderBox: DOMRectSize;
     computedStyle: CSSBoxDimensionsComputedStyle;
     horizontalScrollbarWidth: number;
-    scrollBox: CSSBox;
+    scrollBox: DOMRectSize;
     verticalScrollbarWidth: number;
 }
 

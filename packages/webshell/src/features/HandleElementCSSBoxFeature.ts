@@ -1,6 +1,6 @@
 import script from './HandleElementCSSBoxFeature.webjs';
 import { FeatureBuilder } from '../FeatureBuilder';
-import type { DOMElementRequest, PropDefinition } from '../types';
+import type { DOMElementRequest, DOMRectSize, PropDefinition } from '../types';
 import type { FeatureClass } from '../Feature';
 
 /**
@@ -20,14 +20,6 @@ export interface HandleElementCSSBoxDimensionsOptions {
    * @defaultValue false
    */
   shouldThrowWhenNotFound?: boolean;
-}
-
-/**
- * @public
- */
-export interface CSSBox {
-  width: number;
-  height: number;
 }
 
 /**
@@ -72,7 +64,7 @@ export interface ElementCSSBoxDimensions {
    * {@link https://drafts.csswg.org/cssom-view/#dom-element-scrollwidth},
    * `scrollWidth` and `scrollHeight` for a reference.
    */
-  scrollBox: CSSBox;
+  scrollBox: DOMRectSize;
   /**
    * The border box as specified in the
    * {@link https://drafts.csswg.org/css-box-3/#valdef-box-border-box | CSS Box Model}.
@@ -81,7 +73,7 @@ export interface ElementCSSBoxDimensions {
    * Margin, padding and content boxes can be derived from
    * {@link ElementCSSBoxDimensions.computedStyle}.
    */
-  borderBox: CSSBox;
+  borderBox: DOMRectSize;
   /**
    * The computed box style. See
    * {@link https://developer.mozilla.org/docs/Web/API/Window/getComputedStyle | window.getComputedStyle()}.
