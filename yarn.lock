@@ -24947,14 +24947,14 @@ resolve@~1.12.0:
   languageName: node
   linkType: hard
 
-"typedoc-plugin-markdown@npm:^3.0.6":
-  version: 3.0.6
-  resolution: "typedoc-plugin-markdown@npm:3.0.6"
+"typedoc-plugin-markdown@npm:^3.0.7":
+  version: 3.0.7
+  resolution: "typedoc-plugin-markdown@npm:3.0.7"
   dependencies:
     handlebars: ^4.7.6
   peerDependencies:
     typedoc: ">=0.19.0"
-  checksum: e783203d7da052e6503d128eaaf70f1d19589415cfbe808925d4130cdf5aaa2136d7cd78310bbcc838715145b9de3e9593e6146598049b20c60bd54e4398b1fe
+  checksum: d0e0e139f2392fa58e2de07f9a3b04126a1e674333b35e8d28163456320e6f9de1da1a46d398433ac6be9b99922f865ef8f46ff1fe3b389a15d0382f68b3b9fb
   languageName: node
   linkType: hard
 
@@ -26223,7 +26223,7 @@ resolve@~1.12.0:
     react: ^16.13.1
     react-dom: ^16.8.4
     typedoc: ^0.19.2
-    typedoc-plugin-markdown: ^3.0.6
+    typedoc-plugin-markdown: ^3.0.7
   languageName: unknown
   linkType: soft
 
