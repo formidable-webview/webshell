@@ -14,7 +14,6 @@ module.exports = [
     "items": [
       "api/interfaces/autoheightparams",
       "api/interfaces/autoheightstate",
-      "api/interfaces/cssbox",
       "api/interfaces/cssboxdimensionscomputedstyle",
       "api/interfaces/domrect",
       "api/interfaces/domrectsize",
