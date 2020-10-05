@@ -9,6 +9,8 @@ export type {
   DOMRect,
   DOMRectSize,
   DOMUtils,
+  ExtractFeatureFromClass,
+  ExtractPropsFromFeature,
   ExtractPropsFromSpecs,
   ExtractWebHandlerSpecFromDef,
   ExtractWebHandlerSpecsFromFeature,

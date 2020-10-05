@@ -1,12 +1,17 @@
 import * as React from 'react';
-import type { MinimalWebViewProps, WebshellProps, DOMRectSize } from '../types';
+import type {
+  DOMRectSize,
+  ExtractFeatureFromClass,
+  MinimalWebViewProps,
+  WebshellProps
+} from '../types';
 import type {
   HTMLDimensions,
   HandleHTMLDimensionsFeature,
   HTMLDimensionsImplementation
 } from '../features/HandleHTMLDimensionsFeature';
 import { StyleProp, ViewStyle } from 'react-native';
-import { Feature, ExtractFeatureFromClass } from '../Feature';
+import { Feature } from '../Feature';
 
 const initialDimensions = { width: undefined, height: undefined };
 

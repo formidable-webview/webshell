@@ -6,9 +6,30 @@ import type {
   ComponentPropsWithoutRef,
   Ref
 } from 'react';
-import type { Feature, FeatureClass, ExtractFeatureFromClass } from './Feature';
+import type { Feature, FeatureClass } from './Feature';
 
 // LOOKUP TYPES
+
+/**
+ * A lookup type to extract the instance from a {@link FeatureClass}.
+ *
+ * @typeparam F - The type of the feature class to infer from.
+ *
+ * @example
+ *
+ * ```ts
+ * type ForceElementInstanceType = ExtractFeatureFromClass<typeof ForceElementSizeFeature>;
+ * ```
+ *
+ * @public
+ */
+export type ExtractFeatureFromClass<F> = F extends FeatureClass<
+  infer O,
+  infer S,
+  infer W
+>
+  ? Feature<O, S, W>
+  : never;
 
 /**
  * A lookup type to get the shell component from `WebView` and feature classes.
@@ -35,9 +56,11 @@ export type ExtractWebshellFromFeatClass<
 /**
  * A lookup type to extract Web Handler specs from {@link WebHandlerDefinition}.
  *
+ * @typeparam W - The type for the webhandler definition to which specs should be built.
+ *
  * @public
  */
-export type ExtractWebHandlerSpecFromDef<S> = S extends WebHandlerDefinition<
+export type ExtractWebHandlerSpecFromDef<W> = W extends WebHandlerDefinition<
   infer P,
   infer I
 >
@@ -49,6 +72,8 @@ export type ExtractWebHandlerSpecFromDef<S> = S extends WebHandlerDefinition<
 /**
  * A lookup type to extract props from {@link PropsSpecs}.
  *
+ * @typeparam S - The type for the specs to which props should be extracted.
+ *
  * @public
  */
 export type ExtractPropsFromSpecs<S> = S extends PropsSpecs<infer N, any>
@@ -59,6 +84,8 @@ export type ExtractPropsFromSpecs<S> = S extends PropsSpecs<infer N, any>
 
 /**
  * A lookup type to extract Web handler specs from {@link Feature}.
+ *
+ * @typeparam F - The type of the feature from which handler specs should be extracted.
  *
  * @public
  */
@@ -72,6 +99,8 @@ export type ExtractWebHandlerSpecsFromFeature<F> = F extends Feature<
 
 /**
  * A lookup type to infer the additional props from a feature.
+ *
+ * @typeparam F - The type of the feature from which prop specs should be extracted.
  *
  * @public
  */

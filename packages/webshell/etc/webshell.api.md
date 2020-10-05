@@ -126,10 +126,13 @@ export interface ElementCSSBoxDimensions {
 export type ExtractFeatureFromClass<F> = F extends FeatureClass<infer O, infer S, infer W> ? Feature<O, S, W> : never;
 
 // @public
+export type ExtractPropsFromFeature<F> = F extends Feature<any, infer P, any> ? ExtractPropsFromSpecs<P> : {};
+
+// @public
 export type ExtractPropsFromSpecs<S> = S extends PropsSpecs<infer N, any> ? S[N] extends never ? {} : Required<S[N]>['signature'] : never;
 
 // @public
-export type ExtractWebHandlerSpecFromDef<S> = S extends WebHandlerDefinition<infer P, infer I> ? {
+export type ExtractWebHandlerSpecFromDef<W> = W extends WebHandlerDefinition<infer P, infer I> ? {
     [k in I]: WebHandlerDefinition<P, I>;
 } : never;
 
@@ -384,8 +387,6 @@ export interface WebshellInvariantProps {
     webshellStrictMode?: boolean;
 }
 
-// Warning: (ae-forgotten-export) The symbol "ExtractPropsFromFeature" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type WebshellProps<W extends MinimalWebViewProps, F extends Feature<any, any, any>[]> = WebshellInvariantProps & W & (F[number] extends never ? {} : ExtractPropsFromFeature<F[number]>);
 

@@ -18,20 +18,6 @@ export interface FeatureClass<
   name: string;
   identifier: string;
 }
-
-/**
- * A lookup type to extract the instance from a {@link FeatureClass}.
- *
- * @public
- */
-export type ExtractFeatureFromClass<F> = F extends FeatureClass<
-  infer O,
-  infer S,
-  infer W
->
-  ? Feature<O, S, W>
-  : never;
-
 /**
  * A feature encapsulates injectable behaviors in a WebView.
  *
