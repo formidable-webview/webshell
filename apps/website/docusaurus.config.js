@@ -125,13 +125,14 @@ module.exports = {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
-          editUrl: 'https://github.com/facebook/docusaurus/edit/master/website/'
+          editUrl:
+            'https://github.com/formidable-webview/webshell/tree/master/apps/website/docs'
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
           editUrl:
-            'https://github.com/facebook/docusaurus/edit/master/website/blog/'
+            'https://github.com/formidable-webview/webshell/tree/master/apps/website/blog'
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css')
