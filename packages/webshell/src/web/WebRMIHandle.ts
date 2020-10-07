@@ -25,14 +25,14 @@ export class WebRMIHandle extends WebRMIController implements WebHandle {
     S extends ExtractWebHandlerSpecFromDef<D>
   >(
     feat: Feature<any, any, S>,
-    handlerId: D['handlerId'],
+    eventId: D['eventId'],
     message: D['payload']
   ) {
-    if (!feat.hasWebHandler(handlerId)) {
+    if (!feat.hasWebHandler(eventId)) {
       this.reporter.dispatchError(
         'WEBSH_FEAT_MISSING_WEB_HANDLER',
         feat.identifier,
-        handlerId
+        eventId
       );
       return;
     }
@@ -44,7 +44,7 @@ export class WebRMIHandle extends WebRMIController implements WebHandle {
       return;
     }
     this
-      .injectJavaScript`window.ReactNativeWebshell.postMessageToWeb(${feat.identifier},${handlerId},${message});`;
+      .injectJavaScript`window.ReactNativeWebshell.postMessageToWeb(${feat.identifier},${eventId},${message});`;
   }
 
   setDebug(debug: boolean) {

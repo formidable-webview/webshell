@@ -162,13 +162,13 @@ export type FeatureDefinition<O extends {}> = {
 /**
  * An object to define an API to send messages from shell to Web.
  *
- * @typeparam I - A type for the unique handler identifier to disambiguate between messages sent to Web handlers.
+ * @typeparam I - A type for the event identifier.
  * @typeparam P - A type describing the shape of payloads sent to Web handlers.
  *
  * @public
  */
 export interface WebHandlerDefinition<P, I extends string> {
-  handlerId: I;
+  eventId: I;
   payload?: P;
   async: false;
 }
@@ -176,7 +176,7 @@ export interface WebHandlerDefinition<P, I extends string> {
 /**
  * An object describing the structure of messages a feature Web script can handle.
  *
- * @typeparam I - A type for the unique handler identifier to disambiguate between messages sent to Web handlers.
+ * @typeparam I - A type for the event identifier.
  * @typeparam P - A type describing the shape of payloads sent to Web handlers.
  *
  * @public
@@ -194,7 +194,7 @@ export type WebHandlersSpecs<P = {}, I extends string = string> = {
  * @public
  */
 export type PropDefinition<N extends string, P> = {
-  handlerId: string;
+  eventId: string;
   type: 'handler' | 'inert';
   featureIdentifier: string;
   name: N;
@@ -228,7 +228,7 @@ export interface WebHandle {
    *
    *
    * @param feat - The feature to which a message should be sent.
-   * @param handlerId - The handler identifier used in the Web script to register a listener.
+   * @param eventId - A unique identifier for the event sent to the Web script.
    * @param payload - The type of the message to sent.
    */
   postMessageToWeb<
@@ -236,7 +236,7 @@ export interface WebHandle {
     H extends keyof ExtractWebHandlerSpecsFromFeature<F>
   >(
     feat: F,
-    handlerId: H,
+    eventId: H,
     payload: Required<ExtractWebHandlerSpecsFromFeature<F>[H]>['payload']
   ): void;
 }
@@ -355,7 +355,7 @@ export interface WebjsContext<O extends {}> {
    */
   readonly options: O;
   /**
-   * Instruct the shell to call **the default handler** associated with
+   * Instruct the shell to send **the default event** associated with
    * this feature, if any.
    *
    * @param payload - The value which will be passed to the handler.
@@ -367,20 +367,20 @@ export interface WebjsContext<O extends {}> {
    * Instruct the shell to call the handler associated with this
    * feature and `eventId`, if any.
    *
-   * @param handlerId - A unique string to disambiguate between different shell handlers.
-   * You can omit this param if you are sending to `"default"` handler.
+   * @param eventId - A unique identifier for the event sent to the shell.
+   * You can omit this param if you are sending a `"default"` event identifier.
    * @param payload - The value which will be passed to the handler.
    * @typeparam P - A type describing the shape of the payload sent to shell.
    */
-  postMessageToShell<P>(handlerId: string, payload: P): void;
+  postMessageToShell<P>(eventId: string, payload: P): void;
   /**
    * Register a handler on messages sent from the shell.
    *
-   * @param handlerId - A unique string to disambiguate between different Web handlers.
+   * @param eventId - A unique identifier for the event received by the Web script.
    * @param payload - The value which will be passed to the handler.
    * @typeparam P - A type describing the shape of the payload sent by shell.
    */
-  onShellMessage<P>(handlerId: string, handler: (payload: P) => void): void;
+  onShellMessage<P>(eventId: string, handler: (payload: P) => void): void;
   /**
    * Create a function which execute a callback in a try-catch block that will
    * grab errors en send them to the `Webshell` component.

@@ -33,8 +33,8 @@ function filterWebViewProps<W>(
   }, {} as W);
 }
 
-function getHandlerUUID(identifier: string, handlerId: string) {
-  return `${identifier}:${handlerId}`;
+function getHandlerUUID(identifier: string, eventId: string) {
+  return `${identifier}:${eventId}`;
 }
 
 function extractHandlersMap(features: Feature<any, PropsSpecs<any, any>>[]) {
@@ -44,7 +44,7 @@ function extractHandlersMap(features: Feature<any, PropsSpecs<any, any>>[]) {
     .reduce((map, spec: PropDefinition<any, any>) => {
       return {
         ...map,
-        [getHandlerUUID(spec.featureIdentifier, spec.handlerId)]: spec
+        [getHandlerUUID(spec.featureIdentifier, spec.eventId)]: spec
       };
     }, {}) as Record<string, PropDefinition<any, any>>;
 }

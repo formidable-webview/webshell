@@ -65,18 +65,18 @@ export class FeatureBuilder<
    * @param propName - The name of the handler prop added to the shell.
    * It is advised to follow the convention of prefixing all these handlers
    * with `onDOM` or `onWeb` to avoid collisions with `WebView` own props.
-   * @param handlerId - The unique identifier of the handler that will be used by the Web
-   * script to post a message. If none is provided, fallback to `"default"`.
+   * @param eventId - A unique identifier for the event received by the shell.
+   * If none is provided, fallback to `"default"`.
    *
    * @typeparam N - A type to define the name of the prop.
    * @typeparam P - A type describing the shape of payloads sent to shell handlers.
    */
   withShellHandler<P, N extends string>(
     propName: N,
-    handlerId: string = 'default'
+    eventId: string = 'default'
   ) {
     const propDefinition: PropDefinition<N, (p: P) => void> = {
-      handlerId,
+      eventId,
       name: propName,
       featureIdentifier: this.config.identifier,
       type: 'handler'
@@ -96,12 +96,12 @@ export class FeatureBuilder<
    * Instruct that the Web script will receive events from the shell.
    * See {@link WebshellInvariantProps.webHandleRef}, {@link WebHandle.postMessageToWeb} and {@link WebjsContext.onShellMessage}.
    *
-   * @param handlerId - The name of the handler in the Web script.
+   * @param eventId - A unique identifier for the event received by the Web script.
    *
-   * @typeparam I - A type for the unique handler identifier to disambiguate between messages sent to Web handlers.
+   * @typeparam I - A type for the event identifier.
    * @typeparam P - A type describing the shape of payloads sent to Web handlers.
    */
-  withWebHandler<P = undefined, I extends string = string>(handlerId: I) {
+  withWebHandler<P = undefined, I extends string = string>(eventId: I) {
     return new FeatureBuilder<
       O,
       S,
@@ -110,7 +110,7 @@ export class FeatureBuilder<
       ...this.config,
       __webSpecs: {
         ...(this.config.__webSpecs || {}),
-        [handlerId]: { async: false, handlerId }
+        [eventId]: { async: false, eventId }
       }
     });
   }

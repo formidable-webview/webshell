@@ -20,7 +20,7 @@ interface WebViewMessage {
 
 interface PostMessage {
   identifier: string;
-  handlerId: string;
+  eventId: string;
   type: 'feature' | 'error' | 'log' | 'init';
   severity: 'warn' | 'info';
   body: any;
@@ -63,24 +63,24 @@ function useWebMessageBus(
     ({ nativeEvent }: NativeSyntheticEvent<WebViewMessage>) => {
       const parsedJSON = parseJSONSafe(nativeEvent.data);
       if (isPostMessageObject(parsedJSON)) {
-        const { type, identifier, body, handlerId, severity } = parsedJSON;
+        const { type, identifier, body, eventId, severity } = parsedJSON;
         if (type === 'init') {
           setIsLoaderReady(true);
           return;
         }
         if (type === 'feature') {
-          const propDef = registry.getPropDefFromId(identifier, handlerId);
+          const propDef = registry.getPropDefFromId(identifier, eventId);
           if (!propDef) {
             reporter.dispatchError(
               'WEBSH_MISSING_SHELL_HANDLER',
               identifier,
-              handlerId
+              eventId
             );
             return;
           }
           const handlerName = propDef.name;
           const handler =
-            typeof handlerId === 'string' ? domHandlers[handlerName] : null;
+            typeof eventId === 'string' ? domHandlers[handlerName] : null;
           if (typeof handler === 'function') {
             handler(body);
           }

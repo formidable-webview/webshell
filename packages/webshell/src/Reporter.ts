@@ -28,14 +28,14 @@ interface ErrorDefinition<E extends ErrorCode> {
 const codes: Record<ErrorCode, ErrorDefinition<ErrorCode>> = {
   WEBSH_MISSING_SHELL_HANDLER: {
     code: 'WEBSH_MISSING_SHELL_HANDLER',
-    verbose: function (identifier, handlerId) {
-      return describe`Web script from feature "${identifier}" sent an event for "${handlerId}" shell handler, but there is no shell handler registered for this feature. Use FeatureBuilder.withShellHandler to register that handler, or make sure its name is not misspell in the DOM script.`;
+    verbose: function (identifier, eventId) {
+      return describe`Web script from feature "${identifier}" sent an event for "${eventId}" shell handler, but there is no shell handler registered for this feature. Use FeatureBuilder.withShellHandler to register that handler, or make sure its name is not misspell in the DOM script.`;
     }
   },
   WEBSH_FEAT_MISSING_WEB_HANDLER: {
     code: 'WEBSH_FEAT_MISSING_WEB_HANDLER',
-    verbose: function (identifier, handlerId) {
-      return describe`Feature "${identifier}" has no Web handler with ID "${handlerId}".`;
+    verbose: function (identifier, eventId) {
+      return describe`Feature "${identifier}" has no Web handler with ID "${eventId}".`;
     }
   },
   WEBSH_FEAT_MISSING_IN_SHELL: {

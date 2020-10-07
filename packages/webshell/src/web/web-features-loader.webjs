@@ -128,20 +128,20 @@ function registerFeature(specs) {
     options: snippetOptions,
     utils: domUtils,
     makeCallbackSafe: __makeCallbackSafe,
-    onShellMessage: function (handlerId, messageHandler) {
-      messagesHandlerRegistry[specs.identifier][handlerId] = __makeCallbackSafe(
+    onShellMessage: function (eventId, messageHandler) {
+      messagesHandlerRegistry[specs.identifier][eventId] = __makeCallbackSafe(
         messageHandler
       );
     },
     postMessageToShell: function () {
       var message = arguments.length > 1 ? arguments[1] : arguments[0];
-      var handlerId = arguments.length > 1 ? arguments[0] : 'default';
+      var eventId = arguments.length > 1 ? arguments[0] : 'default';
       safePostMessage(
         JSON.stringify({
           type: 'feature',
           identifier: snippetIdentifier,
           body: message,
-          handlerId: handlerId,
+          eventId: eventId,
           __isWebshellPostMessage: true
         })
       );
@@ -162,10 +162,10 @@ window.ReactNativeWebshell = {
   debug: true,
   registerFeature: registerFeature,
   sendErrorMessage: sendErrorMessage,
-  postMessageToWeb: function (identifier, handlerId, message) {
+  postMessageToWeb: function (identifier, eventId, message) {
     var identifierReg = messagesHandlerRegistry[identifier];
     if (identifierReg) {
-      var handler = identifierReg[handlerId];
+      var handler = identifierReg[eventId];
       typeof handler === 'function' && handler(message);
     }
   }

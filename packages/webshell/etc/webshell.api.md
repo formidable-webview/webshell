@@ -150,7 +150,7 @@ export abstract class Feature<O extends {} = {}, P extends PropsSpecs<any, any> 
     }, options: O);
     readonly defaultOptions: Required<O>;
     // @internal (undocumented)
-    hasWebHandler(handlerId: string): boolean;
+    hasWebHandler(eventId: string): boolean;
     readonly identifier: string;
     readonly options: O;
     readonly propSpecs: P;
@@ -162,8 +162,8 @@ export abstract class Feature<O extends {} = {}, P extends PropsSpecs<any, any> 
 export class FeatureBuilder<O extends {} = {}, S extends PropsSpecs<any, any> = {}, W extends WebHandlersSpecs<any> = {}> {
     constructor(config: FeatureBuilderConfig<O>);
     build(): FeatureClass<O, S, W>;
-    withShellHandler<P, N extends string>(propName: N, handlerId?: string): FeatureBuilder<O, S & PropsSpecs<N, (p: P) => void>, W>;
-    withWebHandler<P = undefined, I extends string = string>(handlerId: I): FeatureBuilder<O, S, W & { [k in I]: WebHandlerDefinition<P, I>; }>;
+    withShellHandler<P, N extends string>(propName: N, eventId?: string): FeatureBuilder<O, S & PropsSpecs<N, (p: P) => void>, W>;
+    withWebHandler<P = undefined, I extends string = string>(eventId: I): FeatureBuilder<O, S, W & { [k in I]: WebHandlerDefinition<P, I>; }>;
 }
 
 // @public
@@ -322,7 +322,7 @@ export interface MinimalWebViewProps {
 
 // @public
 export type PropDefinition<N extends string, P> = {
-    handlerId: string;
+    eventId: string;
     type: 'handler' | 'inert';
     featureIdentifier: string;
     name: N;
@@ -346,7 +346,7 @@ export interface VisualViewportDimensions {
 
 // @public
 export interface WebHandle {
-    postMessageToWeb<F extends Feature<any, any, any>, H extends keyof ExtractWebHandlerSpecsFromFeature<F>>(feat: F, handlerId: H, payload: Required<ExtractWebHandlerSpecsFromFeature<F>[H]>['payload']): void;
+    postMessageToWeb<F extends Feature<any, any, any>, H extends keyof ExtractWebHandlerSpecsFromFeature<F>>(feat: F, eventId: H, payload: Required<ExtractWebHandlerSpecsFromFeature<F>[H]>['payload']): void;
 }
 
 // @public
@@ -354,7 +354,7 @@ export interface WebHandlerDefinition<P, I extends string> {
     // (undocumented)
     async: false;
     // (undocumented)
-    handlerId: I;
+    eventId: I;
     // (undocumented)
     payload?: P;
 }
@@ -368,10 +368,10 @@ export type WebHandlersSpecs<P = {}, I extends string = string> = {
 export interface WebjsContext<O extends {}> {
     info(message: string): void;
     makeCallbackSafe<T extends Function>(callback: T): T;
-    onShellMessage<P>(handlerId: string, handler: (payload: P) => void): void;
+    onShellMessage<P>(eventId: string, handler: (payload: P) => void): void;
     readonly options: O;
     postMessageToShell<P>(payload: P): void;
-    postMessageToShell<P>(handlerId: string, payload: P): void;
+    postMessageToShell<P>(eventId: string, payload: P): void;
     utils: DOMUtils;
     warn(message: string): void;
 }

@@ -89,7 +89,7 @@ export abstract class Feature<
   /**
    * @internal
    */
-  hasWebHandler(handlerId: string) {
-    return !!this.webSpecs[handlerId];
+  hasWebHandler(eventId: string) {
+    return !!this.webSpecs[eventId];
   }
 }

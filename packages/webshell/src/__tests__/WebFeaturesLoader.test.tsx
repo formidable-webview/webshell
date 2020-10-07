@@ -25,7 +25,7 @@ const eventShape = expect.objectContaining({
       type: 'feature',
       identifier: HelloFeature.identifier,
       body: 'Hello world!',
-      handlerId: 'default',
+      eventId: 'default',
       __isWebshellPostMessage: true
     })
   })
