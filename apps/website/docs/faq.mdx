@@ -47,3 +47,7 @@ bundled from features.
 **Yes**. It will intercept specific events created by features, and hoist any
 message which doesn't comply to very specific requirements towards the controlling
 component.
+
+## Isn't `HandleOnLinkPressFeature` redundant with `onNavigationStateChange` prop?
+
+**Somehow**. But <APIReference reference="HandleOnLinkPressFeature" type="variable" /> is more reliable. On Android, calling `webView.stopLoading()` [will disable further taps from the same page](https://stackoverflow.com/a/54115883/2779871), leading to a lot of undesired behaviors.
