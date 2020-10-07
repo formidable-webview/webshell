@@ -2907,45 +2907,48 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@formidable-webview/ersatz-core@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "@formidable-webview/ersatz-core@npm:1.0.0"
+"@formidable-webview/ersatz-core@npm:2.0.2":
+  version: 2.0.2
+  resolution: "@formidable-webview/ersatz-core@npm:2.0.2"
   peerDependencies:
     react: "*"
     react-native: "*"
     react-native-webview: "*"
-  checksum: 771cf4a76871aa91afb0c2d84aee738ffbe32fd9f6dbec4487256374a38dc2b0a6b68cec948da13f39e3c62bab1312297510f6fc78cb0facbf471962d2d0a9e5
+  checksum: ba1539b8ece1e4ab3e2c810e12d882b2502dbf23ca1879211e7241eb1368a55a0b23a3fe87c91dd42b7f84285ef52a2a0baf0c0106d6387830e00fb5911e8652
   languageName: node
   linkType: hard
 
-"@formidable-webview/ersatz-testing@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "@formidable-webview/ersatz-testing@npm:1.0.1"
+"@formidable-webview/ersatz-testing@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "@formidable-webview/ersatz-testing@npm:2.0.1"
   dependencies:
-    "@formidable-webview/ersatz-core": ^1.0.0
+    "@formidable-webview/ersatz-core": 2.0.2
+    "@formidable-webview/skeletton": 1.0.1
   peerDependencies:
     "@testing-library/react-native": ">=7.0.1"
     jest: "*"
     react: "*"
     react-native: "*"
-  checksum: c5bb63591ca0dc300be0a240d08f517962cb0312a931680773e1fe0667eb3529d7b4ebda1eff3cae1cc7da18b64784e536d04a98358b36f1876f64d0fefe658a
+    react-native-webview: "*"
+  checksum: f85b0b48e84754a72d6ef47d12c84b600f5840344bbe3d73a6dd5a86378e6427f830070630d4cc61e2298bc38d0893816a59ebca17389f8e3b97384071dd59f7
   languageName: node
   linkType: hard
 
-"@formidable-webview/ersatz@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "@formidable-webview/ersatz@npm:1.0.1"
+"@formidable-webview/ersatz@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "@formidable-webview/ersatz@npm:2.0.1"
   dependencies:
-    "@formidable-webview/ersatz-core": ^1.0.0
+    "@formidable-webview/ersatz-core": 2.0.2
+    "@formidable-webview/skeletton": 1.0.1
     assert: ^2.0.0
     canvas: ^2.6.1
-    jsdom: "github:tobyhinloopen/jsdom#2792-replace-request-with-node-fetch"
-    node-fetch: ^3.0.0-beta.8
+    jsdom: "tobyhinloopen/jsdom#2792-replace-request-with-node-fetch"
+    node-fetch: ^3.0.0-beta.9
   peerDependencies:
     react: "*"
     react-native: "*"
     react-native-webview: ">= 7.6.0 < 11"
-  checksum: e22b7719bb117e1333085bf5323d1d411c053d50ed8a76c9b2e7fca21b1d8e249a63fc859a569af84a3c1deafc40a456a932f99efbd9078fd2496e4730d323dd
+  checksum: 8d95acdcdca0a77907da9fca8bf90a09f94f77c93be133954a79814df042ca7730270b8822aebc77cad5823b9092fef4cf36fd84459d8d6f9bc594e0dbf24d0e
   languageName: node
   linkType: hard
 
@@ -2959,6 +2962,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@formidable-webview/skeletton@npm:1.0.1":
+  version: 1.0.1
+  resolution: "@formidable-webview/skeletton@npm:1.0.1"
+  dependencies:
+    "@formidable-webview/ersatz-core": 2.0.2
+    assert: ^2.0.0
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+    react-native-webview: ">= 7.6.0 < 11"
+  checksum: 314895ecce06c371d528937cbc9c6943057f1ac19adfff71580bae138a6509a92637595c102647a93fbe1b1987841f98afae6a4314c00d3047b35a9b9b69c07f
+  languageName: node
+  linkType: hard
+
 "@formidable-webview/webshell@workspace:*, @formidable-webview/webshell@workspace:packages/webshell":
   version: 0.0.0-use.local
   resolution: "@formidable-webview/webshell@workspace:packages/webshell"
@@ -2969,8 +2986,8 @@ __metadata:
     "@babel/preset-typescript": ^7.10.4
     "@babel/runtime": ^7.11.2
     "@docusaurus/init": next
-    "@formidable-webview/ersatz": ^1.0.1
-    "@formidable-webview/ersatz-testing": ^1.0.1
+    "@formidable-webview/ersatz": ^2.0.1
+    "@formidable-webview/ersatz-testing": ^2.0.1
     "@microsoft/api-extractor": 7.9.22
     "@react-native-community/bob": ^0.16.2
     "@release-it/conventional-changelog": ^2.0.0
@@ -15659,7 +15676,46 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"jsdom@github:tobyhinloopen/jsdom#2792-replace-request-with-node-fetch":
+"jsdom@npm:^16.2.2":
+  version: 16.4.0
+  resolution: "jsdom@npm:16.4.0"
+  dependencies:
+    abab: ^2.0.3
+    acorn: ^7.1.1
+    acorn-globals: ^6.0.0
+    cssom: ^0.4.4
+    cssstyle: ^2.2.0
+    data-urls: ^2.0.0
+    decimal.js: ^10.2.0
+    domexception: ^2.0.1
+    escodegen: ^1.14.1
+    html-encoding-sniffer: ^2.0.1
+    is-potential-custom-element-name: ^1.0.0
+    nwsapi: ^2.2.0
+    parse5: 5.1.1
+    request: ^2.88.2
+    request-promise-native: ^1.0.8
+    saxes: ^5.0.0
+    symbol-tree: ^3.2.4
+    tough-cookie: ^3.0.1
+    w3c-hr-time: ^1.0.2
+    w3c-xmlserializer: ^2.0.0
+    webidl-conversions: ^6.1.0
+    whatwg-encoding: ^1.0.5
+    whatwg-mimetype: ^2.3.0
+    whatwg-url: ^8.0.0
+    ws: ^7.2.3
+    xml-name-validator: ^3.0.0
+  peerDependencies:
+    canvas: ^2.5.0
+  peerDependenciesMeta:
+    canvas:
+      optional: true
+  checksum: adca681df01b62452970357bb941c5a0a67f784afbf32c57bb07d7b3799a853f161e4c7a1ccce75fd9089b5c5e5601acf9eab5fe440899d96c08b5bdc3d2cad5
+  languageName: node
+  linkType: hard
+
+"jsdom@tobyhinloopen/jsdom#2792-replace-request-with-node-fetch":
   version: 16.2.2
   resolution: "jsdom@https://github.com/tobyhinloopen/jsdom.git#commit=a38237854490e072a25635becd5cd795ba40c6c1"
   dependencies:
@@ -15700,45 +15756,6 @@ fsevents@^1.2.7:
     canvas:
       optional: true
   checksum: 6bc29f1acfd372da1f4008a36439846e027b110e1603d2171edadf565ca3a1812f3a13594c0961b1eae4645970574b4ed0963cc2160be2774d7cb22ce66b0a61
-  languageName: node
-  linkType: hard
-
-"jsdom@npm:^16.2.2":
-  version: 16.4.0
-  resolution: "jsdom@npm:16.4.0"
-  dependencies:
-    abab: ^2.0.3
-    acorn: ^7.1.1
-    acorn-globals: ^6.0.0
-    cssom: ^0.4.4
-    cssstyle: ^2.2.0
-    data-urls: ^2.0.0
-    decimal.js: ^10.2.0
-    domexception: ^2.0.1
-    escodegen: ^1.14.1
-    html-encoding-sniffer: ^2.0.1
-    is-potential-custom-element-name: ^1.0.0
-    nwsapi: ^2.2.0
-    parse5: 5.1.1
-    request: ^2.88.2
-    request-promise-native: ^1.0.8
-    saxes: ^5.0.0
-    symbol-tree: ^3.2.4
-    tough-cookie: ^3.0.1
-    w3c-hr-time: ^1.0.2
-    w3c-xmlserializer: ^2.0.0
-    webidl-conversions: ^6.1.0
-    whatwg-encoding: ^1.0.5
-    whatwg-mimetype: ^2.3.0
-    whatwg-url: ^8.0.0
-    ws: ^7.2.3
-    xml-name-validator: ^3.0.0
-  peerDependencies:
-    canvas: ^2.5.0
-  peerDependenciesMeta:
-    canvas:
-      optional: true
-  checksum: adca681df01b62452970357bb941c5a0a67f784afbf32c57bb07d7b3799a853f161e4c7a1ccce75fd9089b5c5e5601acf9eab5fe440899d96c08b5bdc3d2cad5
   languageName: node
   linkType: hard
 
@@ -18164,7 +18181,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"node-fetch@npm:^3.0.0-beta.8":
+"node-fetch@npm:^3.0.0-beta.9":
   version: 3.0.0-beta.9
   resolution: "node-fetch@npm:3.0.0-beta.9"
   dependencies:

@@ -1,6 +1,9 @@
 import * as React from 'react';
 import Ersatz from '@formidable-webview/ersatz';
-import makeErsatzTesting from '@formidable-webview/ersatz-testing';
+import {
+  waitForErsatz,
+  waitForWindow
+} from '@formidable-webview/ersatz-testing';
 import { render } from '@testing-library/react-native';
 import { View } from 'react-native';
 import dummyHelloScript from './feat/DummyHello.webjs';
@@ -16,8 +19,6 @@ import {
   WebshellInvariantProps
 } from '../types';
 import { act } from 'react-test-renderer';
-
-const { waitForErsatz, waitForWindow } = makeErsatzTesting(Ersatz);
 
 const defaultWebshellProps: WebshellInvariantProps = {
   webshellDebug: true,
@@ -52,7 +53,7 @@ const OptionFeature = new FeatureBuilder({
   identifier: 'test.option',
   defaultOptions: {}
 })
-  .withShellHandler<{ foo: string }, 'onDOMDummyOption'>('onDOMDummyOption')
+  .withShellHandler<'onDOMDummyOption', { foo: string }>('onDOMDummyOption')
   .build();
 
 const HandlerIdFeature = new FeatureBuilder({
@@ -68,8 +69,8 @@ const ReceiverFeature = new FeatureBuilder({
   identifier: 'test.receiver',
   defaultOptions: {}
 })
-  .withShellHandler<string, 'onWebFeedback'>('onWebFeedback')
-  .withWebHandler<string, 'hello'>('hello')
+  .withShellHandler<'onWebFeedback', string>('onWebFeedback')
+  .withWebHandler<'hello', string>('hello')
   .build();
 
 describe('Webshell component', () => {
@@ -206,10 +207,10 @@ describe('Webshell component', () => {
   });
   it('it should provide a reference to the inner WebView', async () => {
     const Webshell = makeWebshell(Ersatz);
-    const ersatzRef = React.createRef<Ersatz>();
+    const ersatzRef = React.createRef<any>();
     await waitForErsatz(
       render(<Webshell webshellDebug={false} ref={ersatzRef} />)
     );
-    expect(ersatzRef.current).toBeInstanceOf(Ersatz);
+    expect(ersatzRef.current).toBeTruthy();
   });
 });

@@ -1,14 +1,12 @@
 import * as React from 'react';
 import Ersatz from '@formidable-webview/ersatz';
-import makeErsatzTesting from '@formidable-webview/ersatz-testing';
+import { waitForDocument } from '@formidable-webview/ersatz-testing';
 import { render } from '@testing-library/react-native';
 import { makeWebshell } from '../../make-webshell';
 import {
   HandleLinkPressFeature,
   LinkPressTarget
 } from '../HandleLinkPressFeature';
-
-const { waitForDocument } = makeErsatzTesting(Ersatz);
 
 describe('Webshell with HandleLinkPressFeature', () => {
   it('should invoke onDOMLinkPress prop when a link is pressed', async () => {

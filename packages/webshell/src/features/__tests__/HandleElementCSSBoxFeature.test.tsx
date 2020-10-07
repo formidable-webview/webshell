@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Ersatz from '@formidable-webview/ersatz';
-import makeErsatzTesting from '@formidable-webview/ersatz-testing';
+import { waitForErsatz } from '@formidable-webview/ersatz-testing';
 import { render } from '@testing-library/react-native';
 import { makeWebshell } from '../../make-webshell';
 import {
@@ -8,8 +8,6 @@ import {
   ElementCSSBoxDimensions
 } from '../HandleElementCSSBoxFeature';
 import type { DOMRectSize } from '../../types';
-
-const { waitForErsatz } = makeErsatzTesting(Ersatz);
 
 const boxMatcher: Record<keyof DOMRectSize, any> = {
   width: expect.any(Number),

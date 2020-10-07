@@ -1,15 +1,11 @@
 /// <reference lib="dom" />
 import * as React from 'react';
 import Ersatz from '@formidable-webview/ersatz';
-import makeErsatzTesting from '@formidable-webview/ersatz-testing';
+import { waitForErsatz } from '@formidable-webview/ersatz-testing';
 import { render } from '@testing-library/react-native';
 import dummyHelloScript from './feat/DummyHello.webjs';
 import { FeatureBuilder } from '../FeatureBuilder';
 import { WebFeaturesLoader } from '../web/WebFeaturesLoader';
-
-const { waitForErsatz } = makeErsatzTesting<typeof Ersatz, Document, Window>(
-  Ersatz
-);
 
 const HelloFeature = new FeatureBuilder({
   script: dummyHelloScript,
@@ -35,7 +31,7 @@ describe('Feature loader script', () => {
   it('should post messages sent from features', async () => {
     const onHello = jest.fn();
     const loader = new WebFeaturesLoader([new HelloFeature()]);
-    await waitForErsatz(
+    await waitForErsatz<Document, Window>(
       render(
         <Ersatz
           onMessage={onHello}

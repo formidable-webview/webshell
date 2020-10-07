@@ -23,11 +23,7 @@ export class WebRMIHandle extends WebRMIController implements WebHandle {
   postMessageToWeb<
     D extends WebHandlerDefinition<any, any>,
     S extends ExtractWebHandlerSpecFromDef<D>
-  >(
-    feat: Feature<any, any, S>,
-    eventId: D['eventId'],
-    message: D['payload']
-  ) {
+  >(feat: Feature<any, any, S>, eventId: D['eventId'], message: D['payload']) {
     if (!feat.hasWebHandler(eventId)) {
       this.reporter.dispatchError(
         'WEBSH_FEAT_MISSING_WEB_HANDLER',
