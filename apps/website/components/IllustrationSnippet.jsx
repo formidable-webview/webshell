@@ -6,12 +6,13 @@ const snippetContent = `const Webshell = makeWebshell(
   new HandleLinkPressFeature()
 );
 
+const onLinkPress = (target) => {
+  Linking.openURL(target.uri);
+};
+
 export default function AugmentedWebView(
   webViewProps
 ) {
-  const onLinkPress = (target) => {
-    Linking.openURL(target.uri);
-  };
   return (
     <Webshell
       onDOMLinkPress={onLinkPress}
