@@ -5,6 +5,7 @@
   "scripts": {
     "start": "yarn workspace example start",
     "webshell": "yarn workspace @formidable-webview/webshell",
+    "website": "yarn workspace website",
     "start:website": "yarn workspace website start",
     "build:website": "yarn workspace website build",
     "build:webshell": "yarn workspace @formidable-webview/webshell build",
@@ -24,6 +25,7 @@
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
+    "@docusaurus/init": "^2.0.0-alpha.65",
     "@formidable-webview/eslint-config-webjs": "^1.0.0",
     "@react-native-community/bob": "^0.16.2",
     "@react-native-community/eslint-config": "^2.0.0",
