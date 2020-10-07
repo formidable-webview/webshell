@@ -61,11 +61,11 @@ export type ExtractWebshellFromFeatClass<
  * @public
  */
 export type ExtractWebHandlerSpecFromDef<W> = W extends WebHandlerDefinition<
-  infer P,
-  infer I
+  infer I,
+  infer P
 >
   ? {
-      [k in I]: WebHandlerDefinition<P, I>;
+      [k in I]: WebHandlerDefinition<I, P>;
     }
   : never;
 
@@ -167,7 +167,7 @@ export type FeatureDefinition<O extends {}> = {
  *
  * @public
  */
-export interface WebHandlerDefinition<P, I extends string> {
+export interface WebHandlerDefinition<I extends string, P> {
   eventId: I;
   payload?: P;
   async: false;
@@ -181,8 +181,8 @@ export interface WebHandlerDefinition<P, I extends string> {
  *
  * @public
  */
-export type WebHandlersSpecs<P = {}, I extends string = string> = {
-  [k in I]: WebHandlerDefinition<P, I>;
+export type WebHandlersSpecs<I extends string = string, P = {}> = {
+  [k in I]: WebHandlerDefinition<I, P>;
 };
 
 /**

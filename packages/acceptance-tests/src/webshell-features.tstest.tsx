@@ -10,8 +10,8 @@ const Feature1 = new FeatureBuilder({
   identifier: 'test',
   script: ''
 })
-  .withWebHandler<{ foo: string }, 'event1'>('event1')
-  .withWebHandler<{ bar: string }, 'event2'>('event2')
+  .withWebHandler<'event1', { foo: string }>('event1')
+  .withWebHandler<'event2', { bar: string }>('event2')
   .build();
 
 const feature1 = new Feature1();

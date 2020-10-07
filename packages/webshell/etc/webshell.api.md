@@ -132,8 +132,8 @@ export type ExtractPropsFromFeature<F> = F extends Feature<any, infer P, any> ? 
 export type ExtractPropsFromSpecs<S> = S extends PropsSpecs<infer N, any> ? S[N] extends never ? {} : Required<S[N]>['signature'] : never;
 
 // @public
-export type ExtractWebHandlerSpecFromDef<W> = W extends WebHandlerDefinition<infer P, infer I> ? {
-    [k in I]: WebHandlerDefinition<P, I>;
+export type ExtractWebHandlerSpecFromDef<W> = W extends WebHandlerDefinition<infer I, infer P> ? {
+    [k in I]: WebHandlerDefinition<I, P>;
 } : never;
 
 // @public
@@ -162,8 +162,8 @@ export abstract class Feature<O extends {} = {}, P extends PropsSpecs<any, any> 
 export class FeatureBuilder<O extends {} = {}, S extends PropsSpecs<any, any> = {}, W extends WebHandlersSpecs<any> = {}> {
     constructor(config: FeatureBuilderConfig<O>);
     build(): FeatureClass<O, S, W>;
-    withShellHandler<P, N extends string>(propName: N, eventId?: string): FeatureBuilder<O, S & PropsSpecs<N, (p: P) => void>, W>;
-    withWebHandler<P = undefined, I extends string = string>(eventId: I): FeatureBuilder<O, S, W & { [k in I]: WebHandlerDefinition<P, I>; }>;
+    withShellHandler<N extends string, P>(propName: N, eventId?: string): FeatureBuilder<O, S & PropsSpecs<N, (p: P) => void>, W>;
+    withWebHandler<I extends string = string, P = undefined>(eventId: I): FeatureBuilder<O, S, W & { [k in I]: WebHandlerDefinition<I, P>; }>;
 }
 
 // @public
@@ -350,7 +350,7 @@ export interface WebHandle {
 }
 
 // @public
-export interface WebHandlerDefinition<P, I extends string> {
+export interface WebHandlerDefinition<I extends string, P> {
     // (undocumented)
     async: false;
     // (undocumented)
@@ -360,8 +360,8 @@ export interface WebHandlerDefinition<P, I extends string> {
 }
 
 // @public
-export type WebHandlersSpecs<P = {}, I extends string = string> = {
-    [k in I]: WebHandlerDefinition<P, I>;
+export type WebHandlersSpecs<I extends string = string, P = {}> = {
+    [k in I]: WebHandlerDefinition<I, P>;
 };
 
 // @public

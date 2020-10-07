@@ -71,7 +71,7 @@ export class FeatureBuilder<
    * @typeparam N - A type to define the name of the prop.
    * @typeparam P - A type describing the shape of payloads sent to shell handlers.
    */
-  withShellHandler<P, N extends string>(
+  withShellHandler<N extends string, P>(
     propName: N,
     eventId: string = 'default'
   ) {
@@ -101,11 +101,11 @@ export class FeatureBuilder<
    * @typeparam I - A type for the event identifier.
    * @typeparam P - A type describing the shape of payloads sent to Web handlers.
    */
-  withWebHandler<P = undefined, I extends string = string>(eventId: I) {
+  withWebHandler<I extends string = string, P = undefined>(eventId: I) {
     return new FeatureBuilder<
       O,
       S,
-      W & { [k in I]: WebHandlerDefinition<P, I> }
+      W & { [k in I]: WebHandlerDefinition<I, P> }
     >({
       ...this.config,
       __webSpecs: {
