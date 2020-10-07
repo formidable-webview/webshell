@@ -25,22 +25,12 @@ If you are looking for v1 documentation, [jump here](https://github.com/formidab
 
 ## How does it work?
 
-`@formidable-webview/webshell` exports a simple builder-function (<Term id="HOC" />) which
-creates an augmented <WebView /> component with additional Web-based features. The returned
-component behaves exactly like a <WebView />, and given a `ref` prop, you'll get
-the underlying <WebView /> instance and be able to access its imperative methods.
-
-The only difference with a vanilla <WebView /> is that this new component (from now on, we'll call it *the shell*)
-will have additional props.
-
-The Web features form an abstraction layer over <WebView />'s <Term id="messaging system" />,
-hence the “shell” in <Webshell />. Each Web feature
-augments the <WebView /> with new props and behaviors.
-
-And you can, of course, [implement any Web feature you'd
-like](./implementing-features). This library also presents a set of good
-practices to test features in isolation and, by extension, test any injected
-scripts. See [the tooling guide](./tooling).
+`@formidable-webview/webshell` exports <APIReference reference="makeWebshell" type="function" />, a <Term id="HOC" /> which
+creates augmented <WebView /> components.
+This component (from now on, we'll call that *a shell component*), is very similar to the underlying <WebView /> it is decorating, but
+will have additional props and eventually, behave slightly differently, depending on the injected Web features passed to <APISymbolFormat reference="makeWebshell" type="function" />.
+Hence, these features form an abstraction layer over <WebView />'s <Term id="messaging system" />,
+thus the “shell” in <Webshell />. This layer makes it very easy to implement bidirectional communication patterns between Web and Native.
 
 ## What is a (Web) Feature?
 
@@ -65,7 +55,7 @@ can instantiate in a shell:
 ### Learn More about Web Features
 
 - [Read the complete list of features exposed by this library](./api#variables).
-- [See how implementing a feature looks like](./implementing-features).
+- [Discover how to implement a feature](./implementing-features).
 
 ## What is a Shell?
 
