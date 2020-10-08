@@ -59,7 +59,7 @@ export const TryOnExpo = ({ label, className }) => {
   return (
     <BrowserOnly
       fallback={
-        <div style={{ width: 160, height: 10 }} className={className} />
+        <div style={{ width: 160, height: 322 }} className={className} />
       }>
       {() => (
         <div
