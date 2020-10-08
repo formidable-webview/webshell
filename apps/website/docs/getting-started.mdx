@@ -16,12 +16,7 @@ import { IllustrationSnippet } from '@site/components/IllustrationSnippet';
 
 ## Install
 
-:::caution
-This is documentation for a yet unstable release. The API might change, be advised!
-If you are looking for v1 documentation, [jump here](https://github.com/formidable-webview/webshell/tree/dev/1.x#readme).
-:::
-
-<InstallPackageSnippet packages="@formidable-webview/webshell@next" />
+<InstallPackageSnippet packages="@formidable-webview/webshell" />
 
 ## How does it work?
 
@@ -29,8 +24,8 @@ If you are looking for v1 documentation, [jump here](https://github.com/formidab
 creates augmented <WebView /> components.
 This component (from now on, we'll call that *a shell component*), is very similar to the underlying <WebView /> it is decorating, but
 will have additional props and eventually, behave slightly differently, depending on the injected Web features passed to <APISymbolFormat reference="makeWebshell" type="function" />.
-Hence, these features form an abstraction layer over <WebView />'s <Term id="messaging system" />,
-thus the “shell” in <Webshell />. This layer makes it very easy to implement bidirectional communication patterns between Web and Native.
+Moreover, these features form an abstraction layer over <WebView />'s <Term id="messaging system" />,
+thus the “shell” in <Webshell />. This layer makes it very easy to implement bidirectional communication flows between Web and Native.
 
 ## What is a (Web) Feature?
 

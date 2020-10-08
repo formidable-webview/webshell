@@ -25,11 +25,9 @@ module.exports = {
     disableSwitch: false,
     respectPrefersColorScheme: true,
     announcementBar: {
-      id: '__disclaimer__',
+      id: 'supportus',
       content:
-        '&#9888; This documentation is for the yet unstable V2 of @formidable-webview/webshell. Disclaimer: it is a work in progress!',
-      backgroundColor: '#ffba00',
-      textColor: 'black',
+        '⭐️ If you like webshell, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/formidable-webview/webshell">GitHub</a>! ⭐️',
       isCloseable: true
     },
     prism: {
