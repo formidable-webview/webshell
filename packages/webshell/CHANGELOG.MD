@@ -1,3 +1,15 @@
+# [2.0.0](https://github.com/formidable-webview/webshell/compare/v2.0.0-alpha.2...v2.0.0) (2020-10-08)
+
+
+### Code Refactoring
+
+* replace CSSBox with DOMRectSize ([17f0244](https://github.com/formidable-webview/webshell/commit/17f024448f24497684f7f2898d25de34b8993cde))
+
+
+### BREAKING CHANGES
+
+* replace CSSBox with DOMRectSize
+
 # [2.0.0-alpha.2](https://github.com/formidable-webview/webshell/compare/v2.0.0-alpha.1...v2.0.0-alpha.2) (2020-10-02)
 
 
