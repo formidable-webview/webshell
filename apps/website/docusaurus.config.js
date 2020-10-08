@@ -21,6 +21,9 @@ module.exports = {
   organizationName: 'formidable-webview',
   projectName: 'webshell',
   themeConfig: {
+    defaultMode: 'light',
+    disableSwitch: false,
+    respectPrefersColorScheme: true,
     announcementBar: {
       id: '__disclaimer__',
       content:
@@ -37,17 +40,13 @@ module.exports = {
       respectPrefersColorScheme: true
     },
     navbar: {
+      hideOnScroll: true,
       title: 'webshell',
       logo: {
         alt: 'Formidable WebView Logo',
         src: 'img/logo.svg'
       },
       items: [
-        {
-          href: `https://github.com/formidable-webview/webshell/releases/tag/v${webshellJson.version}`,
-          label: webshellJson.version,
-          position: 'left'
-        },
         {
           to: 'docs/',
           activeBasePath: 'docs',
@@ -62,9 +61,15 @@ module.exports = {
           position: 'left'
         },
         {
-          href: 'https://github.com/formidable-webview/webshell',
-          label: 'GitHub',
+          href: `https://github.com/formidable-webview/webshell/releases/tag/v${webshellJson.version}`,
+          label: webshellJson.version,
           position: 'right'
+        },
+        {
+          href: 'https://github.com/formidable-webview/webshell',
+          position: 'right',
+          className: 'header-github-link',
+          'aria-label': 'GitHub repository'
         }
       ]
     },
@@ -126,7 +131,9 @@ module.exports = {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
           editUrl:
-            'https://github.com/formidable-webview/webshell/tree/master/apps/website/docs'
+            'https://github.com/formidable-webview/webshell/tree/master/apps/website/docs',
+          showLastUpdateAuthor: true,
+          showLastUpdateTime: true
         },
         blog: {
           showReadingTime: true,
