@@ -4,11 +4,6 @@
 [![codecov](https://codecov.io/gh/formidable-webview/webshell/branch/master/graph/badge.svg)](https://codecov.io/gh/formidable-webview/webshell)
 [![](https://img.shields.io/discord/757572391663566870?label=discord)](https://discord.gg/XV3zt3d)
 
-<blockquote>
-:warning: This branch is for the yet unstable v2 (<code>next</code> tag). If you are looking for v1 documentation, <a href="https://github.com/formidable-webview/webshell/tree/dev/1.x#readme">jump here</a>.
-We still recommend v2 which is an order of magnitude more advanced, reliable and customizable!
-</blockquote>
-
 <h1 align="center">@formidable-webview/webshell</h1>
 
 <p align="center">
