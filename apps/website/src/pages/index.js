@@ -111,7 +111,7 @@ function Home() {
           <ReactReference name="WebView" type="class" />. <Webshell /> forms an
           abstraction layer over <code>WebView</code>{' '}
           <Term id="messaging system" />, enabling declarative and legible
-          implementations.
+          communication flows.
         </>
       )
     },
@@ -122,7 +122,7 @@ function Home() {
         <>
           Discorver a landmark use-case:{' '}
           <a href={useBaseUrl('/docs/autoheight')}>the Autoheight WebView</a>.
-          We depict caveats and feature workarounds to{' '}
+          We depict caveats and workarounds to{' '}
           <strong>convey transparency over magic</strong> and let API consumers
           decide.
         </>
