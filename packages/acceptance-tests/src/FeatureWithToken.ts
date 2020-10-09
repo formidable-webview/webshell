@@ -4,7 +4,7 @@ import script from './FeatureWithToken.webjs';
 export const FeatureWithToken = new FeatureBuilder({
   script,
   defaultOptions: {},
-  identifier: 'org.myorg/webshell.feature1'
+  identifier: 'org.myorg/webshell.feature-with-token'
 })
   .withWebHandler<string, 'apiTokenChange'>(
     'apiTokenChange'
