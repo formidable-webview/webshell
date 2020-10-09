@@ -1,3 +1,5 @@
+## [2.0.1](https://github.com/formidable-webview/webshell/compare/v2.0.0...v2.0.1) (2020-10-09)
+
 # [2.0.0](https://github.com/formidable-webview/webshell/compare/v1.0.2...v2.0.0) (2020-10-08)
 
 This is a major release with a good amount of breaking changes, but also many exciting new features. We commit to having much less breaking releases in the future. [We also have a brand new website](https://formidable-webview.github.io/webshell/).
