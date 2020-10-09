@@ -6,3 +6,6 @@
 
 # Types must be bundled with api-extractor, not included in the repo
 /types
+
+# This readme is copied from parent folder prior to packing
+README.md
