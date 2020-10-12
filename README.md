@@ -35,7 +35,7 @@
 <h1 align="center">@formidable-webview/webshell</h1>
 
 <p align="center">
-  :fire: Craft Robust React Native WebView-based components with ease.
+  🔥 Craft Robust React Native WebView-based components with ease.
   <br /><br />
   <a href="https://formidable-webview.github.io/webshell/"
     ><img src="https://raw.githubusercontent.com/formidable-webview/webshell/master/assets/api-quickview.png" width="350"
