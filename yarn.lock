@@ -2918,37 +2918,37 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@formidable-webview/ersatz-testing@npm:^2.0.1":
-  version: 2.0.1
-  resolution: "@formidable-webview/ersatz-testing@npm:2.0.1"
+"@formidable-webview/ersatz-testing@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "@formidable-webview/ersatz-testing@npm:2.0.2"
   dependencies:
     "@formidable-webview/ersatz-core": 2.0.2
-    "@formidable-webview/skeletton": 1.0.1
+    "@formidable-webview/skeletton": 1.0.2
   peerDependencies:
     "@testing-library/react-native": ">=7.0.1"
     jest: "*"
     react: "*"
     react-native: "*"
     react-native-webview: "*"
-  checksum: f85b0b48e84754a72d6ef47d12c84b600f5840344bbe3d73a6dd5a86378e6427f830070630d4cc61e2298bc38d0893816a59ebca17389f8e3b97384071dd59f7
+  checksum: 05c2bc4ac17afb2a254d0e07ca82b6740e66abbbbc075b6fb8e7d6834e8c3b92cb95275447988cc4d4ae166ad627af0f886e645621c283f872179ab26f89e328
   languageName: node
   linkType: hard
 
-"@formidable-webview/ersatz@npm:^2.0.1":
-  version: 2.0.1
-  resolution: "@formidable-webview/ersatz@npm:2.0.1"
+"@formidable-webview/ersatz@npm:^2.0.3":
+  version: 2.0.3
+  resolution: "@formidable-webview/ersatz@npm:2.0.3"
   dependencies:
     "@formidable-webview/ersatz-core": 2.0.2
-    "@formidable-webview/skeletton": 1.0.1
+    "@formidable-webview/skeletton": 1.0.2
     assert: ^2.0.0
     canvas: ^2.6.1
-    jsdom: "tobyhinloopen/jsdom#2792-replace-request-with-node-fetch"
+    jsdom: ^16.4.0
     node-fetch: ^3.0.0-beta.9
   peerDependencies:
     react: "*"
     react-native: "*"
     react-native-webview: ">= 7.6.0 < 11"
-  checksum: 8d95acdcdca0a77907da9fca8bf90a09f94f77c93be133954a79814df042ca7730270b8822aebc77cad5823b9092fef4cf36fd84459d8d6f9bc594e0dbf24d0e
+  checksum: 7d966ba1f4e2cfde22e714d896451582b56f8913b11ad02a4b8eb9546b975e090296b8e51958b8ca3537f1948fd6874f09aabe8ce08cf52abaecc139e0a5bd0a
   languageName: node
   linkType: hard
 
@@ -2962,9 +2962,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@formidable-webview/skeletton@npm:1.0.1":
-  version: 1.0.1
-  resolution: "@formidable-webview/skeletton@npm:1.0.1"
+"@formidable-webview/skeletton@npm:1.0.2":
+  version: 1.0.2
+  resolution: "@formidable-webview/skeletton@npm:1.0.2"
   dependencies:
     "@formidable-webview/ersatz-core": 2.0.2
     assert: ^2.0.0
@@ -2972,7 +2972,7 @@ __metadata:
     react: "*"
     react-native: "*"
     react-native-webview: ">= 7.6.0 < 11"
-  checksum: 314895ecce06c371d528937cbc9c6943057f1ac19adfff71580bae138a6509a92637595c102647a93fbe1b1987841f98afae6a4314c00d3047b35a9b9b69c07f
+  checksum: 487c02d9c16ea4d29f04bca12497c7cb01cc66137d3957057338b9808ff4fcc0c534ce7065acd3c901640efaf3b8ad4630e4a34d58f903e2dda70c19f3911769
   languageName: node
   linkType: hard
 
@@ -2985,8 +2985,8 @@ __metadata:
     "@babel/plugin-transform-react-jsx": ^7.10.4
     "@babel/preset-typescript": ^7.10.4
     "@babel/runtime": ^7.11.2
-    "@formidable-webview/ersatz": ^2.0.1
-    "@formidable-webview/ersatz-testing": ^2.0.1
+    "@formidable-webview/ersatz": ^2.0.3
+    "@formidable-webview/ersatz-testing": ^2.0.2
     "@microsoft/api-extractor": 7.9.22
     "@react-native-community/bob": ^0.16.2
     "@release-it/conventional-changelog": ^2.0.0
@@ -11836,15 +11836,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fetch-cookie@npm:^0.8.0":
-  version: 0.8.0
-  resolution: "fetch-cookie@npm:0.8.0"
-  dependencies:
-    tough-cookie: ^2.3.3 || ^3.0.1 || ^4.0.0
-  checksum: 23811e415f75f29d61243a38ad65b80bcd2c9589f82b04b6f0305e211cd0cfb125c4b2de9c74d7dbe38fab5029c4373602f11b9e7869afe6e26eadb7e172105b
-  languageName: node
-  linkType: hard
-
 "figgy-pudding@npm:^3.5.1":
   version: 3.5.2
   resolution: "figgy-pudding@npm:3.5.2"
@@ -15675,7 +15666,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"jsdom@npm:^16.2.2":
+"jsdom@npm:^16.2.2, jsdom@npm:^16.4.0":
   version: 16.4.0
   resolution: "jsdom@npm:16.4.0"
   dependencies:
@@ -15711,50 +15702,6 @@ fsevents@^1.2.7:
     canvas:
       optional: true
   checksum: adca681df01b62452970357bb941c5a0a67f784afbf32c57bb07d7b3799a853f161e4c7a1ccce75fd9089b5c5e5601acf9eab5fe440899d96c08b5bdc3d2cad5
-  languageName: node
-  linkType: hard
-
-"jsdom@tobyhinloopen/jsdom#2792-replace-request-with-node-fetch":
-  version: 16.2.2
-  resolution: "jsdom@https://github.com/tobyhinloopen/jsdom.git#commit=a38237854490e072a25635becd5cd795ba40c6c1"
-  dependencies:
-    abab: ^2.0.3
-    abort-controller: ^3.0.0
-    acorn: ^7.1.1
-    acorn-globals: ^6.0.0
-    cssom: ^0.4.4
-    cssstyle: ^2.2.0
-    data-urls: ^2.0.0
-    decimal.js: ^10.2.0
-    domexception: ^2.0.1
-    escodegen: ^1.14.1
-    fetch-cookie: ^0.8.0
-    html-encoding-sniffer: ^2.0.1
-    http-proxy-agent: ^4.0.1
-    https-proxy-agent: ^5.0.0
-    is-potential-custom-element-name: ^1.0.0
-    node-fetch: ^2.6.0
-    nwsapi: ^2.2.0
-    parse5: 5.1.1
-    request: ^2.88.2
-    request-promise-native: ^1.0.8
-    saxes: ^5.0.0
-    symbol-tree: ^3.2.4
-    tough-cookie: ^3.0.1
-    w3c-hr-time: ^1.0.2
-    w3c-xmlserializer: ^2.0.0
-    webidl-conversions: ^6.1.0
-    whatwg-encoding: ^1.0.5
-    whatwg-mimetype: ^2.3.0
-    whatwg-url: ^8.0.0
-    ws: ^7.2.3
-    xml-name-validator: ^3.0.0
-  peerDependencies:
-    canvas: ^2.5.0
-  peerDependenciesMeta:
-    canvas:
-      optional: true
-  checksum: 6bc29f1acfd372da1f4008a36439846e027b110e1603d2171edadf565ca3a1812f3a13594c0961b1eae4645970574b4ed0963cc2160be2774d7cb22ce66b0a61
   languageName: node
   linkType: hard
 
@@ -24676,17 +24623,6 @@ resolve@~1.12.0:
   languageName: node
   linkType: hard
 
-"tough-cookie@npm:^2.3.3 || ^3.0.1 || ^4.0.0, tough-cookie@npm:^3.0.1":
-  version: 3.0.1
-  resolution: "tough-cookie@npm:3.0.1"
-  dependencies:
-    ip-regex: ^2.1.0
-    psl: ^1.1.28
-    punycode: ^2.1.1
-  checksum: dc1eee69c61a6d5598144ff41c9b5e758207130d92d2b89facad075140a99c10d674a6278764b9edfe8e074cb7840c15e7b786b93d0672875026c2ce5172d774
-  languageName: node
-  linkType: hard
-
 "tough-cookie@npm:^2.3.3, tough-cookie@npm:~2.5.0":
   version: 2.5.0
   resolution: "tough-cookie@npm:2.5.0"
@@ -24694,6 +24630,17 @@ resolve@~1.12.0:
     psl: ^1.1.28
     punycode: ^2.1.1
   checksum: bf5d6fac5ce0bebc5876cb9b9a79d3d9ea21c9e4099f3d3e64701d6ba170a052cb88cece6737ec2473bac4f0a4f6c75d46ec17985be8587c6bbdd38d91625cb4
+  languageName: node
+  linkType: hard
+
+"tough-cookie@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "tough-cookie@npm:3.0.1"
+  dependencies:
+    ip-regex: ^2.1.0
+    psl: ^1.1.28
+    punycode: ^2.1.1
+  checksum: dc1eee69c61a6d5598144ff41c9b5e758207130d92d2b89facad075140a99c10d674a6278764b9edfe8e074cb7840c15e7b786b93d0672875026c2ce5172d774
   languageName: node
   linkType: hard
 
