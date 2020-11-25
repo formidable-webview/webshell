@@ -31,13 +31,13 @@
     "@react-native-community/bob": "^0.16.2",
     "@react-native-community/eslint-config": "^2.0.0",
     "@release-it/conventional-changelog": "^2.0.0",
-    "@typescript-eslint/eslint-plugin": "^4.2.0",
-    "@typescript-eslint/parser": "^4.2.0",
-    "eslint": "^7.9.0",
+    "@typescript-eslint/eslint-plugin": "^4.8.2",
+    "@typescript-eslint/parser": "^4.8.2",
+    "eslint": "^7.14.0",
     "eslint-plugin-compat": "^3.8.0",
     "eslint-plugin-tsdoc": "^0.2.7",
     "husky": "^4.3.0",
-    "prettier": "^2.1.2"
+    "prettier": "^2.2.0"
   },
   "resolutions": {
     "react": "16.13.1",
@@ -55,5 +55,8 @@
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
+  },
+  "dependencies": {
+    "eslint-plugin-prettier": "^3.1.4"
   }
 }

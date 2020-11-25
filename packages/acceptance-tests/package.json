@@ -7,11 +7,11 @@
   },
   "dependencies": {
     "@formidable-webview/webshell": "workspace:*",
-    "prettier": "^2.1.2",
-    "react-native-webview": "^10.9.1"
+    "prettier": "^2.2.0",
+    "react-native-webview": "^11.0.0"
   },
   "devDependencies": {
-    "eslint": "^7.9.0",
+    "eslint": "^7.14.0",
     "typescript": "3.9.7"
   }
 }
