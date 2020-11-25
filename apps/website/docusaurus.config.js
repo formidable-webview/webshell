@@ -27,7 +27,7 @@ module.exports = {
     announcementBar: {
       id: 'supportus',
       content:
-        '⭐️ If you like webshell, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/formidable-webview/webshell">GitHub</a>! ⭐️',
+        '⭐️ If you like webshell, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/formidable-webview/webshell">GitHub</a> and help the community by <a target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/a/64288484/2779871">upvoting this SO post</a>! ⭐️',
       isCloseable: true
     },
     algolia: {
