@@ -140,7 +140,7 @@ export class FeatureBuilder<
         );
       }
     };
-    Object.defineProperty(ctor, 'name', {
+    Object.defineProperty(ctor, 'displayName', {
       configurable: true,
       enumerable: false,
       writable: false,
