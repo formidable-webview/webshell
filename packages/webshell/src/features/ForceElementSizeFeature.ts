@@ -34,7 +34,7 @@ export interface ForceElementSizeOptions {
    */
   forceWidth?: boolean;
   /**
-   * Force body width to `heightValue`.
+   * Force body height to `heightValue`.
    *
    * @defaultvalue true
    */
