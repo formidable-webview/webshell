@@ -1,3 +1,10 @@
+## [2.0.2](https://github.com/formidable-webview/webshell/compare/v2.0.1...v2.0.2) (2020-11-25)
+
+
+### Bug Fixes
+
+* crash on iOS 9 (attempting to change configurable...) ([177e96b](https://github.com/formidable-webview/webshell/commit/177e96bee3f6ff67811abeb890991665ef01e6be)), closes [#3](https://github.com/formidable-webview/webshell/issues/3)
+
 ## [2.0.1](https://github.com/formidable-webview/webshell/compare/v2.0.0...v2.0.1) (2020-10-09)
 
 ### Misc
