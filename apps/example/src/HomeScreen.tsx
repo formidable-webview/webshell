@@ -166,6 +166,7 @@ export function HomeScreen() {
               onDOMHashChange={onDOMHashChange}
               onLayout={onLayout}
               {...autoheightWebshellProps}
+              scrollEnabled={false}
             />
           </View>
           {showEvidence ? <Evidence webshellPosition="above" /> : null}
