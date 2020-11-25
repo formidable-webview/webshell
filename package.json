@@ -6,6 +6,7 @@
     "start": "yarn workspace example start",
     "webshell": "yarn workspace @formidable-webview/webshell",
     "website": "yarn workspace website",
+    "start:example": "yarn workspace example start",
     "start:website": "yarn workspace website start",
     "build:website": "yarn workspace website build",
     "build:webshell": "yarn workspace @formidable-webview/webshell build",
