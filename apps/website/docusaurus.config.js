@@ -30,6 +30,18 @@ module.exports = {
         '⭐️ If you like webshell, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/formidable-webview/webshell">GitHub</a>! ⭐️',
       isCloseable: true
     },
+    algolia: {
+      apiKey: 'e859c8b4e1ca1af799ce9180833bc005',
+      indexName: 'webshell',
+
+      // Optional: see doc section bellow
+      contextualSearch: true,
+
+      // Optional: Algolia search parameters
+      searchParameters: {}
+
+      //... other Algolia params
+    },
     prism: {
       theme: require('prism-react-renderer/themes/dracula'),
       darkTheme: require('prism-react-renderer/themes/dracula')
