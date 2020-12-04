@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/formidable-webview/webshell/compare/v2.0.2...v2.1.0) (2020-12-04)
+
+
+### Features
+
+* new `useWebshell` hook, which extracts the logic of `makeWebshell` HOC ([1325968](https://github.com/formidable-webview/webshell/commit/1325968c5c24a9fd589c34f6194bf5e1180f03eb))
+
 ## [2.0.2](https://github.com/formidable-webview/webshell/compare/v2.0.1...v2.0.2) (2020-11-25)
 
 
