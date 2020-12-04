@@ -1,4 +1,4 @@
-import { Feature } from '../Feature';
+import Feature from '../Feature';
 import featuresLoaderScript from './web-features-loader.webjs';
 import { PropsSpecs } from '../types';
 

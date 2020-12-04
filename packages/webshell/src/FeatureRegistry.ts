@@ -1,5 +1,5 @@
-import { Feature } from './Feature';
-import { Reporter } from './Reporter';
+import Feature from './Feature';
+import Reporter from './Reporter';
 import { PropDefinition, PropsSpecs, WebshellProps } from './types';
 
 function extractFeatureProps(
@@ -68,7 +68,7 @@ function extractPropsSpecsMap(
     }, {}) as Record<string, PropDefinition<any, any>>;
 }
 
-export class FeatureRegistry<F extends Feature<any, any, any>[]> {
+export default class FeatureRegistry<F extends Feature<any, any, any>[]> {
   readonly propsMap: Record<string, PropDefinition<any, any>>;
   readonly handlersMap: Record<string, PropDefinition<any, any>>;
   readonly features: F;

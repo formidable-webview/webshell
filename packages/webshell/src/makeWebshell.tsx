@@ -1,12 +1,12 @@
 import * as React from 'react';
 import type { ComponentType, ElementRef, ComponentPropsWithRef } from 'react';
-import { Feature } from './Feature';
+import Feature from './Feature';
 import type {
   WebshellProps,
   MinimalWebViewProps,
   WebshellComponent
 } from './types';
-import useWebshell from './useWebshell';
+import useWebshell from './hooks/useWebshell';
 
 const defaultProps = {
   webshellDebug: __DEV__,
@@ -49,7 +49,7 @@ const defaultProps = {
  *
  * @public
  */
-export function makeWebshell<
+export default function makeWebshell<
   C extends ComponentType<any>,
   F extends Feature<{}, {}, {}>[]
 >(WebView: C, ...features: F): WebshellComponent<C, F> {

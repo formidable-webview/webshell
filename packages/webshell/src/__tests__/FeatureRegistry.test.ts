@@ -1,6 +1,6 @@
-import { FeatureRegistry } from '../FeatureRegistry';
-import { FeatureBuilder } from '../FeatureBuilder';
-import { Reporter } from '../Reporter';
+import FeatureRegistry from '../FeatureRegistry';
+import FeatureBuilder from '../FeatureBuilder';
+import Reporter from '../Reporter';
 
 function buildFeature(id: string) {
   return new FeatureBuilder({

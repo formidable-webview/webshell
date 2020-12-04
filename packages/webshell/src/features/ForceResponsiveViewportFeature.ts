@@ -1,5 +1,5 @@
 import script from './ForceResponsiveViewportFeature.webjs';
-import { FeatureBuilder } from '../FeatureBuilder';
+import FeatureBuilder from '../FeatureBuilder';
 import type { FeatureClass } from '../Feature';
 
 /**

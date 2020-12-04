@@ -67,7 +67,7 @@ const codes: Record<ErrorCode, ErrorDefinition<ErrorCode>> = {
   }
 };
 
-export class Reporter {
+export default class Reporter {
   private readonly webshellDebug: boolean;
   private readonly strict: boolean;
   constructor(webshellDebug: boolean, strict: boolean) {

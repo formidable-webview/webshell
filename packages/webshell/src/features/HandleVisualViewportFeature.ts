@@ -1,5 +1,5 @@
 import script from './HandleVisualViewportFeature.webjs';
-import { FeatureBuilder } from '../FeatureBuilder';
+import FeatureBuilder from '../FeatureBuilder';
 import { FeatureClass } from '../Feature';
 import type { PropDefinition, DOMRectSize } from '../types';
 

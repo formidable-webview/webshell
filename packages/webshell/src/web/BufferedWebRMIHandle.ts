@@ -1,6 +1,6 @@
 import React from 'react';
-import { FeatureRegistry } from '../FeatureRegistry';
-import { Reporter } from '../Reporter';
+import FeatureRegistry from '../FeatureRegistry';
+import Reporter from '../Reporter';
 import { WebHandle } from '../types';
 import { WebRMIHandle } from './WebRMIHandle';
 

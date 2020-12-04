@@ -1,5 +1,5 @@
 import script from './HandleHTMLDimensionsFeature.webjs';
-import { FeatureBuilder } from '../FeatureBuilder';
+import FeatureBuilder from '../FeatureBuilder';
 import type { FeatureClass } from '../Feature';
 import type { PropDefinition, DOMRectSize } from '../types';
 

@@ -2,7 +2,7 @@ import * as React from 'react';
 import Ersatz from '@formidable-webview/ersatz';
 import { waitForErsatz } from '@formidable-webview/ersatz-testing';
 import { render } from '@testing-library/react-native';
-import { makeWebshell } from '../../make-webshell';
+import makeWebshell from '../../makeWebshell';
 import {
   HandleElementCSSBoxFeature,
   ElementCSSBoxDimensions

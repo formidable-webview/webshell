@@ -1,4 +1,4 @@
-import { makeWebshell } from './make-webshell';
+import makeWebshell from './makeWebshell';
 export type {
   DOMCollectionRequest,
   DOMElementClassNameRequest,
@@ -27,11 +27,14 @@ export type {
   WebshellInvariantProps,
   WebshellProps
 } from './types';
+export { default as FeatureBuilder } from './FeatureBuilder';
 export * from './FeatureBuilder';
+export { default as Feature } from './Feature';
 export * from './Feature';
 export * from './features';
-export * from './hooks/autoheigh';
-export { default as useWebshell } from './useWebshell';
-export type { UseWebshellParams } from './useWebshell';
+export { default as useAutoheight } from './hooks/useAutoheight';
+export * from './hooks/useAutoheight';
+export { default as useWebshell } from './hooks/useWebshell';
+export * from './hooks/useWebshell';
 export { makeWebshell };
 export default makeWebshell;

@@ -1,5 +1,5 @@
 import script from './ForceElementSizeFeature.webjs';
-import { FeatureBuilder } from '../FeatureBuilder';
+import FeatureBuilder from '../FeatureBuilder';
 import type { DOMElementRequest } from '../types';
 import type { FeatureClass } from '../Feature';
 

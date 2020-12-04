@@ -4,7 +4,7 @@ import Ersatz from '@formidable-webview/ersatz';
 import { waitForErsatz } from '@formidable-webview/ersatz-testing';
 import { render } from '@testing-library/react-native';
 import dummyHelloScript from './feat/DummyHello.webjs';
-import { FeatureBuilder } from '../FeatureBuilder';
+import FeatureBuilder from '../FeatureBuilder';
 import { WebFeaturesLoader } from '../web/WebFeaturesLoader';
 
 const HelloFeature = new FeatureBuilder({

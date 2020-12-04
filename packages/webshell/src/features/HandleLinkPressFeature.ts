@@ -1,5 +1,5 @@
 import linkPressScript from './HandleLinkPressFeature.webjs';
-import { FeatureBuilder } from '../FeatureBuilder';
+import FeatureBuilder from '../FeatureBuilder';
 import type { DOMRect, PropDefinition } from '../types';
 import type { FeatureClass } from '../Feature';
 

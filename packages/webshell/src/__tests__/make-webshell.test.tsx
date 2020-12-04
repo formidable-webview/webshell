@@ -11,8 +11,8 @@ import dummyFailingScript from './feat/DummyFailing.webjs';
 import dummyOptionScript from './feat/DummyOption.webjs';
 import dummyHandleridScript from './feat/DummyHandlerid.webjs';
 import dummyReceiverScript from './feat/DummyReceiver.webjs';
-import { makeWebshell } from '../make-webshell';
-import { FeatureBuilder } from '../FeatureBuilder';
+import makeWebshell from '../makeWebshell';
+import FeatureBuilder from '../FeatureBuilder';
 import {
   MinimalWebViewProps,
   WebHandle,

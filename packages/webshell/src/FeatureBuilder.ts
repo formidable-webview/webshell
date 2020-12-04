@@ -1,5 +1,5 @@
 /* eslint-disable no-spaced-func */
-import { Feature } from './Feature';
+import Feature from './Feature';
 import type { FeatureClass } from './Feature';
 import type {
   FeatureDefinition,
@@ -37,7 +37,7 @@ export interface FeatureBuilderConfig<O extends {}>
  *
  * @public
  */
-export class FeatureBuilder<
+export default class FeatureBuilder<
   O extends {} = {},
   S extends PropsSpecs<any, any> = {},
   W extends WebHandlersSpecs<any> = {}

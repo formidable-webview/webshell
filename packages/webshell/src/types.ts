@@ -6,7 +6,7 @@ import type {
   ComponentPropsWithoutRef,
   Ref
 } from 'react';
-import type { Feature, FeatureClass } from './Feature';
+import Feature, { FeatureClass } from './Feature';
 
 // LOOKUP TYPES
 

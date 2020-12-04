@@ -1,5 +1,5 @@
 import script from './HandleElementCSSBoxFeature.webjs';
-import { FeatureBuilder } from '../FeatureBuilder';
+import FeatureBuilder from '../FeatureBuilder';
 import type { DOMElementRequest, DOMRectSize, PropDefinition } from '../types';
 import type { FeatureClass } from '../Feature';
 

@@ -2,16 +2,16 @@
 import * as React from 'react';
 import type { ComponentType, ElementRef } from 'react';
 import type { NativeSyntheticEvent } from 'react-native';
-import { Feature } from './Feature';
+import Feature from '../Feature';
 import {
   WebshellProps,
   WebshellInvariantProps,
   MinimalWebViewProps
-} from './types';
-import { FeatureRegistry } from './FeatureRegistry';
-import { BufferedWebRMIHandle } from './web/BufferedWebRMIHandle';
-import { WebFeaturesLoader } from './web/WebFeaturesLoader';
-import { Reporter } from './Reporter';
+} from '../types';
+import FeatureRegistry from '../FeatureRegistry';
+import { BufferedWebRMIHandle } from '../web/BufferedWebRMIHandle';
+import { WebFeaturesLoader } from '../web/WebFeaturesLoader';
+import Reporter from '../Reporter';
 
 interface WebViewMessage {
   data: string;

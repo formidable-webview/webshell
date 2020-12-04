@@ -1,5 +1,5 @@
 import { RefObject } from 'react';
-import { Reporter } from '../Reporter';
+import Reporter from '../Reporter';
 
 function javaScript(snippets: TemplateStringsArray, ...args: any[]) {
   return snippets

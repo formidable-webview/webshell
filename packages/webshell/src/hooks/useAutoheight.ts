@@ -11,7 +11,7 @@ import type {
   HTMLDimensionsImplementation
 } from '../features/HandleHTMLDimensionsFeature';
 import { StyleProp, ViewStyle } from 'react-native';
-import { Feature } from '../Feature';
+import Feature from '../Feature';
 
 const initialDimensions = { width: undefined, height: undefined };
 
@@ -219,7 +219,7 @@ function useAutoheightState<
  *
  * @public
  */
-export function useAutoheight<
+export default function useAutoheight<
   S extends WebshellProps<
     MinimalWebViewProps,
     [ExtractFeatureFromClass<typeof HandleHTMLDimensionsFeature>]

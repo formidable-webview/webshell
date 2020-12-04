@@ -30,7 +30,7 @@ export interface FeatureClass<
  *
  * @public
  */
-export abstract class Feature<
+export default abstract class Feature<
   O extends {} = {},
   P extends PropsSpecs<any, any> = {},
   W extends WebHandlersSpecs<any> = {}

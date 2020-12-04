@@ -1,13 +1,13 @@
 import { RefObject } from 'react';
-import { Feature } from '../Feature';
-import { FeatureRegistry } from '../FeatureRegistry';
+import Feature from '../Feature';
+import FeatureRegistry from '../FeatureRegistry';
 import { WebRMIController } from './WebRMIController';
 import {
   WebHandle,
   WebHandlerDefinition,
   ExtractWebHandlerSpecFromDef
 } from '../types';
-import { Reporter } from '../Reporter';
+import Reporter from '../Reporter';
 
 export class WebRMIHandle extends WebRMIController implements WebHandle {
   private registry: FeatureRegistry<any>;
