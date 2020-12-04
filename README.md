@@ -42,5 +42,6 @@
   /></a>
   <br/>
   <br/>
-  <strong><a href="https://formidable-webview.github.io/webshell/">Check out our website!</a></strong>
+  <strong><a href="https://formidable-webview.github.io/webshell/">Check out our website!</a></strong><br/>
+  If you are looking for an autoheight <code>WebView</code> component,<strong><a href="https://formidable-webview.github.io/webshell/docs/autoheight/"> read this guide</a></strong>.
 </p>
