@@ -14,10 +14,24 @@ export interface ForceResponsiveViewportOptions {
    * @defaultvalue 1
    */
   maxScale?: number;
+  /**
+   * Minimum pinch-zoom scale.
+   *
+   * @defaultvalue 1
+   */
+  minScale?: number;
+  /**
+   * Initial zoom scale.
+   *
+   * @defaultvalue 1
+   */
+  initScale?: number;
 }
 
 const defaultOptions: Required<ForceResponsiveViewportOptions> = {
-  maxScale: 1
+  maxScale: 1,
+  initScale: 1,
+  minScale: 1
 };
 
 /**
