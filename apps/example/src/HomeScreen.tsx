@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as WebBrowser from 'expo-web-browser';
 import { StyleSheet, ScrollView, View, LayoutRectangle } from 'react-native';
-import makeWebshell, {
+import {
   ForceResponsiveViewportFeature,
   HandleHTMLDimensionsFeature,
   ForceElementSizeFeature,
@@ -9,7 +9,8 @@ import makeWebshell, {
   HandleLinkPressFeature,
   useAutoheight,
   LinkPressTarget,
-  HashChangeEvent
+  HashChangeEvent,
+  useWebshell
 } from '@formidable-webview/webshell';
 import WebView from 'react-native-webview';
 import { WebViewSource } from 'react-native-webview/lib/WebViewTypes';
@@ -61,7 +62,7 @@ export function HomeScreen() {
     resizeImplementation,
     contentSize,
     syncState
-  } = useAutoheight<WebshellProps>({
+  } = useAutoheight({
     webshellProps: {
       source,
       style: styles.autoheight,
@@ -71,11 +72,8 @@ export function HomeScreen() {
   });
   const containerPaddingTop = showEvidence ? TOP_TEXT_HEIGHT : 0;
   containerPaddingTopRef.current = containerPaddingTop;
-  // We are using a memo to change dynamically the Webshell component with
-  // different features and options. Normally, we would rather create this
-  // component statically.
-  const Webshell = React.useMemo(() => {
-    const features = [
+  const features = React.useMemo(() => {
+    const fts = [
       new HandleLinkPressFeature({
         preventDefault: !allowWebViewNavigation
       }),
@@ -89,15 +87,14 @@ export function HomeScreen() {
       })
     ];
     forceResponsiveLayout &&
-      features.push(new ForceElementSizeFeature({ target: 'body' }) as any);
-    return makeWebshell(WebView, ...features);
+      fts.push(new ForceElementSizeFeature({ target: 'body' }) as any);
+    return fts;
   }, [
-    allowWebViewNavigation,
     allowPinchToZoom,
+    allowWebViewNavigation,
     resizeMethod,
     forceResponsiveLayout
   ]);
-  type WebshellProps = React.ComponentProps<typeof Webshell>;
   const onDOMLinkPress = React.useCallback(
     (target: LinkPressTarget) => {
       if (target.scheme.match(/^https?$/)) {
@@ -137,6 +134,16 @@ export function HomeScreen() {
     paddingHorizontal: paddingHz,
     alignSelf: 'stretch' as 'stretch'
   };
+  const webViewProps = useWebshell({
+    features,
+    props: {
+      ...autoheightWebshellProps,
+      onDOMLinkPress,
+      onDOMHashChange,
+      onLayout,
+      scrollEnabled: false
+    }
+  });
   React.useEffect(() => {
     setLayout(null);
   }, [instance]);
@@ -161,13 +168,7 @@ export function HomeScreen() {
           {showConsole ? <View style={styles.statsPlaceholder} /> : null}
           {showEvidence ? <Evidence webshellPosition="below" /> : null}
           <View style={webshellContainerStyle}>
-            <Webshell
-              onDOMLinkPress={onDOMLinkPress}
-              onDOMHashChange={onDOMHashChange}
-              onLayout={onLayout}
-              {...autoheightWebshellProps}
-              scrollEnabled={false}
-            />
+            <WebView {...webViewProps} />
           </View>
           {showEvidence ? <Evidence webshellPosition="above" /> : null}
         </ScrollView>
