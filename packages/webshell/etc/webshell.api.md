@@ -8,6 +8,7 @@ import type { ComponentPropsWithoutRef } from 'react';
 import type { ComponentType } from 'react';
 import type { ElementRef } from 'react';
 import type { ForwardRefExoticComponent } from 'react';
+import * as React_2 from 'react';
 import type { Ref } from 'react';
 import type { RefAttributes } from 'react';
 
@@ -336,6 +337,18 @@ export type PropsSpecs<N extends string, P> = {
 
 // @public
 export function useAutoheight<S extends WebshellProps<MinimalWebViewProps, [ExtractFeatureFromClass<typeof HandleHTMLDimensionsFeature>]>>(params: AutoheightParams<S>): AutoheightState<S>;
+
+// @public
+export function useWebshell<C extends ComponentType<any>, F extends Feature<{}, {}, {}>[]>({ features, props: webshellProps, webViewRef }: UseWebshellParams<React_2.ComponentProps<C>, F>): React_2.ComponentProps<C> & {
+    ref: ElementRef<C>;
+};
+
+// @public
+export interface UseWebshellParams<W extends MinimalWebViewProps, F extends Feature<{}, {}, {}>[]> {
+    features: F;
+    props: WebshellProps<W, F>;
+    webViewRef?: ElementRef<any>;
+}
 
 // @public
 export interface VisualViewportDimensions {

@@ -31,6 +31,7 @@ module.exports = [
       "api/interfaces/linkpressoptions",
       "api/interfaces/linkpresstarget",
       "api/interfaces/minimalwebviewprops",
+      "api/interfaces/usewebshellparams",
       "api/interfaces/visualviewportdimensions",
       "api/interfaces/webhandle",
       "api/interfaces/webhandlerdefinition",
@@ -82,7 +83,8 @@ module.exports = [
     "label": "Functions",
     "items": [
       "api/functions/makewebshell",
-      "api/functions/useautoheight"
+      "api/functions/useautoheight",
+      "api/functions/usewebshell"
     ]
   }
 ];
