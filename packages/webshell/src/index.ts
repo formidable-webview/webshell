@@ -31,5 +31,7 @@ export * from './FeatureBuilder';
 export * from './Feature';
 export * from './features';
 export * from './hooks/autoheigh';
+export { default as useWebshell } from './useWebshell';
+export type { UseWebshellParams } from './useWebshell';
 export { makeWebshell };
 export default makeWebshell;

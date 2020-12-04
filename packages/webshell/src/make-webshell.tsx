@@ -1,132 +1,12 @@
-/* eslint-disable dot-notation */
 import * as React from 'react';
 import type { ComponentType, ElementRef, ComponentPropsWithRef } from 'react';
-import type { NativeSyntheticEvent } from 'react-native';
 import { Feature } from './Feature';
 import type {
   WebshellProps,
-  WebshellInvariantProps,
   MinimalWebViewProps,
   WebshellComponent
 } from './types';
-import { FeatureRegistry } from './FeatureRegistry';
-import { BufferedWebRMIHandle } from './web/BufferedWebRMIHandle';
-import { WebFeaturesLoader } from './web/WebFeaturesLoader';
-import { Reporter } from './Reporter';
-
-interface WebViewMessage {
-  data: string;
-}
-
-interface PostMessage {
-  identifier: string;
-  eventId: string;
-  type: 'feature' | 'error' | 'log' | 'init';
-  severity: 'warn' | 'info';
-  body: any;
-}
-
-function parseJSONSafe(text: string) {
-  try {
-    return (JSON.parse(text) as unknown) ?? null;
-  } catch (e) {
-    return null;
-  }
-}
-
-function isPostMessageObject(o: unknown): o is PostMessage {
-  return (
-    typeof o === 'object' &&
-    o !== null &&
-    typeof o['type'] === 'string' &&
-    o['__isWebshellPostMessage'] === true
-  );
-}
-
-function useWebMessageBus(
-  registry: FeatureRegistry<any>,
-  reporter: Reporter,
-  {
-    webshellDebug,
-    onWebFeatureError,
-    onMessage,
-    ...otherProps
-  }: WebshellInvariantProps & MinimalWebViewProps
-) {
-  const [isLoaderReady, setIsLoaderReady] = React.useState(false);
-  const domHandlers = React.useMemo(() => registry.getWebHandlers(otherProps), [
-    otherProps,
-    registry
-  ]);
-
-  const handleOnWebMessage = React.useCallback(
-    ({ nativeEvent }: NativeSyntheticEvent<WebViewMessage>) => {
-      const parsedJSON = parseJSONSafe(nativeEvent.data);
-      if (isPostMessageObject(parsedJSON)) {
-        const { type, identifier, body, eventId, severity } = parsedJSON;
-        if (type === 'init') {
-          setIsLoaderReady(true);
-          return;
-        }
-        if (type === 'feature') {
-          const propDef = registry.getPropDefFromId(identifier, eventId);
-          if (!propDef) {
-            reporter.dispatchError(
-              'WEBSH_MISSING_SHELL_HANDLER',
-              identifier,
-              eventId
-            );
-            return;
-          }
-          const handlerName = propDef.name;
-          const handler =
-            typeof eventId === 'string' ? domHandlers[handlerName] : null;
-          if (typeof handler === 'function') {
-            handler(body);
-          }
-        } else if (type === 'error') {
-          // Handle as an error message
-          typeof onWebFeatureError === 'function' &&
-            onWebFeatureError(identifier, body);
-          reporter.dispatchError('WEBSH_SCRIPT_ERROR', identifier, body);
-        } else if (type === 'log') {
-          reporter.dispatchWebLog(severity, identifier, body);
-        }
-      } else {
-        typeof onMessage === 'function' && onMessage(nativeEvent);
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [...Object.values(domHandlers), onWebFeatureError, onMessage]
-  );
-  return {
-    handleOnWebMessage,
-    isLoaderReady
-  };
-}
-
-function useWebHandle(
-  webViewRef: React.RefObject<any>,
-  registry: FeatureRegistry<any>,
-  reporter: Reporter
-) {
-  return React.useMemo(
-    (): BufferedWebRMIHandle =>
-      new BufferedWebRMIHandle(webViewRef, registry, reporter),
-    [webViewRef, registry, reporter]
-  );
-}
-
-function useJavaScript(
-  loader: WebFeaturesLoader<any>,
-  injectedJavaScript: string
-) {
-  return React.useMemo(() => {
-    const safeUserscript =
-      typeof injectedJavaScript === 'string' ? injectedJavaScript : '';
-    return `(function(){\n${safeUserscript}\n${loader.assembledFeaturesScript};\n})();true;`;
-  }, [injectedJavaScript, loader]);
-}
+import useWebshell from './useWebshell';
 
 const defaultProps = {
   webshellDebug: __DEV__,
@@ -156,10 +36,14 @@ const defaultProps = {
  *   HandleVisualViewportFeature
  * } from '@formidable-webview/webshell';
  *
- * const Webshell = makeWebshell(
- *   WebView,
+ * const features = [
  *   new HandleHashChangeFeature(),
  *   new HandleVisualViewportFeature()
+ * ]
+ *
+ * const Webshell = makeWebshell(
+ *   WebView,
+ *   ...features
  * );
  * ```
  *
@@ -169,58 +53,14 @@ export function makeWebshell<
   C extends ComponentType<any>,
   F extends Feature<{}, {}, {}>[]
 >(WebView: C, ...features: F): WebshellComponent<C, F> {
-  const filteredFeatures = features.filter((f) => !!f);
-  const loader = new WebFeaturesLoader(filteredFeatures);
-  const Webshell = (
-    props: WebshellProps<MinimalWebViewProps, F> & {
-      webViewRef: ElementRef<any>;
-    }
-  ) => {
-    const {
-      webViewRef,
-      webHandleRef,
-      injectedJavaScript: userInjectedJavaScript,
-      webshellDebug = defaultProps.webshellDebug,
-      webshellStrictMode = defaultProps.webshellStrictMode,
-      ...webViewProps
-    } = props;
-    const reporter = React.useMemo(
-      () => new Reporter(webshellDebug, webshellStrictMode),
-      [webshellDebug, webshellStrictMode]
-    );
-    const registry = React.useMemo(
-      () => new FeatureRegistry(filteredFeatures, reporter),
-      [reporter]
-    );
-    const { handleOnWebMessage, isLoaderReady } = useWebMessageBus(
-      registry,
-      reporter,
-      props
-    );
-    const injectedJavaScript = useJavaScript(
-      loader,
-      userInjectedJavaScript as string
-    );
-    const webHandle = useWebHandle(webViewRef as any, registry, reporter);
-
-    React.useImperativeHandle(webHandleRef, () => webHandle);
-    React.useEffect(() => {
-      webHandle.setDebug(webshellDebug);
-    }, [webshellDebug, webHandle]);
-    React.useEffect(() => {
-      if (isLoaderReady) {
-        webHandle.flushPendingMessages();
-      }
-    }, [isLoaderReady, webHandle]);
-    return (
-      <WebView
-        {...registry.filterWebViewProps(webViewProps)}
-        ref={webViewRef}
-        injectedJavaScript={injectedJavaScript}
-        javaScriptEnabled={true}
-        onMessage={handleOnWebMessage}
-      />
-    );
+  const Webshell = ({
+    webViewRef,
+    ...props
+  }: WebshellProps<MinimalWebViewProps, F> & {
+    webViewRef: ElementRef<any>;
+  }) => {
+    const webViewProps = useWebshell({ features, props, webViewRef });
+    return React.createElement(WebView, webViewProps);
   };
   Webshell.defaultProps = defaultProps;
   return React.forwardRef<
