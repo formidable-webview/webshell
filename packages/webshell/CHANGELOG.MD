@@ -1,3 +1,10 @@
+# [2.2.0](https://github.com/formidable-webview/webshell/compare/v2.1.1...v2.2.0) (2020-12-04)
+
+
+### Features
+
+* new options for ForceResponsiveViewportFeature ([6141e8a](https://github.com/formidable-webview/webshell/commit/6141e8a574fa66b3d5eecf6837a84ce6ac175c3b))
+
 ## [2.1.1](https://github.com/formidable-webview/webshell/compare/v2.1.0...v2.1.1) (2020-12-04)
 
 # [2.1.0](https://github.com/formidable-webview/webshell/compare/v2.0.2...v2.1.0) (2020-12-04)
