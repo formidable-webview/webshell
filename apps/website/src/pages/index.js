@@ -120,7 +120,7 @@ function Home() {
       iconName: 'height',
       description: (
         <>
-          Discorver a landmark use-case:{' '}
+          Discover a landmark use-case:{' '}
           <a href={useBaseUrl('/docs/autoheight')}>the Autoheight WebView</a>.
           We depict caveats and workarounds to{' '}
           <strong>convey transparency over magic</strong> and let API consumers
