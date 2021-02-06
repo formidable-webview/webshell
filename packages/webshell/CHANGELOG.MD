@@ -1,3 +1,15 @@
+# [2.3.0](https://github.com/formidable-webview/webshell/compare/v2.2.0...v2.3.0) (2021-02-06)
+
+
+### Bug Fixes
+
+* unecessary re-renders caused by misusage of hooks deps ([9b1d579](https://github.com/formidable-webview/webshell/commit/9b1d579fe82d2df03a658beaff14a6e5c02d6686)), closes [#5](https://github.com/formidable-webview/webshell/issues/5)
+
+
+### Features
+
+* add anchor attributes to payload in HandleLinkPressFeature ([e2ff35e](https://github.com/formidable-webview/webshell/commit/e2ff35e325b44fd5ae9b417fa914741a77271590)), closes [#8](https://github.com/formidable-webview/webshell/issues/8)
+
 # [2.2.0](https://github.com/formidable-webview/webshell/compare/v2.1.1...v2.2.0) (2020-12-04)
 
 
