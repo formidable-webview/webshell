@@ -282,13 +282,22 @@ export interface LinkPressOptions {
 
 // @public
 export interface LinkPressTarget {
+    classAttribute: string | null;
     clickedAnchorBoundingRect: DOMRect;
+    downloadAttribute: string | null;
     hrefAttribute: string;
+    hreflangAttribute: string | null;
+    idAttribute: string | null;
+    nameAttribute: string | null;
     page: {
         origin: string | null;
         href: string;
     };
+    referrerpolicyAttribute: string | null;
+    relAttribute: string | null;
     scheme: string;
+    targetAttribute: string | null;
+    typeAttribute: string | null;
     uri: string;
 }
 
