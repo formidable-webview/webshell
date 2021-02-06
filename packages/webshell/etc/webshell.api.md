@@ -210,7 +210,9 @@ export const ForceResponsiveViewportFeature: FeatureClass<ForceResponsiveViewpor
 
 // @public
 export interface ForceResponsiveViewportOptions {
+    initScale?: number;
     maxScale?: number;
+    minScale?: number;
 }
 
 // @public

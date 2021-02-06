@@ -53,11 +53,7 @@ function useWebMessageBus(
   }: WebshellInvariantProps & MinimalWebViewProps
 ) {
   const [isLoaderReady, setIsLoaderReady] = React.useState(false);
-  const domHandlers = React.useMemo(() => registry.getWebHandlers(otherProps), [
-    otherProps,
-    registry
-  ]);
-
+  const domHandlers = registry.getWebHandlers(otherProps);
   const handleOnWebMessage = React.useCallback(
     ({ nativeEvent }: NativeSyntheticEvent<WebViewMessage>) => {
       const parsedJSON = parseJSONSafe(nativeEvent.data);
