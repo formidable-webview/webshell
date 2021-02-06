@@ -44,6 +44,42 @@ export interface LinkPressTarget {
    */
   hrefAttribute: string;
   /**
+   * The `download` attribute, if present.
+   */
+  downloadAttribute: string | null;
+  /**
+   * The `target` attribute, if present.
+   */
+  targetAttribute: string | null;
+  /**
+   * The `hreflang` attribute, if present.
+   */
+  hreflangAttribute: string | null;
+  /**
+   * The `referrerpolicy` attribute, if present.
+   */
+  referrerpolicyAttribute: string | null;
+  /**
+   * The `rel` attribute, if present.
+   */
+  relAttribute: string | null;
+  /**
+   * The `type` attribute, if present.
+   */
+  typeAttribute: string | null;
+  /**
+   * The `id` attribute, if present.
+   */
+  idAttribute: string | null;
+  /**
+   * The `class` attribute, if present.
+   */
+  classAttribute: string | null;
+  /**
+   * The `name` attribute, if present.
+   */
+  nameAttribute: string | null;
+  /**
    * The bounding rectangle of the anchor which has been clicked.
    * See {@link https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect | Element.getBoundingClientRect()}
    */

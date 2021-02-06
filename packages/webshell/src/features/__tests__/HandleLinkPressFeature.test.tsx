@@ -16,7 +16,10 @@ describe('Webshell with HandleLinkPressFeature', () => {
       render(
         <Webshell
           onDOMLinkPress={onDOMLinkPress}
-          source={{ html: '<a id="anchor0" href="https://foo.org">bar</a>' }}
+          source={{
+            html:
+              '<a id="anchor0" class="link" type="text/html" rel="alternate" download="" target="_blank" hreflang="en" referrerpolicy="no-referrer" href="https://foo.org">bar</a>'
+          }}
         />
       )
     );
@@ -25,6 +28,15 @@ describe('Webshell with HandleLinkPressFeature', () => {
       uri: 'https://foo.org/',
       scheme: expect.any(String),
       hrefAttribute: expect.any(String),
+      downloadAttribute: '',
+      targetAttribute: '_blank',
+      hreflangAttribute: 'en',
+      referrerpolicyAttribute: 'no-referrer',
+      relAttribute: 'alternate',
+      typeAttribute: 'text/html',
+      idAttribute: 'anchor0',
+      classAttribute: 'link',
+      nameAttribute: null,
       clickedAnchorBoundingRect: {
         top: expect.any(Number),
         left: expect.any(Number),
