@@ -52,7 +52,7 @@ const ControlsHeader = memo(
             icon="foot-print"
             onPress={toggleEvidence}
           />
-          <Appbar.Action size={20} icon="settings" onPress={goToOptions} />
+          <Appbar.Action size={20} icon={'settings'} onPress={goToOptions} />
         </Appbar>
       </View>
     );
