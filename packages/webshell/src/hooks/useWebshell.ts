@@ -55,7 +55,9 @@ function useWebMessageBus(
   const [isLoaderReady, setIsLoaderReady] = React.useState(false);
   const domHandlers = registry.getWebHandlers(otherProps);
   const handleOnWebMessage = React.useCallback(
-    ({ nativeEvent }: NativeSyntheticEvent<WebViewMessage>) => {
+    function handleOnWebMessage({
+      nativeEvent
+    }: NativeSyntheticEvent<WebViewMessage>) {
       const parsedJSON = parseJSONSafe(nativeEvent.data);
       if (isPostMessageObject(parsedJSON)) {
         const { type, identifier, body, eventId, severity } = parsedJSON;
@@ -239,14 +241,20 @@ export default function useWebshell<
   );
   const webHandle = useWebHandle(resolvedWebViewRef, registry, reporter);
   React.useImperativeHandle(webHandleRef, () => webHandle);
-  React.useEffect(() => {
-    webHandle.setDebug(webshellDebug);
-  }, [webshellDebug, webHandle]);
-  React.useEffect(() => {
-    if (isLoaderReady) {
-      webHandle.flushPendingMessages();
-    }
-  }, [isLoaderReady, webHandle]);
+  React.useEffect(
+    function syncDebug() {
+      webHandle.setDebug(webshellDebug);
+    },
+    [webshellDebug, webHandle]
+  );
+  React.useEffect(
+    function flushPendingMessages() {
+      if (isLoaderReady) {
+        webHandle.flushPendingMessages();
+      }
+    },
+    [isLoaderReady, webHandle]
+  );
   return ({
     ...registry.filterWebViewProps<React.ComponentProps<C>>(webshellProps),
     injectedJavaScript,

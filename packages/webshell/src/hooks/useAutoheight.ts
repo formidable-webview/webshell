@@ -144,37 +144,46 @@ function useAutoheightState<
     implementation,
     contentSize: { width, height }
   } = state;
-  React.useEffect(() => {
-    setState(({ contentSize, viewportWidth }) => ({
-      viewportWidth,
-      contentSize: {
-        height: undefined,
-        width: contentSize.width
-      },
-      implementation: null,
-      syncState: 'syncing',
-      lastFrameChangedWidth: false
-    }));
-    webshellDebug &&
-      console.info(
-        `${useAutoheight.name}: source change detected, resetting height to ${initialHeight}dp.`
-      );
-  }, [source.uri, source.html, webshellDebug, initialHeight]);
-  React.useEffect(() => {
-    webshellDebug &&
-      scalesPageToFit === true &&
-      console.warn(
-        `${useAutoheight.name}: You cannot use scalesPageToFit with autoheight hook. The value will be overriden to false`
-      );
-  }, [scalesPageToFit, webshellDebug]);
-  React.useEffect(() => {
-    webshellDebug &&
-      console.info(
-        `${
-          useAutoheight.name
-        }: DOMHTMLDimensions event #${++numberOfEvents} (implementation: ${implementation}, content width: ${width}, content height: ${height})`
-      );
-  }, [webshellDebug, implementation, height, width]);
+  React.useEffect(
+    function resetHeightOnSourceChanges() {
+      setState(({ contentSize, viewportWidth }) => ({
+        viewportWidth,
+        contentSize: {
+          height: undefined,
+          width: contentSize.width
+        },
+        implementation: null,
+        syncState: 'syncing',
+        lastFrameChangedWidth: false
+      }));
+      webshellDebug &&
+        console.info(
+          `${useAutoheight.name}: source change detected, resetting height to ${initialHeight}dp.`
+        );
+    },
+    [source.uri, source.html, webshellDebug, initialHeight]
+  );
+  React.useEffect(
+    function debugScalesPageToFit() {
+      webshellDebug &&
+        scalesPageToFit === true &&
+        console.warn(
+          `${useAutoheight.name}: You cannot use scalesPageToFit with autoheight hook. The value will be overriden to false`
+        );
+    },
+    [scalesPageToFit, webshellDebug]
+  );
+  React.useEffect(
+    function debugDOMHTMLDimensions() {
+      webshellDebug &&
+        console.info(
+          `${
+            useAutoheight.name
+          }: DOMHTMLDimensions event #${++numberOfEvents} (implementation: ${implementation}, content width: ${width}, content height: ${height})`
+        );
+    },
+    [webshellDebug, implementation, height, width]
+  );
   return { state, setState };
 }
 
@@ -253,8 +262,8 @@ export default function useAutoheight<
     typeof userExplicitWidth !== 'number' &&
     lastFrameChangedWidth &&
     resetHeightOnViewportWidthChange;
-  const handleDOMHTMLDimensions = React.useCallback(
-    (htmlDimensions: HTMLDimensions) => {
+  const handleOnDOMHTMLDimensions = React.useCallback(
+    function handleOnDOMHTMLDimensions(htmlDimensions: HTMLDimensions) {
       setState((prevState) => {
         return {
           viewportWidth: htmlDimensions.layoutViewport.width,
@@ -292,22 +301,25 @@ export default function useAutoheight<
       shouldReinitNextFrameHeight
     ]
   );
-  React.useEffect(() => {
-    const timeout = setTimeout(
-      () =>
-        setState((prevState) => ({
-          ...prevState,
-          lastFrameChangedWidth: false
-        })),
-      50
-    );
-    return clearTimeout.bind(null, timeout);
-  }, [shouldReinitNextFrameHeight, setState]);
+  React.useEffect(
+    function resetLastFrameChangedWidth() {
+      const timeout = setTimeout(
+        () =>
+          setState((prevState) => ({
+            ...prevState,
+            lastFrameChangedWidth: false
+          })),
+        50
+      );
+      return clearTimeout.bind(null, timeout);
+    },
+    [shouldReinitNextFrameHeight, setState]
+  );
   return {
     autoheightWebshellProps: {
       ...passedProps,
       webshellDebug,
-      onDOMHTMLDimensions: handleDOMHTMLDimensions,
+      onDOMHTMLDimensions: handleOnDOMHTMLDimensions,
       style: autoHeightStyle,
       scalesPageToFit: false,
       showsVerticalScrollIndicator: false,
