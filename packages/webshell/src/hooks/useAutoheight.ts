@@ -122,6 +122,14 @@ interface AutoheightInternalState {
   viewportWidth: number;
 }
 
+const initialState: AutoheightInternalState = {
+  implementation: null,
+  contentSize: initialDimensions,
+  syncState: 'init',
+  lastFrameChangedWidth: false,
+  viewportWidth: 0
+};
+
 function useAutoheightState<
   S extends WebshellProps<
     MinimalWebViewProps,
@@ -129,13 +137,9 @@ function useAutoheightState<
   >
 >({ webshellProps, initialHeight }: AutoheightParams<S>) {
   const { scalesPageToFit, source = {}, webshellDebug } = webshellProps;
-  const [state, setState] = React.useState<AutoheightInternalState>({
-    implementation: null,
-    contentSize: initialDimensions,
-    syncState: 'init',
-    lastFrameChangedWidth: false,
-    viewportWidth: 0
-  });
+  const [state, setState] = React.useState<AutoheightInternalState>(
+    initialState
+  );
   const {
     implementation,
     contentSize: { width, height }
