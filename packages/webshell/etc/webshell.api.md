@@ -22,7 +22,7 @@ export interface AutoheightParams<S extends WebshellProps<MinimalWebViewProps, F
 
 // @public
 export interface AutoheightState<S extends WebshellProps<MinimalWebViewProps, [ExtractFeatureFromClass<typeof HandleHTMLDimensionsFeature>]>> {
-    autoheightWebshellProps: Pick<S, 'webshellDebug' | 'onDOMHTMLDimensions' | 'style' | 'scalesPageToFit' | 'showsVerticalScrollIndicator' | 'disableScrollViewPanResponder'> & Partial<S>;
+    autoheightWebshellProps: Pick<S, 'webshellDebug' | 'onDOMHTMLDimensions' | 'style' | 'scalesPageToFit' | 'showsVerticalScrollIndicator' | 'disableScrollViewPanResponder' | 'contentMode'> & Partial<S>;
     contentSize: Partial<DOMRectSize>;
     resizeImplementation: HTMLDimensionsImplementation | null;
     syncState: AutoheightSyncState;
@@ -311,6 +311,8 @@ export { makeWebshell }
 
 // @public
 export interface MinimalWebViewProps {
+    // (undocumented)
+    readonly contentMode?: unknown;
     // (undocumented)
     readonly disableScrollViewPanResponder?: unknown;
     // (undocumented)

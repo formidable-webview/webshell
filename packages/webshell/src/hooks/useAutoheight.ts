@@ -53,6 +53,7 @@ export interface AutoheightState<
     | 'scalesPageToFit'
     | 'showsVerticalScrollIndicator'
     | 'disableScrollViewPanResponder'
+    | 'contentMode'
   > &
     Partial<S>;
   /**
@@ -323,7 +324,8 @@ export default function useAutoheight<
       style: autoHeightStyle,
       scalesPageToFit: false,
       showsVerticalScrollIndicator: false,
-      disableScrollViewPanResponder: true
+      disableScrollViewPanResponder: true,
+      contentMode: 'mobile'
     } as AutoheightState<S>['autoheightWebshellProps'],
     resizeImplementation: implementation,
     contentSize: state.contentSize,

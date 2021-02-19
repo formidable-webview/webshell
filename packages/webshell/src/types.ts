@@ -302,6 +302,7 @@ export interface MinimalWebViewProps {
   readonly scalesPageToFit?: unknown;
   readonly showsVerticalScrollIndicator?: unknown;
   readonly disableScrollViewPanResponder?: unknown;
+  readonly contentMode?: unknown;
 }
 
 // Web TYPES
