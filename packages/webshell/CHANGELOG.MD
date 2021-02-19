@@ -1,3 +1,17 @@
+# [2.4.0](https://github.com/formidable-webview/webshell/compare/v2.3.0...v2.4.0) (2021-02-19)
+
+
+### Bug Fixes
+
+* only warn only when `forceImplementation` isn't set to polling ([949fffb](https://github.com/formidable-webview/webshell/commit/949fffb95af84af814df5b65c9d6dd16a2b3d2b5))
+* set WebView `contentMode` prop to `"mobile"` ([3f57d62](https://github.com/formidable-webview/webshell/commit/3f57d6277f24ce63dee8ca8490bc6fafb0de9975)), closes [/github.com/formidable-webview/webshell/issues/5#issuecomment-782358464](https://github.com//github.com/formidable-webview/webshell/issues/5/issues/issuecomment-782358464) [#5](https://github.com/formidable-webview/webshell/issues/5)
+
+
+### Features
+
+* new `InjectStyleFeature` feature to inject style elements ([23138b8](https://github.com/formidable-webview/webshell/commit/23138b85be7debd4a97613f6744ca6953453539a))
+* new `listenToWindowResizeEvent` option for html dimensions feature ([5e7cba7](https://github.com/formidable-webview/webshell/commit/5e7cba73c48e7d69943401edfb31bd7793fe528d))
+
 # [2.3.0](https://github.com/formidable-webview/webshell/compare/v2.2.0...v2.3.0) (2021-02-06)
 
 
