@@ -276,6 +276,14 @@ export interface HTMLDimensions {
 export type HTMLDimensionsImplementation = 'resize' | 'mutation' | 'polling';
 
 // @public
+export const InjectStyleFeature: FeatureClass<InjectStyleFeatureOptions>;
+
+// @public
+export interface InjectStyleFeatureOptions {
+    css: string;
+}
+
+// @public
 export interface LinkPressOptions {
     ignoreHashChange?: boolean;
     preventDefault?: boolean;
