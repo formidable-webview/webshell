@@ -312,7 +312,7 @@ export default function useAutoheight<
           })),
         50
       );
-      return clearTimeout.bind(null, timeout);
+      return () => clearTimeout(timeout);
     },
     [shouldReinitNextFrameHeight, setState]
   );
