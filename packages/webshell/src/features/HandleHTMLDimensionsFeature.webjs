@@ -75,11 +75,12 @@ function HandleHTMLDimensionsFeature(context) {
     window.addEventListener('resize', pollingPostDimensions);
     setInterval(pollingPostDimensions, pollingInterval);
     pollingPostDimensions();
-    context.warn(
-      "This browser doesn't support either MutationObserver or ResizeObserver." +
-        'The dimensions will still be read every' +
-        pollingInterval +
-        'ms and committed when a change is observed.'
-    );
+    forceImplementation !== 'polling' &&
+      context.warn(
+        "This browser doesn't support either MutationObserver or ResizeObserver." +
+          'The dimensions will still be read every ' +
+          pollingInterval +
+          'ms and committed when a change is observed.'
+      );
   }
 }
