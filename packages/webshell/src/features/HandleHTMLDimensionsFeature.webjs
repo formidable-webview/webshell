@@ -1,6 +1,8 @@
 function HandleHTMLDimensionsFeature(context) {
   var options = context.options || {};
   var forceImplementation = options.forceImplementation || false;
+  var listenToWindowResizeEvent =
+    options.listenToWindowResizeEvent === false ? false : true;
   var pollingInterval =
     typeof options.pollingInterval === 'number' ? options.pollingInterval : 200;
   var deltaMin = options.deltaMin || 0;
@@ -62,7 +64,9 @@ function HandleHTMLDimensionsFeature(context) {
   ) {
     // mutation mode
     var observerPostDimensions = createPostDimensions('mutation');
-    window.addEventListener('resize', observerPostDimensions);
+    if (listenToWindowResizeEvent) {
+      window.addEventListener('resize', observerPostDimensions);
+    }
     var observer = new MutationObserver(observerPostDimensions);
     observer.observe(document, {
       subtree: true,
@@ -72,7 +76,9 @@ function HandleHTMLDimensionsFeature(context) {
   } else {
     // polling mode
     var pollingPostDimensions = createPostDimensions('polling');
-    window.addEventListener('resize', pollingPostDimensions);
+    if (listenToWindowResizeEvent) {
+      window.addEventListener('resize', pollingPostDimensions);
+    }
     setInterval(pollingPostDimensions, pollingInterval);
     pollingPostDimensions();
     forceImplementation !== 'polling' &&

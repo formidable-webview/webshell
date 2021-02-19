@@ -245,6 +245,7 @@ export const HandleHTMLDimensionsFeature: FeatureClass<HandleHTMLDimensionsOptio
 export interface HandleHTMLDimensionsOptions {
     deltaMin?: number;
     forceImplementation?: HTMLDimensionsImplementation | false;
+    listenToWindowResizeEvent?: boolean;
     pollingInterval?: number;
 }
 

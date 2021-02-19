@@ -42,6 +42,7 @@ export interface HandleHTMLDimensionsOptions {
    * @defaultValue 200
    */
   pollingInterval?: number;
+
   /**
    * The minimum difference between two updates' dimensions to trigger a change
    * event.
@@ -50,6 +51,18 @@ export interface HandleHTMLDimensionsOptions {
    * @defaultValue 0
    */
   deltaMin?: number;
+
+  /**
+   * Allow or disallow using `window.addEventListener('resize', handler)` to
+   * complement dimensions extraction.
+   *
+   * @remarks
+   * This option only affects 'polling' and 'resize' implementations.
+   *
+   *
+   * @defaultValue `true`
+   */
+  listenToWindowResizeEvent?: boolean;
 }
 
 /**
@@ -82,7 +95,8 @@ export interface HTMLDimensions {
 const defaultOptions: Required<HandleHTMLDimensionsOptions> = {
   deltaMin: 0,
   forceImplementation: false,
-  pollingInterval: 200
+  pollingInterval: 200,
+  listenToWindowResizeEvent: true
 };
 
 /**
