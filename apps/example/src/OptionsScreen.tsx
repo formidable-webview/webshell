@@ -34,10 +34,12 @@ export const OptionsScreen = () => {
     paddingHz,
     sourceName,
     resizeMethod,
+    resetHeightOnViewportWidthChange,
     setResizeMethod,
     setSourceName,
     toggleAllowPinchToZoom,
     toggleAllowWebViewNavigation,
+    toggleResetHeightOnViewportWidthChange,
     toggleConsole,
     toggleEvidence,
     toggleForceResponsiveLayout,
@@ -99,6 +101,16 @@ export const OptionsScreen = () => {
                 description="Display a sticky frame with autoheight metrics"
                 right={() => (
                   <Switch value={showConsole} onValueChange={toggleConsole} />
+                )}
+              />
+              <List.Item
+                title="Reset height on width change"
+                description="Reset the height on viewport width changes. Might be required with flexible layouts, but causes a flash."
+                right={() => (
+                  <Switch
+                    value={resetHeightOnViewportWidthChange}
+                    onValueChange={toggleResetHeightOnViewportWidthChange}
+                  />
                 )}
               />
               <List.Item

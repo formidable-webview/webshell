@@ -29,6 +29,8 @@ interface AppState {
   toggleAllowPinchToZoom: () => void;
   allowWebViewNavigation: boolean;
   toggleAllowWebViewNavigation: () => void;
+  resetHeightOnViewportWidthChange: boolean;
+  toggleResetHeightOnViewportWidthChange: () => void;
 }
 
 function noop() {}
@@ -43,6 +45,7 @@ const defaultState: AppState = {
   resizeMethod: 'auto',
   allowPinchToZoom: false,
   allowWebViewNavigation: false,
+  resetHeightOnViewportWidthChange: true,
   forceRerender: noop,
   setResizeMethod: noop,
   setSourceName: noop,
@@ -51,7 +54,8 @@ const defaultState: AppState = {
   toggleConsole: noop,
   toggleEvidence: noop,
   toggleForceResponsiveLayout: noop,
-  togglePadding: noop
+  togglePadding: noop,
+  toggleResetHeightOnViewportWidthChange: noop
 };
 
 const AppStoreContext = createContext<AppState>(defaultState);
@@ -80,6 +84,10 @@ export default function AppStoreProvider({ children }: any) {
   const [allowWebViewNavigation, setAllowWebViewNavigation] = useState(
     defaultState.allowWebViewNavigation
   );
+  const [
+    resetHeightOnViewportWidthChange,
+    setResetHeightOnViewportWidthChange
+  ] = useState(defaultState.resetHeightOnViewportWidthChange);
   const togglePadding = useCallback(() => {
     setPaddingHz((p) => (p ? 0 : 20));
   }, []);
@@ -103,6 +111,9 @@ export default function AppStoreProvider({ children }: any) {
   const toggleForceResponsiveLayout = useCallback(() => {
     setForceResponsiveLayout((v) => !v);
   }, []);
+  const toggleResetHeightOnViewportWidthChange = useCallback(() => {
+    setResetHeightOnViewportWidthChange((v) => !v);
+  }, []);
   const state: AppState = {
     paddingHz,
     togglePadding,
@@ -121,7 +132,9 @@ export default function AppStoreProvider({ children }: any) {
     allowPinchToZoom,
     toggleAllowPinchToZoom,
     allowWebViewNavigation,
-    toggleAllowWebViewNavigation
+    toggleAllowWebViewNavigation,
+    resetHeightOnViewportWidthChange,
+    toggleResetHeightOnViewportWidthChange
   };
   return <AppStoreContext.Provider value={state} children={children} />;
 }

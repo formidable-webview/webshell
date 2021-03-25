@@ -10,64 +10,21 @@ interface Props {
   scrollViewRef: RefObject<ScrollView>;
 }
 
-const ControlsHeader = memo(
-  ({
-    forceRerender,
-    scrollToStart,
-    scrollToEnd,
-    showConsole,
-    showEvidence,
-    goToOptions,
-    toggleConsole,
-    toggleEvidence
-  }: any) => {
-    const {
-      colors: { accent }
-    } = useTheme();
-    const { left, right } = useSafeAreaInsets();
-    return (
-      <View style={{ height: APPBAR_HEIGHT }}>
-        <Appbar
-          style={[
-            styles.bottomSheetHeader,
-            {
-              height: APPBAR_HEIGHT,
-              paddingLeft: left,
-              paddingRight: right
-            }
-          ]}>
-          <Appbar.Action size={20} icon="refresh" onPress={forceRerender} />
-          <Appbar.Action size={20} icon="chevron-up" onPress={scrollToStart} />
-          <Appbar.Action size={20} icon="chevron-down" onPress={scrollToEnd} />
-          <Appbar.Content title="" />
-          <Appbar.Action
-            color={showConsole ? accent : undefined}
-            size={20}
-            icon="console-line"
-            onPress={toggleConsole}
-          />
-          <Appbar.Action
-            color={showEvidence ? accent : undefined}
-            size={20}
-            icon="foot-print"
-            onPress={toggleEvidence}
-          />
-          <Appbar.Action size={20} icon={'settings'} onPress={goToOptions} />
-        </Appbar>
-      </View>
-    );
-  }
-);
-
-export function AppControls({ scrollViewRef }: Props) {
+const AppControls = memo(function AppControls({ scrollViewRef }: Props) {
   const navigation = useNavigation();
   const {
     showConsole,
     showEvidence,
+    paddingHz,
     toggleConsole,
     toggleEvidence,
+    togglePadding,
     forceRerender
   } = useStore();
+  const {
+    colors: { accent }
+  } = useTheme();
+  const { left, right } = useSafeAreaInsets();
   const goToOptions = useCallback(() => navigation.navigate('Options'), [
     navigation
   ]);
@@ -80,18 +37,45 @@ export function AppControls({ scrollViewRef }: Props) {
     [scrollViewRef]
   );
   return (
-    <ControlsHeader
-      forceRerender={forceRerender}
-      scrollToEnd={scrollToEnd}
-      scrollToStart={scrollToStart}
-      goToOptions={goToOptions}
-      showConsole={showConsole}
-      showEvidence={showEvidence}
-      toggleConsole={toggleConsole}
-      toggleEvidence={toggleEvidence}
-    />
+    <View style={{ height: APPBAR_HEIGHT }}>
+      <Appbar
+        style={[
+          styles.bottomSheetHeader,
+          {
+            height: APPBAR_HEIGHT,
+            paddingLeft: left,
+            paddingRight: right
+          }
+        ]}>
+        <Appbar.Action size={20} icon="refresh" onPress={forceRerender} />
+        <Appbar.Action size={20} icon="chevron-up" onPress={scrollToStart} />
+        <Appbar.Action size={20} icon="chevron-down" onPress={scrollToEnd} />
+        <Appbar.Content title="" />
+        <Appbar.Action
+          color={showConsole ? accent : undefined}
+          size={20}
+          icon="console-line"
+          onPress={toggleConsole}
+        />
+        <Appbar.Action
+          color={showEvidence ? accent : undefined}
+          size={20}
+          icon="foot-print"
+          onPress={toggleEvidence}
+        />
+        <Appbar.Action
+          color={paddingHz ? accent : undefined}
+          size={20}
+          icon="arrow-left-right"
+          onPress={togglePadding}
+        />
+        <Appbar.Action size={20} icon={'settings'} onPress={goToOptions} />
+      </Appbar>
+    </View>
   );
-}
+});
+
+export { AppControls };
 
 const styles = StyleSheet.create({
   safePlaceholder: {

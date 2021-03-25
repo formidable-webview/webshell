@@ -54,7 +54,8 @@ export function HomeScreen() {
     instance,
     paddingHz,
     sourceName,
-    resizeMethod
+    resizeMethod,
+    resetHeightOnViewportWidthChange
   } = useStore();
   const source = sourceMap[sourceName];
   const {
@@ -68,7 +69,8 @@ export function HomeScreen() {
       style: styles.autoheight,
       webshellDebug: true
     },
-    initialHeight: 200
+    initialHeight: 200,
+    resetHeightOnViewportWidthChange
   });
   const containerPaddingTop = showEvidence ? TOP_TEXT_HEIGHT : 0;
   containerPaddingTopRef.current = containerPaddingTop;
