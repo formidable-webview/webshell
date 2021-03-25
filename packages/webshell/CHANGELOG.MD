@@ -1,3 +1,10 @@
+# [2.5.0](https://github.com/formidable-webview/webshell/compare/v2.4.0...v2.5.0) (2021-03-25)
+
+
+### Features
+
+* better `useAutoheight` debugging experience regarding incompatible WebView props ([29d251a](https://github.com/formidable-webview/webshell/commit/29d251a40e5126e38d96d29a2a1c215064a99e69))
+
 # [2.4.0](https://github.com/formidable-webview/webshell/compare/v2.3.0...v2.4.0) (2021-02-19)
 
 
