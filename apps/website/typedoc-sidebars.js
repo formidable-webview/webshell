@@ -28,6 +28,7 @@ module.exports = [
       "api/interfaces/handlehtmldimensionsoptions",
       "api/interfaces/handlehashchangeoptions",
       "api/interfaces/hashchangeevent",
+      "api/interfaces/injectstylefeatureoptions",
       "api/interfaces/linkpressoptions",
       "api/interfaces/linkpresstarget",
       "api/interfaces/minimalwebviewprops",
@@ -75,7 +76,8 @@ module.exports = [
       "api/variables/handlehtmldimensionsfeature",
       "api/variables/handlehashchangefeature",
       "api/variables/handlelinkpressfeature",
-      "api/variables/handlevisualviewportfeature"
+      "api/variables/handlevisualviewportfeature",
+      "api/variables/injectstylefeature"
     ]
   },
   {
