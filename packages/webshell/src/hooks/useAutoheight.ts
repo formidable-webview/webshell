@@ -15,7 +15,14 @@ import Feature from '../Feature';
 
 const initialDimensions = { width: undefined, height: undefined };
 
-let numberOfEvents = 0;
+const overridenWebViewProps = {
+  scalesPageToFit: false,
+  showsVerticalScrollIndicator: false,
+  disableScrollViewPanResponder: true,
+  contentMode: 'mobile'
+} as const;
+
+const overridenWebViewKeys = Object.keys(overridenWebViewProps);
 
 /**
  * The state of synchronization between viewport and content size:
@@ -131,20 +138,69 @@ const initialState: AutoheightInternalState = {
   viewportWidth: 0
 };
 
+function useDevFeedbackEffect({
+  autoHeightParams: { webshellProps },
+  state: {
+    implementation,
+    contentSize: { width, height }
+  }
+}: {
+  autoHeightParams: AutoheightParams<WebshellProps<MinimalWebViewProps, []>>;
+  state: AutoheightInternalState;
+}) {
+  const numberOfEventsRef = React.useRef(0);
+  const { webshellDebug } = webshellProps;
+  const forbiddenWebViewProps = overridenWebViewKeys
+    .map((key) => [key, webshellProps[key]])
+    .reduce((prev, [key, value]) => {
+      prev[key] = value;
+      return prev;
+    }, {} as any);
+  React.useEffect(
+    function warnOverridenProps() {
+      for (const forbiddenKey of overridenWebViewKeys) {
+        if (
+          forbiddenWebViewProps[forbiddenKey] !== undefined &&
+          forbiddenWebViewProps[forbiddenKey] !==
+            overridenWebViewProps[forbiddenKey]
+        ) {
+          console.warn(
+            `${useAutoheight.name}: You cannot set "${forbiddenKey}" prop to "${webshellProps[forbiddenKey]}" with autoheight hook. The value will be overriden to "${overridenWebViewProps[forbiddenKey]}".`
+          );
+        }
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [webshellDebug, ...Object.values(forbiddenWebViewProps)]
+  );
+  React.useEffect(
+    function debugDOMHTMLDimensions() {
+      webshellDebug &&
+        console.info(
+          `${
+            useAutoheight.name
+          }: DOMHTMLDimensions event #${++numberOfEventsRef.current} (implementation: ${implementation}, content width: ${width}, content height: ${height})`
+        );
+    },
+    [webshellDebug, implementation, height, width]
+  );
+}
+
 function useAutoheightState<
   S extends WebshellProps<
     MinimalWebViewProps,
     [ExtractFeatureFromClass<typeof HandleHTMLDimensionsFeature>]
   >
->({ webshellProps, initialHeight }: AutoheightParams<S>) {
-  const { scalesPageToFit, source = {}, webshellDebug } = webshellProps;
+>(autoHeightParams: AutoheightParams<S>) {
+  const { webshellProps, initialHeight } = autoHeightParams;
+  const { source = {}, webshellDebug } = webshellProps;
   const [state, setState] = React.useState<AutoheightInternalState>(
     initialState
   );
-  const {
-    implementation,
-    contentSize: { width, height }
-  } = state;
+  if (__DEV__) {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useDevFeedbackEffect({ autoHeightParams, state });
+  }
   React.useEffect(
     function resetHeightOnSourceChanges() {
       setState(({ contentSize, viewportWidth }) => ({
@@ -157,34 +213,16 @@ function useAutoheightState<
         syncState: 'syncing',
         lastFrameChangedWidth: false
       }));
-      webshellDebug &&
+      __DEV__ &&
+        webshellDebug &&
         console.info(
           `${useAutoheight.name}: source change detected, resetting height to ${initialHeight}dp.`
         );
     },
     [source.uri, source.html, webshellDebug, initialHeight]
   );
-  React.useEffect(
-    function debugScalesPageToFit() {
-      webshellDebug &&
-        scalesPageToFit === true &&
-        console.warn(
-          `${useAutoheight.name}: You cannot use scalesPageToFit with autoheight hook. The value will be overriden to false`
-        );
-    },
-    [scalesPageToFit, webshellDebug]
-  );
-  React.useEffect(
-    function debugDOMHTMLDimensions() {
-      webshellDebug &&
-        console.info(
-          `${
-            useAutoheight.name
-          }: DOMHTMLDimensions event #${++numberOfEvents} (implementation: ${implementation}, content width: ${width}, content height: ${height})`
-        );
-    },
-    [webshellDebug, implementation, height, width]
-  );
+  if (__DEV__) {
+  }
   return { state, setState };
 }
 
@@ -322,10 +360,7 @@ export default function useAutoheight<
       webshellDebug,
       onDOMHTMLDimensions: handleOnDOMHTMLDimensions,
       style: autoHeightStyle,
-      scalesPageToFit: false,
-      showsVerticalScrollIndicator: false,
-      disableScrollViewPanResponder: true,
-      contentMode: 'mobile'
+      ...overridenWebViewProps
     } as AutoheightState<S>['autoheightWebshellProps'],
     resizeImplementation: implementation,
     contentSize: state.contentSize,
