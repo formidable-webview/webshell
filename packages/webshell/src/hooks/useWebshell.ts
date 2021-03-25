@@ -161,10 +161,11 @@ const defaultProps = {
  * - sending messages to the Web environment, see {@link WebHandle};
  * - running script in the Web environment.
  *
- * @remarks You should **always** pass all props returned by this hook to the
- * `WebView` component, and **never** override any of those props. If you need
- * to pass props to the `WebView`, use the `props` parameter field. If you need
- * to pass a reference to the `WebView`, pass this reference to the
+ * @remarks
+ * - You should **always** pass all props returned by this hook to the
+ * `WebView` component, and **never** override any of those props.
+ * - If you need to pass props to the `WebView`, use the `props` parameter field.
+ * - If you need to pass a reference to the `WebView`, pass this reference to the
  * `webViewRef` parameter field.
  *
  * @param param - A param object comprised of features, (webshell) props and
