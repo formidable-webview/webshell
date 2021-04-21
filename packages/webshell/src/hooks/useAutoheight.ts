@@ -246,7 +246,7 @@ function useAutoheightState<
  *   you have been able to test. This can be worked around by forcing body
  *   height to 'auto', see {@link ForceElementSizeFeature}.
  * - In some circumstances, the mobile browser might use a virtual
- *   viewport much larger then the available width in the <WebView />, often
+ *   viewport much larger then the available width in the `<WebView />`, often
  *   around 980px for websites which have been built for desktop. For
  *   this autoheight component to be reliable, you must ensure that the
  *   content has a [meta viewport element](https://www.w3schools.com/css/css_rwd_viewport.asp)
