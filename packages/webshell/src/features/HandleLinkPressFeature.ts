@@ -26,6 +26,15 @@ export interface LinkPressOptions {
 }
 
 /**
+ * An object containing the custom data attributes of the anchor which has been clicked.
+ *
+ * @public
+ */
+export interface DataAttributes {
+  [key: string]: string;
+}
+
+/**
  * The target of a link press event.
  *
  * @public
@@ -79,6 +88,13 @@ export interface LinkPressTarget {
    * The `name` attribute, if present.
    */
   nameAttribute: string | null;
+  /**
+   * The `data-` attributes, if present.
+   *
+   * @remarks
+   * Dashes are converted to camelCase. See {@link https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset  | HTMLElement.dataset}.
+   */
+  dataAttributes: DataAttributes;
   /**
    * The bounding rectangle of the anchor which has been clicked.
    * See {@link https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect | Element.getBoundingClientRect()}

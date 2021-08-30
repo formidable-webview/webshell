@@ -56,6 +56,7 @@ function HandleLinkPressFeature(context) {
         idAttribute: anchor.getAttribute('id'),
         classAttribute: anchor.getAttribute('class'),
         nameAttribute: anchor.getAttribute('name'),
+        dataAttributes: anchor.dataset,
         clickedAnchorBoundingRect: clickedAnchorBoundingRect,
         page: {
           href: window.location.href,

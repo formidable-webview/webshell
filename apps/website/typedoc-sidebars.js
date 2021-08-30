@@ -18,6 +18,7 @@ module.exports = [
       "api/interfaces/domrect",
       "api/interfaces/domrectsize",
       "api/interfaces/domutils",
+      "api/interfaces/dataattributes",
       "api/interfaces/elementcssboxdimensions",
       "api/interfaces/featurebuilderconfig",
       "api/interfaces/featureclass",

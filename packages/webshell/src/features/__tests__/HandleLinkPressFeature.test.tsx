@@ -18,7 +18,7 @@ describe('Webshell with HandleLinkPressFeature', () => {
           onDOMLinkPress={onDOMLinkPress}
           source={{
             html:
-              '<a id="anchor0" class="link" type="text/html" rel="alternate" download="" target="_blank" hreflang="en" referrerpolicy="no-referrer" href="https://foo.org">bar</a>'
+              '<a id="anchor0" class="link" type="text/html" rel="alternate" download="" target="_blank" hreflang="en" referrerpolicy="no-referrer" href="https://foo.org" data-webshell="custom">bar</a>'
           }}
         />
       )
@@ -37,6 +37,9 @@ describe('Webshell with HandleLinkPressFeature', () => {
       idAttribute: 'anchor0',
       classAttribute: 'link',
       nameAttribute: null,
+      dataAttributes: {
+        webshell: 'custom'
+      },
       clickedAnchorBoundingRect: {
         top: expect.any(Number),
         left: expect.any(Number),
