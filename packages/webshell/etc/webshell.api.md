@@ -60,6 +60,12 @@ export interface CSSBoxDimensionsComputedStyle {
 }
 
 // @public
+export interface DataAttributes {
+    // (undocumented)
+    [key: string]: string;
+}
+
+// @public
 export type DOMCollectionRequest = DOMElementQueryRequest | DOMElementClassNameRequest | DOMElementTagNameRequest | string;
 
 // @public
@@ -293,6 +299,7 @@ export interface LinkPressOptions {
 export interface LinkPressTarget {
     classAttribute: string | null;
     clickedAnchorBoundingRect: DOMRect;
+    dataAttributes: DataAttributes;
     downloadAttribute: string | null;
     hrefAttribute: string;
     hreflangAttribute: string | null;
