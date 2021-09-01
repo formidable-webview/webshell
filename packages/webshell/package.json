@@ -1,6 +1,6 @@
 {
   "name": "@formidable-webview/webshell",
-  "version": "2.5.0",
+  "version": "2.6.0",
   "description": "🔥 Craft Robust React Native WebView-based components with ease.",
   "main": "lib/commonjs/index.js",
   "types": "types/@formidable-webview/webshell/index.d.ts",

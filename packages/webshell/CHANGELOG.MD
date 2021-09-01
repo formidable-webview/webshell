@@ -1,3 +1,15 @@
+# [2.6.0](https://github.com/formidable-webview/webshell/compare/v2.5.0...v2.6.0) (2021-09-01)
+
+
+### Bug Fixes
+
+* onMessage nativeEvent field ([d89f11c](https://github.com/formidable-webview/webshell/commit/d89f11cf7cf904567ff8a864560b87367e962670)), closes [#15](https://github.com/formidable-webview/webshell/issues/15)
+
+
+### Features
+
+* support custom `data-` attributes in `HandleLinkPressFeature` ([0a2c3e0](https://github.com/formidable-webview/webshell/commit/0a2c3e0044c78c8f55800c57c4f9d472b5af65c3))
+
 # [2.5.0](https://github.com/formidable-webview/webshell/compare/v2.4.0...v2.5.0) (2021-03-25)
 
 
