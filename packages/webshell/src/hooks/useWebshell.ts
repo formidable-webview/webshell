@@ -90,7 +90,7 @@ function useWebMessageBus(
           reporter.dispatchWebLog(severity, identifier, body);
         }
       } else {
-        typeof onMessage === 'function' && onMessage(nativeEvent);
+        typeof onMessage === 'function' && onMessage({ nativeEvent });
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
