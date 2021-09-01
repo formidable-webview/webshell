@@ -203,7 +203,13 @@ describe('Webshell component', () => {
       )
     );
     expect(onDOMDummyOption).toHaveBeenCalledWith({ foo: 'bar' });
-    expect(onMessage).toHaveBeenCalledTimes(1);
+    expect(onMessage).toHaveBeenCalledWith(
+      expect.objectContaining({
+        nativeEvent: expect.objectContaining({
+          data: 'test'
+        })
+      })
+    );
   });
   it('it should provide a reference to the inner WebView', async () => {
     const Webshell = makeWebshell(Ersatz);
