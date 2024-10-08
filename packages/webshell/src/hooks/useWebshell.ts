@@ -148,11 +148,6 @@ export interface UseWebshellParams<
   webViewRef?: ElementRef<any>;
 }
 
-const defaultProps = {
-  webshellDebug: __DEV__,
-  webshellStrictMode: false
-};
-
 /**
  * Inject features into a `WebView`, enabling capabilities such
  * as:
@@ -219,8 +214,8 @@ export default function useWebshell<
   const {
     webHandleRef,
     injectedJavaScript: userInjectedJavaScript,
-    webshellDebug = defaultProps.webshellDebug,
-    webshellStrictMode = defaultProps.webshellStrictMode,
+    webshellDebug = __DEV__,
+    webshellStrictMode = false,
     ...props
   } = webshellProps;
   const reporter = React.useMemo(
