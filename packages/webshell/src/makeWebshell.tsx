@@ -8,11 +8,6 @@ import type {
 } from './types';
 import useWebshell from './hooks/useWebshell';
 
-const defaultProps = {
-  webshellDebug: __DEV__,
-  webshellStrictMode: false
-};
-
 /**
  * Creates a React component which decorates `WebView` component with additional
  * capabilities such as:
@@ -62,7 +57,6 @@ export default function makeWebshell<
     const webViewProps = useWebshell({ features, props, webViewRef });
     return React.createElement(WebView, webViewProps);
   };
-  Webshell.defaultProps = defaultProps;
   return React.forwardRef<
     ElementRef<C>,
     WebshellProps<ComponentPropsWithRef<C>, F>
